@@ -9,3 +9,5 @@ The *Datafeedr API* plugin currently integrates with the following plugins:
 * [Datafeedr WooCommerce Importer](https://wordpress.org/plugins/datafeedr-woocommerce-importer/)
 * [Datafeedr Product Sets](https://wordpress.org/plugins/datafeedr-product-sets/)
 * [Datafeedr Comparison Sets](https://wordpress.org/plugins/datafeedr-comparison-sets/)
+
+More information can be found here: [wordpress.org/plugins/datafeedr-api](https://wordpress.org/plugins/datafeedr-api/)

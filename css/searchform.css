@@ -1,0 +1,395 @@
+/***************************************************************
+Search Form CSS
+***************************************************************/
+
+#dfrapi_search_form { }
+
+#dfrapi_search_form .filter
+{
+	margin: 0;
+	padding: 4px 0 2px 0px;
+	width: 100%;
+}
+
+#dfrapi_search_form .filter select { }
+
+#dfrapi_search_form .filter .operator select {
+    max-width: 150px;
+}
+
+#dfrapi_search_form .valuewrapper
+{
+	float: right;
+	width: 100%;
+	margin-left: -350px;
+}
+
+#dfrapi_search_form .value { margin-left: 350px; }
+
+#dfrapi_search_form .plusminus
+{
+	float: left;
+	width: 25px;
+	padding: 0 0 0 5px;
+}
+
+#dfrapi_search_form .plusminus a
+{
+	display: block;
+	height: 18px;
+	width: 18px;
+	cursor: pointer;
+	float: left;
+	margin: 4px 2px 2px 2px;
+}
+
+#dfrapi_search_form .plusminus a.plus { background: url('../images/icons/addfilter.png') no-repeat scroll top left; }
+#dfrapi_search_form .plusminus a.minus { background: url('../images/icons/removefilter.png') no-repeat scroll top left; }
+#dfrapi_search_form .plusminus a.minus.disabled { opacity: 0.5; }
+
+
+#dfrapi_search_form .field
+{
+	float: left;
+	width: 160px;
+}
+
+#dfrapi_search_form .operator
+{
+	float: left;
+	width: 150px;
+}
+
+#dfrapi_search_form .operator span
+{
+	padding-top: 8px;
+	float: left;
+}
+
+#dfrapi_search_form .value input.long
+{
+    width: 95%;
+}
+
+#dfrapi_search_form .value input.short
+{
+    width: 100px;
+}
+
+#dfrapi_search_form .col1 .check,
+#dfrapi_search_form .col2 .check,
+#dfrapi_search_form .col3 .check
+{
+	height: 20px;
+	background-image: url('http://factory3.datafeedr.com/feeder/web3/img/netlogos/16x16/dgm.jpg');
+	background-repeat: no-repeat;
+	background-position: 16px center;
+	display: block;
+}
+
+#dfrapi_search_form .col1 .check label,
+#dfrapi_search_form .col2 .check label,
+#dfrapi_search_form .col3 .check label
+{
+	padding-left: 20px;
+}
+#dfrapi_save_search_div
+{
+	float: left;
+	margin-top: 4px;
+}
+
+#dfrapi_save_search_text img
+{
+	vertical-align: middle;
+	padding-right: 2px;
+	padding-left: 2px;
+}
+
+#dfrapi_search_form #dfrapi_save_update_search_actions {
+	display: none;
+	float:right;
+	margin-left: 5px;
+}
+
+#dfrapi_search_form #dfrapi_saved_current_search_toggle {float: left;}
+
+#dfrapi_search_form > .filter > .field > a.dfrapi_search_help
+{
+	margin-left: 3px;
+	border-bottom: 1px #0074a2 dotted;
+	text-decoration: none;
+	
+}
+
+#dfrapi_search_form > .filter > .help
+{
+	padding: 20px;
+	background: #FFFFC2;
+	margin: 5px 0 10px 0;
+	color: #444;
+	
+	   -moz-box-shadow: inset 0 4px 4px -4px #B2B17D, inset 0 -4px 4px -4px #B2B17D;
+  	-webkit-box-shadow: inset 0 4px 4px -4px #B2B17D, inset 0 -4px 4px -4px #B2B17D;
+  			box-shadow: inset 0 4px 4px -4px #B2B17D, inset 0 -4px 4px -4px #B2B17D;
+  			
+	border-width: 1px 0 1px 0;
+	border-color: #C2BD6E;
+	border-style: solid;
+}
+
+#dfrapi_search_form > .filter > .help > h3
+{
+	margin: 0 0 5px 0;
+	padding: 0;
+	border: 0;
+	font-size: 13px;
+}
+#dfrapi_search_form > .filter > .help td
+{
+	font-size: 13px;
+	line-height: 1.3em;
+	padding: 0;
+	margin: 0;
+	font-family: "Open Sans",sans-serif;
+}
+ 
+#dfrapi_search_form > .filter > .help > p
+{
+	margin: 0 0 1em 0;
+	font-family: "Open Sans",sans-serif;
+	font-size: 13px;
+	line-height: 1.3em;
+}
+
+#dfrapi_search_form > .filter > .help tt { color: #D54E21; }
+
+#dfrapi_search_form > .filter > .help > .dfrapi_search_help
+{
+	float: right;
+	text-decoration: none;
+	position: relative;
+	right: -15px;
+	top: -14px;
+	background: #F0F0BC;
+	padding: 5px;
+}
+
+#dfrapi_search_form > .filter > .help > .dfrapi_search_tip
+{
+	background: #79783F;
+	box-shadow: 0 0 5px #C7C67D;
+	margin-bottom: 20px;
+}
+
+#dfrapi_search_form > .filter > .help > .dfrapi_search_tip > .dashicons-lightbulb
+{
+	font-size: 40px;
+	padding-top: 12px;
+	float: left;
+	color: #FFFFC2;
+}
+
+#dfrapi_search_form > .filter > .help > .dfrapi_search_tip > p
+{
+	background: #FFFFF9;
+	padding: 10px;
+	margin-left: 40px;
+	min-height: 40px;
+	font-size: 13px;
+	line-height: 1.4em;
+	font-family: "Open Sans",sans-serif;
+}
+
+
+
+
+
+
+#dfrapi_popup .inline_frame
+{
+	width: 100%;
+	max-height: 350px;
+	overflow: auto;
+	border: 1px solid #dfdfdf;
+
+	-moz-border-radius-topleft: 0;
+	-moz-border-radius-topright: 0;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-bottomleft: 3px;
+
+	-webkit-border-top-left-radius: 0;
+	-webkit-border-top-right-radius: 0;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	height: 100px;
+	background: #FFF;
+}
+
+#dfrapi_popup .inline_frame_inner
+{
+	padding: 5px 10px 10px;
+	background: #F9F9F9;
+}
+
+#dfrapi_popup .button { margin-top: 0px; }
+#dfrapi_popup h1 { font-size: 14px; }
+#dfrapi_popup .inline_frame > div { padding: 5px; }
+
+
+#dfrapi_popup .inline_frame_element
+{
+	width: 48%;
+	float: left;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#dfrapi_popup .inline_frame_element .element_name {
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 20px;
+}
+
+#dfrapi_popup .filter_action
+{
+	background-color: #F2F2F2;
+	border: 1px solid #dfdfdf;
+	border-bottom: 0px;
+	margin-right: -2px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomright: 0;
+	-moz-border-radius-bottomleft: 0;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 0;
+	-webkit-border-bottom-left-radius: 0;
+	padding: 5px;
+}
+
+#dfrapi_popup .filter_action input { width: 120px; }
+
+
+#dfrapi_search_form .col1,
+#dfrapi_search_form .col2,
+#dfrapi_search_form .col3
+{
+	float: left;
+	width: 33%;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+@media only screen 
+and (min-width : 1300px) 
+and (max-width : 1600px) {
+	#dfrapi_search_form .col1,
+	#dfrapi_search_form .col2,
+	#dfrapi_search_form .col3
+	{
+		float: left;
+		width: 50%;
+		white-space: nowrap;
+	}
+}
+
+@media only screen 
+and (min-width : 100px) 
+and (max-width : 1299px) {
+	#dfrapi_search_form .col1,
+	#dfrapi_search_form .col2,
+	#dfrapi_search_form .col3
+	{
+		float: left;
+		width: 100%;
+		white-space: nowrap;
+	}
+}
+
+#dfrapi_search_form_filter
+{
+	margin-top: 10px;
+	line-height: 1em;
+	font-size: 13px;
+	margin-left: 5px;
+}
+
+#dfrapi_search_form_filter a {
+    text-decoration: none;
+}
+
+/***************************************************************
+Popup Modal stylings for search form.
+***************************************************************/
+.reveal-modal-bg
+{
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: rgba(0,0,0,.8);
+	z-index: 100;
+	display: none;
+	top: 0;
+	left: 0;
+}
+
+.reveal-modal
+{
+	visibility: hidden;
+	top: 100px;
+	left: 50%;
+	margin-left: -300px;
+	width: 600px;
+	background: #eee;
+	position: absolute;
+	z-index: 101;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 0 10px rgba(0,0,0,.4);
+	-webkit-box-shadow: 0 0 10px rgba(0,0,0,.4);
+	-box-shadow: 0 0 10px rgba(0,0,0,.4);
+}
+
+.reveal-modal-content { padding: 30px; }
+.reveal-modal-content h3 { text-align: center; }
+
+.reveal-modal.small
+{
+	width: 200px;
+	margin-left: -140px;
+}
+
+.reveal-modal.medium
+{
+	width: 400px;
+	margin-left: -240px;
+}
+
+.reveal-modal.large
+{
+	width: 600px;
+	margin-left: -340px;
+}
+
+.reveal-modal.xlarge
+{
+	width: 800px;
+	margin-left: -440px;
+}
+
+.reveal-modal .close-reveal-modal
+{
+	font-size: 22px;
+	line-height: .5;
+	position: absolute;
+	top: 8px;
+	right: 11px;
+	color: #aaa;
+	text-shadow: 0 -1px 1px rbga(0,0,0,.6);
+	font-weight: bold;
+	cursor: pointer;
+}
+
+

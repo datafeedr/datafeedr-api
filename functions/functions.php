@@ -655,3 +655,25 @@ function dfrapi_get_total_products_in_db( $formatted=TRUE, $default=0 ) {
 function datafeedr_import_image( $url, $args = array() ) {
 	return ( new Datafeedr_Image_Importer( $url, $args ) )->import();
 }
+
+/**
+ * Returns true if the $string starts with one of the $patterns. Otherwise returns false.
+ *
+ * @since 1.0.78
+ *
+ * @param string $string The haystack.
+ * @param string|array $patterns The patterns to search for in the beginning of the $string.
+ *
+ * @return bool
+ */
+function dfrapi_string_starts_with( $string, $patterns ) {
+	$patterns = ( is_string( $patterns ) ) ? array( $patterns ) : $patterns;
+	foreach ( $patterns as $pattern ) {
+		$length = mb_strlen( $pattern );
+		if ( mb_substr( $string, 0, $length ) === $pattern ) {
+			return true;
+		}
+	}
+
+	return false;
+}

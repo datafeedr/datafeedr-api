@@ -664,7 +664,7 @@ function datafeedr_import_image( $url, $args = array() ) {
  * @param string $string The haystack.
  * @param string|array $patterns The patterns to search for in the beginning of the $string.
  *
- * @return bool
+ * @return bool True if string starts with the pattern(s) else returns false.
  */
 function dfrapi_string_starts_with( $string, $patterns ) {
 	$patterns = ( is_string( $patterns ) ) ? array( $patterns ) : $patterns;

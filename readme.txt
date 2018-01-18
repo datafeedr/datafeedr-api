@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 4.9.2
-Stable tag: 1.0.77
+Stable tag: 1.0.78
 
 Connect to the Datafeedr API.
 
@@ -66,6 +66,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.78 - 2018/01/19 =
+* Added `dfrapi_string_starts_with()` helper function.
 
 = 1.0.77 - 2018/01/17 =
 * Updated "Tested up to" value.

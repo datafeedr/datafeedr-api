@@ -1,6 +1,15 @@
 <?php namespace Datafeedr\Api;
 
 /**
+ * Exit if accessed directly
+ *
+ * @since 2.0.0
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
  * Require helper functions.
  *
  * @since 2.0.0

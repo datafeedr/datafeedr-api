@@ -2,6 +2,7 @@
 
 use Datafeedr\Api\Wuwei\Event\Manager as Event_Manager;
 use Datafeedr\Api\Wuwei\Shortcode\Shortcode_Interface;
+use Datafeedr\Api\Wuwei\Migrations\Migration;
 
 /**
  * Class Plugin.
@@ -24,7 +25,15 @@ class Plugin {
 	 * @since 2.0.0
 	 * @var string DB_VERSION Database version.
 	 */
-	const DB_VERSION = '20180119105502';
+	const DB_VERSION = '20180119155002';
+
+	/**
+	 * Database version option name.
+	 *
+	 * @since 2.0.0
+	 * @var string DB_VERSION_OPTION_NAME
+	 */
+	const DB_VERSION_OPTION_NAME = 'datafeedr_api_db_version';
 
 	/**
 	 * The plugin event manager.
@@ -56,13 +65,23 @@ class Plugin {
 	private $file;
 
 	/**
+	 * Is the user's current Database version.
+	 *
+	 * @since 2.0.0
+	 * @access private
+	 * @var string $current_db_version
+	 */
+	private $current_db_version;
+
+	/**
 	 * Plugin constructor.
 	 *
 	 * @param string $file
 	 */
 	public function __construct( $file ) {
-		$this->loaded = false;
-		$this->file   = $file;
+		$this->loaded             = false;
+		$this->file               = $file;
+		$this->current_db_version = get_option( self::DB_VERSION_OPTION_NAME, '0' );
 	}
 
 	/**
@@ -75,12 +94,33 @@ class Plugin {
 	}
 
 	/**
+	 * Returns true if the $new_version is greater than the $current_version. Else returns false.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $new_version
+	 * @param string $current_version
+	 *
+	 * @return bool
+	 */
+	public function version_is_old( $new_version, $current_version ) {
+		return ( version_compare( $new_version, $current_version, '>' ) ) ? true : false;
+	}
+
+	/**
 	 * Loads the plugin into WordPress.
 	 */
 	public function load() {
 
 		if ( $this->is_loaded() ) {
 			return;
+		}
+
+		/**
+		 * If our DB version is out of date, run our migrations.
+		 */
+		if ( $this->version_is_old( self::DB_VERSION, $this->current_db_version ) ) {
+			$this->run_migrations();
 		}
 
 		$this->event_manager = new Event_Manager();
@@ -101,6 +141,29 @@ class Plugin {
 		}
 
 		$this->loaded = true;
+	}
+
+	/**
+	 * Perform any outstanding migration then update the DB_VERSION_OPTION_NAME option with
+	 * the migration version.
+	 *
+	 * @since 2.0.0
+	 */
+	public function run_migrations() {
+
+		if ( wp_doing_ajax() ) {
+			return;
+		}
+
+		foreach ( $this->get_migrations() as $migration ) {
+
+			if ( ! $this->version_is_old( $migration->version(), $this->current_db_version ) ) {
+				continue;
+			}
+
+			$migration->run();
+			update_option( self::DB_VERSION_OPTION_NAME, $migration->version(), true );
+		}
 	}
 
 	/**
@@ -137,6 +200,19 @@ class Plugin {
 	private function get_shortcodes() {
 		return [
 			new Shortcodes\TestShortcodeMsg(),
+		];
+	}
+
+	/**
+	 * @return Migration[]
+	 */
+	public function get_migrations() {
+		return [
+			new Migrations\Migration_20180118151744_Create_New_Option(),
+			new Migrations\Migration_20180119144417_Test_Option_Update(),
+			new Migrations\Migration_20180119150524_Create_Networks_Table(),
+			new Migrations\Migration_20180119152249_Add_Deleted_At_Column(),
+			new Migrations\Migration_20180119155002_Add_Deleted_At_Column_Again(),
 		];
 	}
 

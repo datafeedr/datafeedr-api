@@ -33,7 +33,9 @@ require_once dirname( __FILE__ ) . '/src/Autoloader.php';
 /**
  * Load Plugin
  *
+ * Sets priority to 20. Other dependencies should load after (ie. use a higher priority number).
+ *
  * @since 2.0.0
  */
 $datafeedr_api = new Plugin( __FILE__ );
-add_action( 'plugins_loaded', array( $datafeedr_api, 'load' ) );
+add_action( 'plugins_loaded', array( $datafeedr_api, 'load' ), 20 );

@@ -5,6 +5,6 @@
  *
  * Just for testing purposes.
  */
-function datafeedr_view() {
+function datafeedr_test_function() {
 	return;
 }

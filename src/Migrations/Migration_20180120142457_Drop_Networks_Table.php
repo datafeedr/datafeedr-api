@@ -10,7 +10,7 @@ class Migration_20180120142457_Drop_Networks_Table extends Migration implements 
 		$table = new Table( 'datafeedr_networks' );
 
 		if ( $table->exists() ) {
-			return true;
+			return;
 		}
 
 		$data = [
@@ -22,7 +22,7 @@ class Migration_20180120142457_Drop_Networks_Table extends Migration implements 
 			'product_count INT(11) NOT NULL DEFAULT "0" COMMENT "The number of products supported by this affiliate network."',
 			'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "The timestamp when network was added to this database."',
 			'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT "The timestamp when network was updated in this database."',
-			'deleted_at TIMESTAMP NULL DEFAULT NULL COMMENT "The timestamp when network was deleted from this database."',
+			'deleted_at TIMESTAMP NULL DEFAULT NULL COMMENT "The timestamp if/when network was deleted from this database."',
 			'PRIMARY KEY  (id)',
 			'KEY name (name(100))',
 			'KEY network_group (network_group)',

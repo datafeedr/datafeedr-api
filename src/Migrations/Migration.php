@@ -1,5 +1,14 @@
 <?php namespace Datafeedr\Api\Migrations;
 
+/**
+ * Class Migration
+ * @package Datafeedr\Api\Migrations
+ *
+ * @since 2.0.0
+ *
+ * Contains the version() method for extracting the version number from the
+ * Migration class name.
+ */
 abstract class Migration {
 
 	/**
@@ -34,5 +43,4 @@ abstract class Migration {
 		 */
 		return '30000111111111';
 	}
-
 }

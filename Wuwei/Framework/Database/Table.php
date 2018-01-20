@@ -1,7 +1,9 @@
 <?php namespace Datafeedr\Api\Wuwei\Database;
 
-// @todo Don't forget to handle Multisite DB issues - look into "Network: false" in the plugin header or a filter
-// that prevents the plugin from being network activated.
+/**
+ * @todo Don't forget to handle Multisite DB issues - look into "Network: false" in the plugin
+ * header or a filter that prevents the plugin from being network activated.
+ */
 
 /**
  * Class Database_Table

@@ -1,6 +1,6 @@
 <?php namespace Datafeedr\Api\Wuwei\Migrations;
 
-interface Migration {
+interface Migration_Interface {
 
 	/**
 	 * The function that performs the migration.

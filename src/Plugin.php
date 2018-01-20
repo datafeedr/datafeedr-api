@@ -1,6 +1,7 @@
 <?php namespace Datafeedr\Api;
 
 use Datafeedr\Api\Wuwei\Event\Manager as Event_Manager;
+use Datafeedr\Api\Wuwei\Migrations\Migration_Interface;
 use Datafeedr\Api\Wuwei\Shortcode\Shortcode_Interface;
 use Datafeedr\Api\Wuwei\Migrations\Migration;
 
@@ -25,7 +26,7 @@ class Plugin {
 	 * @since 2.0.0
 	 * @var string DB_VERSION Database version.
 	 */
-	const DB_VERSION = '20180119155002';
+	const DB_VERSION = '20180120142457';
 
 	/**
 	 * Database version option name.
@@ -157,12 +158,15 @@ class Plugin {
 
 		foreach ( $this->get_migrations() as $migration ) {
 
-			if ( ! $this->version_is_old( $migration->version(), $this->current_db_version ) ) {
+			$migration_version = $migration->version();
+
+			if ( ! $this->version_is_old( $migration_version, $this->current_db_version ) ) {
 				continue;
 			}
 
 			$migration->run();
-			update_option( self::DB_VERSION_OPTION_NAME, $migration->version(), true );
+
+			update_option( self::DB_VERSION_OPTION_NAME, $migration_version, true );
 		}
 	}
 
@@ -204,7 +208,7 @@ class Plugin {
 	}
 
 	/**
-	 * @return Migration[]
+	 * @return Migration_Interface[]
 	 */
 	public function get_migrations() {
 		return [
@@ -213,6 +217,8 @@ class Plugin {
 			new Migrations\Migration_20180119150524_Create_Networks_Table(),
 			new Migrations\Migration_20180119152249_Add_Deleted_At_Column(),
 			new Migrations\Migration_20180119155002_Add_Deleted_At_Column_Again(),
+			new Migrations\Migration_20180120142456_Drop_Networks_Table(),
+			new Migrations\Migration_20180120142457_Drop_Networks_Table(),
 		];
 	}
 

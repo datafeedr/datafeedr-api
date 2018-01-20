@@ -1,7 +1,5 @@
 <?php namespace Datafeedr\Api\Wuwei\Database;
 
-//use Datafeedr\Api\Wuwei\Models\Model;
-
 // @todo Don't forget to handle Multisite DB issues - look into Network: false in the plugin header or a filter
 // that prevents the plugin from being network activated.
 
@@ -16,64 +14,59 @@
  *          use Datafeedr\Api\Wuwei\Database\Table;
  *
  *      Instantiate Class (Do NOT include $wpdb->prefix).
- *          $records_table = new Database_Table( 'datafeedr_records' );
+ *          $table = new Table( 'datafeedr_networks' );
  *
  *      Check if database table exists.
- *          return ( $records_table->exists() ) ? true : false;
+ *          return ( $table->exists() ) ? true : false;
  *
  *      Create or Update a database table.
  *          $attributes   = array();
- *          $attributes[] = 'id int(11) NOT NULL';
- *          $attributes[] = 'test_id int(11) NOT NULL COMMENT "Just a comment about this table."';
- *          $attributes[] = 'updated timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP';
+ *          $attributes[] = 'id INT(11) NOT NULL';
+ *          $attributes[] = 'test_id INT(11) NOT NULL COMMENT "Just a comment about this table."';
+ *          $attributes[] = 'updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP';
  *          $attributes[] = 'PRIMARY KEY  (id)';
  *          $attributes[] = 'KEY test_col (test_id)';
- *          $records_table->create( $attributes );
+ *          $table->create( $attributes );
  *
  *      Drop table
- *          $records_table->drop();
+ *          $table->drop();
  *
  *      Truncate (Empty) Table
- *          $records_table->truncate();
+ *          $table->truncate();
  *
  *      Drop an index
- *          $records_table->drop_index( 'test_col' );
+ *          $table->drop_index( 'test_col' );
  *
  *      Add an index
- *          $records_table->add_index( 'test_col' );
+ *          $table->add_index( 'test_col' );
+ *
+ *      Add a column
+ *          $table->add_column( 'deleted_at', 'TIMESTAMP NULL DEFAULT NULL AFTER updated_at' );
+ *
+ *      Drop a column
+ *          $table->drop_column( 'deleted_at' );
  *
  * @since 2.0.0
  */
 class Table {
 
+	/**
+	 * Name of the database table WITHOUT the WordPress prefix.
+	 *
+	 * @since 2.0.0
+	 * @access public
+	 * @var string $table_name
+	 */
 	public $table_name;
 
+	/**
+	 * Table constructor.
+	 *
+	 * @param string $table_name
+	 */
 	public function __construct( $table_name ) {
 		$this->table_name = $table_name;
 	}
-
-	/**
-	 * Returns the un-prefixed name of the database table.
-	 *
-	 * This returns the name of the database table that is inheriting the Table class.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @return string A database table name (un-prefixed).
-	 */
-//	public abstract function get_table_name();
-
-	/**
-	 * Returns the full path to the directory on the server containing the migration files.
-	 *
-	 * This will return the full path to the directory on the server containing
-	 * all migration files related to this database table.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @return string Full path to directory containing migration files.
-	 */
-//	public abstract function get_migration_directory();
 
 	/**
 	 * Returns the prefixed $table_name.
@@ -275,6 +268,35 @@ class Table {
 		);
 
 		$result = maybe_add_column( $this->prefixed_table_name(), $column_name, $sql );
+
+		return $result;
+	}
+
+	/**
+	 * Drops a column from a table.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $column_name
+	 *
+	 * @return bool False on failure, true on success or doesn't exist.
+	 */
+	public function drop_column( $column_name ) {
+
+		$this->include_required_files();
+
+		/**
+		 * Generates SQL which looks like this:
+		 *
+		 * ALTER TABLE table_name DROP deleted_at;
+		 */
+		$sql = sprintf(
+			'ALTER TABLE %1$s DROP COLUMN %2$s',
+			$this->prefixed_table_name(),
+			$column_name
+		);
+
+		$result = maybe_drop_column( $this->prefixed_table_name(), $column_name, $sql );
 
 		return $result;
 	}

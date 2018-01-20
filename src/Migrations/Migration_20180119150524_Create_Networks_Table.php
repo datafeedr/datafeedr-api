@@ -1,14 +1,9 @@
 <?php namespace Datafeedr\Api\Migrations;
 
 use Datafeedr\Api\Wuwei\Database\Table;
-use Datafeedr\Api\Wuwei\Migrations\Migration;
+use Datafeedr\Api\Wuwei\Migrations\Migration_Interface;
 
-class Migration_20180119150524_Create_Networks_Table implements Migration {
-
-	/**
-	 * Indicate what DB version this represents.
-	 */
-	const VERSION = '20180119150524';
+class Migration_20180119150524_Create_Networks_Table extends Migration implements Migration_Interface {
 
 	public function run() {
 
@@ -31,11 +26,6 @@ class Migration_20180119150524_Create_Networks_Table implements Migration {
 
 		$result = $table->create( $data );
 
-		error_log( '$result' . ': ' . print_r( $result, TRUE ) );
-
-	}
-
-	public function version() {
-		return self::VERSION;
+		error_log( '$result' . ': ' . print_r( $result, true ) );
 	}
 }

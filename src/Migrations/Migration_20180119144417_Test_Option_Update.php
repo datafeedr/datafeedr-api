@@ -1,19 +1,11 @@
 <?php namespace Datafeedr\Api\Migrations;
 
-use Datafeedr\Api\Wuwei\Migrations\Migration;
+use Datafeedr\Api\Wuwei\Migrations\Migration_Interface;
 
-class Migration_20180119144417_Test_Option_Update implements Migration {
-
-	/**
-	 * Indicate what DB version this represents.
-	 */
-	const VERSION = '20180119144417';
+class Migration_20180119144417_Test_Option_Update extends Migration implements Migration_Interface {
 
 	public function run() {
 		delete_option( 'test_option_on_update' );
-	}
-
-	public function version() {
-		return self::VERSION;
+		error_log( 'test_option_on_update' );
 	}
 }

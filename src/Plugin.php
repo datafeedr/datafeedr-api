@@ -1,6 +1,7 @@
 <?php namespace Datafeedr\Api;
 
 use Datafeedr\Api\Wuwei\Event\Manager as Event_Manager;
+use Datafeedr\Api\Wuwei\Migrations\Migration_Interface;
 use Datafeedr\Api\Wuwei\Shortcode\Shortcode_Interface;
 
 /**
@@ -24,7 +25,15 @@ class Plugin {
 	 * @since 2.0.0
 	 * @var string DB_VERSION Database version.
 	 */
-	const DB_VERSION = '20180119105502';
+	const DB_VERSION = '20180120151532';
+
+	/**
+	 * Database version option name.
+	 *
+	 * @since 2.0.0
+	 * @var string DB_VERSION_OPTION_NAME
+	 */
+	const DB_VERSION_OPTION_NAME = 'datafeedr_api_db_version';
 
 	/**
 	 * The plugin event manager.
@@ -56,13 +65,23 @@ class Plugin {
 	private $file;
 
 	/**
+	 * Is the user's current Database version.
+	 *
+	 * @since 2.0.0
+	 * @access private
+	 * @var string $current_db_version
+	 */
+	private $current_db_version;
+
+	/**
 	 * Plugin constructor.
 	 *
 	 * @param string $file
 	 */
 	public function __construct( $file ) {
-		$this->loaded = false;
-		$this->file   = $file;
+		$this->loaded             = false;
+		$this->file               = $file;
+		$this->current_db_version = get_option( self::DB_VERSION_OPTION_NAME, '0' );
 	}
 
 	/**
@@ -75,12 +94,33 @@ class Plugin {
 	}
 
 	/**
+	 * Returns true if the $new_version is greater than the $current_version. Else returns false.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $new_version
+	 * @param string $current_version
+	 *
+	 * @return bool
+	 */
+	public function version_is_old( $new_version, $current_version ) {
+		return ( version_compare( $new_version, $current_version, '>' ) ) ? true : false;
+	}
+
+	/**
 	 * Loads the plugin into WordPress.
 	 */
 	public function load() {
 
 		if ( $this->is_loaded() ) {
 			return;
+		}
+
+		/**
+		 * If our DB version is out of date, run our migrations.
+		 */
+		if ( $this->version_is_old( self::DB_VERSION, $this->current_db_version ) ) {
+			$this->run_migrations();
 		}
 
 		$this->event_manager = new Event_Manager();
@@ -104,11 +144,37 @@ class Plugin {
 	}
 
 	/**
+	 * Perform any outstanding migration then update the DB_VERSION_OPTION_NAME option with
+	 * the migration version.
+	 *
+	 * @since 2.0.0
+	 */
+	public function run_migrations() {
+
+		if ( wp_doing_ajax() ) {
+			return;
+		}
+
+		foreach ( $this->get_migrations() as $migration ) {
+
+			$migration_version = $migration->version();
+
+			if ( ! $this->version_is_old( $migration_version, $this->current_db_version ) ) {
+				continue;
+			}
+
+			$migration->run();
+
+			update_option( self::DB_VERSION_OPTION_NAME, $migration_version, true );
+		}
+	}
+
+	/**
 	 * Register the given shortcode with the WordPress shortcode API.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param \Datafeedr\Api\Wuwei\Shortcode\Shortcode_Interface $shortcode
+	 * @param Shortcode_Interface $shortcode
 	 */
 	private function register_shortcode( Shortcode_Interface $shortcode ) {
 		add_shortcode( $shortcode::get_name(), array( $shortcode, 'generate_output' ) );
@@ -132,11 +198,24 @@ class Plugin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return \Datafeedr\Api\Wuwei\Shortcode\Shortcode_Interface[]
+	 * @return Shortcode_Interface[]
 	 */
 	private function get_shortcodes() {
 		return [
 			new Shortcodes\TestShortcodeMsg(),
+		];
+	}
+
+	/**
+	 * Returns all DB migrations.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return Migration_Interface[]
+	 */
+	public function get_migrations() {
+		return [
+			new Migrations\Migration_20180120151532_Add_Networks_Table(),
 		];
 	}
 

@@ -3,7 +3,7 @@
 use Datafeedr\Api\Wuwei\Database\Table;
 use Datafeedr\Api\Wuwei\Migrations\Migration_Interface;
 
-class Migration_20180120142457_Drop_Networks_Table extends Migration implements Migration_Interface {
+class Migration_20180120151532_Add_Networks_Table extends Migration implements Migration_Interface {
 
 	public function run() {
 

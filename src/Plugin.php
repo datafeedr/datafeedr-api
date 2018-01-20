@@ -3,7 +3,6 @@
 use Datafeedr\Api\Wuwei\Event\Manager as Event_Manager;
 use Datafeedr\Api\Wuwei\Migrations\Migration_Interface;
 use Datafeedr\Api\Wuwei\Shortcode\Shortcode_Interface;
-use Datafeedr\Api\Wuwei\Migrations\Migration;
 
 /**
  * Class Plugin.
@@ -26,7 +25,7 @@ class Plugin {
 	 * @since 2.0.0
 	 * @var string DB_VERSION Database version.
 	 */
-	const DB_VERSION = '20180120142457';
+	const DB_VERSION = '20180120151532';
 
 	/**
 	 * Database version option name.
@@ -175,7 +174,7 @@ class Plugin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param \Datafeedr\Api\Wuwei\Shortcode\Shortcode_Interface $shortcode
+	 * @param Shortcode_Interface $shortcode
 	 */
 	private function register_shortcode( Shortcode_Interface $shortcode ) {
 		add_shortcode( $shortcode::get_name(), array( $shortcode, 'generate_output' ) );
@@ -199,7 +198,7 @@ class Plugin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return \Datafeedr\Api\Wuwei\Shortcode\Shortcode_Interface[]
+	 * @return Shortcode_Interface[]
 	 */
 	private function get_shortcodes() {
 		return [
@@ -208,17 +207,15 @@ class Plugin {
 	}
 
 	/**
+	 * Returns all DB migrations.
+	 *
+	 * @since 2.0.0
+	 *
 	 * @return Migration_Interface[]
 	 */
 	public function get_migrations() {
 		return [
-			new Migrations\Migration_20180118151744_Create_New_Option(),
-			new Migrations\Migration_20180119144417_Test_Option_Update(),
-			new Migrations\Migration_20180119150524_Create_Networks_Table(),
-			new Migrations\Migration_20180119152249_Add_Deleted_At_Column(),
-			new Migrations\Migration_20180119155002_Add_Deleted_At_Column_Again(),
-			new Migrations\Migration_20180120142456_Drop_Networks_Table(),
-			new Migrations\Migration_20180120142457_Drop_Networks_Table(),
+			new Migrations\Migration_20180120151532_Add_Networks_Table(),
 		];
 	}
 

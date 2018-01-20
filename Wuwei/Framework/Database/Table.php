@@ -1,6 +1,6 @@
 <?php namespace Datafeedr\Api\Wuwei\Database;
 
-// @todo Don't forget to handle Multisite DB issues - look into Network: false in the plugin header or a filter
+// @todo Don't forget to handle Multisite DB issues - look into "Network: false" in the plugin header or a filter
 // that prevents the plugin from being network activated.
 
 /**
@@ -61,6 +61,8 @@ class Table {
 
 	/**
 	 * Table constructor.
+	 *
+	 * @since 2.0.0
 	 *
 	 * @param string $table_name
 	 */

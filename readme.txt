@@ -5,8 +5,8 @@ Tags: woocommerce, datafeedr, affiliate products, dfrapi, import csv, import dat
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
-Tested up to: 4.9.2
-Stable tag: 1.0.78
+Tested up to: 4.9.4
+Stable tag: 1.0.79
 
 Connect to the Datafeedr API.
 
@@ -66,6 +66,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.79 - 2018/02/08 =
+* Set API `retry` attempts to 3 if connection to API timesout. (#15364)
 
 = 1.0.78 - 2018/01/19 =
 * Added `dfrapi_string_starts_with()` helper function.

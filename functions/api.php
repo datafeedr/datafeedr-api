@@ -52,7 +52,7 @@ function dfrapi_api( $transport='curl', $timeout=0, $returnObjects=FALSE ) {
 			'transport'     => 'wordpress',
 			'timeout'       => 60,
 			'returnObjects' => false,
-			'retry'         => 0, // The number of retries if an API request times-out.
+			'retry'         => 3, // The number of retries if an API request times-out.
 			'retryTimeout'  => 5, // The number of seconds to wait between retries.
 		);
 

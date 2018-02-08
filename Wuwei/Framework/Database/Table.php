@@ -59,7 +59,7 @@ class Table {
 	 * @access public
 	 * @var string $table_name
 	 */
-	public $table_name;
+	protected $table_name;
 
 	/**
 	 * Table constructor.
@@ -70,6 +70,17 @@ class Table {
 	 */
 	public function __construct( $table_name ) {
 		$this->table_name = $table_name;
+	}
+
+	/**
+	 * Returns the un-prefixed $table_name.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return string Unprefixed table name.
+	 */
+	public function table_name() {
+		return trim( $this->table_name );
 	}
 
 	/**
@@ -84,7 +95,7 @@ class Table {
 	public function prefixed_table_name() {
 		global $wpdb;
 
-		return $wpdb->prefix . $this->table_name;
+		return $wpdb->prefix . $this->table_name();
 	}
 
 	/**

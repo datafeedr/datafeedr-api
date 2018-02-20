@@ -74,7 +74,8 @@ class Dfrapi_Initialize {
 		$page = 'dfrapi-networks';
 		echo '<div class="wrap" id="' . $key . '">';
 		echo '<h2>' . dfrapi_setting_pages( $page ) . ' &#8212; Datafeedr API</h2>';
-		echo '<form method="post" action="' . admin_url( 'options.php' ) . '">';
+        echo '<form method="post" action="options.php">';
+        submit_button();
 		wp_nonce_field( 'update-options' );
 		settings_fields( $page );
 		do_settings_sections( $page );

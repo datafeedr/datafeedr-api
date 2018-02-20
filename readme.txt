@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 4.9.4
-Stable tag: 1.0.79
+Stable tag: 1.0.80
 
 Connect to the Datafeedr API.
 
@@ -66,6 +66,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.80 - 2018/02/20 =
+* Fixed form `action` on networks page.
 
 = 1.0.79 - 2018/02/08 =
 * Set API `retry` attempts to 3 if connection to API timesout. (#15364)

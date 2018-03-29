@@ -239,6 +239,40 @@ function dfrapi_api_get_ph_camref( $merchant_id ) {
 }
 
 /**
+ * Returns a Effiliation affiliate ID.
+ *
+ * @since 1.0.81
+ */
+function dfrapi_api_get_effiliation_affiliate_id( $merchant_id ) {
+
+	$option_name  = 'effiliation_' . $merchant_id;
+	$use_cache    = wp_using_ext_object_cache( false );
+	$affiliate_id = get_transient( $option_name );
+	wp_using_ext_object_cache( $use_cache );
+
+	if ( $affiliate_id ) {
+		return $affiliate_id;
+	}
+
+	$keys = dfrapi_get_effiliation_keys();
+	$api  = dfrapi_api();
+
+	try {
+		$affiliate_id = $api->getEffiliationAffiliateIds( $merchant_id, $keys['effiliation_key'] );
+	} catch ( Exception $err ) {
+		$affiliate_id = 'dfrapi_unapproved_effiliation_merchant';
+	}
+
+	$use_cache = wp_using_ext_object_cache( false );
+	set_transient( $option_name, $affiliate_id, WEEK_IN_SECONDS );
+	wp_using_ext_object_cache( $use_cache );
+
+	dfrapi_update_transient_whitelist( $option_name );
+
+	return $affiliate_id;
+}
+
+/**
  * This creates 2 options in the options table each time the option 
  * "dfrapi_all_networks" is updated with new network information from the API.
  * 

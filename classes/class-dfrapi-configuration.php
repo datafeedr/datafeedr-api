@@ -70,6 +70,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 					'ph_application_key'       => '',
 					'ph_user_api_key'          => '',
 					'ph_publisher_id'          => '',
+					'effiliation_key'          => '',
 				),
 				$this->options
 			);
@@ -108,6 +109,9 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			add_settings_field( 'ph_application_key', __( 'Application Key', DFRAPI_DOMAIN ), array( &$this, 'field_ph_application_key' ), $this->page, 'ph_api_settings' );
 			add_settings_field( 'ph_user_api_key', __( 'User API Key', DFRAPI_DOMAIN ), array( &$this, 'field_ph_user_api_key' ), $this->page, 'ph_api_settings' );
 			add_settings_field( 'ph_publisher_id', __( 'Publisher ID', DFRAPI_DOMAIN ), array( &$this, 'field_ph_publisher_id' ), $this->page, 'ph_api_settings' );
+
+			add_settings_section( 'effiliation_api_settings', __( 'Effiliation Settings', DFRAPI_DOMAIN ), array( &$this, 'section_effiliation_api_settings_desc' ), $this->page );
+			add_settings_field( 'effiliation_key', __( 'Effiliation Key', DFRAPI_DOMAIN ), array( &$this, 'field_effiliation_key' ), $this->page, 'effiliation_api_settings' );
 		}
 
 		function section_api_settings_desc() {
@@ -171,6 +175,19 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function field_zanox_secret_key() {
 			?>
             <input type="text" class="regular-text" name="<?php echo $this->key; ?>[zanox_secret_key]" value="<?php echo esc_attr( $this->options['zanox_secret_key'] ); ?>" />
+			<?php
+		}
+
+		function section_effiliation_api_settings_desc() {
+			echo __( 'If you want to use the Effiliation affiliate network, add your ', DFRAPI_DOMAIN );
+			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/211-how-to-find-your-effiliation-api-key" target="_blank" title="' . __( 'Get your Effiliation Key', DFRAPI_DOMAIN ) . '">';
+			echo __( 'Effiliation Key', DFRAPI_DOMAIN );
+			echo '</a>.';
+		}
+
+		function field_effiliation_key() {
+			?>
+            <input type="text" class="regular-text" name="<?php echo $this->key; ?>[effiliation_key]" value="<?php echo esc_attr( $this->options['effiliation_key'] ); ?>" />
 			<?php
 		}
 
@@ -322,6 +339,11 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				// Validate PH Publisher Key
 				if ( $key == 'ph_publisher_id' ) {
 					$new_input['ph_publisher_id'] = trim( $value );
+				}
+
+				// Validate Effiliation Key
+				if ( $key == 'effiliation_key' ) {
+					$new_input['effiliation_key'] = trim( $value );
 				}
 
 			} // foreach

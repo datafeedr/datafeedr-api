@@ -110,7 +110,26 @@ function dfrapi_admin_messages( $key = false, $msg = '' ) {
 			                 '</a>.',
 			'url'         => '',
 			'button_text' => __( '', DFRAPI_DOMAIN )
-		),		
+		),
+
+		// Unapproved Effiliation merchant(s) message.
+		'unapproved_effiliation_merchants' => array(
+			'class'       => 'notice notice-error',
+			'message'     => '<strong>' . __( 'Unapproved Effiliation Merchant(s):', DFRAPI_DOMAIN ) . '</strong> ' .
+			                 __( 'You have selected one or more Effiliation merchants who have not approved your publisher account:<br />',
+				                 DFRAPI_DOMAIN ) .
+			                 $msg . '<br /><br />' .
+			                 __( 'Please remove unapproved Effiliation merchants from your ', DFRAPI_DOMAIN ) .
+			                 '<a href="' . admin_url( 'admin.php?page=dfrapi_merchants' ) . '" target="_blank">' .
+			                 __( 'Effiliation merchant selection', DFRAPI_DOMAIN ) .
+			                 '</a>' .
+			                 __( ' then delete your cached API data ', DFRAPI_DOMAIN ) .
+			                 '<a href="' . admin_url( 'admin.php?page=dfrapi_tools' ) . '" target="_blank">' .
+			                 __( 'here', DFRAPI_DOMAIN ) .
+			                 '</a>.',
+			'url'         => '',
+			'button_text' => __( '', DFRAPI_DOMAIN )
+		),
 		
 	);
 	

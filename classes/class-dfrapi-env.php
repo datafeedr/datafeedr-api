@@ -36,6 +36,10 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 			if ( $msg = self::unapproved_ph_merchants_exist() ) {
 				dfrapi_admin_messages( 'unapproved_ph_merchants', $msg );
 			}
+
+			if ( $msg = self::unapproved_effiliation_merchants_exist() ) {
+				dfrapi_admin_messages( 'unapproved_effiliation_merchants', $msg );
+			}
 		}
 
 		static function api_keys_exist() {
@@ -90,6 +94,10 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 
 					if ( '801' == $network['nid'] ) {
 						continue; // Performance Horizon does not have affiliate IDs.
+					}
+
+					if ( '805' == $network['nid'] || '806' == $network['nid'] || '807' == $network['nid'] ) {
+						continue; // Effiliation does not have affiliate IDs.
 					}
 
 					if ( empty( $network['aid'] ) ) {
@@ -172,7 +180,7 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 			global $wpdb;
 
 			// Get range of Performance Horizon Network IDs
-			$ph_network_ids = range( 801, 810 );
+			$ph_network_ids = range( 801, 802 );
 
 			// Get user's currently selected networks and convert into simple array of IDs.
 			$selected_networks    = get_option( 'dfrapi_networks', array( 'ids' => array() ) );
@@ -206,6 +214,71 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 
 				$name = $row->option_name; // Example: _transient_camref_46627
 				$name = str_replace( '_transient_camref_', '', $name );
+				$name = explode( '_', $name );
+				$name = array_filter( $name );
+
+				$merchant_id = absint( $name[0] );
+
+				$unapproved_merchants[ $merchant_id ] = $merchant_id;
+			}
+
+			if ( empty( $unapproved_merchants ) ) {
+				return false;
+			}
+
+			$unapproved_merchant_ids = array_keys( $unapproved_merchants );
+
+			$merchants = dfrapi_api_get_merchants_by_id( $unapproved_merchant_ids );
+
+			$msg = '';
+
+			foreach ( $merchants as $merchant ) {
+				$mid = absint( $merchant['_id'] );
+				$msg .= '<br>- <strong>' . $merchant['name'] . '</strong>';
+			}
+
+			return $msg;
+		}
+
+		static function unapproved_effiliation_merchants_exist() {
+
+			global $wpdb;
+
+			// Get range of Effiliation Network IDs
+			$effiliation_network_ids = range( 805, 807 );
+
+			// Get user's currently selected networks and convert into simple array of IDs.
+			$selected_networks    = get_option( 'dfrapi_networks', array( 'ids' => array() ) );
+			$selected_network_ids = array_keys( $selected_networks['ids'] );
+
+			// See if any Effiliation Network IDs are found in the user's selected network IDs.
+			$selected_effiliation_ids = array_intersect( $effiliation_network_ids, $selected_network_ids );
+
+			// If there are no selected Effiliation IDs, return.
+			if ( empty( $selected_effiliation_ids ) ) {
+				return false;
+			}
+
+			$results = $wpdb->get_results(
+				"SELECT option_name, option_value FROM $wpdb->options WHERE option_name LIKE '%_transient_effiliation_%' ",
+				OBJECT
+			);
+
+			// No results so nothing to worry about. Return false.
+			if ( empty( $results ) ) {
+				return false;
+			}
+
+			$unapproved_merchants = array();
+
+			foreach ( $results as $row ) {
+
+				if ( 'dfrapi_unapproved_effiliation_merchant' != $row->option_value ) {
+					continue;
+				}
+
+				$name = $row->option_name; // Example: _transient_effiliation_46627
+				$name = str_replace( '_transient_effiliation_', '', $name );
 				$name = explode( '_', $name );
 				$name = array_filter( $name );
 

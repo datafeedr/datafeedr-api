@@ -93,7 +93,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 							<th class="networks_head">' . __( 'Network', DFRAPI_DOMAIN ) . '</th>
 							<th class="type_head">' . __( 'Type', DFRAPI_DOMAIN ) . '</th>
 							<th class="aid_head">' . __( 'Affiliate ID', DFRAPI_DOMAIN ) . ' <a href="' .$this->map_link( $group_name ) .'" target="_blank" title="' . __( 'Learn how to find your affiliate ID from ', DFRAPI_DOMAIN ) . $group_name . __( ' (opens in new window).', DFRAPI_DOMAIN ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', DFRAPI_DOMAIN ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#a00;">(' . __( 'required', DFRAPI_DOMAIN ) . ')</small></th>
-							<th class="tid_head">' . __( 'Tracking ID', DFRAPI_DOMAIN ) . ' <a href="' . DFRAPI_HOME_URL . '/node/1113" target="_blank" title="' . __( 'Learn more about this field (opens in new window).', DFRAPI_DOMAIN ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', DFRAPI_DOMAIN ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#999;">(' . __( 'optional', DFRAPI_DOMAIN ) . ')</small></th>
+							<th class="tid_head">' . __( 'Tracking ID', DFRAPI_DOMAIN ) . ' <a href="https://datafeedrapi.helpscoutdocs.com/article/212-tracking-ids" target="_blank" title="' . __( 'Learn more about this field (opens in new window).', DFRAPI_DOMAIN ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', DFRAPI_DOMAIN ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#999;">(' . __( 'optional', DFRAPI_DOMAIN ) . ')</small></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -144,6 +144,9 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 					} elseif ( $group_name == 'PerformanceHorizon' ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
 						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Add/Edit Performance Horizon Keys</a></td>';
+					} elseif ( $group_name == 'Effiliation' ) {
+						$url  = admin_url( 'admin.php?page=dfrapi' );
+						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Add/Edit Effiliation Key</a></td>';
 					} else {
 						$html .= '<td class="aid_input"><input type="text" name="dfrapi_networks[ids][' . $network['_id'] . '][aid]" value="' . $aid . '" class="aid_input_field" /></td>';
 					}
@@ -230,9 +233,15 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 		function num_missing_affiliate_ids_in_group( $group_name ) {
 			$count = 0;
 			foreach ( $this->all_networks as $network ) {
+
 				if ( $network['group'] == 'PerformanceHorizon' ) {
 					continue;
 				}
+
+				if ( $network['group'] == 'Effiliation' ) {
+					continue;
+				}
+
 				if ( $network['group'] == $group_name ) {
 					if ( array_key_exists( $network['_id'], (array) $this->options['ids'] ) ) {
 						if ( trim( $this->options['ids'][ $network['_id'] ]['aid'] ) == '' ) {
@@ -345,6 +354,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				'Daisycon'            => 'https://datafeedrapi.helpscoutdocs.com/article/135-how-to-find-your-daisycon-affiliate-id',
 				'DGM'                 => 'http://www.datafeedr.com/docs/item/263',
 				'Double.net'          => 'https://datafeedrapi.helpscoutdocs.com/article/136-how-to-find-your-double-net-affiliate-id',
+				'Effiliation'         => 'https://datafeedrapi.helpscoutdocs.com/article/211-how-to-find-your-effiliation-api-key',
 				'FamilyBlend'         => 'https://datafeedrapi.helpscoutdocs.com/article/117-how-to-find-your-familyblend-affiliate-id',
 				'FlipKart'            => 'https://datafeedrapi.helpscoutdocs.com/article/137-how-to-find-your-flipkart-affiliate-id',
 				'Impact Radius'       => 'https://datafeedrapi.helpscoutdocs.com/article/134-how-to-find-your-impact-radius-affiliate-id',

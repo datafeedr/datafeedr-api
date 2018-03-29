@@ -153,6 +153,24 @@ function dfrapi_get_ph_camref( $affiliate_id, $product, $networks ) {
 	return $affiliate_id;
 }
 
+/**
+ * Modify affiliate ID if product is a Effiliation product.
+ * Replaces $affiliate_id with "affiliate ID".
+ *
+ * @since 1.0.81
+ *
+ * @return string Affiliate ID.
+ */
+add_filter( 'dfrapi_affiliate_id', 'dfrapi_get_effiliation_affiliate_id', 10, 3 );
+function dfrapi_get_effiliation_affiliate_id( $affiliate_id, $product, $networks ) {
+	if ( isset( $product['source'] ) && preg_match( "/\bEffiliation\b/", $product['source'] ) ) {
+		$effiliation  = dfrapi_api_get_effiliation_affiliate_id( $product['merchant_id'] );
+		$affiliate_id = ( ! isset( $effiliation[0]['affiliate_id'] ) ) ? '___MISSING___' : $effiliation[0]['affiliate_id'];
+	}
+
+	return $affiliate_id;
+}
+
 function dfrapi_get_zanox_keys() {
 
 	$configuration = (array) get_option( 'dfrapi_configuration' );
@@ -215,6 +233,33 @@ function dfrapi_get_ph_keys() {
 
 	return false;
 }
+
+/**
+ * Get Effiliation Keys.
+ *
+ * @since 1.0.81
+ *
+ * @return array|bool Array of keys or false if they do not exist.
+ */
+function dfrapi_get_effiliation_keys() {
+
+	$configuration = (array) get_option( 'dfrapi_configuration' );
+
+	$effiliation_key = false;
+
+	if ( isset( $configuration['effiliation_key'] ) && ( $configuration['effiliation_key'] != '' ) ) {
+		$effiliation_key = $configuration['effiliation_key'];
+	}
+
+	if ( $effiliation_key ) {
+		return array(
+			'effiliation_key' => $effiliation_key,
+		);
+	}
+
+	return false;
+}
+
 
 /**
  * Returns Amazon API key credentials if they exist.

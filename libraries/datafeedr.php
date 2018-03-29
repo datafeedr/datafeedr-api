@@ -3,7 +3,7 @@
 /**
  * Datafeedr API PHP Library
  *
- * @version 2.0.1
+ * @version 2.0.2
  *
  * Copyright (c) 2007 ~ 2017, Datafeedr - All Rights Reserved
  *
@@ -50,7 +50,7 @@ class DatafeedrApi {
 
 	const REQUEST_COMPRESSION_THRESHOLD = 1024;
 
-	const VERSION = '2.0.1';
+	const VERSION = '2.0.2';
 
 	/**
 	 * DatafeedrApi constructor.
@@ -303,7 +303,31 @@ class DatafeedrApi {
 		$request['publisher_id']    = $publisherId;
 
 		$response = $this->apiCall( 'performancehorizon_camrefs', $request );
+
 		return $this->_get( $response, 'performancehorizon_camrefs' );
+	}
+
+	/**
+	 * Return a list of Effiliation affiliate ids.
+	 *
+	 * @since 2.0.2
+	 *
+	 * @param integer|array $merchantId Merchant ID or an array of merchant IDs.
+	 * @param string $apiKey Effiliation api_key.
+	 *
+	 * @return array An array of arrays (affiliate_id, merchant_id).
+	 */
+
+	public function getEffiliationAffiliateIds( $merchantId, $apiKey ) {
+
+		$request = array();
+
+		$request['merchant_ids'] = $this->_intarray( $merchantId );
+		$request['api_key']      = $apiKey;
+
+		$response = $this->apiCall( 'effiliation_affiliate_ids', $request );
+
+		return $this->_get( $response, 'effiliation_affiliate_ids' );
 	}
 
 	/**
@@ -662,7 +686,7 @@ class DatafeedrApi {
 			if ( preg_match( '/HTTP.+?(\d\d\d)/', $http_response_header[0], $match ) ) {
 				$status = intval( $match[1] );
 			}
-		} else if ( $response === false ) {
+		} elseif ( $response === false ) {
 			throw new DatafeedrConnectionError( "Invalid response" );
 		}
 
@@ -956,9 +980,9 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 
 		if ( strlen( $field ) && ( $field[0] == '+' || $field[0] == '-' ) ) {
 			$this->_sort [] = $field;
-		} else if ( $order == DatafeedrApi::SORT_ASCENDING ) {
+		} elseif ( $order == DatafeedrApi::SORT_ASCENDING ) {
 			$this->_sort [] = '+' . $field;
-		} else if ( $order == DatafeedrApi::SORT_DESCENDING ) {
+		} elseif ( $order == DatafeedrApi::SORT_DESCENDING ) {
 			$this->_sort [] = '-' . $field;
 		} else {
 			throw new DatafeedrError( "Invalid sort order" );
@@ -1260,9 +1284,9 @@ class DatafeedrMerchantSearchRequest extends DatafeedrSearchRequestBase {
 
 		if ( strlen( $field ) && ( $field[0] == '+' || $field[0] == '-' ) ) {
 			$this->_sort [] = $field;
-		} else if ( $order == DatafeedrApi::SORT_ASCENDING ) {
+		} elseif ( $order == DatafeedrApi::SORT_ASCENDING ) {
 			$this->_sort [] = '+' . $field;
-		} else if ( $order == DatafeedrApi::SORT_DESCENDING ) {
+		} elseif ( $order == DatafeedrApi::SORT_DESCENDING ) {
 			$this->_sort [] = '-' . $field;
 		} else {
 			throw new DatafeedrError( "Invalid sort order" );

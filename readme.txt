@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 4.9.5
-Stable tag: 1.0.82
+Stable tag: 1.0.83
 
 Connect to the Datafeedr API.
 
@@ -66,6 +66,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.83 - 2018/04/11 =
+* Removed old affiliate network icons and logos.
 
 = 1.0.82 - 2018/04/11 =
 * Fixed bug where images could not be imported if their file name was too long. Set limit to 100 characters.

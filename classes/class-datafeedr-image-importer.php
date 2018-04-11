@@ -506,6 +506,8 @@ class Datafeedr_Image_Importer {
 
 		$url_filename = basename( parse_url( $url, PHP_URL_PATH ) );
 
+		$url_filename = substr( $url_filename, 0, 100 );
+
 		$tmp_name = wp_tempnam( $url_filename );
 
 		if ( ! $tmp_name ) {

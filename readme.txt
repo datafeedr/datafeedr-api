@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 4.9.6
-Stable tag: 1.0.84
+Stable tag: 1.0.85
 
 Connect to the Datafeedr API.
 
@@ -66,6 +66,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.85 - 2018/05/07 =
+* Fixed tiny bug in Beacon code.
 
 = 1.0.84 - 2018/05/07 =
 * Added HelpScout Beacon to Datafeedr-specific pages for in-app documentation and support.

@@ -732,7 +732,7 @@ function dfrapi_include_helpscout_beacon() {
 
 	$options = get_option( 'dfrapi_configuration', [] );
 
-	if ( isset( $options['hs_beacon'] ) && 'off' != $options['hs_beacon'] ) {
+	if ( isset( $options['hs_beacon'] ) && 'off' == $options['hs_beacon'] ) {
 		return;
 	}
 

@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: Datafeedr API
-Plugin URI: http://www.datafeedr.com
+Plugin URI: https://www.datafeedr.com
 Description: Connect to the Datafeedr API and configure your API settings.
 Author: datafeedr.com
-Author URI: http://www.datafeedr.com
+Author URI: https://www.datafeedr.com
 License: GPL v3
 Requires at least: 3.8
 Tested up to: 4.9.6
-Version: 1.0.84
+Version: 1.0.85
 
 Datafeedr API Plugin
 Copyright (C) 2018, Datafeedr - help@datafeedr.com

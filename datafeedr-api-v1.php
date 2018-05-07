@@ -8,12 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define constants.
  */
-define( 'DFRAPI_VERSION', '1.0.83' );
+define( 'DFRAPI_VERSION', '1.0.84' );
 define( 'DFRAPI_URL', plugin_dir_url( __FILE__ ) );
 define( 'DFRAPI_PATH', plugin_dir_path( __FILE__ ) );
 define( 'DFRAPI_BASENAME', plugin_basename( __FILE__ ) );
 define( 'DFRAPI_DOMAIN', 'datafeedr-api' );
-define( 'DFRAPI_HOME_URL', 'http://www.datafeedr.com' );
+define( 'DFRAPI_HOME_URL', 'https://www.datafeedr.com' );
 define( 'DFRAPI_KEYS_URL', 'https://members.datafeedr.com/api' );
 define( 'DFRAPI_USER_URL', 'https://members.datafeedr.com/' );
 define( 'DFRAPI_HELP_URL', 'https://datafeedrapi.helpscoutdocs.com/contact' );

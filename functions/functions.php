@@ -722,3 +722,82 @@ function dfrapi_string_starts_with( $string, $patterns ) {
 
 	return false;
 }
+
+/**
+ * Includes HelpScout Beacon if enabled and if on a Datafeedr-specific page.
+ *
+ * @since 1.0.84
+ */
+function dfrapi_include_helpscout_beacon() {
+
+	$options = get_option( 'dfrapi_configuration', [] );
+
+	if ( isset( $options['hs_beacon'] ) && 'off' != $options['hs_beacon'] ) {
+		return;
+	}
+
+	if ( ! dfrapi_is_datafeedr_admin_page() ) {
+		return;
+	}
+
+	include_once DFRAPI_PATH . 'js/helpscout-beacon.php';
+
+	return;
+}
+
+add_action( 'admin_footer', 'dfrapi_include_helpscout_beacon' );
+
+/**
+ * Returns true if we are viewing a Datafeedr-specific page in the WordPress Admin Area.
+ *
+ * @global $pagenow
+ *
+ * @since 1.0.84
+ *
+ * @return bool
+ */
+function dfrapi_is_datafeedr_admin_page() {
+
+	/**
+	 * For post edit pages (ie. post.php?post=1&action=edit).
+	 */
+	$post_types = [
+		'datafeedr-productset',
+	];
+
+	/**
+	 * For $_GET params (ie. admin.php?page=dfrps_configuration).
+	 */
+	$params = [
+		'page'      => [
+			'dfrapi',
+			'dfrapi_networks',
+			'dfrapi_merchants',
+			'dfrapi_tools',
+			'dfrapi_export',
+			'dfrapi_import',
+			'dfrapi_account',
+			'dfrcs_options',
+			'dfrps_configuration',
+			'dfrps_tools',
+			'dfrpswc_options',
+		],
+		'post_type' => [
+			'datafeedr-productset'
+		]
+	];
+
+	foreach ( $params as $k => $v ) {
+		if ( isset( $_GET[ $k ] ) && in_array( $_GET[ $k ], $v ) ) {
+			return true;
+		}
+	}
+
+	global $pagenow;
+
+	if ( 'post.php' === $pagenow && in_array( get_post_type(), $post_types ) ) {
+		return true;
+	}
+
+	return false;
+}

@@ -25,8 +25,8 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function admin_menu() {
 			add_submenu_page(
 				'dfrapi',
-				__( 'Configuration &#8212; Datafeedr API', DFRAPI_DOMAIN ),
-				__( 'Configuration', DFRAPI_DOMAIN ),
+				__( 'Configuration &#8212; Datafeedr API', 'datafeedr-api' ),
+				__( 'Configuration', 'datafeedr-api' ),
 				'manage_options',
 				'dfrapi',
 				array( $this, 'output' )
@@ -36,7 +36,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function admin_notice() {
 			if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] == true && isset( $_GET['page'] ) && 'dfrapi' == $_GET['page'] ) {
 				echo '<div class="updated"><p>';
-				_e( 'Configuration successfully updated!', DFRAPI_DOMAIN );
+				_e( 'Configuration successfully updated!', 'datafeedr-api' );
 				echo '</p></div>';
 			}
 		}
@@ -71,6 +71,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 					'ph_user_api_key'          => '',
 					'ph_publisher_id'          => '',
 					'effiliation_key'          => '',
+					'hs_beacon'                => 'on',
 				),
 				$this->options
 			);
@@ -78,46 +79,49 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
 		function register_settings() {
 			register_setting( $this->page, $this->key, array( $this, 'validate' ) );
-			add_settings_section( 'api_settings', __( 'Datafeedr API Settings', DFRAPI_DOMAIN ), array( &$this, 'section_api_settings_desc' ), $this->page );
-			add_settings_field( 'access_id', __( 'API Access ID', DFRAPI_DOMAIN ), array( &$this, 'field_access_id' ), $this->page, 'api_settings' );
-			add_settings_field( 'secret_key',  __( 'API Secret Key', DFRAPI_DOMAIN ), array( &$this, 'field_secret_key' ), $this->page, 'api_settings' );
-			// add_settings_field( 'transport_method',  __( 'Transport Method', DFRAPI_DOMAIN ), array( &$this, 'field_transport_method' ), $this->page, 'api_settings' );
+			add_settings_section( 'api_settings', __( 'Datafeedr API Settings', 'datafeedr-api' ), array( &$this, 'section_api_settings_desc' ), $this->page );
+			add_settings_field( 'access_id', __( 'API Access ID', 'datafeedr-api' ), array( &$this, 'field_access_id' ), $this->page, 'api_settings' );
+			add_settings_field( 'secret_key',  __( 'API Secret Key', 'datafeedr-api' ), array( &$this, 'field_secret_key' ), $this->page, 'api_settings' );
+			// add_settings_field( 'transport_method',  __( 'Transport Method', 'datafeedr-api' ), array( &$this, 'field_transport_method' ), $this->page, 'api_settings' );
 
 			/*
 			add_settings_field(
 				'disable_api',
-				__( 'Disable API', DFRAPI_DOMAIN ),
+				__( 'Disable API', 'datafeedr-api' ),
 				array( &$this, 'field_disable_api' ),
 				$this->page,
 				'api_settings'
 			);
 			*/
 
-			add_settings_section( 'zanox_api_settings', __( 'Zanox Settings', DFRAPI_DOMAIN ), array( &$this, 'section_zanox_api_settings_desc' ), $this->page );
-			add_settings_field( 'zanox_connection_key', __( 'Connection Key', DFRAPI_DOMAIN ), array( &$this, 'field_zanox_connection_key' ), $this->page, 'zanox_api_settings' );
-			add_settings_field( 'zanox_secret_key',  __( 'Secret Key', DFRAPI_DOMAIN ), array( &$this, 'field_zanox_secret_key' ), $this->page, 'zanox_api_settings' );
+			add_settings_section( 'zanox_api_settings', __( 'Zanox Settings', 'datafeedr-api' ), array( &$this, 'section_zanox_api_settings_desc' ), $this->page );
+			add_settings_field( 'zanox_connection_key', __( 'Connection Key', 'datafeedr-api' ), array( &$this, 'field_zanox_connection_key' ), $this->page, 'zanox_api_settings' );
+			add_settings_field( 'zanox_secret_key',  __( 'Secret Key', 'datafeedr-api' ), array( &$this, 'field_zanox_secret_key' ), $this->page, 'zanox_api_settings' );
 
 			if ( defined( 'DFRCS_VERSION' ) ) {
-				add_settings_section( 'amazon_api_settings', __( 'Amazon Settings', DFRAPI_DOMAIN ), array( &$this, 'section_amazon_api_settings_desc' ), $this->page );
-				add_settings_field( 'amazon_access_key_id', __( 'Amazon Access Key ID', DFRAPI_DOMAIN ), array( &$this, 'field_amazon_access_key_id' ), $this->page, 'amazon_api_settings' );
-				add_settings_field( 'amazon_secret_access_key', __( 'Amazon Secret Access Key', DFRAPI_DOMAIN ), array( &$this, 'field_amazon_secret_access_key' ), $this->page, 'amazon_api_settings' );
-				add_settings_field( 'amazon_tracking_id', __( 'Amazon Tracking ID', DFRAPI_DOMAIN ), array( &$this, 'field_amazon_tracking_id' ), $this->page, 'amazon_api_settings' );
-				add_settings_field( 'amazon_locale', __( 'Amazon Locale', DFRAPI_DOMAIN ), array( &$this, 'field_amazon_locale' ), $this->page, 'amazon_api_settings' );
+				add_settings_section( 'amazon_api_settings', __( 'Amazon Settings', 'datafeedr-api' ), array( &$this, 'section_amazon_api_settings_desc' ), $this->page );
+				add_settings_field( 'amazon_access_key_id', __( 'Amazon Access Key ID', 'datafeedr-api' ), array( &$this, 'field_amazon_access_key_id' ), $this->page, 'amazon_api_settings' );
+				add_settings_field( 'amazon_secret_access_key', __( 'Amazon Secret Access Key', 'datafeedr-api' ), array( &$this, 'field_amazon_secret_access_key' ), $this->page, 'amazon_api_settings' );
+				add_settings_field( 'amazon_tracking_id', __( 'Amazon Tracking ID', 'datafeedr-api' ), array( &$this, 'field_amazon_tracking_id' ), $this->page, 'amazon_api_settings' );
+				add_settings_field( 'amazon_locale', __( 'Amazon Locale', 'datafeedr-api' ), array( &$this, 'field_amazon_locale' ), $this->page, 'amazon_api_settings' );
 			}
 
-			add_settings_section( 'ph_api_settings', __( 'Performance Horizon Settings', DFRAPI_DOMAIN ), array( &$this, 'section_ph_api_settings_desc' ), $this->page );
-			add_settings_field( 'ph_application_key', __( 'Application Key', DFRAPI_DOMAIN ), array( &$this, 'field_ph_application_key' ), $this->page, 'ph_api_settings' );
-			add_settings_field( 'ph_user_api_key', __( 'User API Key', DFRAPI_DOMAIN ), array( &$this, 'field_ph_user_api_key' ), $this->page, 'ph_api_settings' );
-			add_settings_field( 'ph_publisher_id', __( 'Publisher ID', DFRAPI_DOMAIN ), array( &$this, 'field_ph_publisher_id' ), $this->page, 'ph_api_settings' );
+			add_settings_section( 'ph_api_settings', __( 'Performance Horizon Settings', 'datafeedr-api' ), array( &$this, 'section_ph_api_settings_desc' ), $this->page );
+			add_settings_field( 'ph_application_key', __( 'Application Key', 'datafeedr-api' ), array( &$this, 'field_ph_application_key' ), $this->page, 'ph_api_settings' );
+			add_settings_field( 'ph_user_api_key', __( 'User API Key', 'datafeedr-api' ), array( &$this, 'field_ph_user_api_key' ), $this->page, 'ph_api_settings' );
+			add_settings_field( 'ph_publisher_id', __( 'Publisher ID', 'datafeedr-api' ), array( &$this, 'field_ph_publisher_id' ), $this->page, 'ph_api_settings' );
 
-			add_settings_section( 'effiliation_api_settings', __( 'Effiliation Settings', DFRAPI_DOMAIN ), array( &$this, 'section_effiliation_api_settings_desc' ), $this->page );
-			add_settings_field( 'effiliation_key', __( 'Effiliation Key', DFRAPI_DOMAIN ), array( &$this, 'field_effiliation_key' ), $this->page, 'effiliation_api_settings' );
+			add_settings_section( 'effiliation_api_settings', __( 'Effiliation Settings', 'datafeedr-api' ), array( &$this, 'section_effiliation_api_settings_desc' ), $this->page );
+			add_settings_field( 'effiliation_key', __( 'Effiliation Key', 'datafeedr-api' ), array( &$this, 'field_effiliation_key' ), $this->page, 'effiliation_api_settings' );
+
+			add_settings_section( 'hs_beacon_settings', __( 'Datafeedr Documentation & Support Link', 'datafeedr-api' ), array( &$this, 'section_hs_beacon_settings_desc' ), $this->page );
+			add_settings_field( 'hs_beacon_status', __( 'Enabled', 'datafeedr-api' ), array( &$this, 'field_hs_beacon_status' ), $this->page, 'hs_beacon_settings' );
 		}
 
 		function section_api_settings_desc() {
-			echo __( 'Add your ', DFRAPI_DOMAIN );
-			echo ' <a href="'.DFRAPI_KEYS_URL.'?utm_source=plugin&utm_medium=link&utm_campaign=dfrapiconfigpage" target="_blank" title="' . __( 'Get your Datafeedr API Keys', DFRAPI_DOMAIN ) . '">';
-			echo __( 'Datafeedr API Keys', DFRAPI_DOMAIN );
+			echo __( 'Add your ', 'datafeedr-api' );
+			echo ' <a href="'.DFRAPI_KEYS_URL.'?utm_source=plugin&utm_medium=link&utm_campaign=dfrapiconfigpage" target="_blank" title="' . __( 'Get your Datafeedr API Keys', 'datafeedr-api' ) . '">';
+			echo __( 'Datafeedr API Keys', 'datafeedr-api' );
 			echo '</a>.';
 		}
 
@@ -134,9 +138,9 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		}
 
 		function section_ph_api_settings_desc() {
-			echo __( 'If you want to use the Performance Horizon affiliate network, add your ', DFRAPI_DOMAIN );
-			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/195-how-to-find-your-performance-horizon-publisher-id-and-api-keys" target="_blank" title="' . __( 'Learn how to find your Performance Horizon Keys', DFRAPI_DOMAIN ) . '">';
-			echo __( 'Performance Horizon Keys', DFRAPI_DOMAIN );
+			echo __( 'If you want to use the Performance Horizon affiliate network, add your ', 'datafeedr-api' );
+			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/195-how-to-find-your-performance-horizon-publisher-id-and-api-keys" target="_blank" title="' . __( 'Learn how to find your Performance Horizon Keys', 'datafeedr-api' ) . '">';
+			echo __( 'Performance Horizon Keys', 'datafeedr-api' );
 			echo '</a>.';
 		}
 
@@ -160,9 +164,9 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
 
 		function section_zanox_api_settings_desc() {
-			echo __( 'If you want to use the Zanox affiliate network, add your ', DFRAPI_DOMAIN );
-			echo ' <a href="http://publisher.zanox.com/ws_gettingstarted/ws.gettingstarted.html" target="_blank" title="' . __( 'Get your Zanox Keys', DFRAPI_DOMAIN ) . '">';
-			echo __( 'Zanox Keys', DFRAPI_DOMAIN );
+			echo __( 'If you want to use the Zanox affiliate network, add your ', 'datafeedr-api' );
+			echo ' <a href="http://publisher.zanox.com/ws_gettingstarted/ws.gettingstarted.html" target="_blank" title="' . __( 'Get your Zanox Keys', 'datafeedr-api' ) . '">';
+			echo __( 'Zanox Keys', 'datafeedr-api' );
 			echo '</a>.';
 		}
 
@@ -179,9 +183,9 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		}
 
 		function section_effiliation_api_settings_desc() {
-			echo __( 'If you want to use the Effiliation affiliate network, add your ', DFRAPI_DOMAIN );
-			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/211-how-to-find-your-effiliation-api-key" target="_blank" title="' . __( 'Get your Effiliation Key', DFRAPI_DOMAIN ) . '">';
-			echo __( 'Effiliation Key', DFRAPI_DOMAIN );
+			echo __( 'If you want to use the Effiliation affiliate network, add your ', 'datafeedr-api' );
+			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/211-how-to-find-your-effiliation-api-key" target="_blank" title="' . __( 'Get your Effiliation Key', 'datafeedr-api' ) . '">';
+			echo __( 'Effiliation Key', 'datafeedr-api' );
 			echo '</a>.';
 		}
 
@@ -194,33 +198,33 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function field_transport_method() {
 			?>
             <select id="transport_method" name="<?php echo $this->key; ?>[transport_method]">
-                <option value="curl" <?php selected( $this->options['transport_method'], 'curl', true ); ?>><?php _e( 'CURL', DFRAPI_DOMAIN ); ?></option>
-                <option value="file" <?php selected( $this->options['transport_method'], 'file', true ); ?>><?php _e( 'File', DFRAPI_DOMAIN ); ?></option>
-                <option value="socket" <?php selected( $this->options['transport_method'], 'socket', true ); ?>><?php _e( 'Socket', DFRAPI_DOMAIN ); ?></option>
+                <option value="curl" <?php selected( $this->options['transport_method'], 'curl', true ); ?>><?php _e( 'CURL', 'datafeedr-api' ); ?></option>
+                <option value="file" <?php selected( $this->options['transport_method'], 'file', true ); ?>><?php _e( 'File', 'datafeedr-api' ); ?></option>
+                <option value="socket" <?php selected( $this->options['transport_method'], 'socket', true ); ?>><?php _e( 'Socket', 'datafeedr-api' ); ?></option>
             </select>
-            <p class="description"><?php _e( 'If you\'re not sure, use CURL.', DFRAPI_DOMAIN ); ?></p>
+            <p class="description"><?php _e( 'If you\'re not sure, use CURL.', 'datafeedr-api' ); ?></p>
 			<?php
 		}
 
 		function field_disable_api() {
 			?>
             <p>
-                <input type="radio" value="yes" name="<?php echo $this->key; ?>[disable_api]" <?php checked( $this->options['disable_api'], 'yes', true ); ?> /> <?php _e( 'Yes', DFRAPI_DOMAIN ); ?>
+                <input type="radio" value="yes" name="<?php echo $this->key; ?>[disable_api]" <?php checked( $this->options['disable_api'], 'yes', true ); ?> /> <?php _e( 'Yes', 'datafeedr-api' ); ?>
             </p>
             <p>
-                <input type="radio" value="no" name="<?php echo $this->key; ?>[disable_api]" <?php checked( $this->options['disable_api'], 'no', true ); ?> /> <?php _e( 'No', DFRAPI_DOMAIN ); ?>
+                <input type="radio" value="no" name="<?php echo $this->key; ?>[disable_api]" <?php checked( $this->options['disable_api'], 'no', true ); ?> /> <?php _e( 'No', 'datafeedr-api' ); ?>
             </p>
-            <p class="description"><?php _e( 'Prevent your site from attempting to make a request to the Datafeedr API.', DFRAPI_DOMAIN ); ?></p>
+            <p class="description"><?php _e( 'Prevent your site from attempting to make a request to the Datafeedr API.', 'datafeedr-api' ); ?></p>
 			<?php
 		}
 
 		function section_amazon_api_settings_desc() {
-			echo __( 'Add your ', DFRAPI_DOMAIN );
+			echo __( 'Add your ', 'datafeedr-api' );
 			echo '<a href="https://affiliate-program.amazon.com/gp/advertising/api/detail/your-account.html" target="_blank">';
-			echo __( 'Amazon Product Advertising API keys', DFRAPI_DOMAIN );
+			echo __( 'Amazon Product Advertising API keys', 'datafeedr-api' );
 			echo '</a>.';
 			echo '<br /><span style="color:red">';
-			echo __( 'These are ONLY compatible with the Datafeedr Comparison Sets plugin.', DFRAPI_DOMAIN );
+			echo __( 'These are ONLY compatible with the Datafeedr Comparison Sets plugin.', 'datafeedr-api' );
 			echo '</span>';
 		}
 
@@ -240,8 +244,8 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			?>
             <input type="text" class="regular-text" name="<?php echo $this->key; ?>[amazon_tracking_id]" value="<?php echo esc_attr( $this->options['amazon_tracking_id'] ); ?>" />
             <p class="description">
-				<?php _e( 'This is the same as your Associates Tag usually ending in "-20" or "-21". Can be found ', DFRAPI_DOMAIN ); ?>
-                <a href="https://affiliate-program.amazon.com/gp/associates/network/main.html" target="_blank"><?php _e( 'here', DFRAPI_DOMAIN ); ?></a>.
+				<?php _e( 'This is the same as your Associates Tag usually ending in "-20" or "-21". Can be found ', 'datafeedr-api' ); ?>
+                <a href="https://affiliate-program.amazon.com/gp/associates/network/main.html" target="_blank"><?php _e( 'here', 'datafeedr-api' ); ?></a>.
             </p>
 			<?php
 		}
@@ -249,21 +253,39 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function field_amazon_locale() {
 			?>
             <select id="amazon_locale" name="<?php echo $this->key; ?>[amazon_locale]">
-                <option value="br" <?php selected( $this->options['amazon_locale'], 'br', true ); ?>><?php _e( 'Brazil', DFRAPI_DOMAIN ); ?></option>
-                <option value="ca" <?php selected( $this->options['amazon_locale'], 'ca', true ); ?>><?php _e( 'Canada', DFRAPI_DOMAIN ); ?></option>
-                <option value="cn" <?php selected( $this->options['amazon_locale'], 'cn', true ); ?>><?php _e( 'China', DFRAPI_DOMAIN ); ?></option>
-                <option value="fr" <?php selected( $this->options['amazon_locale'], 'fr', true ); ?>><?php _e( 'France', DFRAPI_DOMAIN ); ?></option>
-                <option value="de" <?php selected( $this->options['amazon_locale'], 'de', true ); ?>><?php _e( 'Germany', DFRAPI_DOMAIN ); ?></option>
-                <option value="in" <?php selected( $this->options['amazon_locale'], 'in', true ); ?>><?php _e( 'India', DFRAPI_DOMAIN ); ?></option>
-                <option value="it" <?php selected( $this->options['amazon_locale'], 'it', true ); ?>><?php _e( 'Italy', DFRAPI_DOMAIN ); ?></option>
-                <option value="jp" <?php selected( $this->options['amazon_locale'], 'jp', true ); ?>><?php _e( 'Japan', DFRAPI_DOMAIN ); ?></option>
-                <option value="mx" <?php selected( $this->options['amazon_locale'], 'mx', true ); ?>><?php _e( 'Mexico', DFRAPI_DOMAIN ); ?></option>
-                <option value="es" <?php selected( $this->options['amazon_locale'], 'es', true ); ?>><?php _e( 'Spain', DFRAPI_DOMAIN ); ?></option>
-                <option value="uk" <?php selected( $this->options['amazon_locale'], 'uk', true ); ?>><?php _e( 'United Kingdom', DFRAPI_DOMAIN ); ?></option>
-                <option value="us" <?php selected( $this->options['amazon_locale'], 'us', true ); ?>><?php _e( 'United States', DFRAPI_DOMAIN ); ?></option>
+                <option value="br" <?php selected( $this->options['amazon_locale'], 'br', true ); ?>><?php _e( 'Brazil', 'datafeedr-api' ); ?></option>
+                <option value="ca" <?php selected( $this->options['amazon_locale'], 'ca', true ); ?>><?php _e( 'Canada', 'datafeedr-api' ); ?></option>
+                <option value="cn" <?php selected( $this->options['amazon_locale'], 'cn', true ); ?>><?php _e( 'China', 'datafeedr-api' ); ?></option>
+                <option value="fr" <?php selected( $this->options['amazon_locale'], 'fr', true ); ?>><?php _e( 'France', 'datafeedr-api' ); ?></option>
+                <option value="de" <?php selected( $this->options['amazon_locale'], 'de', true ); ?>><?php _e( 'Germany', 'datafeedr-api' ); ?></option>
+                <option value="in" <?php selected( $this->options['amazon_locale'], 'in', true ); ?>><?php _e( 'India', 'datafeedr-api' ); ?></option>
+                <option value="it" <?php selected( $this->options['amazon_locale'], 'it', true ); ?>><?php _e( 'Italy', 'datafeedr-api' ); ?></option>
+                <option value="jp" <?php selected( $this->options['amazon_locale'], 'jp', true ); ?>><?php _e( 'Japan', 'datafeedr-api' ); ?></option>
+                <option value="mx" <?php selected( $this->options['amazon_locale'], 'mx', true ); ?>><?php _e( 'Mexico', 'datafeedr-api' ); ?></option>
+                <option value="es" <?php selected( $this->options['amazon_locale'], 'es', true ); ?>><?php _e( 'Spain', 'datafeedr-api' ); ?></option>
+                <option value="uk" <?php selected( $this->options['amazon_locale'], 'uk', true ); ?>><?php _e( 'United Kingdom', 'datafeedr-api' ); ?></option>
+                <option value="us" <?php selected( $this->options['amazon_locale'], 'us', true ); ?>><?php _e( 'United States', 'datafeedr-api' ); ?></option>
             </select>
             <p class="description">
-                <a href="http://docs.aws.amazon.com/AWSECommerceService/latest/DG/AssociateIDs.html" target="_blank"><?php _e( 'More information', DFRAPI_DOMAIN ); ?></a> <?php _e( 'regarding Amazon Locales.', DFRAPI_DOMAIN ); ?>
+                <a href="http://docs.aws.amazon.com/AWSECommerceService/latest/DG/AssociateIDs.html" target="_blank"><?php _e( 'More information', 'datafeedr-api' ); ?></a> <?php _e( 'regarding Amazon Locales.', 'datafeedr-api' ); ?>
+            </p>
+			<?php
+		}
+
+		function section_hs_beacon_settings_desc() {
+			echo __( 'Display the link to Datafeedr documentation and support on every Datafeedr-specific page in your WordPress Admin Area. ',
+				'datafeedr-api' );
+			echo __( 'This provides the full Datafeedr documentation and access to a support contact form right inside your WordPress site.',
+				'datafeedr-api' );
+		}
+
+		function field_hs_beacon_status() {
+			?>
+            <p>
+                <input type="radio" value="on" name="<?php echo $this->key; ?>[hs_beacon]" <?php checked( $this->options['hs_beacon'], 'on', true ); ?> /> <?php _e( 'Yes', 'datafeedr-api' ); ?>
+            </p>
+            <p>
+                <input type="radio" value="off" name="<?php echo $this->key; ?>[hs_beacon]" <?php checked( $this->options['hs_beacon'], 'off', true ); ?> /> <?php _e( 'No', 'datafeedr-api' ); ?>
             </p>
 			<?php
 		}
@@ -344,6 +366,11 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				// Validate Effiliation Key
 				if ( $key == 'effiliation_key' ) {
 					$new_input['effiliation_key'] = trim( $value );
+				}
+
+				// Enable HelpScout Beacon
+				if ( $key == 'hs_beacon' ) {
+					$new_input['hs_beacon'] = ( 'on' == $value ) ? 'on' : 'off';
 				}
 
 			} // foreach

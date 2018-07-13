@@ -5,8 +5,8 @@ Tags: woocommerce, datafeedr, affiliate products, dfrapi, import csv, import dat
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
-Tested up to: 4.9.6
-Stable tag: 1.0.85
+Tested up to: 4.9.7
+Stable tag: 1.0.87
 
 Connect to the Datafeedr API.
 
@@ -16,7 +16,7 @@ Connect to the Datafeedr API.
 
 > The *Datafeedr API* plugin requires that you have an active Datafeedr API Product subscription. [Purchase Subscription](https://members.datafeedr.com/subscribe?utm_campaign=dfrapiplugin&utm_medium=referral&utm_source=wporg)
 
-The Datafeedr API provides access to our database of affiliate products. We have aggregated over 350,000,000 products from over 10,000 merchants and 32 affiliate networks. We have indexed and normalized the product data making it easy for you to search for and find products you want to promote on your website.
+The Datafeedr API provides access to our database of affiliate products. We have aggregated over 450,000,000 products from over 10,000 merchants and 32 affiliate networks. We have indexed and normalized the product data making it easy for you to search for and find products you want to promote on your website.
 
 The *Datafeedr API* plugin currently integrates with the following plugins:
 
@@ -66,6 +66,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.87 - 2018/07/13 =
+* Changed height of network and merchant pop-up modal.
 
 = 1.0.85 - 2018/05/07 =
 * Fixed tiny bug in Beacon code.

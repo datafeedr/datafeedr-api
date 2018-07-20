@@ -506,57 +506,6 @@ a.dfrapi_plan_link
 	font-family: monospace;
 }
 
-
-/* Network Logo Background (180x40) */
-.network_logo_180x40_adrecord { background-image: url(../images/networks/180x40/adrecord.jpg); }
-.network_logo_180x40_adtraction { background-image: url(../images/networks/180x40/adtraction.jpg); }
-.network_logo_180x40_affiliate4you { background-image: url(../images/networks/180x40/affiliate4you.jpg); }
-.network_logo_180x40_affiliatefuture { background-image: url(../images/networks/180x40/affiliatefuture.jpg); }
-.network_logo_180x40_affiliatewindow { background-image: url(../images/networks/180x40/affiliatewindow.jpg); }
-.network_logo_180x40_affiliator { background-image: url(../images/networks/180x40/affiliator.jpg); }
-.network_logo_180x40_affilinet { background-image: url(../images/networks/180x40/affilinet.jpg); }
-.network_logo_180x40_amazon { background-image: url(../images/networks/180x40/amazon.jpg); }
-.network_logo_180x40_amazonlocal { background-image: url(../images/networks/180x40/amazonlocal.jpg); }
-.network_logo_180x40_apd { background-image: url(../images/networks/180x40/apd.jpg); }
-.network_logo_180x40_avangate { background-image: url(../images/networks/180x40/avangate.jpg); }
-.network_logo_180x40_avantlink { background-image: url(../images/networks/180x40/avantlink.jpg); }
-.network_logo_180x40_belboon { background-image: url(../images/networks/180x40/belboon.jpg); }
-.network_logo_180x40_bettymills { background-image: url(../images/networks/180x40/bettymills.jpg); }
-.network_logo_180x40_bolcom { background-image: url(../images/networks/180x40/bolcom.jpg); }
-.network_logo_180x40_bridaluxe { background-image: url(../images/networks/180x40/bridaluxe.jpg); }
-.network_logo_180x40_buyat { background-image: url(../images/networks/180x40/buyat.jpg); }
-.network_logo_180x40_commissionfactory { background-image: url(../images/networks/180x40/commissionfactory.jpg); }
-.network_logo_180x40_commissionjunction { background-image: url(../images/networks/180x40/commissionjunction.jpg); }
-.network_logo_180x40_clickbank { background-image: url(../images/networks/180x40/clickbank.jpg); }
-.network_logo_180x40_clixgalore { background-image: url(../images/networks/180x40/clixgalore.jpg); }
-.network_logo_180x40_commissionmonster { background-image: url(../images/networks/180x40/commissionmonster.jpg); }
-.network_logo_180x40_daisycon { background-image: url(../images/networks/180x40/daisycon.jpg); }
-.network_logo_180x40_dgm { background-image: url(../images/networks/180x40/dgm.jpg); }
-.network_logo_180x40_doublenet { background-image: url(../images/networks/180x40/doublenet.jpg); }
-.network_logo_180x40_familyblend { background-image: url(../images/networks/180x40/familyblend.jpg); }
-.network_logo_180x40_flipkart { background-image: url(../images/networks/180x40/flipkart.jpg); }
-.network_logo_180x40_gan { background-image: url(../images/networks/180x40/gan.jpg); }
-.network_logo_180x40_impactradius { background-image: url(../images/networks/180x40/impactradius.jpg); }
-.network_logo_180x40_linkconnector { background-image: url(../images/networks/180x40/linkconnector.jpg); }
-.network_logo_180x40_linkshare { background-image: url(../images/networks/180x40/linkshare.jpg); }
-.network_logo_180x40_m4n { background-image: url(../images/networks/180x40/m4n.jpg); }
-.network_logo_180x40_markethealth { background-image: url(../images/networks/180x40/markethealth.jpg); }
-.network_logo_180x40_mycommerce { background-image: url(../images/networks/180x40/mycommerce.jpg); }
-.network_logo_180x40_netshops { background-image: url(../images/networks/180x40/netshops.jpg); }
-.network_logo_180x40_onenetworkdirect { background-image: url(../images/networks/180x40/onenetworkdirect.jpg); }
-.network_logo_180x40_optimise { background-image: url(../images/networks/180x40/optimise.jpg); }
-.network_logo_180x40_paidonresults { background-image: url(../images/networks/180x40/paidonresults.jpg); }
-.network_logo_180x40_partnerads { background-image: url(../images/networks/180x40/partnerads.jpg); }
-.network_logo_180x40_pepperjam { background-image: url(../images/networks/180x40/pepperjam.jpg); }
-.network_logo_180x40_regnow { background-image: url(../images/networks/180x40/regnow.jpg); }
-.network_logo_180x40_revresponse { background-image: url(../images/networks/180x40/revresponse.jpg); }
-.network_logo_180x40_shareasale { background-image: url(../images/networks/180x40/shareasale.jpg); }
-.network_logo_180x40_superclix { background-image: url(../images/networks/180x40/superclix.jpg); }
-.network_logo_180x40_tradedoubler { background-image: url(../images/networks/180x40/tradedoubler.jpg); }
-.network_logo_180x40_tradetracker { background-image: url(../images/networks/180x40/tradetracker.jpg); }
-.network_logo_180x40_webgains { background-image: url(../images/networks/180x40/webgains.jpg); }
-.network_logo_180x40_zanox { background-image: url(../images/networks/180x40/zanox.jpg); }
-
 /* Network Logo Background (30x30) */
 .network_logo_30x30_adrecord { background-image: url(../images/networks/30x30/adrecord.jpg); }
 .network_logo_30x30_adtraction { background-image: url(../images/networks/30x30/adtraction.jpg); }
@@ -609,6 +558,7 @@ a.dfrapi_plan_link
 .network_logo_30x30_paidonresults { background-image: url(../images/networks/30x30/paidonresults.jpg); }
 .network_logo_30x30_paidonresults_coupons { background-image: url(../images/networks/30x30/paidonresults-coupons.jpg); }
 .network_logo_30x30_partnerads { background-image: url(../images/networks/30x30/partnerads.jpg); }
+.network_logo_30x30_partnerize { background-image: url(../images/networks/30x30/partnerize.jpg); }
 .network_logo_30x30_pepperjam { background-image: url(../images/networks/30x30/pepperjam.jpg); }
 .network_logo_30x30_pepperjam_coupons { background-image: url(../images/networks/30x30/pepperjam-coupons.jpg); }
 .network_logo_30x30_performancehorizon { background-image: url(../images/networks/30x30/performancehorizon.jpg); }
@@ -626,7 +576,6 @@ a.dfrapi_plan_link
 .network_logo_30x30_webgains { background-image: url(../images/networks/30x30/webgains.jpg); }
 .network_logo_30x30_webgains_coupons { background-image: url(../images/networks/30x30/webgains-coupons.jpg); }
 .network_logo_30x30_zanox { background-image: url(../images/networks/30x30/zanox.jpg); }
-
 
 /* Network Logo Background (16x16) */
 .network_logo_16x16_adrecord { background-image: url(../images/networks/16x16/adrecord.jpg); }
@@ -680,6 +629,7 @@ a.dfrapi_plan_link
 .network_logo_16x16_paidonresults { background-image: url(../images/networks/16x16/paidonresults.jpg); }
 .network_logo_16x16_paidonresults_coupons { background-image: url(../images/networks/16x16/paidonresults-coupons.jpg); }
 .network_logo_16x16_partnerads { background-image: url(../images/networks/16x16/partnerads.jpg); }
+.network_logo_16x16_partnerize { background-image: url(../images/networks/16x16/partnerize.jpg); }
 .network_logo_16x16_pepperjam { background-image: url(../images/networks/16x16/pepperjam.jpg); }
 .network_logo_16x16_pepperjam_coupons { background-image: url(../images/networks/16x16/pepperjam-coupons.jpg); }
 .network_logo_16x16_performancehorizon { background-image: url(../images/networks/16x16/performancehorizon.jpg); }

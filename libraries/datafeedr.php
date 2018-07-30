@@ -281,14 +281,14 @@ class DatafeedrApi {
 	}
 
 	/**
-	 * Return a list of PerformanceHorizon campaign references ("camrefs").
+	 * Return a list of Partnerize campaign references ("camrefs").
 	 *
 	 * @since 2.0.0
 	 *
 	 * @param integer|array $merchantId Merchant ID or an array of merchant IDs.
-	 * @param string $applicationKey PerformanceHorizon application_key.
-	 * @param string $userApiKey PerformanceHorizon user_api_key.
-	 * @param string $publisherId PerformanceHorizon publisher_id.
+	 * @param string $applicationKey Partnerize application_key.
+	 * @param string $userApiKey Partnerize user_api_key.
+	 * @param string $publisherId Partnerize publisher_id.
 	 *
 	 * @return array An array of arrays (campaign_id, camref, merchant_id).
 	 */

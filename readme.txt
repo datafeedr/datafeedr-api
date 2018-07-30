@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 4.9.8
-Stable tag: 1.0.89
+Stable tag: 1.0.90
 
 Connect to the Datafeedr API.
 
@@ -66,6 +66,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.90 - 2018/07/30 =
+* Changed more "Performance Horizon" references to "Partnerize".
 
 = 1.0.89 - 2018/07/20 =
 * Added support for Partnerize.

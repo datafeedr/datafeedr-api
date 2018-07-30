@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define constants.
  */
-define( 'DFRAPI_VERSION', '1.0.89' );
+define( 'DFRAPI_VERSION', '1.0.90' );
 define( 'DFRAPI_URL', plugin_dir_url( __FILE__ ) );
 define( 'DFRAPI_PATH', plugin_dir_path( __FILE__ ) );
 define( 'DFRAPI_BASENAME', plugin_basename( __FILE__ ) );

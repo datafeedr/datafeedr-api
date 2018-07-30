@@ -136,7 +136,7 @@ function dfrapi_get_zanox_zmid( $affiliate_id, $product, $networks ) {
 }
 
 /**
- * Modify affiliate ID if product is a PerformanceHorizon product.
+ * Modify affiliate ID if product is a Partnerize product.
  * Replaces $affiliate_id with "camref".
  *
  * @since 1.0.66
@@ -145,7 +145,7 @@ function dfrapi_get_zanox_zmid( $affiliate_id, $product, $networks ) {
  */
 add_filter( 'dfrapi_affiliate_id', 'dfrapi_get_ph_camref', 10, 3 );
 function dfrapi_get_ph_camref( $affiliate_id, $product, $networks ) {
-	if ( isset( $product['source'] ) && preg_match( "/\bPerformance Horizon\b/", $product['source'] ) ) {
+	if ( isset( $product['source'] ) && preg_match( "/\bPartnerize\b/", $product['source'] ) ) {
 		$ph           = dfrapi_api_get_ph_camref( $product['merchant_id'] );
 		$affiliate_id = ( ! isset( $ph[0]['camref'] ) ) ? '___MISSING___' : $ph[0]['camref'];
 	}
@@ -197,7 +197,7 @@ function dfrapi_get_zanox_keys() {
 }
 
 /**
- * Get Performance Horizon Keys.
+ * Get Partnerize Keys.
  *
  * @since 1.0.66
  *

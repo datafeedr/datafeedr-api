@@ -93,7 +93,7 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 				foreach ( $networks['ids'] as $network ) {
 
 					if ( '801' == $network['nid'] ) {
-						continue; // Performance Horizon does not have affiliate IDs.
+						continue; // Partnerize does not have affiliate IDs.
 					}
 
 					if ( '805' == $network['nid'] || '806' == $network['nid'] || '807' == $network['nid'] ) {
@@ -179,17 +179,17 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 
 			global $wpdb;
 
-			// Get range of Performance Horizon Network IDs
+			// Get range of Partnerize Network IDs
 			$ph_network_ids = range( 801, 802 );
 
 			// Get user's currently selected networks and convert into simple array of IDs.
 			$selected_networks    = get_option( 'dfrapi_networks', array( 'ids' => array() ) );
 			$selected_network_ids = array_keys( $selected_networks['ids'] );
 
-			// See if any Performance Horizon Network IDs are found in the user's selected network IDs.
+			// See if any Partnerize Network IDs are found in the user's selected network IDs.
 			$selected_ph_ids = array_intersect( $ph_network_ids, $selected_network_ids );
 
-			// If there are no selected Performance Horizon IDs, return.
+			// If there are no selected Partnerize IDs, return.
 			if ( empty( $selected_ph_ids ) ) {
 				return false;
 			}

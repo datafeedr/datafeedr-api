@@ -141,9 +141,9 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 					if ( $group_name == 'Zanox' ) {
 						$html .= '<td class="aid_input">' . $this->zanox_adspace( $network['_id'], $aid ) . '</td>';
-					} elseif ( $group_name == 'PerformanceHorizon' ) {
+					} elseif ( $group_name == 'Partnerize' ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
-						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Add/Edit Performance Horizon Keys</a></td>';
+						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Add/Edit Partnerize Keys</a></td>';
 					} elseif ( $group_name == 'Effiliation' ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
 						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Add/Edit Effiliation Key</a></td>';
@@ -151,7 +151,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 						$html .= '<td class="aid_input"><input type="text" name="dfrapi_networks[ids][' . $network['_id'] . '][aid]" value="' . $aid . '" class="aid_input_field" /></td>';
 					}
 
-					if ( $group_name == 'PerformanceHorizon' ) {
+					if ( $group_name == 'Partnerize' ) {
 						$html .= '<td class="tid_input"><small>n/a</small></td>';
 					} else {
 						$html .= '<td class="tid_input"><input type="text" name="dfrapi_networks[ids][' . $network['_id'] . '][tid]" value="' . $tid . '" class="tid_input_field" /></td>';
@@ -234,7 +234,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			$count = 0;
 			foreach ( $this->all_networks as $network ) {
 
-				if ( $network['group'] == 'PerformanceHorizon' ) {
+				if ( $network['group'] == 'Partnerize' ) {
 					continue;
 				}
 

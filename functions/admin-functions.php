@@ -93,16 +93,16 @@ function dfrapi_admin_messages( $key = false, $msg = '' ) {
 			'button_text'	=> __( '', DFRAPI_DOMAIN )
 		),
 		
-		// Unapproved Performance Horizon merchant(s) message.
+		// Unapproved Partnerize merchant(s) message.
 		'unapproved_ph_merchants' => array(
 			'class'       => 'notice notice-error',
-			'message'     => '<strong>' . __( 'Unapproved Performance Horizon Merchant(s):', DFRAPI_DOMAIN ) . '</strong> ' .
-			                 __( 'You have selected one or more Performance Horizon merchants who have not approved your publisher account:<br />',
+			'message'     => '<strong>' . __( 'Unapproved Partnerize Merchant(s):', DFRAPI_DOMAIN ) . '</strong> ' .
+			                 __( 'You have selected one or more Partnerize merchants who have not approved your publisher account:<br />',
 				                 DFRAPI_DOMAIN ) .
 			                 $msg . '<br /><br />' .
-			                 __( 'Please remove unapproved Performance Horizon merchants from your ', DFRAPI_DOMAIN ) .
+			                 __( 'Please remove unapproved Partnerize merchants from your ', DFRAPI_DOMAIN ) .
 			                 '<a href="' . admin_url( 'admin.php?page=dfrapi_merchants' ) . '" target="_blank">' .
-			                 __( 'Performance Horizon merchant selection', DFRAPI_DOMAIN ) .
+			                 __( 'Partnerize merchant selection', DFRAPI_DOMAIN ) .
 			                 '</a>' .
 			                 __( ' then delete your cached API data ', DFRAPI_DOMAIN ) .
 			                 '<a href="' . admin_url( 'admin.php?page=dfrapi_tools' ) . '" target="_blank">' .

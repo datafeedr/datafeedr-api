@@ -106,7 +106,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				add_settings_field( 'amazon_locale', __( 'Amazon Locale', 'datafeedr-api' ), array( &$this, 'field_amazon_locale' ), $this->page, 'amazon_api_settings' );
 			}
 
-			add_settings_section( 'ph_api_settings', __( 'Performance Horizon Settings', 'datafeedr-api' ), array( &$this, 'section_ph_api_settings_desc' ), $this->page );
+			add_settings_section( 'ph_api_settings', __( 'Partnerize Settings', 'datafeedr-api' ), array( &$this, 'section_ph_api_settings_desc' ), $this->page );
 			add_settings_field( 'ph_application_key', __( 'Application Key', 'datafeedr-api' ), array( &$this, 'field_ph_application_key' ), $this->page, 'ph_api_settings' );
 			add_settings_field( 'ph_user_api_key', __( 'User API Key', 'datafeedr-api' ), array( &$this, 'field_ph_user_api_key' ), $this->page, 'ph_api_settings' );
 			add_settings_field( 'ph_publisher_id', __( 'Publisher ID', 'datafeedr-api' ), array( &$this, 'field_ph_publisher_id' ), $this->page, 'ph_api_settings' );
@@ -138,9 +138,9 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		}
 
 		function section_ph_api_settings_desc() {
-			echo __( 'If you want to use the Performance Horizon affiliate network, add your ', 'datafeedr-api' );
-			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/195-how-to-find-your-performance-horizon-publisher-id-and-api-keys" target="_blank" title="' . __( 'Learn how to find your Performance Horizon Keys', 'datafeedr-api' ) . '">';
-			echo __( 'Performance Horizon Keys', 'datafeedr-api' );
+			echo __( 'If you want to use the Partnerize affiliate network, add your ', 'datafeedr-api' );
+			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/195-how-to-find-your-partnerize-publisher-id-and-api-keys" target="_blank" title="' . __( 'Learn how to find your Partnerize Keys', 'datafeedr-api' ) . '">';
+			echo __( 'Partnerize Keys', 'datafeedr-api' );
 			echo '</a>.';
 		}
 

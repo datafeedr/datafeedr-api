@@ -202,7 +202,7 @@ function dfrapi_api_get_zanox_zmid( $merchant_id, $adspace_id ) {
 }
 
 /**
- * Returns a Performance Horizon camref value.
+ * Returns a Partnerize camref value.
  */
 function dfrapi_api_get_ph_camref( $merchant_id ) {
 

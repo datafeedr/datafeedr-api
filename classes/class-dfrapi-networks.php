@@ -151,7 +151,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 						$html .= '<td class="aid_input"><input type="text" name="dfrapi_networks[ids][' . $network['_id'] . '][aid]" value="' . $aid . '" class="aid_input_field" /></td>';
 					}
 
-					if ( $group_name == 'Partnerize' ) {
+					if ( $group_name == 'NoTrackingIDOption' ) {
 						$html .= '<td class="tid_input"><small>n/a</small></td>';
 					} else {
 						$html .= '<td class="tid_input"><input type="text" name="dfrapi_networks[ids][' . $network['_id'] . '][tid]" value="' . $tid . '" class="tid_input_field" /></td>';

@@ -253,6 +253,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function field_amazon_locale() {
 			?>
             <select id="amazon_locale" name="<?php echo $this->key; ?>[amazon_locale]">
+                <option value="au" <?php selected( $this->options['amazon_locale'], 'au', true ); ?>><?php _e( 'Australia', 'datafeedr-api' ); ?></option>
                 <option value="br" <?php selected( $this->options['amazon_locale'], 'br', true ); ?>><?php _e( 'Brazil', 'datafeedr-api' ); ?></option>
                 <option value="ca" <?php selected( $this->options['amazon_locale'], 'ca', true ); ?>><?php _e( 'Canada', 'datafeedr-api' ); ?></option>
                 <option value="cn" <?php selected( $this->options['amazon_locale'], 'cn', true ); ?>><?php _e( 'China', 'datafeedr-api' ); ?></option>
@@ -263,6 +264,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
                 <option value="jp" <?php selected( $this->options['amazon_locale'], 'jp', true ); ?>><?php _e( 'Japan', 'datafeedr-api' ); ?></option>
                 <option value="mx" <?php selected( $this->options['amazon_locale'], 'mx', true ); ?>><?php _e( 'Mexico', 'datafeedr-api' ); ?></option>
                 <option value="es" <?php selected( $this->options['amazon_locale'], 'es', true ); ?>><?php _e( 'Spain', 'datafeedr-api' ); ?></option>
+                <option value="tr" <?php selected( $this->options['amazon_locale'], 'tr', true ); ?>><?php _e( 'Turkey', 'datafeedr-api' ); ?></option>
                 <option value="uk" <?php selected( $this->options['amazon_locale'], 'uk', true ); ?>><?php _e( 'United Kingdom', 'datafeedr-api' ); ?></option>
                 <option value="us" <?php selected( $this->options['amazon_locale'], 'us', true ); ?>><?php _e( 'United States', 'datafeedr-api' ); ?></option>
             </select>

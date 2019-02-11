@@ -93,7 +93,7 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 							' . $this->num_products_in_network( $network ) . ' 
 						</span>
 					</div>
-					' . $this->list_merchants( $network['_id'] ) . '
+					' . $this->list_merchants( $network ) . '
 				</div>
 				';
 			}
@@ -121,9 +121,17 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
             ';
         }
 
-		function list_merchants( $network_id ) {
+		function list_merchants( $network ) {
 
-			$merchants = dfrapi_api_get_all_merchants( $network_id );
+			$network_id = $network['_id'];
+			$merchants  = apply_filters( 'dfrapi_list_merchants', dfrapi_api_get_all_merchants( $network_id ), $network );
+
+			// Show errors if any
+			if ( is_wp_error( $merchants ) ) {
+				$html = '<div style="color:red;margin-left: 36px; line-height: 1.3em; margin-bottom: 10px ">' . $merchants->get_error_message() . '</div>';
+
+				return $html;
+			}
 
 			if ( array_key_exists( 'dfrapi_api_error', $merchants ) ) {
 				return dfrapi_html_output_api_error( $merchants );

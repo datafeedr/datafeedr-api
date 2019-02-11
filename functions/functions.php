@@ -801,3 +801,137 @@ function dfrapi_is_datafeedr_admin_page() {
 
 	return false;
 }
+
+/**
+ * @param integer $network_id
+ * @param string $id_type
+ *
+ * @return WP_Error|string
+ */
+function dfrapi_get_affiliate_and_tracking_id( $network_id, $id_type = 'aid' ) {
+
+	static $networks = null;
+
+	$key  = 'ids';
+	$type = ( 'tid' == $id_type ) ? 'tid' : 'aid';
+
+	if ( null === $networks ) {
+		$networks = get_option( 'dfrapi_networks', [] );
+	}
+
+	if ( empty( $networks ) ) {
+		return new WP_Error(
+			'dfrapi_get_affiliate_id_no_networks',
+			__( 'No networks selected.', 'datafeedr-api' )
+		);
+	}
+
+	if ( ! isset( $networks[ $key ] ) ) {
+		return new WP_Error(
+			'dfrapi_get_affiliate_id_no_network_ids',
+			__( 'No network IDs selected.', 'datafeedr-api' )
+		);
+	}
+
+	if ( ! isset( $networks[ $key ][ $network_id ] ) ) {
+		return new WP_Error(
+			'dfrapi_get_affiliate_id_no_network_ids',
+			__( 'No data for network with ID of ' . intval( $network_id ), 'datafeedr-api' )
+		);
+	}
+
+	if ( ! isset( $networks[ $key ][ $network_id ][ $type ] ) || empty( $networks[ $key ][ $network_id ][ $type ] ) ) {
+		return new WP_Error(
+			'dfrapi_get_affiliate_id_empty_type',
+			__( 'No affiliate or tracking ID entered for network with ID of ' . intval( $network_id ), 'datafeedr-api' )
+		);
+	}
+
+	return $networks[ $key ][ $network_id ][ $type ];
+}
+
+/**
+ * @param array $merchants
+ * @param array $network
+ *
+ * @return array|WP_Error|null
+ */
+function dfrapi_remove_unapproved_awin_merchants( $merchants, $network ) {
+
+	// Return if not in Awin network.
+	if ( 'AffiliateWindow' != $network['group'] ) {
+		return $merchants;
+	}
+
+	$affiliate_id = dfrapi_get_affiliate_and_tracking_id( $network['_id'], 'aid' );
+
+	if ( is_wp_error( $affiliate_id ) ) {
+		return new WP_Error(
+			'missing_awin_affiliate_id',
+			'Please enter your Awin affiliate ID for ' . esc_html( $network['name'] ) . ' <a href="' . admin_url( 'admin.php?page=dfrapi_networks' ) . '#group_affiliatewindow" target="_blank">here</a>.'
+		);
+	}
+
+	static $awin_access_token = null;
+
+	if ( null === $awin_access_token ) {
+
+		$config = get_option( 'dfrapi_configuration', [] );
+
+		$awin_access_token = ( isset( $config['awin_access_token'] ) && ! empty( $config['awin_access_token'] ) ) ?
+			trim( $config['awin_access_token'] ) :
+			new WP_Error(
+				'awin_access_token_missing',
+				'Please enter your Awin API Token <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
+			);
+	}
+
+	if ( is_wp_error( $awin_access_token ) ) {
+		return $awin_access_token;
+	}
+
+	$url                  = null;
+	$approved_program_ids = null;
+
+	$url = sprintf(
+		'https://api.awin.com/publishers/%1$s/programmes?relationship=joined&accessToken=%2$s',
+		$affiliate_id, $awin_access_token
+	);
+
+	$response = wp_remote_get( $url );
+
+	if ( is_array( $response ) && ! is_wp_error( $response ) ) {
+		if ( isset( $response['response']['code'] ) && '200' == $response['response']['code'] ) {
+			if ( isset( $response['body'] ) ) {
+				$programs             = json_decode( $response['body'], true );
+				$approved_program_ids = wp_list_pluck( $programs, 'id' );
+			}
+		}
+	}
+
+	if ( null === $approved_program_ids ) {
+		return new WP_Error(
+			'unable_to_retrieve_approved_awin_program_ids',
+			'Unable to get your list of joined ' . esc_html( $network['name'] ) . ' programs. Please ensure your Awin Access Token is correct <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a> and your affiliate ID is correct <a href="' . admin_url( 'admin.php?page=dfrapi_networks' ) . '#group_affiliatewindow" target="_blank">here</a>.' );
+	}
+
+	foreach ( $merchants as $key => $merchant ) {
+
+		$approved = false;
+		$suids    = isset( $merchant['suids'] ) ? explode( ',', $merchant['suids'] ) : [];
+
+		foreach ( $suids as $suid ) {
+			if ( in_array( $suid, $approved_program_ids ) ) {
+				$approved = true;
+			}
+		}
+
+		if ( ! $approved ) {
+			unset( $merchants[ $key ] );
+		}
+	}
+
+	return $merchants;
+}
+
+add_filter( 'dfrapi_list_merchants', 'dfrapi_remove_unapproved_awin_merchants', 10, 2 );

@@ -5,8 +5,8 @@ Tags: woocommerce, datafeedr, affiliate products, dfrapi, import csv, import dat
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
-Tested up to: 5.0.2
-Stable tag: 1.0.93
+Tested up to: 5.0.3
+Stable tag: 1.0.94
 
 Connect to the Datafeedr API.
 
@@ -66,6 +66,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.94 - 2019/02/11 =
+* Added Awin API token field so that only approved Awin programs are listed under Awin Merchants on this page: WordPress Admin Area > Datafeedr API > Merchants > Awin [Country]
 
 = 1.0.93 - 2018/12/19 =
 * Added support for Australia and Turkey for Amazon API queries.

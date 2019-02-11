@@ -71,6 +71,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 					'ph_user_api_key'          => '',
 					'ph_publisher_id'          => '',
 					'effiliation_key'          => '',
+					'awin_access_token'        => '',
 					'hs_beacon'                => 'on',
 				),
 				$this->options
@@ -93,6 +94,9 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				'api_settings'
 			);
 			*/
+
+			add_settings_section( 'awin_settings', __( 'Awin Settings', 'datafeedr-api' ), array( &$this, 'section_awin_settings_desc' ), $this->page );
+			add_settings_field( 'awin_access_token', __( 'Awin API Token', 'datafeedr-api' ), array( &$this, 'field_awin_access_token' ), $this->page, 'awin_settings' );
 
 			add_settings_section( 'zanox_api_settings', __( 'Zanox Settings', 'datafeedr-api' ), array( &$this, 'section_zanox_api_settings_desc' ), $this->page );
 			add_settings_field( 'zanox_connection_key', __( 'Connection Key', 'datafeedr-api' ), array( &$this, 'field_zanox_connection_key' ), $this->page, 'zanox_api_settings' );
@@ -192,6 +196,19 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function field_effiliation_key() {
 			?>
             <input type="text" class="regular-text" name="<?php echo $this->key; ?>[effiliation_key]" value="<?php echo esc_attr( $this->options['effiliation_key'] ); ?>" />
+			<?php
+		}
+
+		function section_awin_settings_desc() {
+			echo __( 'If you want to use the Awin affiliate network, enter your Awin API Token to view the Awin programs you have joined.', 'datafeedr-api' );
+			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/120-how-to-find-your-awin-affiliate-id-and-api-key" target="_blank" title="' . __( 'Learn how to get your Awin API Token', 'datafeedr-api' ) . '">';
+			echo __( 'Learn how to find your Awin API Token', 'datafeedr-api' );
+			echo '</a>.';
+		}
+
+		function field_awin_access_token() {
+			?>
+            <input type="text" class="regular-text" name="<?php echo $this->key; ?>[awin_access_token]" value="<?php echo esc_attr( $this->options['awin_access_token'] ); ?>" />
 			<?php
 		}
 
@@ -368,6 +385,11 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				// Validate Effiliation Key
 				if ( $key == 'effiliation_key' ) {
 					$new_input['effiliation_key'] = trim( $value );
+				}
+
+				// Validate Awin Acceess Token
+				if ( $key == 'awin_access_token' ) {
+					$new_input['awin_access_token'] = trim( $value );
 				}
 
 				// Enable HelpScout Beacon

@@ -356,6 +356,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				'Double.net'          => 'https://datafeedrapi.helpscoutdocs.com/article/136-how-to-find-your-double-net-affiliate-id',
 				'Effiliation'         => 'https://datafeedrapi.helpscoutdocs.com/article/211-how-to-find-your-effiliation-api-key',
 				'FamilyBlend'         => 'https://datafeedrapi.helpscoutdocs.com/article/117-how-to-find-your-familyblend-affiliate-id',
+				'FlexOffers'          => 'https://datafeedrapi.helpscoutdocs.com/article/209-how-to-find-your-flexoffers-affiliate-id',
 				'FlipKart'            => 'https://datafeedrapi.helpscoutdocs.com/article/137-how-to-find-your-flipkart-affiliate-id',
 				'Impact Radius'       => 'https://datafeedrapi.helpscoutdocs.com/article/134-how-to-find-your-impact-radius-affiliate-id',
 				'LinkConnector'       => 'https://datafeedrapi.helpscoutdocs.com/article/138-how-to-find-your-linkconnector-affiliate-id',

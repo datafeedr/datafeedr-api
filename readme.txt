@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.1.1
-Stable tag: 1.0.96
+Stable tag: 1.0.97
 
 Connect to the Datafeedr API.
 
@@ -66,6 +66,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.97 - 2019/03/23 =
+* Fixed missing FlexOffers logo.
 
 = 1.0.96 - 2019/03/22 =
 * Made plugin ready for upcoming FlexOffers support.

@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.1.1
-Stable tag: 1.0.97
+Stable tag: 1.0.98
 
 Connect to the Datafeedr API.
 
@@ -40,7 +40,7 @@ Additionally, we have written plugins that integrate the *Datafeedr API* plugin 
 **Requirements**
 
 * PHP's `CURL` support must be enabled.
-* PHP Version 5.4 (or greater)
+* PHP Version 7.0 (or greater)
 
 == Installation ==
 
@@ -66,6 +66,10 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.98 - 2019/04/11 =
+* Changed `TRUE` to `true` in `searchform.php` render() function.
+* Added a width/height check in the image importer. Handles failed imports like Patagonia images.
 
 = 1.0.97 - 2019/03/23 =
 * Fixed missing FlexOffers logo.

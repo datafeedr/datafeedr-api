@@ -89,10 +89,10 @@ class Datafeedr_Image_Importer {
 	 *
 	 * Sets the $this->url and $this->args properties.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @param string $url Image URL.
 	 * @param array $args Optional. See $this->default_args().
+	 *
+	 * @since 1.0.71
 	 */
 	public function __construct( $url, $args = array() ) {
 		$this->set_url( $url );
@@ -102,9 +102,9 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Sets the $this->url property.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @param string $url Image URL.
+	 *
+	 * @since 1.0.71
 	 */
 	protected function set_url( $url ) {
 		$url       = ( "//" === substr( $url, 0, 2 ) ) ? 'http:' . $url : $url;
@@ -116,9 +116,9 @@ class Datafeedr_Image_Importer {
 	 *
 	 * This merges the $defaults with the values passed into the constructor.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @param array $args
+	 *
+	 * @since 1.0.71
 	 */
 	protected function set_args( $args ) {
 		$args       = wp_parse_args( $args, $this->default_args() );
@@ -128,9 +128,8 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Default args to use for importing image.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @return array
+	 * @since 1.0.71
 	 */
 	protected function default_args() {
 
@@ -196,9 +195,8 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Returns the image URL.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @return string
+	 * @since 1.0.71
 	 */
 	public function url() {
 		return $this->url;
@@ -207,9 +205,8 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Returns the image's attachment ID.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @return integer
+	 * @since 1.0.71
 	 */
 	public function attachment_id() {
 		return absint( $this->attachment_id );
@@ -218,9 +215,8 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Returns the response of wp_remote_get($this->url) or WP_Error on failure.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @return array|WP_Error
+	 * @since 1.0.71
 	 */
 	public function response() {
 		return $this->response;
@@ -229,9 +225,8 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Returns a WP_Error encountered during the import() process.
 	 *
-	 * @since 1.0.74
-	 *
 	 * @return WP_Error|null
+	 * @since 1.0.74
 	 */
 	public function wp_error() {
 		return $this->wp_error;
@@ -240,12 +235,11 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Returns all args or a value of a specific arg.
 	 *
-	 * @since 1.0.74
-	 *
 	 * @param bool|string $key
 	 * @param string $cast Possible values: boolean, integer, float, string, array, object or null. See settype().
 	 *
 	 * @return array|mixed Return all $args if $key doesn't exists or a single arg if $key isset.
+	 * @since 1.0.74
 	 */
 	public function args( $key = false, $cast = 'string' ) {
 
@@ -264,9 +258,8 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Returns true if errors were encountered. Otherwise returns false.
 	 *
-	 * @since 1.0.74
-	 *
 	 * @return bool
+	 * @since 1.0.74
 	 */
 	public function has_error() {
 		return ( is_wp_error( $this->wp_error() ) ) ? true : false;
@@ -287,9 +280,8 @@ class Datafeedr_Image_Importer {
 	 *
 	 * If the import encounters an error, a WP_Error will be added to the $this->errors array.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @return Datafeedr_Image_Importer
+	 * @since 1.0.71
 	 */
 	public function import() {
 
@@ -306,10 +298,11 @@ class Datafeedr_Image_Importer {
 			/**
 			 * Do something when image import fails.
 			 *
-			 * @since 1.0.72
-			 *
 			 * @param WP_Error $tmp_name
 			 * @param Datafeedr_Image_Importer $this
+			 *
+			 * @since 1.0.72
+			 *
 			 */
 			do_action( 'datafeedr_image_importer/import/fail', $tmp_name, $this );
 
@@ -333,10 +326,11 @@ class Datafeedr_Image_Importer {
 			/**
 			 * Do something when image import fails.
 			 *
-			 * @since 1.0.72
-			 *
 			 * @param WP_Error $file_array ['tmp_name']
 			 * @param Datafeedr_Image_Importer $this
+			 *
+			 * @since 1.0.72
+			 *
 			 */
 			do_action( 'datafeedr_image_importer/import/fail', $file_array['tmp_name'], $this );
 
@@ -361,10 +355,11 @@ class Datafeedr_Image_Importer {
 			/**
 			 * Do something when image import fails.
 			 *
-			 * @since 1.0.72
-			 *
 			 * @param WP_Error $result
 			 * @param Datafeedr_Image_Importer $this
+			 *
+			 * @since 1.0.72
+			 *
 			 */
 			do_action( 'datafeedr_image_importer/import/fail', $result, $this );
 
@@ -380,10 +375,10 @@ class Datafeedr_Image_Importer {
 		/**
 		 * Do something when image import succeeds.
 		 *
-		 * @since 1.0.72
-		 *
 		 * @param int $result Attachment ID.
 		 * @param Datafeedr_Image_Importer $this
+		 *
+		 * @since 1.0.72
 		 */
 		do_action( 'datafeedr_image_importer/import/success', $result, $this );
 
@@ -397,9 +392,8 @@ class Datafeedr_Image_Importer {
 	 *
 	 * This sets the image description, caption and user_id.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @return array Post data.
+	 * @since 1.0.71
 	 */
 	protected function post_data() {
 
@@ -412,10 +406,11 @@ class Datafeedr_Image_Importer {
 		/**
 		 * Allow user to override post data.
 		 *
-		 * @since 1.0.72
-		 *
 		 * @param array $post_data
 		 * @param Datafeedr_Image_Importer $this
+		 *
+		 * @since 1.0.72
+		 *
 		 */
 		return apply_filters( 'datafeedr_image_importer/post_data', $post_data, $this );
 	}
@@ -465,19 +460,33 @@ class Datafeedr_Image_Importer {
 	/**
 	 * A wrapper for the media_handle_sideload() function.
 	 *
-	 * @since 1.0.71
-	 *
-	 * @see media_handle_sideload()
-	 *
 	 * @param array $file_array
 	 * @param int $post_id
 	 * @param string $title
 	 * @param array $post_data
 	 *
 	 * @return int|WP_Error The ID of the attachment or a WP_Error on failure.
+	 * @see media_handle_sideload()
+	 *
+	 * @since 1.0.71
 	 */
 	protected function media_sideload_image( $file_array, $post_id = 0, $title = '', $post_data = array() ) {
-		return media_handle_sideload( $file_array, $post_id, $title, $post_data );
+
+		$attachment_id = media_handle_sideload( $file_array, $post_id, $title, $post_data );
+
+		// If there was an error sideloading the image, return the returned WP_Error.
+		if ( is_wp_error( $attachment_id ) ) {
+			return $attachment_id;
+		}
+
+		// If the image does not have a width or height, return WP_Error.
+		$meta = wp_get_attachment_metadata( $attachment_id );
+		if ( ! isset( $meta['width'], $meta['height'] ) ) {
+			return new WP_Error( 'http_no_image_width_or_height', __( 'Image data does not exist.', 'datafeedr' ) );
+		}
+
+		// If we made it this far, the image is valid so return the image's attachment ID.
+		return $attachment_id;
 	}
 
 	/**
@@ -490,11 +499,10 @@ class Datafeedr_Image_Importer {
 	 *
 	 * This also sets the $this->response property.
 	 *
-	 * @see /wp-admin/includes/file.php:965 function download_url( $url, $timeout = 300 )
-	 *
+	 * @return WP_Error|string WP_Error on failure, string temporary filename on success.
 	 * @since 1.0.72
 	 *
-	 * @return WP_Error|string WP_Error on failure, string temporary filename on success.
+	 * @see /wp-admin/includes/file.php:965 function download_url( $url, $timeout = 300 )
 	 */
 	protected function tmp_name() {
 
@@ -550,9 +558,9 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Sets the $this->attachment_id property.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @param integer $id The ID to set the attachment_id to.
+	 *
+	 * @since 1.0.71
 	 */
 	protected function set_attachment_id( $id ) {
 		$this->attachment_id = absint( $id );
@@ -561,9 +569,9 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Safely unlink a temporary file.
 	 *
-	 * @since 1.0.72
-	 *
 	 * @param string $file_name Name of temporary file to unlink.
+	 *
+	 * @since 1.0.72
 	 */
 	protected function unlink_tmp_file( $file_name ) {
 		@unlink( $file_name );
@@ -591,10 +599,11 @@ class Datafeedr_Image_Importer {
 		/**
 		 * Allow user to override $args.
 		 *
-		 * @since 1.0.72
-		 *
 		 * @param array $args
 		 * @param Datafeedr_Image_Importer $this
+		 *
+		 * @since 1.0.72
+		 *
 		 */
 		$args = apply_filters( 'datafeedr_image_importer/set_response/args', $args, $this );
 
@@ -604,12 +613,11 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Retrieve a single header by name from the raw response.
 	 *
-	 * @since 1.0.72
-	 *
 	 * @param $response WP_Error|array The response or WP_Error on failure.
 	 * @param string $header Header name to retrieve value from.
 	 *
 	 * @return string The header value. Empty string on if incorrect parameter given, or if the header doesn't exist.
+	 * @since 1.0.72
 	 */
 	protected function response_header( $response, $header ) {
 		return wp_remote_retrieve_header( $response, $header );
@@ -620,11 +628,10 @@ class Datafeedr_Image_Importer {
 	 *
 	 * Will return an empty array if incorrect parameter value is given.
 	 *
-	 * @since 1.0.72
-	 *
 	 * @param $response WP_Error|array The response or WP_Error on failure.
 	 *
 	 * @return string The response message. Empty string on incorrect parameter given.
+	 * @since 1.0.72
 	 */
 	protected function response_message( $response ) {
 		return wp_remote_retrieve_response_message( $response );
@@ -635,11 +642,10 @@ class Datafeedr_Image_Importer {
 	 *
 	 * Will return an empty array if incorrect parameter value is given.
 	 *
-	 * @since 1.0.72
-	 *
 	 * @param $response WP_Error|array The response or WP_Error on failure.
 	 *
 	 * @return int|string The response code as an integer. Empty string on incorrect parameter given.
+	 * @since 1.0.72
 	 */
 	protected function response_code( $response ) {
 		return wp_remote_retrieve_response_code( $response );
@@ -653,11 +659,10 @@ class Datafeedr_Image_Importer {
 	 *      "image/jpeg;charset=UTF-8"
 	 *      "JPG"
 	 *
-	 * @since 1.0.71
-	 *
 	 * @param string $content_type Content type received from HTTP request.
 	 *
 	 * @return string Extension (ex. jpg, png, gif, etc...).
+	 * @since 1.0.71
 	 */
 	protected function content_type_to_extension( $content_type ) {
 
@@ -679,9 +684,8 @@ class Datafeedr_Image_Importer {
 	 * Returns an associative array of valid content types (or mime types) and
 	 * their respective extensions.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @return array
+	 * @since 1.0.71
 	 */
 	protected function extensions() {
 
@@ -702,10 +706,11 @@ class Datafeedr_Image_Importer {
 		/**
 		 * Allow user to override $extensions.
 		 *
-		 * @since 1.0.72
-		 *
 		 * @param array $extensions
 		 * @param Datafeedr_Image_Importer $this
+		 *
+		 * @since 1.0.72
+		 *
 		 */
 		return apply_filters( 'datafeedr_image_importer/extensions', $extensions, $this );
 	}
@@ -713,9 +718,8 @@ class Datafeedr_Image_Importer {
 	/**
 	 * Returns the first found ID of an admin user.
 	 *
-	 * @since 1.0.71
-	 *
 	 * @return int
+	 * @since 1.0.71
 	 */
 	protected function get_admin_user_id() {
 

@@ -499,7 +499,7 @@ class Dfrapi_SearchForm
         ";
     }
 
-    function render($prefix, $query, $useSelected=TRUE) {
+    function render($prefix, $query, $useSelected=true) {
         $this->prefix = $prefix;
         $this->useSelected = intval($useSelected);
         if(!$query)
@@ -523,7 +523,7 @@ class Dfrapi_SearchForm
             if(!$field)
                 continue;
             $fieldUsed[$field['name']] = 1;
-            $form .= $this->renderRow($field, $index++, $params, TRUE);
+            $form .= $this->renderRow($field, $index++, $params, true);
         }
         $show = ($index == 0); // if none shown, show the first
         foreach($fieldMap as $field) {

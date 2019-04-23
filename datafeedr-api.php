@@ -8,7 +8,7 @@ Author URI: https://www.datafeedr.com
 License: GPL v3
 Requires at least: 3.8
 Tested up to: 5.1.1
-Version: 1.0.98
+Version: 1.0.99
 
 Datafeedr API Plugin
 Copyright (C) 2019, Datafeedr - help@datafeedr.com

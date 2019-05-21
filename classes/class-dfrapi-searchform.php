@@ -117,6 +117,7 @@ class Dfrapi_SearchForm
                     'AUD' => 'AUD',
                     'CAD' => 'CAD',
                     'CHF' => 'CHF',
+                    'CZK' => 'CZK',
                     'DKK' => 'DKK',
                     'EUR' => 'EUR',
                     'GBP' => 'GBP',

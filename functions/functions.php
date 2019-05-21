@@ -523,6 +523,7 @@ function dfrapi_currency_code_to_sign( $code ) {
 		'SEK' => 'kr',
 		'TRY' => '&#8356;',
 		'USD' => '&#36;',
+		'CZK' => '&#75;&#269;',
 	);
 
 	$map = apply_filters( 'dfrapi_currency_sign_mapper', $map );

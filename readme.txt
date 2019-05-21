@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.2
-Stable tag: 1.0.100
+Stable tag: 1.0.101
 
 Connect to the Datafeedr API.
 
@@ -66,6 +66,10 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.101 - 2019/05/21 =
+* Added support for The Affiliate Gateway network.
+* Added new "_owner_datafeedr" meta key for all images imported via the `datafeedr_import_image()` function. This can include a meta_value of the plugin doing the importing as well.
 
 = 1.0.100 - 2019/05/06 =
 * Updated readme.

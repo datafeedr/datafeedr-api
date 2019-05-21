@@ -371,6 +371,7 @@ class Datafeedr_Image_Importer {
 		$this->set_attachment_id( $result );
 		$this->set_post_thumbnail();
 		$this->set_alt_text();
+        $this->set_owner_source();
 
 		/**
 		 * Do something when image import succeeds.
@@ -425,6 +426,16 @@ class Datafeedr_Image_Importer {
 		if ( ! empty( $text ) ) {
 			update_post_meta( $this->attachment_id(), '_wp_attachment_image_alt', $text );
 		}
+	}
+
+	/**
+	 * Sets the image's owner and source. _owner_datafeedr : dfrps
+	 *
+	 * @since 1.0.101
+	 */
+	protected function set_owner_source() {
+		$source = isset( $this->args['_source_plugin'] ) ? trim( $this->args['_source_plugin'] ) : '';
+		update_post_meta( $this->attachment_id(), '_owner_datafeedr', $source );
 	}
 
 	/**

@@ -936,3 +936,82 @@ function dfrapi_remove_unapproved_awin_merchants( $merchants, $network ) {
 }
 
 add_filter( 'dfrapi_list_merchants', 'dfrapi_remove_unapproved_awin_merchants', 10, 2 );
+
+/**
+ * @param   array  $merchants
+ * @param   array  $network
+ *
+ * @return array|WP_Error|null
+ * @since 1.0.102
+ */
+function dfrapi_disable_affiliate_gateway_merchant_selection_when_sid_empty( $merchants, $network ) {
+
+	// Return if not in The Affiliate Gateway network.
+	if ( 'TheAffiliateGateway' != $network['group'] ) {
+		return $merchants;
+	}
+
+	$sid = dfrapi_get_affiliate_gateway_sid();
+
+	if ( is_wp_error( $sid ) ) {
+		return $sid;
+	}
+
+	return $merchants;
+}
+
+add_filter( 'dfrapi_list_merchants', 'dfrapi_disable_affiliate_gateway_merchant_selection_when_sid_empty', 10, 2 );
+
+/**
+ * Get The Affiliate Gateway SID from this page WordPress Admin Area > Datafeedr API > Configuration
+ *
+ * @return string|WP_Error
+ * @since 1.0.102
+ */
+function dfrapi_get_affiliate_gateway_sid() {
+
+	static $sid = null;
+
+	if ( null === $sid ) {
+
+		$config = get_option( 'dfrapi_configuration', [] );
+
+		$sid = ( isset( $config['affiliate_gateway_sid'] ) && ! empty( $config['affiliate_gateway_sid'] ) ) ?
+			trim( $config['affiliate_gateway_sid'] ) :
+			new WP_Error(
+				'missing_affiliate_gateway_sid',
+				'Please enter your The Affiliate Gateway SID <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
+			);
+	}
+
+	return $sid;
+}
+
+/**
+ * Insert SID into The Affiliate Gateway affiliate links.
+ *
+ * @param   string  $url
+ * @param   array   $product
+ * @param   string  $tracking_id
+ *
+ * @return string
+ */
+function dfrapi_insert_affiliate_gateway_sid_into_affiliate_link( $url, $product, $tracking_id ) {
+
+	if ( $product['source'] != 'The Affiliate Gateway' ) {
+		return $url;
+	}
+
+	$sid = dfrapi_get_affiliate_gateway_sid();
+
+	if ( is_wp_error( $sid ) ) {
+		return $url;
+	}
+
+	$url = str_replace( '{SID}', $sid, $url );
+
+	return $url;
+}
+
+add_filter( 'dfrapi_after_tracking_id_insertion', 'dfrapi_insert_affiliate_gateway_sid_into_affiliate_link', 20, 3 );
+

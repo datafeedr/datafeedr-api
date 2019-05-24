@@ -12,6 +12,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		private $page = 'dfrapi-configuration';
 		private $key;
 		private $account;
+		public $options;
 
 		public function __construct() {
 			$this->key = 'dfrapi_configuration';
@@ -72,6 +73,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 					'ph_publisher_id'          => '',
 					'effiliation_key'          => '',
 					'awin_access_token'        => '',
+					'affiliate_gateway_sid'    => '',
 					'hs_beacon'                => 'on',
 				),
 				$this->options
@@ -97,6 +99,9 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
 			add_settings_section( 'awin_settings', __( 'Awin Settings', 'datafeedr-api' ), array( &$this, 'section_awin_settings_desc' ), $this->page );
 			add_settings_field( 'awin_access_token', __( 'Awin API Token', 'datafeedr-api' ), array( &$this, 'field_awin_access_token' ), $this->page, 'awin_settings' );
+
+			add_settings_section( 'affiliate_gateway_settings', __( 'The Affiliate Gateway Settings', 'datafeedr-api' ), array( &$this, 'section_affiliate_gateway_settings_desc' ), $this->page );
+			add_settings_field( 'affiliate_gateway_sid', __( 'The Affiliate Gateway SID', 'datafeedr-api' ), array( &$this, 'field_affiliate_gateway_sid' ), $this->page, 'affiliate_gateway_settings' );
 
 			add_settings_section( 'zanox_api_settings', __( 'Zanox Settings', 'datafeedr-api' ), array( &$this, 'section_zanox_api_settings_desc' ), $this->page );
 			add_settings_field( 'zanox_connection_key', __( 'Connection Key', 'datafeedr-api' ), array( &$this, 'field_zanox_connection_key' ), $this->page, 'zanox_api_settings' );
@@ -209,6 +214,19 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function field_awin_access_token() {
 			?>
             <input type="text" class="regular-text" name="<?php echo $this->key; ?>[awin_access_token]" value="<?php echo esc_attr( $this->options['awin_access_token'] ); ?>" />
+			<?php
+		}
+
+		function section_affiliate_gateway_settings_desc() {
+			echo __( 'If you want to use The Affiliate Gateway affiliate network, enter your Affiliate Gateway SID.', 'datafeedr-api' );
+			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/225-how-to-find-your-affiliate-gateway-affiliate-id" target="_blank" title="' . __( 'Learn how to get your Affiliate Gateway SID', 'datafeedr-api' ) . '">';
+			echo __( 'Learn how to get your Affiliate Gateway SID', 'datafeedr-api' );
+			echo '</a>.';
+		}
+
+		function field_affiliate_gateway_sid() {
+			?>
+            <input type="text" class="regular-text" name="<?php echo $this->key; ?>[affiliate_gateway_sid]" value="<?php echo esc_attr( $this->options['affiliate_gateway_sid'] ); ?>" />
 			<?php
 		}
 
@@ -390,6 +408,11 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				// Validate Awin Acceess Token
 				if ( $key == 'awin_access_token' ) {
 					$new_input['awin_access_token'] = trim( $value );
+				}
+
+				// Validate The Affiliate Gateway SID
+				if ( $key == 'affiliate_gateway_sid' ) {
+					$new_input['affiliate_gateway_sid'] = trim( $value );
 				}
 
 				// Enable HelpScout Beacon

@@ -92,7 +92,17 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 			if ( ! empty( $networks ) ) {
 				foreach ( $networks['ids'] as $network ) {
 
-					if ( '801' == $network['nid'] ) {
+					if (
+						'801' == $network['nid'] ||
+						'811' == $network['nid'] ||
+						'812' == $network['nid'] ||
+						'813' == $network['nid'] ||
+						'814' == $network['nid'] ||
+						'815' == $network['nid'] ||
+						'816' == $network['nid'] ||
+						'817' == $network['nid'] ||
+						'818' == $network['nid']
+					) {
 						continue; // Partnerize does not have affiliate IDs.
 					}
 

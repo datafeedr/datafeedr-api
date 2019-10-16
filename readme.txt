@@ -5,8 +5,8 @@ Tags: woocommerce, datafeedr, affiliate products, dfrapi, import csv, import dat
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
-Tested up to: 5.2.2
-Stable tag: 1.0.103
+Tested up to: 5.2.4
+Stable tag: 1.0.104
 
 Connect to the Datafeedr API.
 
@@ -40,7 +40,7 @@ Additionally, we have written plugins that integrate the *Datafeedr API* plugin 
 **Requirements**
 
 * PHP's `CURL` support must be enabled.
-* PHP Version 7.0 (or greater)
+* PHP Version 7.2 (or greater)
 
 == Installation ==
 
@@ -66,6 +66,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.104 - 2019/10/15 =
+* Added Merchant Limit filter to Search Form.
 
 = 1.0.103 - 2019/08/06 =
 * Updated Networks page to support new Partnerize networks.

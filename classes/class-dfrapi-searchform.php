@@ -115,14 +115,17 @@ class Dfrapi_SearchForm
                 'input' => 'select',
                 'options' => array(
                     'AUD' => 'AUD',
+                    'BRL' => 'BRL',
                     'CAD' => 'CAD',
                     'CHF' => 'CHF',
                     'CZK' => 'CZK',
                     'DKK' => 'DKK',
                     'EUR' => 'EUR',
                     'GBP' => 'GBP',
+                    'INR' => 'INR',
                     'NOK' => 'NOK',
                     'NZD' => 'NZD',
+                    'PLN' => 'PLN',
                     'SEK' => 'SEK',
                     'TRY' => 'TRY',
                     'USD' => 'USD',
@@ -208,6 +211,16 @@ class Dfrapi_SearchForm
                 'help' => $this->help('limit')
             ),
             array(
+		        'title'    => __( 'Merchant Limit', DFRAPI_DOMAIN ),
+		        'name'     => 'merchant_limit',
+		        'input'    => 'select',
+		        'options'  => array_filter( range( 0, 50 ), function ( $num ) {
+			        return $num != 0;
+		        } ),
+		        'operator' => array( 'is' => 'is' ),
+		        'help'     => $this->help( 'merchant_limit' )
+	        ),
+            array(
                 'title' => __( 'Sort By', DFRAPI_DOMAIN ),
                 'name' => 'sort',
                 'input' => 'none',
@@ -228,20 +241,21 @@ class Dfrapi_SearchForm
 
     function defaults() {
         return array(
-            'any'          => array('operator' => 'contain', 'value'=> ''),
-            'name'         => array('operator' => 'contain', 'value'=> ''),
-            'type'         => array('value'=> 'product'),
-            'currency'     => array('value'=> 'USD'),
-            'price'        => array('operator' => 'between', 'value'=> '0', 'value2' => '999999'),
-            'saleprice'    => array('operator' => 'between', 'value'=> '0', 'value2' => '999999'),
-            'source_id'    => array('value'=> array()),
-            'merchant_id'  => array('value'=> array()),
-            'onsale'       => array('value'=> '1'),
-            'direct_url'   => array('value'=> '1'),
-            'image'        => array('value'=> '1'),
-            'thumbnail'    => array('value'=> '1'),
-            'time_updated' => array('operator' => 'lt', 'value'=> 'today'),
-            'limit'        => array('value'=> 1000),
+		    'any'            => array( 'operator' => 'contain', 'value' => '' ),
+		    'name'           => array( 'operator' => 'contain', 'value' => '' ),
+		    'type'           => array( 'value' => 'product' ),
+		    'currency'       => array( 'value' => 'USD' ),
+		    'price'          => array( 'operator' => 'between', 'value' => '0', 'value2' => '999999' ),
+		    'saleprice'      => array( 'operator' => 'between', 'value' => '0', 'value2' => '999999' ),
+		    'source_id'      => array( 'value' => array() ),
+		    'merchant_id'    => array( 'value' => array() ),
+		    'onsale'         => array( 'value' => '1' ),
+		    'direct_url'     => array( 'value' => '1' ),
+		    'image'          => array( 'value' => '1' ),
+		    'thumbnail'      => array( 'value' => '1' ),
+		    'time_updated'   => array( 'operator' => 'lt', 'value' => 'today' ),
+		    'limit'          => array( 'value' => 1000 ),
+		    'merchant_limit' => array( 'value' => 5 ),
         );
     }
 
@@ -875,6 +889,11 @@ class Dfrapi_SearchForm
         $help['limit'] = '<h3>' . __('Limit', DFRAPI_DOMAIN ) . '</h3>';
         $help['limit'] .= '<p>' . __( 'Limit the number of items returned in your search results. The maximum number of products that can be returned is 10,000.', DFRAPI_DOMAIN ) . '</p>';
         $help['limit'] .= $this->help_tip( __( 'Limiting the number of products returned helps reduce the number of API requests made during searching and updating Product Sets.', DFRAPI_DOMAIN ) );
+
+        // Merchant Limit
+        $help['merchant_limit'] = '<h3>' . __('Merchant Limit', DFRAPI_DOMAIN ) . '</h3>';
+        $help['merchant_limit'] .= '<p>' . __( 'Limit the number of items returned per merchant. The number must be between 1 and 50.', DFRAPI_DOMAIN ) . '</p>';
+        $help['merchant_limit'] .= $this->help_tip( __( 'This is useful to use when you have one merchant which has many products that match your search but other merchants have fewer of those same products and you want equal distribution between all merchants.', DFRAPI_DOMAIN ) );
 
         // Sort By
         $help['sort'] = '<h3>' . __('Sort By', DFRAPI_DOMAIN ) . '</h3>';

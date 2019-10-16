@@ -580,6 +580,12 @@ function dfrapi_api_get_products_by_query( $query, $ppp=20, $page=1, $excluded=a
 	if ( $query_limit && ( $query_limit > $max_total ) ) {
 		$query_limit = $max_total;
 	}
+	
+	// Detemine merchant limit (if exists).
+	$merchant_limit = dfrapi_api_get_query_param( $query, 'merchant_limit' );
+	$merchant_limit = ( $merchant_limit )
+		? absint( $merchant_limit['value'] )
+		: 0;
 			
 	// Determine offset.
 	$offset = ( ( $page - 1 ) * $ppp );
@@ -644,6 +650,9 @@ function dfrapi_api_get_products_by_query( $query, $ppp=20, $page=1, $excluded=a
 			$search->addSort( $sort['operator'] );
 		}
 			
+		// Set Merchant Limit
+		$search->setMerchantLimit( $merchant_limit );
+
 		// Set limits and offset.	
 		$search->setLimit( $ppp );	
 		$search->setOffset( $offset );

@@ -569,6 +569,11 @@ function dfrapi_display_api_request( $params=array() ) {
 			$html .= '$search->setLimit( \''.stripslashes( $v ).'\' );<br />';
 		}
 
+		// Handle merchant_limit.
+		if ( $k == 'merchant_limit' ) {
+			$html .= '$search->setMerchantLimit( \''.stripslashes( absint($v) ).'\' );<br />';
+		}
+
 		// Handle Offset.
 		if ( $k == 'offset' ) {
 			$html .= '$search->setOffset( \''.stripslashes( $v ).'\' );<br />';

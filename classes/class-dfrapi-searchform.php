@@ -67,13 +67,20 @@ class Dfrapi_SearchForm
                 'operator' => $opFulltextExact,
                 'help' => $this->help('name')
             ),
-            array(
-                'title' => __( 'Brand', DFRAPI_DOMAIN ),
-                'name' => 'brand',
-                'input' => 'text',
-                'operator' => $opFulltextExact,
-                'help' => $this->help('brand')
-            ),
+	        array(
+		        'title' => __( 'Brand', DFRAPI_DOMAIN ),
+		        'name' => 'brand',
+		        'input' => 'text',
+		        'operator' => $opFulltextExact,
+		        'help' => $this->help('brand')
+	        ),
+	        array(
+		        'title' => __( 'Color', DFRAPI_DOMAIN ),
+		        'name' => 'color',
+		        'input' => 'text',
+		        'operator' => $opFulltextExact,
+		        'help' => $this->help('color')
+	        ),
             array(
                 'title' => __( 'Description', DFRAPI_DOMAIN ),
                 'name' => 'description',
@@ -239,25 +246,27 @@ class Dfrapi_SearchForm
         );
     }
 
-    function defaults() {
-        return array(
-		    'any'            => array( 'operator' => 'contain', 'value' => '' ),
-		    'name'           => array( 'operator' => 'contain', 'value' => '' ),
-		    'type'           => array( 'value' => 'product' ),
-		    'currency'       => array( 'value' => 'USD' ),
-		    'price'          => array( 'operator' => 'between', 'value' => '0', 'value2' => '999999' ),
-		    'saleprice'      => array( 'operator' => 'between', 'value' => '0', 'value2' => '999999' ),
-		    'source_id'      => array( 'value' => array() ),
-		    'merchant_id'    => array( 'value' => array() ),
-		    'onsale'         => array( 'value' => '1' ),
-		    'direct_url'     => array( 'value' => '1' ),
-		    'image'          => array( 'value' => '1' ),
-		    'thumbnail'      => array( 'value' => '1' ),
-		    'time_updated'   => array( 'operator' => 'lt', 'value' => 'today' ),
-		    'limit'          => array( 'value' => 1000 ),
-		    'merchant_limit' => array( 'value' => 5 ),
-        );
-    }
+	function defaults() {
+		return array(
+			'any'            => array( 'operator' => 'contain', 'value' => '' ),
+			'name'           => array( 'operator' => 'contain', 'value' => '' ),
+			'brand'          => array( 'operator' => 'contain', 'value' => '' ),
+			'color'          => array( 'operator' => 'contain', 'value' => '' ),
+			'type'           => array( 'value' => 'product' ),
+			'currency'       => array( 'value' => 'USD' ),
+			'price'          => array( 'operator' => 'between', 'value' => '0', 'value2' => '999999' ),
+			'saleprice'      => array( 'operator' => 'between', 'value' => '0', 'value2' => '999999' ),
+			'source_id'      => array( 'value' => array() ),
+			'merchant_id'    => array( 'value' => array() ),
+			'onsale'         => array( 'value' => '1' ),
+			'direct_url'     => array( 'value' => '1' ),
+			'image'          => array( 'value' => '1' ),
+			'thumbnail'      => array( 'value' => '1' ),
+			'time_updated'   => array( 'operator' => 'lt', 'value' => 'today' ),
+			'limit'          => array( 'value' => 1000 ),
+			'merchant_limit' => array( 'value' => 5 ),
+		);
+	}
 
     public $useSelected;
     public $prefix;
@@ -641,6 +650,7 @@ class Dfrapi_SearchForm
                 case 'any':
                 case 'name':
                 case 'brand':
+                case 'color':
                 case 'description':
                 case 'category':
                     $s = $this->fulltextFilter($operator, $value);
@@ -801,6 +811,12 @@ class Dfrapi_SearchForm
         $help['brand'] .= '<p>' . __( 'Search by brand name to get specific results. Not every item has a brand name.', DFRAPI_DOMAIN ) . '</p>';
         $help['brand'] .= $this->help_tip( __( 'Enter the shorter version of a brand name in this field. Omit words such as "Incorporated", "Limited" and their abbreviations like Inc., Ltd. and so on.', DFRAPI_DOMAIN ) );
         $help['brand'] .= $this->help_operators();
+
+        // Color
+        $help['color'] = '<h3>' . __('Color', DFRAPI_DOMAIN ) . '</h3>';
+        $help['color'] .= '<p>' . __( 'Search by color to get specific results. Not every item has a color field.', DFRAPI_DOMAIN ) . '</p>';
+//        $help['color'] .= $this->help_tip( __( 'Enter colors into this field.', DFRAPI_DOMAIN ) );
+//        $help['color'] .= $this->help_operators();
 
         // Description
         $help['description'] = '<h3>' . __('Description', DFRAPI_DOMAIN ) . '</h3>';

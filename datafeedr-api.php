@@ -8,10 +8,10 @@ Author URI: https://www.datafeedr.com
 License: GPL v3
 Requires at least: 3.8
 Tested up to: 5.3
-Version: 1.0.106
+Version: 1.0.107
 
 Datafeedr API Plugin
-Copyright (C) 2019, Datafeedr - help@datafeedr.com
+Copyright (C) 2020, Datafeedr - help@datafeedr.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

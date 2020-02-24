@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.3
-Stable tag: 1.0.106
+Stable tag: 1.0.107
 
 Connect to the Datafeedr API.
 
@@ -40,7 +40,8 @@ Additionally, we have written plugins that integrate the *Datafeedr API* plugin 
 **Requirements**
 
 * PHP's `CURL` support must be enabled.
-* PHP Version 7.2 (or greater)
+* PHP Version 7.2 (or greater).
+* WordPress site with HTTPS (SSL/TLS) enabled.
 
 == Installation ==
 
@@ -66,6 +67,11 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.107 - 2020/02/24 =
+* Update Datafeedr API Library to support new [Amazon Product Advertising API 5.0](https://webservices.amazon.com/paapi5/documentation/).
+* Requires an HTTPS connection to use Amazon.
+* Added color field to search form.
 
 = 1.0.106 - 2019/11/20 =
 * Updated Helpscout beacon

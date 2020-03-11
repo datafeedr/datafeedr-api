@@ -298,6 +298,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
                 <option value="it" <?php selected( $this->options['amazon_locale'], 'it', true ); ?>><?php _e( 'Italy', 'datafeedr-api' ); ?></option>
                 <option value="jp" <?php selected( $this->options['amazon_locale'], 'jp', true ); ?>><?php _e( 'Japan', 'datafeedr-api' ); ?></option>
                 <option value="mx" <?php selected( $this->options['amazon_locale'], 'mx', true ); ?>><?php _e( 'Mexico', 'datafeedr-api' ); ?></option>
+                <option value="nl" <?php selected( $this->options['amazon_locale'], 'nl', true ); ?>><?php _e( 'Netherlands', 'datafeedr-api' ); ?></option>
                 <option value="es" <?php selected( $this->options['amazon_locale'], 'es', true ); ?>><?php _e( 'Spain', 'datafeedr-api' ); ?></option>
                 <option value="tr" <?php selected( $this->options['amazon_locale'], 'tr', true ); ?>><?php _e( 'Turkey', 'datafeedr-api' ); ?></option>
                 <option value="uk" <?php selected( $this->options['amazon_locale'], 'uk', true ); ?>><?php _e( 'United Kingdom', 'datafeedr-api' ); ?></option>

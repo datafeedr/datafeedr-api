@@ -1446,6 +1446,7 @@ class DatafeedrAmazonRequest extends DatafeedrSearchRequestBase {
 			'IT' => 'webservices.amazon.it',
 			'JP' => 'webservices.amazon.co.jp',
 			'MX' => 'webservices.amazon.com.mx',
+			'NL' => 'webservices.amazon.nl',
 			'TR' => 'webservices.amazon.com.tr',
 			'UK' => 'webservices.amazon.co.uk',
 			'US' => 'webservices.amazon.com',

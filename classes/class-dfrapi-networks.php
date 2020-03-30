@@ -361,7 +361,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				'FlipKart'            => 'https://datafeedrapi.helpscoutdocs.com/article/137-how-to-find-your-flipkart-affiliate-id',
 				'Impact Radius'       => 'https://datafeedrapi.helpscoutdocs.com/article/134-how-to-find-your-impact-radius-affiliate-id',
 				'LinkConnector'       => 'https://datafeedrapi.helpscoutdocs.com/article/138-how-to-find-your-linkconnector-affiliate-id',
-				'LinkShare'           => 'https://datafeedrapi.helpscoutdocs.com/article/139-how-to-find-your-linkshare-affiliate-id',
+				'Rakuten'             => 'https://datafeedrapi.helpscoutdocs.com/article/139-how-to-find-your-rakuten-affiliate-id',
 				'M4N'                 => 'http://www.datafeedr.com/docs/item/198',
 				'MyCommerce'          => 'http://www.datafeedr.com/docs/item/111',
 				'OneNetworkDirect'    => 'https://datafeedrapi.helpscoutdocs.com/article/140-how-to-find-your-onenetworkdirect-affiliate-id',

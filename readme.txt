@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.4
-Stable tag: 1.0.109
+Stable tag: 1.0.110
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.110 - 2020/03/30 =
+* Fixed link to Rakuten doc.
 
 = 1.0.109 - 2020/03/26 =
 * Added support for ADCELL.

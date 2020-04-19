@@ -865,7 +865,7 @@ function dfrapi_get_affiliate_and_tracking_id( $network_id, $id_type = 'aid' ) {
 function dfrapi_remove_unapproved_awin_merchants( $merchants, $network ) {
 
 	// Return if not in Awin network.
-	if ( 'AffiliateWindow' != $network['group'] ) {
+	if ( 10006 != $network['group_id'] ) {
 		return $merchants;
 	}
 
@@ -952,7 +952,7 @@ add_filter( 'dfrapi_list_merchants', 'dfrapi_remove_unapproved_awin_merchants', 
 function dfrapi_disable_affiliate_gateway_merchant_selection_when_sid_empty( $merchants, $network ) {
 
 	// Return if not in The Affiliate Gateway network.
-	if ( 'TheAffiliateGateway' != $network['group'] ) {
+	if ( 10033 != $network['group_id'] ) {
 		return $merchants;
 	}
 

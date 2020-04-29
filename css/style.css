@@ -46,15 +46,16 @@ a.dfrapi_plan_link
 #dfrapi_networks .group
 {
 	margin-bottom: 5px;
-	background-repeat: no-repeat;
 	line-height: 34px;
 	cursor: pointer;
+	background-repeat: no-repeat;
 	background-position: 4px 5px;
+	background-size: 30px 30px;
 	padding: 2px;
 	border-left: 4px #FFF solid;
-	border-top: 0px solid;
-	border-right: 0px solid;
-	border-bottom: 0px solid;
+	border-top: 0 solid;
+	border-right: 0 solid;
+	border-bottom: 0 solid;
 }
 
 #dfrapi_networks .group.active
@@ -513,8 +514,8 @@ a.dfrapi_plan_link
 .network_logo_30x30_affiliate4you { background-image: url(../images/networks/30x30/affiliate4you.jpg); }
 .network_logo_30x30_affiliatefuture { background-image: url(../images/networks/30x30/affiliatefuture.jpg); }
 .network_logo_30x30_affiliatefuture_coupons { background-image: url(../images/networks/30x30/affiliatefuture-coupons.jpg); }
-.network_logo_30x30_affiliatewindow { background-image: url(../images/networks/30x30/affiliatewindow.jpg); }
-.network_logo_30x30_affiliatewindow_coupons { background-image: url(../images/networks/30x30/affiliatewindow-coupons.jpg); }
+.network_logo_30x30_awin { background-image: url(../images/networks/30x30/awin.jpg); }
+.network_logo_30x30_awin_coupons { background-image: url(../images/networks/30x30/awin-coupons.jpg); }
 .network_logo_30x30_affiliator { background-image: url(../images/networks/30x30/affiliator.jpg); }
 .network_logo_30x30_affilinet { background-image: url(../images/networks/30x30/affilinet.jpg); }
 .network_logo_30x30_affilinet_coupons { background-image: url(../images/networks/30x30/affilinet-coupons.jpg); }
@@ -546,11 +547,11 @@ a.dfrapi_plan_link
 .network_logo_30x30_familyblend { background-image: url(../images/networks/30x30/familyblend.jpg); }
 .network_logo_30x30_flexoffers { background-image: url(../images/networks/30x30/flexoffers.jpg); }
 .network_logo_30x30_gan { background-image: url(../images/networks/30x30/gan.jpg); }
-.network_logo_30x30_impactradius { background-image: url(../images/networks/30x30/impactradius.jpg); }
+.network_logo_30x30_impact { background-image: url(../images/networks/30x30/impact.jpg); }
 .network_logo_30x30_linkconnector { background-image: url(../images/networks/30x30/linkconnector.jpg); }
 .network_logo_30x30_linkconnector_coupons { background-image: url(../images/networks/30x30/linkconnector-coupons.jpg); }
-.network_logo_30x30_linkshare { background-image: url(../images/networks/30x30/linkshare.jpg); }
-.network_logo_30x30_linkshare_coupons { background-image: url(../images/networks/30x30/linkshare-coupons.jpg); }
+.network_logo_30x30_rakuten { background-image: url(../images/networks/30x30/rakuten.jpg); }
+.network_logo_30x30_rakuten_coupons { background-image: url(../images/networks/30x30/rakuten-coupons.jpg); }
 .network_logo_30x30_m4n { background-image: url(../images/networks/30x30/m4n.jpg); }
 .network_logo_30x30_markethealth { background-image: url(../images/networks/30x30/markethealth.jpg); }
 .network_logo_30x30_mycommerce { background-image: url(../images/networks/30x30/mycommerce.jpg); }
@@ -587,8 +588,8 @@ a.dfrapi_plan_link
 .network_logo_16x16_affiliate4you { background-image: url(../images/networks/16x16/affiliate4you.jpg); }
 .network_logo_16x16_affiliatefuture { background-image: url(../images/networks/16x16/affiliatefuture.jpg); }
 .network_logo_16x16_affiliatefuture_coupons { background-image: url(../images/networks/16x16/affiliatefuture-coupons.jpg); }
-.network_logo_16x16_affiliatewindow { background-image: url(../images/networks/16x16/affiliatewindow.jpg); }
-.network_logo_16x16_affiliatewindow_coupons { background-image: url(../images/networks/16x16/affiliatewindow-coupons.jpg); }
+.network_logo_16x16_awin { background-image: url(../images/networks/16x16/awin.jpg); }
+.network_logo_16x16_awin_coupons { background-image: url(../images/networks/16x16/awin-coupons.jpg); }
 .network_logo_16x16_affiliator { background-image: url(../images/networks/16x16/affiliator.jpg); }
 .network_logo_16x16_affilinet { background-image: url(../images/networks/16x16/affilinet.jpg); }
 .network_logo_16x16_affilinet_coupons { background-image: url(../images/networks/16x16/affilinet-coupons.jpg); }
@@ -620,11 +621,11 @@ a.dfrapi_plan_link
 .network_logo_16x16_flexoffers { background-image: url(../images/networks/16x16/flexoffers.jpg); }
 .network_logo_16x16_flipkart { background-image: url(../images/networks/16x16/flipkart.jpg); }
 .network_logo_16x16_gan { background-image: url(../images/networks/16x16/gan.jpg); }
-.network_logo_16x16_impactradius { background-image: url(../images/networks/16x16/impactradius.jpg); }
+.network_logo_16x16_impact { background-image: url(../images/networks/16x16/impact.jpg); }
 .network_logo_16x16_linkconnector { background-image: url(../images/networks/16x16/linkconnector.jpg); }
 .network_logo_16x16_linkconnector_coupons { background-image: url(../images/networks/16x16/linkconnector-coupons.jpg); }
-.network_logo_16x16_linkshare { background-image: url(../images/networks/16x16/linkshare.jpg); }
-.network_logo_16x16_linkshare_coupons { background-image: url(../images/networks/16x16/linkshare-coupons.jpg); }
+.network_logo_16x16_rakuten { background-image: url(../images/networks/16x16/rakuten.jpg); }
+.network_logo_16x16_rakuten_coupons { background-image: url(../images/networks/16x16/rakuten-coupons.jpg); }
 .network_logo_16x16_m4n { background-image: url(../images/networks/16x16/m4n.jpg); }
 .network_logo_16x16_markethealth { background-image: url(../images/networks/16x16/markethealth.jpg); }
 .network_logo_16x16_mycommerce { background-image: url(../images/networks/16x16/mycommerce.jpg); }

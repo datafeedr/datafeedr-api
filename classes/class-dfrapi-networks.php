@@ -100,7 +100,9 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			';
 
 			$i=0;
+
 			foreach ( $this->all_networks as $network ) {
+
 				$i++;
 				$checked = ( array_key_exists( $network['_id'], (array) $this->options['ids'] ) ) ? ' checked="checked"' : '';
 				$type = ( $network['type'] == 'products' ) ?  __( 'products', DFRAPI_DOMAIN ) :  __( 'coupons', DFRAPI_DOMAIN );
@@ -139,12 +141,12 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 						</td>
 					';
 
-					if ( $group_name == 'Zanox' ) {
+					if ( $network['group_id'] == 10037 ) {
 						$html .= '<td class="aid_input">' . $this->zanox_adspace( $network['_id'], $aid ) . '</td>';
-					} elseif ( $group_name == 'Partnerize' ) {
+					} elseif ( $network['group_id'] == 10027 ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
 						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Add/Edit Partnerize Keys</a></td>';
-					} elseif ( $group_name == 'Effiliation' ) {
+					} elseif ( $network['group_id'] == 10017 ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
 						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Add/Edit Effiliation Key</a></td>';
 					} else {
@@ -234,11 +236,11 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			$count = 0;
 			foreach ( $this->all_networks as $network ) {
 
-				if ( $network['group'] == 'Partnerize' ) {
+				if ( $network['group_id'] == 10027 ) {
 					continue;
 				}
 
-				if ( $network['group'] == 'Effiliation' ) {
+				if ( $network['group_id'] == 10017 ) {
 					continue;
 				}
 
@@ -384,7 +386,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				'Zanox'                 => 'https://datafeedrapi.helpscoutdocs.com/article/149-how-to-find-your-zanox-api-keys',
 			);
 
-			return $links[ $name ];
+			return isset( $links[ $name ] ) ? $links[ $name ] : DFRAPI_DOCS_URL;
 		}
 
 		function validate( $input ) {

@@ -493,12 +493,14 @@ function dfrapi_output_api_error( $data ) {
  * EUR	Netherlands	&euro;
  * EUR	Spain	&euro;
  * GBP	United Kingdom	&pound;
+ * HUF	Hungary	Fr
  * INR	India	&#8377;
  * MYR	Malaysia	RM
  * NOK	Norway	kr
  * NZD	New Zealand	&#36;
  * PHP  Philippines  &#8369;
  * PLN	Poland	zł
+ * RUB	Russia	₽
  * SEK	Sweden	kr
  * TRY	Turkey	&#8356;
  * USD	United States	&#36;
@@ -514,12 +516,14 @@ function dfrapi_currency_code_to_sign( $code ) {
 		'DKK' => 'kr',
 		'EUR' => '&euro;',
 		'GBP' => '&pound;',
+		'HUF' => 'Ft',
 		'INR' => '&#8377;',
-        'MYR' => 'RM',
+		'MYR' => 'RM',
 		'NOK' => 'kr',
 		'NZD' => '&#36;',
 		'PLN' => 'zł',
 		'PHP' => '&#8369;',
+		'RUB' => '&#8381;',
 		'SEK' => 'kr',
 		'TRY' => '&#8356;',
 		'USD' => '&#36;',

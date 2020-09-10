@@ -157,19 +157,20 @@ function dfrapi_get_ph_camref( $affiliate_id, $product, $networks ) {
  * Modify affiliate ID if product is a Effiliation product.
  * Replaces $affiliate_id with "affiliate ID".
  *
+ * @return string Affiliate ID.
  * @since 1.0.81
  *
- * @return string Affiliate ID.
  */
-add_filter( 'dfrapi_affiliate_id', 'dfrapi_get_effiliation_affiliate_id', 10, 3 );
 function dfrapi_get_effiliation_affiliate_id( $affiliate_id, $product, $networks ) {
 	if ( isset( $product['source'] ) && preg_match( "/\bEffiliation\b/", $product['source'] ) ) {
 		$effiliation  = dfrapi_api_get_effiliation_affiliate_id( $product['merchant_id'] );
-		$affiliate_id = ( ! isset( $effiliation[0]['affiliate_id'] ) ) ? '___MISSING___' : $effiliation[0]['affiliate_id'];
+		$affiliate_id = $effiliation == 'dfrapi_unapproved_effiliation_merchant' ? '___MISSING___' : $effiliation;
 	}
 
 	return $affiliate_id;
 }
+
+add_filter( 'dfrapi_affiliate_id', 'dfrapi_get_effiliation_affiliate_id', 10, 3 );
 
 function dfrapi_get_zanox_keys() {
 
@@ -1024,3 +1025,37 @@ function dfrapi_insert_affiliate_gateway_sid_into_affiliate_link( $url, $product
 
 add_filter( 'dfrapi_after_tracking_id_insertion', 'dfrapi_insert_affiliate_gateway_sid_into_affiliate_link', 20, 3 );
 
+/**
+ * @param string $url
+ * @param string $method
+ * @param array $args
+ *
+ * @return SimpleXMLElement|WP_Error
+ */
+function dfrapi_get_xml_response( $url, $method = 'GET', array $args = [] ) {
+
+	$response = $method === 'GET' ? wp_remote_get( $url, $args ) : wp_remote_post( $url, $args );
+
+	if ( is_wp_error( $response ) ) {
+		return $response;
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	$body = wp_remote_retrieve_body( $response );
+
+	if ( $code < 200 || $code >= 300 ) {
+		return new WP_Error( $code, strip_tags( $body ) );
+	}
+
+	if ( ! strlen( $body ) ) {
+		return new WP_Error( 'connection_error', esc_html__( 'Empty response', 'datafeedr' ) );
+	}
+
+	$xml = simplexml_load_string( $body, null, LIBXML_NOCDATA );
+
+	if ( $xml->getName() == 'error' ) {
+		return new WP_Error( $code, esc_html( strval( $xml->message ) ) );
+	}
+
+	return $xml;
+}

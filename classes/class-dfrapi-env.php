@@ -270,7 +270,7 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 			}
 
 			$results = $wpdb->get_results(
-				"SELECT option_name, option_value FROM $wpdb->options WHERE option_name LIKE '%_transient_effiliation_%' ",
+				"SELECT option_name, option_value FROM $wpdb->options WHERE option_name LIKE '%_transient_effiliation_%' AND option_name != '_transient_effiliation_affiliate_ids' ",
 				OBJECT
 			);
 

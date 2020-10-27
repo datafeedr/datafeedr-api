@@ -501,6 +501,7 @@ function dfrapi_output_api_error( $data ) {
  * NZD	New Zealand	&#36;
  * PHP  Philippines  &#8369;
  * PLN	Poland	zł
+ * RON	Romania L
  * RUB	Russia	₽
  * SEK	Sweden	kr
  * TRY	Turkey	&#8356;
@@ -524,6 +525,7 @@ function dfrapi_currency_code_to_sign( $code ) {
 		'NZD' => '&#36;',
 		'PLN' => 'zł',
 		'PHP' => '&#8369;',
+		'RON' => 'L',
 		'RUB' => '&#8381;',
 		'SEK' => 'kr',
 		'TRY' => '&#8356;',

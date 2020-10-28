@@ -334,6 +334,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 		function map_link( $name ) {
 			$links = array(
+				'2Performant'           => 'https://datafeedrapi.helpscoutdocs.com/article/240-how-to-find-your-2performant-affiliate-id',
 				'ADCELL'                => 'https://datafeedrapi.helpscoutdocs.com/article/235-how-to-find-your-adcell-affiliate-id',
 				'Adrecord'              => 'https://datafeedrapi.helpscoutdocs.com/article/115-how-to-find-your-adrecord-affiliate-id',
 				'Adtraction'            => 'https://datafeedrapi.helpscoutdocs.com/article/116-how-to-find-your-adtraction-affiliate-id',

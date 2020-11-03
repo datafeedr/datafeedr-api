@@ -121,6 +121,8 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 			
 		static function unapproved_zanox_merchants_exist() {
 
+			return false;
+
 			global $wpdb;
 
 			// Get range of Zanox Network IDs

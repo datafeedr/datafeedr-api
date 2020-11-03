@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.6-alpha
-Stable tag: 1.0.119
+Stable tag: 1.0.120
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,10 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.120 - 2020/11/03 =
+* Added support for additional Amazon locales
+* Removed Zanox Brazil from available option
 
 = 1.0.119 - 2020/10/28 =
 * Added link to doc article for 2Performant.

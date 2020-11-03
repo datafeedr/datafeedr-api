@@ -103,10 +103,6 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			add_settings_section( 'affiliate_gateway_settings', __( 'The Affiliate Gateway Settings', 'datafeedr-api' ), array( &$this, 'section_affiliate_gateway_settings_desc' ), $this->page );
 			add_settings_field( 'affiliate_gateway_sid', __( 'The Affiliate Gateway SID', 'datafeedr-api' ), array( &$this, 'field_affiliate_gateway_sid' ), $this->page, 'affiliate_gateway_settings' );
 
-			add_settings_section( 'zanox_api_settings', __( 'Zanox Settings', 'datafeedr-api' ), array( &$this, 'section_zanox_api_settings_desc' ), $this->page );
-			add_settings_field( 'zanox_connection_key', __( 'Connection Key', 'datafeedr-api' ), array( &$this, 'field_zanox_connection_key' ), $this->page, 'zanox_api_settings' );
-			add_settings_field( 'zanox_secret_key',  __( 'Secret Key', 'datafeedr-api' ), array( &$this, 'field_zanox_secret_key' ), $this->page, 'zanox_api_settings' );
-
 			if ( defined( 'DFRCS_VERSION' ) ) {
 				add_settings_section( 'amazon_api_settings', __( 'Amazon Settings', 'datafeedr-api' ), array( &$this, 'section_amazon_api_settings_desc' ), $this->page );
 				add_settings_field( 'amazon_access_key_id', __( 'Amazon Access Key ID', 'datafeedr-api' ), array( &$this, 'field_amazon_access_key_id' ), $this->page, 'amazon_api_settings' );
@@ -168,26 +164,6 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function field_ph_publisher_id() {
 			?>
             <input type="text" class="regular-text" name="<?php echo $this->key; ?>[ph_publisher_id]" value="<?php echo esc_attr( $this->options['ph_publisher_id'] ); ?>" />
-			<?php
-		}
-
-
-		function section_zanox_api_settings_desc() {
-			echo __( 'If you want to use the Zanox affiliate network, add your ', 'datafeedr-api' );
-			echo ' <a href="http://publisher.zanox.com/ws_gettingstarted/ws.gettingstarted.html" target="_blank" title="' . __( 'Get your Zanox Keys', 'datafeedr-api' ) . '">';
-			echo __( 'Zanox Keys', 'datafeedr-api' );
-			echo '</a>.';
-		}
-
-		function field_zanox_connection_key() {
-			?>
-            <input type="text" class="regular-text" name="<?php echo $this->key; ?>[zanox_connection_key]" value="<?php echo esc_attr( $this->options['zanox_connection_key'] ); ?>" />
-			<?php
-		}
-
-		function field_zanox_secret_key() {
-			?>
-            <input type="text" class="regular-text" name="<?php echo $this->key; ?>[zanox_secret_key]" value="<?php echo esc_attr( $this->options['zanox_secret_key'] ); ?>" />
 			<?php
 		}
 
@@ -291,7 +267,6 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
                 <option value="au" <?php selected( $this->options['amazon_locale'], 'au', true ); ?>><?php _e( 'Australia', 'datafeedr-api' ); ?></option>
                 <option value="br" <?php selected( $this->options['amazon_locale'], 'br', true ); ?>><?php _e( 'Brazil', 'datafeedr-api' ); ?></option>
                 <option value="ca" <?php selected( $this->options['amazon_locale'], 'ca', true ); ?>><?php _e( 'Canada', 'datafeedr-api' ); ?></option>
-                <option value="cn" <?php selected( $this->options['amazon_locale'], 'cn', true ); ?>><?php _e( 'China', 'datafeedr-api' ); ?></option>
                 <option value="fr" <?php selected( $this->options['amazon_locale'], 'fr', true ); ?>><?php _e( 'France', 'datafeedr-api' ); ?></option>
                 <option value="de" <?php selected( $this->options['amazon_locale'], 'de', true ); ?>><?php _e( 'Germany', 'datafeedr-api' ); ?></option>
                 <option value="in" <?php selected( $this->options['amazon_locale'], 'in', true ); ?>><?php _e( 'India', 'datafeedr-api' ); ?></option>
@@ -299,8 +274,12 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
                 <option value="jp" <?php selected( $this->options['amazon_locale'], 'jp', true ); ?>><?php _e( 'Japan', 'datafeedr-api' ); ?></option>
                 <option value="mx" <?php selected( $this->options['amazon_locale'], 'mx', true ); ?>><?php _e( 'Mexico', 'datafeedr-api' ); ?></option>
                 <option value="nl" <?php selected( $this->options['amazon_locale'], 'nl', true ); ?>><?php _e( 'Netherlands', 'datafeedr-api' ); ?></option>
+                <option value="sg" <?php selected( $this->options['amazon_locale'], 'sg', true ); ?>><?php _e( 'Singapore', 'datafeedr-api' ); ?></option>
+                <option value="sa" <?php selected( $this->options['amazon_locale'], 'sa', true ); ?>><?php _e( 'Saudi Arabia', 'datafeedr-api' ); ?></option>
                 <option value="es" <?php selected( $this->options['amazon_locale'], 'es', true ); ?>><?php _e( 'Spain', 'datafeedr-api' ); ?></option>
+                <option value="se" <?php selected( $this->options['amazon_locale'], 'se', true ); ?>><?php _e( 'Sweden', 'datafeedr-api' ); ?></option>
                 <option value="tr" <?php selected( $this->options['amazon_locale'], 'tr', true ); ?>><?php _e( 'Turkey', 'datafeedr-api' ); ?></option>
+                <option value="ae" <?php selected( $this->options['amazon_locale'], 'ae', true ); ?>><?php _e( 'United Arab Emirates', 'datafeedr-api' ); ?></option>
                 <option value="uk" <?php selected( $this->options['amazon_locale'], 'uk', true ); ?>><?php _e( 'United Kingdom', 'datafeedr-api' ); ?></option>
                 <option value="us" <?php selected( $this->options['amazon_locale'], 'us', true ); ?>><?php _e( 'United States', 'datafeedr-api' ); ?></option>
             </select>
@@ -354,16 +333,6 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				// Validate "disable_api"
 				if ( $key == 'disable_api' ) {
 					$new_input['disable_api'] = trim( $value );
-				}
-
-				// Validate "zanox_connection_key"
-				if ( $key == 'zanox_connection_key' ) {
-					$new_input['zanox_connection_key'] = trim( $value );
-				}
-
-				// Validate "zanox_secret_key"
-				if ( $key == 'zanox_secret_key' ) {
-					$new_input['zanox_secret_key'] = trim( $value );
 				}
 
 				// Validate Amazon Access Key ID

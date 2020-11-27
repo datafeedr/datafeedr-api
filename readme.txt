@@ -5,8 +5,8 @@ Tags: woocommerce, datafeedr, affiliate products, dfrapi, import csv, import dat
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
-Tested up to: 5.6-alpha
-Stable tag: 1.0.120
+Tested up to: 5.6
+Stable tag: 1.0.121
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.121 - 2020/11/27 =
+* Added product ID as a sort parameter in the search form.
 
 = 1.0.120 - 2020/11/03 =
 * Added support for additional Amazon locales

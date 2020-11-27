@@ -35,22 +35,24 @@ class Dfrapi_SearchForm
             'no'   => __( 'no', DFRAPI_DOMAIN )
         );
 
-        $sortOpts = array(
-            ''              => __( 'Relevance', DFRAPI_DOMAIN ),
-            '+price'        => __( 'Price Ascending', DFRAPI_DOMAIN ),
-            '-price'        => __( 'Price Decending', DFRAPI_DOMAIN ),
-            '+saleprice'    => __( 'Sale Price Ascending', DFRAPI_DOMAIN ),
-            '-saleprice'    => __( 'Sale Price Decending', DFRAPI_DOMAIN ),
-            '+finalprice'   => __( 'Final Price Ascending', DFRAPI_DOMAIN ),
-            '-finalprice'   => __( 'Final Price Decending', DFRAPI_DOMAIN ),
-            '+salediscount' => __( 'Discount Ascending', DFRAPI_DOMAIN ),
-            '-salediscount' => __( 'Discount Decending', DFRAPI_DOMAIN ),
-            '+merchant'     => __( 'Merchant', DFRAPI_DOMAIN ),
-            '+time_created' => __( 'Date Created Ascending', DFRAPI_DOMAIN ),
-            '-time_created' => __( 'Date Created Decending', DFRAPI_DOMAIN ),
-            '+time_updated' => __( 'Last Updated Ascending', DFRAPI_DOMAIN ),
-            '-time_updated' => __( 'Last Updated Decending', DFRAPI_DOMAIN )
-        );
+	    $sortOpts = array(
+		    ''              => __( 'Relevance', DFRAPI_DOMAIN ),
+		    '+price'        => __( 'Price Ascending', DFRAPI_DOMAIN ),
+		    '-price'        => __( 'Price Descending', DFRAPI_DOMAIN ),
+		    '+saleprice'    => __( 'Sale Price Ascending', DFRAPI_DOMAIN ),
+		    '-saleprice'    => __( 'Sale Price Descending', DFRAPI_DOMAIN ),
+		    '+finalprice'   => __( 'Final Price Ascending', DFRAPI_DOMAIN ),
+		    '-finalprice'   => __( 'Final Price Descending', DFRAPI_DOMAIN ),
+		    '+salediscount' => __( 'Discount Ascending', DFRAPI_DOMAIN ),
+		    '-salediscount' => __( 'Discount Descending', DFRAPI_DOMAIN ),
+		    '+merchant'     => __( 'Merchant', DFRAPI_DOMAIN ),
+		    '+time_created' => __( 'Date Created Ascending', DFRAPI_DOMAIN ),
+		    '-time_created' => __( 'Date Created Descending', DFRAPI_DOMAIN ),
+		    '+time_updated' => __( 'Last Updated Ascending', DFRAPI_DOMAIN ),
+		    '-time_updated' => __( 'Last Updated Descending', DFRAPI_DOMAIN ),
+		    '+_id'          => __( 'Product ID Ascending', DFRAPI_DOMAIN ),
+		    '-_id'          => __( 'Product ID Descending', DFRAPI_DOMAIN ),
+	    );
 
         return array(
             array(

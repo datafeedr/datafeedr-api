@@ -354,7 +354,7 @@ function dfrapi_url( $product ) {
 
 	// Support added for Amazon in version 1.0.60 (2017-10-18) Ticket #15201
 	if ( substr( $product['source'], 0, 6 ) === "Amazon" ) {
-	    // Get the user's Amazon Associate Tag
+		// Get the user's Amazon Associate Tag
 		$affiliate_id = dfrapi_get_amazon_associate_tag();
 	} else {
 		// Extract the affiliate ID from the $networks array.
@@ -377,7 +377,7 @@ function dfrapi_url( $product ) {
 	}
 
 	// Determine which URL field to get: 'url' OR 'ref_url'. Return 'url' if $tracking_id is empty, otherwise, use 'ref_url'.
-	$url = ( $tracking_id == '' ) ? $product['url'] : $product['ref_url'];
+	$url = ( $tracking_id !== '' && isset( $product['ref_url'] ) ) ? $product['ref_url'] : $product['url'];
 
 	// Apply filters to URL before affiliate & tracking ID insertion.
 	$url = apply_filters( 'dfrapi_before_affiliate_id_insertion', $url, $product, $affiliate_id );

@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.6
-Stable tag: 1.0.121
+Stable tag: 1.0.122
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.122 - 2020/12/01 =
+* Fixed issue where `ref_url` was requested for Amazon products.
 
 = 1.0.121 - 2020/11/27 =
 * Added product ID as a sort parameter in the search form.

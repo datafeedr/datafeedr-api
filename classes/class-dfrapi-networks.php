@@ -84,6 +84,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 		}
 
 		function get_groups_networks( $group_name ) {
+			$aid_label = ($group_name == 'Belboon') ? 'Adspace ID' : 'Affiliate ID';
 			$html = '
 			<div style="display:none;" class="networks">
 				<table class="wp-list-table widefat fixed networks_table" cellspacing="0">
@@ -92,7 +93,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 							<th class="checkbox_head"> &nbsp; </th>
 							<th class="networks_head">' . __( 'Network', DFRAPI_DOMAIN ) . '</th>
 							<th class="type_head">' . __( 'Type', DFRAPI_DOMAIN ) . '</th>
-							<th class="aid_head">' . __( 'Affiliate ID', DFRAPI_DOMAIN ) . ' <a href="' .$this->map_link( $group_name ) .'" target="_blank" title="' . __( 'Learn how to find your affiliate ID from ', DFRAPI_DOMAIN ) . $group_name . __( ' (opens in new window).', DFRAPI_DOMAIN ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', DFRAPI_DOMAIN ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#a00;">(' . __( 'required', DFRAPI_DOMAIN ) . ')</small></th>
+							<th class="aid_head">' . $aid_label . ' <a href="' .$this->map_link( $group_name ) .'" target="_blank" title="' . __( 'Learn how to find your affiliate ID from ', DFRAPI_DOMAIN ) . $group_name . __( ' (opens in new window).', DFRAPI_DOMAIN ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', DFRAPI_DOMAIN ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#a00;">(' . __( 'required', DFRAPI_DOMAIN ) . ')</small></th>
 							<th class="tid_head">' . __( 'Tracking ID', DFRAPI_DOMAIN ) . ' <a href="https://datafeedrapi.helpscoutdocs.com/article/212-tracking-ids" target="_blank" title="' . __( 'Learn more about this field (opens in new window).', DFRAPI_DOMAIN ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', DFRAPI_DOMAIN ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#999;">(' . __( 'optional', DFRAPI_DOMAIN ) . ')</small></th>
 						</tr>
 					</thead>

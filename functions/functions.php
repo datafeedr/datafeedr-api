@@ -1028,6 +1028,97 @@ function dfrapi_insert_affiliate_gateway_sid_into_affiliate_link( $url, $product
 add_filter( 'dfrapi_after_tracking_id_insertion', 'dfrapi_insert_affiliate_gateway_sid_into_affiliate_link', 20, 3 );
 
 /**
+ * @param array $merchants
+ * @param array $network
+ *
+ * @return array|WP_Error|null
+ * @since 1.0.124
+ */
+function dfrapi_disable_belboon_merchant_selection_when_aid_empty( $merchants, $network ) {
+
+	// Return if not in Belboon network.
+	if ( 10007 != $network['group_id'] ) {
+		return $merchants;
+	}
+
+	$aid = dfrapi_get_belboon_aid();
+
+	if ( is_wp_error( $aid ) ) {
+		return $aid;
+	}
+
+	return $merchants;
+}
+
+add_filter( 'dfrapi_list_merchants', 'dfrapi_disable_belboon_merchant_selection_when_aid_empty', 10, 2 );
+
+/**
+ * Get Belboon Affiliate ID from this page WordPress Admin Area > Datafeedr API > Configuration
+ *
+ * @return string|WP_Error
+ * @since 1.0.124
+ */
+function dfrapi_get_belboon_aid() {
+
+	static $aid = null;
+
+	if ( null === $aid ) {
+
+		$config = get_option( 'dfrapi_configuration', [] );
+
+		$aid = ( isset( $config['belboon_aid'] ) && ! empty( $config['belboon_aid'] ) ) ?
+			trim( $config['belboon_aid'] ) :
+			new WP_Error(
+				'missing_belboon_aid',
+				'Please enter your Belboon Affiliate ID <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
+			);
+	}
+
+	return $aid;
+}
+
+/**
+ * Insert Affiliate ID and Adspace ID into Belboon affiliate links.
+ *
+ * @param string $url
+ * @param array $product
+ * @param string $affiliate_id
+ *
+ * @return string
+ * @since 1.0.124
+ */
+function dfrapi_insert_belboon_affiliate_and_adspace_id_into_affiliate_link( $url, $product, $affiliate_id ) {
+
+	if ( strpos( $product['source'], 'Belboon' ) === false ) {
+		return $url;
+	}
+
+	$affiliate_id = dfrapi_get_belboon_aid();
+
+	if ( is_wp_error( $affiliate_id ) ) {
+		return $url;
+	}
+
+	$networks = (array) get_option( 'dfrapi_networks' );
+
+	$adspace_id = isset( $networks['ids'][ $product['source_id'] ]['aid'] ) ? $networks['ids'][ $product['source_id'] ]['aid'] : '';
+
+	if ( empty( $adspace_id ) ) {
+		return $url;
+	}
+
+	$url = str_replace(
+		[ '@@@', '{AID}' ],
+		[ $affiliate_id, $adspace_id ],
+		$url
+	);
+
+	return $url;
+}
+
+add_filter( 'dfrapi_before_affiliate_id_insertion', 'dfrapi_insert_belboon_affiliate_and_adspace_id_into_affiliate_link', 20, 3 );
+
+/**
  * @param string $url
  * @param string $method
  * @param array $args

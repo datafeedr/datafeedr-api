@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.7-alpha
-Stable tag: 1.0.123
+Stable tag: 1.0.124
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.124 - 2020/12/27 =
+* Added support for new style of Belboon links.
 
 = 1.0.123 - 2020/12/15 =
 * Added support for Admitad.

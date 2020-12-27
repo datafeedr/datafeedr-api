@@ -74,6 +74,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 					'effiliation_key'          => '',
 					'awin_access_token'        => '',
 					'affiliate_gateway_sid'    => '',
+					'belboon_aid'              => '',
 					'hs_beacon'                => 'on',
 				),
 				$this->options
@@ -102,6 +103,9 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
 			add_settings_section( 'affiliate_gateway_settings', __( 'The Affiliate Gateway Settings', 'datafeedr-api' ), array( &$this, 'section_affiliate_gateway_settings_desc' ), $this->page );
 			add_settings_field( 'affiliate_gateway_sid', __( 'The Affiliate Gateway SID', 'datafeedr-api' ), array( &$this, 'field_affiliate_gateway_sid' ), $this->page, 'affiliate_gateway_settings' );
+
+			add_settings_section( 'belboon_settings', __( 'Belboon Settings', 'datafeedr-api' ), array( &$this, 'section_belboon_settings_desc' ), $this->page );
+			add_settings_field( 'belboon_aid', __( 'Affiliate ID', 'datafeedr-api' ), array( &$this, 'field_belboon_aid' ), $this->page, 'belboon_settings' );
 
 			if ( defined( 'DFRCS_VERSION' ) ) {
 				add_settings_section( 'amazon_api_settings', __( 'Amazon Settings', 'datafeedr-api' ), array( &$this, 'section_amazon_api_settings_desc' ), $this->page );
@@ -203,6 +207,19 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function field_affiliate_gateway_sid() {
 			?>
             <input type="text" class="regular-text" name="<?php echo $this->key; ?>[affiliate_gateway_sid]" value="<?php echo esc_attr( $this->options['affiliate_gateway_sid'] ); ?>" />
+			<?php
+		}
+
+		function section_belboon_settings_desc() {
+			echo __( 'If you want to use the Belboon affiliate network, enter your Belboon Affiliate ID.', 'datafeedr-api' );
+			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/125-how-to-find-your-belboon-affiliate-id" target="_blank" title="' . __( 'Learn how to get your Belboon Affiliate ID', 'datafeedr-api' ) . '">';
+			echo __( 'Learn how to get your Belboon Affiliate ID', 'datafeedr-api' );
+			echo '</a>.';
+		}
+
+		function field_belboon_aid() {
+			?>
+            <input type="text" class="regular-text" name="<?php echo $this->key; ?>[belboon_aid]" value="<?php echo esc_attr( $this->options['belboon_aid'] ); ?>" />
 			<?php
 		}
 
@@ -383,6 +400,11 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				// Validate The Affiliate Gateway SID
 				if ( $key == 'affiliate_gateway_sid' ) {
 					$new_input['affiliate_gateway_sid'] = trim( $value );
+				}
+
+				// Validate Belboon Affiliate ID
+				if ( $key == 'belboon_aid' ) {
+					$new_input['belboon_aid'] = trim( $value );
 				}
 
 				// Enable HelpScout Beacon

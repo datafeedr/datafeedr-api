@@ -25,16 +25,16 @@ jQuery(function($) {
     };
 
     // Networks Settings Page
-    $("#dfrapi_networks .group").click(function (e) {
+    $("#dfrapi_networks .group").on("click", function (e) {
         $(".networks", this).toggle(500);
         e.preventDefault();
     });
 
-    $("#dfrapi_networks .group .networks").click(function(e) {
+    $("#dfrapi_networks .group .networks").on("click", function (e) {
         e.stopPropagation();
     });
 
-    $("#dfrapi_networks .group .networks .network .check_network").change(function(e) {
+    $("#dfrapi_networks .group .networks .network .check_network").on("change", function(e) {
         var parent = $(this).parent('td').parent('tr');
         var id  = parent.attr('id');
         var nid = parent.attr('nid');
@@ -48,18 +48,18 @@ jQuery(function($) {
             $("#" + id + " .aid_input").children().hide();
             $("#" + id + " .tid_input").children().hide();
         }
-    }).change();
+    }).trigger( "change" );
 
     // Merchants Settings Page
     var refreshSearch = function(e) {
         $(e).closest(".network").find(".merchant_actions input").change();
     }
 
-    $("#dfrapi_merchants .network .meta").click(function () {
+    $("#dfrapi_merchants .network .meta").on("click", function () {
         $(this).parent().find(".merchants").slideToggle(500);
     });
 
-    $("#dfrapi_merchants .hide_empty_merchants").click(function () {
+    $("#dfrapi_merchants .hide_empty_merchants").on("click", function () {
         var n = $(this).closest(".network");
         n.find(".no_products").addClass("hidden");
         n.find(".show_empty_merchants").show();
@@ -68,7 +68,7 @@ jQuery(function($) {
         return false;
     });
 
-    $("#dfrapi_merchants .show_empty_merchants").click(function () {
+    $("#dfrapi_merchants .show_empty_merchants").on("click",function () {
         var n = $(this).closest(".network");
         n.find(".no_products").removeClass("hidden");
         n.find(".hide_empty_merchants").show();
@@ -101,17 +101,17 @@ jQuery(function($) {
         $("#ids").val(ids.sort().join(","));
     };
 
-    $('#dfrapi_merchants .add_all').click(function () {
+    $('#dfrapi_merchants .add_all').on("click", function () {
         selMerchant(this, true, null);
         return false;
     });
 
-    $('#dfrapi_merchants .remove_all').click(function () {
+    $('#dfrapi_merchants .remove_all').on("click", function () {
         selMerchant(this, false, null);
         return false;
     });
 
-    $("#dfrapi_merchants .merchant").click(function() {
+    $("#dfrapi_merchants .merchant").on("click", function() {
         var isLeft = $(this).closest(".dfrapi_pane_left").length;
         selMerchant(this, isLeft, this);
         return false;
@@ -128,7 +128,7 @@ jQuery(function($) {
         });
     });
 
-    $("#dfrapi_merchants .merchant_actions .reset_search").click(function() {
+    $("#dfrapi_merchants .merchant_actions .reset_search").on("click", function() {
         $(this).parent().find("input").val("").change();
         return false;
     });

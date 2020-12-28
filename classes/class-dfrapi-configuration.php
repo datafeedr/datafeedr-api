@@ -105,7 +105,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			add_settings_field( 'affiliate_gateway_sid', __( 'The Affiliate Gateway SID', 'datafeedr-api' ), array( &$this, 'field_affiliate_gateway_sid' ), $this->page, 'affiliate_gateway_settings' );
 
 			add_settings_section( 'belboon_settings', __( 'Belboon Settings', 'datafeedr-api' ), array( &$this, 'section_belboon_settings_desc' ), $this->page );
-			add_settings_field( 'belboon_aid', __( 'Affiliate ID', 'datafeedr-api' ), array( &$this, 'field_belboon_aid' ), $this->page, 'belboon_settings' );
+			add_settings_field( 'belboon_aid', __( 'Adspace ID', 'datafeedr-api' ), array( &$this, 'field_belboon_aid' ), $this->page, 'belboon_settings' );
 
 			if ( defined( 'DFRCS_VERSION' ) ) {
 				add_settings_section( 'amazon_api_settings', __( 'Amazon Settings', 'datafeedr-api' ), array( &$this, 'section_amazon_api_settings_desc' ), $this->page );
@@ -211,9 +211,9 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		}
 
 		function section_belboon_settings_desc() {
-			echo __( 'If you want to use the Belboon affiliate network, enter your Belboon Affiliate ID.', 'datafeedr-api' );
-			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/125-how-to-find-your-belboon-affiliate-id" target="_blank" title="' . __( 'Learn how to get your Belboon Affiliate ID', 'datafeedr-api' ) . '">';
-			echo __( 'Learn how to get your Belboon Affiliate ID', 'datafeedr-api' );
+			echo __( 'If you want to use the Belboon affiliate network, enter your Belboon Adspace ID.', 'datafeedr-api' );
+			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/125-how-to-find-your-belboon-affiliate-id" target="_blank" title="' . __( 'Learn how to get your Belboon Adspace ID', 'datafeedr-api' ) . '">';
+			echo __( 'Learn how to get your Belboon Adspace ID', 'datafeedr-api' );
 			echo '</a>.';
 		}
 
@@ -402,7 +402,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 					$new_input['affiliate_gateway_sid'] = trim( $value );
 				}
 
-				// Validate Belboon Affiliate ID
+				// Validate Belboon AID
 				if ( $key == 'belboon_aid' ) {
 					$new_input['belboon_aid'] = trim( $value );
 				}

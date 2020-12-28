@@ -68,8 +68,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 
 == Changelog ==
 
-= 1.0.124 - 2020/12/27 =
+= 1.0.124 - 2020/12/28 =
 * Added support for new style of Belboon links.
+* Fixed jQuery handlers like `.click()`, `.keyup()`, `.change()`, `.submit()` to use `.on()` or `.trigger()` methods instead.
 
 = 1.0.123 - 2020/12/15 =
 * Added support for Admitad.

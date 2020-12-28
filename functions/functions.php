@@ -1041,7 +1041,7 @@ function dfrapi_disable_belboon_merchant_selection_when_aid_empty( $merchants, $
 		return $merchants;
 	}
 
-	$aid = dfrapi_get_belboon_aid();
+	$aid = dfrapi_get_belboon_adspace_id();
 
 	if ( is_wp_error( $aid ) ) {
 		return $aid;
@@ -1053,12 +1053,12 @@ function dfrapi_disable_belboon_merchant_selection_when_aid_empty( $merchants, $
 add_filter( 'dfrapi_list_merchants', 'dfrapi_disable_belboon_merchant_selection_when_aid_empty', 10, 2 );
 
 /**
- * Get Belboon Affiliate ID from this page WordPress Admin Area > Datafeedr API > Configuration
+ * Get Belboon Adspace ID from this page WordPress Admin Area > Datafeedr API > Configuration
  *
  * @return string|WP_Error
  * @since 1.0.124
  */
-function dfrapi_get_belboon_aid() {
+function dfrapi_get_belboon_adspace_id() {
 
 	static $aid = null;
 
@@ -1070,7 +1070,7 @@ function dfrapi_get_belboon_aid() {
 			trim( $config['belboon_aid'] ) :
 			new WP_Error(
 				'missing_belboon_aid',
-				'Please enter your Belboon Affiliate ID <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
+				'Please enter your Belboon Adspace ID <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
 			);
 	}
 
@@ -1078,7 +1078,7 @@ function dfrapi_get_belboon_aid() {
 }
 
 /**
- * Insert Affiliate ID and Adspace ID into Belboon affiliate links.
+ * Insert Adspace ID into Belboon affiliate links.
  *
  * @param string $url
  * @param array $product
@@ -1087,36 +1087,24 @@ function dfrapi_get_belboon_aid() {
  * @return string
  * @since 1.0.124
  */
-function dfrapi_insert_belboon_affiliate_and_adspace_id_into_affiliate_link( $url, $product, $affiliate_id ) {
+function dfrapi_insert_belboon_adspace_id_into_affiliate_link( $url, $product, $affiliate_id ) {
 
 	if ( strpos( $product['source'], 'Belboon' ) === false ) {
 		return $url;
 	}
 
-	$affiliate_id = dfrapi_get_belboon_aid();
+	$aid = dfrapi_get_belboon_adspace_id();
 
-	if ( is_wp_error( $affiliate_id ) ) {
+	if ( is_wp_error( $aid ) ) {
 		return $url;
 	}
 
-	$networks = (array) get_option( 'dfrapi_networks' );
-
-	$adspace_id = isset( $networks['ids'][ $product['source_id'] ]['aid'] ) ? $networks['ids'][ $product['source_id'] ]['aid'] : '';
-
-	if ( empty( $adspace_id ) ) {
-		return $url;
-	}
-
-	$url = str_replace(
-		[ '@@@', '{AID}' ],
-		[ $affiliate_id, $adspace_id ],
-		$url
-	);
+	$url = str_replace( '{AID}', $aid, $url );
 
 	return $url;
 }
 
-add_filter( 'dfrapi_before_affiliate_id_insertion', 'dfrapi_insert_belboon_affiliate_and_adspace_id_into_affiliate_link', 20, 3 );
+add_filter( 'dfrapi_before_affiliate_id_insertion', 'dfrapi_insert_belboon_adspace_id_into_affiliate_link', 20, 3 );
 
 /**
  * @param string $url

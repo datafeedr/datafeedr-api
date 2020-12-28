@@ -57,10 +57,10 @@
         if (opts.highlight) {
             opts.highlightRe = $("<div>@</div>").wrapInner(opts.highlight).html().replace(/@/g, "$$&");
         }
-        $(this).keyup(function () {
+        $(this).on("keyup", function () {
             filter(this, this.value, opts)
         });
-        $(this).change(function () {
+        $(this).on("change", function () {
             filter(this, this.value, opts)
         });
     }

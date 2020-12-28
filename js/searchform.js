@@ -69,11 +69,11 @@ jQuery(function($) {
         });
         searchFormAjax(command, {value: input.val()}, function(response) {
             popup.find(".reveal-modal-content").html(response);
-            popup.find("a.button.reset_search").click(function() {
+            popup.find("a.button.reset_search").on("click", function() {
                 $(this).parent().find("input").val("").change();
                 return false;
             });
-            popup.find("a.button.submit").click(function() {
+            popup.find("a.button.submit").on("click", function() {
                 var value = [];
                 popup.find("input:checked").each(function() {
                     value.push($(this).val());
@@ -105,7 +105,7 @@ jQuery(function($) {
         return f;
     }
 
-    $("#dfrapi_search_form .filter .minus").click(function() {
+    $("#dfrapi_search_form .filter .minus").on("click", function() {
         if($(this).is(".disabled"))
             return false;
         var form = $(this).closest("form");
@@ -115,7 +115,7 @@ jQuery(function($) {
         return false;
     });
 
-    $("#dfrapi_search_form_filter").click(function() {
+    $("#dfrapi_search_form_filter").on("click", function() {
         var form = $(this).closest("form");
         var hiddenFilters = form.find(".filter:hidden");
         var last = form.find(".filter:last");
@@ -128,7 +128,7 @@ jQuery(function($) {
         return false;
     });
 
-    $("#dfrapi_search_form .filter .field select").change(function() {
+    $("#dfrapi_search_form .filter .field select").on("change", function() {
         var form = $(this).closest("form");
         var fieldName = $(this).val();
 
@@ -149,19 +149,19 @@ jQuery(function($) {
         updateSearchForm(form);
     });
 
-    $("#dfrapi_search_form .filter .operator select").change(function() {
+    $("#dfrapi_search_form .filter .operator select").on("change", function() {
         checkSelects($(this).closest("form"));
     });
 
-    $("#dfrapi_search_form").closest("form").submit(function() {
+    $("#dfrapi_search_form").closest("form").on("submit", function() {
         $(this).find("#dfrapi_search_form .filter:hidden").remove();
     });
 
-    $("#dfrapi_search_form .choose_network").click(function() {
+    $("#dfrapi_search_form .choose_network").on("click", function() {
         ajaxPopup(this, "choose_network");
     });
 
-    $("#dfrapi_search_form .choose_merchant").click(function() {
+    $("#dfrapi_search_form .choose_merchant").on("click", function() {
         ajaxPopup(this, "choose_merchant");
     });
     

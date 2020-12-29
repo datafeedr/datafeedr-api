@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.7-alpha
-Stable tag: 1.0.124
+Stable tag: 1.0.125
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,10 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.0.125 - 2020/12/29 =
+* Prevent Belboon affiliate ID from being entered before Adspace ID is entered.
+* Added a price.php file but not active yet.
 
 = 1.0.124 - 2020/12/28 =
 * Added support for new style of Belboon links.

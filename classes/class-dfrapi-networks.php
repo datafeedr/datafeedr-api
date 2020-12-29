@@ -149,6 +149,9 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 					} elseif ( $network['group_id'] == 10017 ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
 						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Add/Edit Effiliation Key</a></td>';
+					} elseif ( $network['group_id'] == 10007 && is_wp_error( dfrapi_get_belboon_adspace_id() ) ) {
+						$url  = admin_url( 'admin.php?page=dfrapi' );
+						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Your Belboon Adspace ID is required before you can enter your affiliate ID. Enter Adspace ID.</a></td>';
 					} else {
 						$html .= '<td class="aid_input"><input type="text" name="dfrapi_networks[ids][' . $network['_id'] . '][aid]" value="' . $aid . '" class="aid_input_field" /></td>';
 					}

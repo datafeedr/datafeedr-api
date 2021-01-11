@@ -83,6 +83,13 @@ class Dfrapi_SearchForm
 		        'operator' => $opFulltextExact,
 		        'help' => $this->help('color')
 	        ),
+	        array(
+		        'title' => __( 'Material', DFRAPI_DOMAIN ),
+		        'name' => 'material',
+		        'input' => 'text',
+		        'operator' => $opFulltextExact,
+		        'help' => $this->help('material')
+	        ),
             array(
                 'title' => __( 'Description', DFRAPI_DOMAIN ),
                 'name' => 'description',
@@ -254,6 +261,7 @@ class Dfrapi_SearchForm
 			'name'           => array( 'operator' => 'contain', 'value' => '' ),
 			'brand'          => array( 'operator' => 'contain', 'value' => '' ),
 			'color'          => array( 'operator' => 'contain', 'value' => '' ),
+			'material'       => array( 'operator' => 'contain', 'value' => '' ),
 			'type'           => array( 'value' => 'product' ),
 			'currency'       => array( 'value' => 'USD' ),
 			'price'          => array( 'operator' => 'between', 'value' => '0', 'value2' => '999999' ),
@@ -653,6 +661,7 @@ class Dfrapi_SearchForm
                 case 'name':
                 case 'brand':
                 case 'color':
+                case 'material':
                 case 'description':
                 case 'category':
                     $s = $this->fulltextFilter($operator, $value);
@@ -817,8 +826,10 @@ class Dfrapi_SearchForm
         // Color
         $help['color'] = '<h3>' . __('Color', DFRAPI_DOMAIN ) . '</h3>';
         $help['color'] .= '<p>' . __( 'Search by color to get specific results. Not every item has a color field.', DFRAPI_DOMAIN ) . '</p>';
-//        $help['color'] .= $this->help_tip( __( 'Enter colors into this field.', DFRAPI_DOMAIN ) );
-//        $help['color'] .= $this->help_operators();
+
+	    // Material
+	    $help['material'] = '<h3>' . __('Material', DFRAPI_DOMAIN ) . '</h3>';
+	    $help['material'] .= '<p>' . __( 'Search by material to get specific results. Not every item has a material field.', DFRAPI_DOMAIN ) . '</p>';
 
         // Description
         $help['description'] = '<h3>' . __('Description', DFRAPI_DOMAIN ) . '</h3>';

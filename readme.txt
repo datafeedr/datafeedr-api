@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.7-alpha
-Stable tag: 1.0.125
+Stable tag: 1.1.0
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,15 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.1.0 - 2021/01/11 =
+* Added warning to The Affiliate Gateway affiliate ID input area on Networks page if SID is not set.
+* Added new `Dfrapi_Price` class.
+* Added new `Dfrapi_Currency` class.
+* Added helper function to instantiate `Dfrapi_Price` class.
+* Added helper function to instantiate `Dfrapi_Currency` class.
+* Added more string helper functions.
+* Added Material as a searchable field in the Searchform.
 
 = 1.0.125 - 2020/12/29 =
 * Prevent Belboon affiliate ID from being entered before Adspace ID is entered.

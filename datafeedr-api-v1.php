@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define constants.
  */
-define( 'DFRAPI_VERSION', '1.0.125' );
+define( 'DFRAPI_VERSION', '1.1.0' );
 define( 'DFRAPI_URL', plugin_dir_url( __FILE__ ) );
 define( 'DFRAPI_PATH', plugin_dir_path( __FILE__ ) );
 define( 'DFRAPI_BASENAME', plugin_basename( __FILE__ ) );
@@ -59,9 +59,10 @@ function dfrapi_wp_version_notice() {
  */
 require_once( DFRAPI_PATH . 'classes/class-datafeedr-plugin-dependency.php' );
 require_once( DFRAPI_PATH . 'classes/class-datafeedr-timer.php' );
+require_once( DFRAPI_PATH . 'classes/class-datafeedr-currency.php' );
+require_once( DFRAPI_PATH . 'classes/class-datafeedr-price.php' );
 require_once( DFRAPI_PATH . 'classes/class-datafeedr-image-importer.php' );
 require_once( DFRAPI_PATH . 'functions/functions.php' );
-//require_once( DFRAPI_PATH . 'functions/price.php' );
 require_once( DFRAPI_PATH . 'functions/upgrade.php' );
 require_once( DFRAPI_PATH . 'libraries/datafeedr.php' );
 require_once( DFRAPI_PATH . 'libraries/zanox_client.php' );

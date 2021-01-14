@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define constants.
  */
-define( 'DFRAPI_VERSION', '1.1.0' );
+define( 'DFRAPI_VERSION', '1.1.1' );
 define( 'DFRAPI_URL', plugin_dir_url( __FILE__ ) );
 define( 'DFRAPI_PATH', plugin_dir_path( __FILE__ ) );
 define( 'DFRAPI_BASENAME', plugin_basename( __FILE__ ) );
@@ -58,6 +58,7 @@ function dfrapi_wp_version_notice() {
  * Load files for all pages.
  */
 require_once( DFRAPI_PATH . 'classes/class-datafeedr-plugin-dependency.php' );
+require_once( DFRAPI_PATH . 'classes/class-datafeedr-cron.php' );
 require_once( DFRAPI_PATH . 'classes/class-datafeedr-timer.php' );
 require_once( DFRAPI_PATH . 'classes/class-datafeedr-currency.php' );
 require_once( DFRAPI_PATH . 'classes/class-datafeedr-price.php' );

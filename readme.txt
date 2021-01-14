@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.7-alpha
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.1.1 - 2021/01/14 =
+* Added `Dfrapi_Cron` class.
 
 = 1.1.0 - 2021/01/11 =
 * Added warning to The Affiliate Gateway affiliate ID input area on Networks page if SID is not set.

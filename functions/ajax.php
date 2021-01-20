@@ -53,7 +53,7 @@ function dfrapi_test_api_connection() {
 		? __( 'Your connection to the Datafeedr API is working.', 'datafeedr-api' )
 		: $response->get_error_message();
 
-	printf( '<h2 style="color:%s">%s</h2><hr /><pre>%s</pre>', $color, $heading, esc_html( $message ) );
+	printf( '<h2 style="color:%s">%s</h2><hr /><pre>%s</pre>', esc_attr( $color ), esc_html( $heading ), esc_html( $message ) );
 
 	die;
 }

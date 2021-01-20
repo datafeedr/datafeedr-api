@@ -476,6 +476,15 @@ if ( ! class_exists( 'Dfrapi_Currency' ) ) {
 					'thousands_sep' => ',',
 					'name'          => __( 'Turkish Lira', 'datafeedr-api' ),
 				],
+				'UAH' => [
+					'symbol'        => 'грн',
+					'code'          => 'UAH',
+					'format'        => '{price} {symbol}',
+					'-format'       => '-{price} {symbol}',
+					'decimal_point' => '.',
+					'thousands_sep' => ' ',
+					'name'          => __( 'Ukrainian Hryvnia', 'datafeedr-api' ),
+				],
 				'USD' => [
 					'symbol'        => '$',
 					'code'          => 'USD',

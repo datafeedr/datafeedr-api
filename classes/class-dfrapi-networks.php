@@ -381,6 +381,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				'Partnerize'            => 'https://datafeedrapi.helpscoutdocs.com/article/195-how-to-find-your-partnerize-publisher-id-and-api-keys',
 				'PepperJam'             => 'https://datafeedrapi.helpscoutdocs.com/article/127-how-to-find-your-ebay-enterprise-affiliate-network-affiliate-id',
 				'PerformanceHorizon'    => 'https://datafeedrapi.helpscoutdocs.com/article/195-how-to-find-your-performance-horizon-publisher-id-and-api-keys',
+				'Profitshare'           => 'https://datafeedrapi.helpscoutdocs.com/article/242-how-to-find-your-profitshare-affiliate-id',
 				'RegNow'                => 'http://www.datafeedr.com/docs/item/111',
 				'RevResponse'           => 'https://datafeedrapi.helpscoutdocs.com/article/144-how-to-find-your-revresponse-affiliate-id',
 				'ShareASale'            => 'https://datafeedrapi.helpscoutdocs.com/article/126-how-to-find-your-shareasale-affiliate-id',

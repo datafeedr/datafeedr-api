@@ -371,7 +371,7 @@ class Datafeedr_Image_Importer {
 		$this->set_attachment_id( $result );
 		$this->set_post_thumbnail();
 		$this->set_alt_text();
-        $this->set_owner_source();
+		$this->set_owner_source();
 
 		/**
 		 * Do something when image import succeeds.
@@ -490,10 +490,38 @@ class Datafeedr_Image_Importer {
 			return $attachment_id;
 		}
 
-		// If the image does not have a width or height, return WP_Error.
+		$attachment_id = absint( $attachment_id );
+
+		if ( $attachment_id === 0 ) {
+			return new WP_Error( 'dfrapi_attachment_id_is_zero', __( 'Attachment ID is zero.', 'datafeedr' ) );
+		}
+
+		/**
+		 * Get attachment metadata just to confirm an image
+		 * was uploaded to the server properly.
+		 */
 		$meta = wp_get_attachment_metadata( $attachment_id );
-		if ( ! isset( $meta['width'], $meta['height'] ) ) {
-			return new WP_Error( 'http_no_image_width_or_height', __( 'Image data does not exist.', 'datafeedr' ) );
+
+		if ( ! $meta ) {
+			return new WP_Error( 'dfrapi_wp_get_attachment_metadata_returned_false', __( 'wp_get_attachment_metadata() returned false.', 'datafeedr' ) );
+		}
+
+		$width  = isset( $meta['width'] ) ? absint( $meta['width'] ) : 0;
+		$height = isset( $meta['width'] ) ? absint( $meta['height'] ) : 0;
+
+		// If the image width is 0, return WP_Error.
+		if ( $width === 0 ) {
+			return new WP_Error( 'dfrapi_attachment_width_is_zero', __( 'Attachment width is zero.', 'datafeedr' ) );
+		}
+
+		// If the image height is 0, return WP_Error.
+		if ( $height === 0 ) {
+			return new WP_Error( 'dfrapi_attachment_height_is_zero', __( 'Attachment height is zero.', 'datafeedr' ) );
+		}
+
+		// If the image is missing a file, return WP_Error.
+		if ( ! isset( $meta['file'] ) || empty( $meta['file'] ) ) {
+			return new WP_Error( 'dfrapi_attachment_has_no_file', __( 'Attachment has no file.', 'datafeedr' ) );
 		}
 
 		// If we made it this far, the image is valid so return the image's attachment ID.

@@ -1423,3 +1423,142 @@ function dfrapi_currency( $currency_code, $context = null ) {
 function dfrapi_get_price( $value, $currency_code, $context = null ) {
 	return dfrapi_price( $value, $currency_code, $context )->get_price();
 }
+
+/**
+ * Returns the string to use as the prefix for the ActionScheduler hook name.
+ *
+ * @return string
+ */
+function dfrapi_as_hook_prefix() {
+	return 'dfrapi_as_';
+}
+
+/**
+ * Formats and returns the hook name.
+ *
+ * @param string $hook
+ *
+ * @return string
+ */
+function dfrapi_as_hook_name( string $hook ) {
+	return dfrapi_as_hook_prefix() . trim( $hook );
+}
+
+/**
+ * Returns true is the ActionScheduler library exists otherwise returns WP_Error.
+ *
+ * The ActionScheduler ships with WooCommerce but can also be installed independently
+ * here: https://wordpress.org/plugins/action-scheduler/
+ *
+ * @return true|WP_Error
+ */
+function dfrapi_action_scheduler_exists() {
+	return function_exists( 'as_schedule_recurring_action' )
+		? true
+		: new WP_Error( 'dfrapi_action_scheduler_does_not_exist.', __( 'The ActionScheduler library does not exist.', 'datafeedr-api' ) );
+}
+
+/**
+ * Enqueue an action to run one time, as soon as possible
+ *
+ * @param string $hook
+ * @param array $args
+ * @param string $group
+ *
+ * @return string The action ID.
+ */
+function dfrapi_schedule_async_action( string $hook, array $args = [], string $group = 'datafeedr' ) {
+	return ( dfrapi_action_scheduler_exists() === true )
+		? as_enqueue_async_action( dfrapi_as_hook_name( $hook ), $args, $group )
+		: dfrapi_action_scheduler_exists();
+}
+
+/**
+ * Schedule an action to run one time
+ *
+ * @param int $timestamp
+ * @param string $hook
+ * @param array $args
+ * @param string $group
+ *
+ * @return string The action ID
+ */
+function dfrapi_schedule_single_action( int $timestamp, string $hook, array $args = [], string $group = 'datafeedr' ) {
+	return ( dfrapi_action_scheduler_exists() === true )
+		? as_schedule_single_action( $timestamp, dfrapi_as_hook_name( $hook ), $args, $group )
+		: dfrapi_action_scheduler_exists();
+}
+
+/**
+ * Schedule a recurring action using ActionScheduler.
+ *
+ * @param int $timestamp
+ * @param int $interval_in_seconds
+ * @param string $hook
+ * @param array $args
+ * @param string $group
+ *
+ * @return int|WP_Error The action ID or WP_Error if as_schedule_recurring_action() function does not exist.
+ */
+function dfrapi_schedule_recurring_action( int $timestamp, int $interval_in_seconds, string $hook, array $args = [], string $group = 'datafeedr' ) {
+	return ( dfrapi_action_scheduler_exists() === true )
+		? as_schedule_recurring_action( $timestamp, $interval_in_seconds, dfrapi_as_hook_name( $hook ), $args, $group )
+		: dfrapi_action_scheduler_exists();
+}
+
+/**
+ * Schedule an action that recurs on a cron-like schedule.
+ *
+ * @param int $timestamp The first instance of the action will be scheduled to run at a time calculated after this timestamp matching the cron expression. This can be used to delay the first instance of the action.
+ * @param string $schedule A cron-like schedule string (See: http://en.wikipedia.org/wiki/Cron)
+ *   *    *    *    *    *    *
+ *   ┬    ┬    ┬    ┬    ┬    ┬
+ *   |    |    |    |    |    |
+ *   |    |    |    |    |    + year [optional]
+ *   |    |    |    |    +----- day of week (0 - 7) (Sunday=0 or 7)
+ *   |    |    |    +---------- month (1 - 12)
+ *   |    |    +--------------- day of month (1 - 31)
+ *   |    +-------------------- hour (0 - 23)
+ *   +------------------------- min (0 - 59)
+ * @param string $hook
+ * @param array $args
+ * @param string $group
+ *
+ * @return int|WP_Error The action ID or WP_Error if as_schedule_cron_action() function does not exist.
+ */
+function dfrapi_schedule_cron_action( int $timestamp, string $schedule, string $hook, array $args = [], string $group = 'datafeedr' ) {
+	return ( dfrapi_action_scheduler_exists() === true )
+		? as_schedule_cron_action( $timestamp, $schedule, dfrapi_as_hook_name( $hook ), $args, $group )
+		: dfrapi_action_scheduler_exists();
+}
+
+/**
+ * Unschedule a scheduled action.
+ *
+ * @param string $hook
+ * @param array $args
+ * @param string $group
+ *
+ * @return string|null|WP_Error The scheduled action ID if a scheduled action was found, or null if no matching action found. WP_Error if as_ function doesn't exist.
+ */
+function dfrapi_unschedule_action( string $hook, array $args = [], string $group = 'datafeedr' ) {
+	return ( dfrapi_action_scheduler_exists() === true )
+		? as_unschedule_action( dfrapi_as_hook_name( $hook ), $args, $group )
+		: dfrapi_action_scheduler_exists();
+}
+
+/**
+ * Returns the timestamp for the next occurrence of a pending scheduled action,
+ * returns true for an async or in-progress action or false if there is no matching action.
+ *
+ * @param string $hook
+ * @param array $args
+ * @param string $group
+ *
+ * @return int|bool|WP_Error The timestamp for the next occurrence of a pending scheduled action, true for an async or in-progress action or false if there is no matching action. WP_Error if as_ function doesn't exist.
+ */
+function dfrapi_next_scheduled_action( string $hook, array $args = [], string $group = 'datafeedr' ) {
+	return ( dfrapi_action_scheduler_exists() === true )
+		? as_next_scheduled_action( dfrapi_as_hook_name( $hook ), $args, $group )
+		: dfrapi_action_scheduler_exists();
+}

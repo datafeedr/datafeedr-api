@@ -5,8 +5,8 @@ Tags: woocommerce, datafeedr, affiliate products, dfrapi, import csv, import dat
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
-Tested up to: 5.7-alpha
-Stable tag: 1.1.5
+Tested up to: 5.7-beta
+Stable tag: 1.2.0
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,10 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.2.0 - 2021/02/15 =
+* Added new [ActionScheduler](https://wordpress.org/plugins/action-scheduler/) wrapper functions.
+* Added more image verification checks to `Datafeedr_Image_Importer::media_sideload_image()` function.
 
 = 1.1.5 - 2021/02/01 =
 * Added new Size and Gender search filters to the Product Sets search form.

@@ -109,9 +109,9 @@ function dfrapi_api_get_query_param( $query, $param ) {
 		foreach ( $query as $k => $v ) {
 			if ( $v['field'] == $param ) {
 				return array(
-					'field'    => @$v['field'],
-					'operator' => @$v['operator'],
-					'value'    => @$v['value'],
+					'field'    => isset( $v['field'] ) ? $v['field'] : '',
+					'operator' => isset( $v['operator'] ) ? $v['operator'] : '',
+					'value'    => isset( $v['value'] ) ? $v['value'] : '',
 				);
 			}
 		}
@@ -749,6 +749,10 @@ function dfrapi_get_affiliate_id_for_effiliation_merchant( $merchant_id ) {
 	$merchants     = dfrapi_api_get_merchants_by_id( $merchant_id );
 	$merchant      = isset( $merchants[0] ) ? $merchants[0] : [ 'suids' => '' ];
 	$affiliate_ids = dfrapi_request_effiliation_affiliate_ids();
+
+	if ( is_wp_error( $affiliate_ids ) ) {
+		throw new Exception( 'Unable to query Effiliation at this time. Please try again in 15 minutes.' );
+	}
 
 	if ( ! isset( $affiliate_ids[ $merchant['suids'] ]['affiliate_id'] ) ) {
 		throw new Exception( 'Suid does not exist for affiliate ID.' );

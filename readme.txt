@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.7-beta
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,10 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.2.1 - 2021/02/18 =
+* Remove `@` from `dfrapi_api_get_query_param()` function.
+* Fixed issue where `dfrapi_request_effiliation_affiliate_ids()` returns WP_Error and was not handled properly.
 
 = 1.2.0 - 2021/02/15 =
 * Added new [ActionScheduler](https://wordpress.org/plugins/action-scheduler/) wrapper functions.

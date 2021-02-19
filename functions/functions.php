@@ -1562,3 +1562,70 @@ function dfrapi_next_scheduled_action( string $hook, array $args = [], string $g
 		? as_next_scheduled_action( dfrapi_as_hook_name( $hook ), $args, $group )
 		: dfrapi_action_scheduler_exists();
 }
+
+/**
+ * Returns true if the Jetpack::class exists.
+ *
+ * @return bool
+ */
+function dfrapi_jetpack_exists() {
+	return class_exists( Jetpack::class, false );
+}
+
+/**
+ * Returns true if "Speed up image load times" is ON here:
+ * WordPress Admin Area > Jetpack > Settings > Performance > Performance & speed
+ *
+ * @return bool
+ */
+function dfrapi_jetpack_photon_module_is_active() {
+	return dfrapi_jetpack_exists() ? in_array( 'photon', Jetpack::get_active_modules() ) : false;
+}
+
+/**
+ * Returns true if "Speed up static file load times" is ON here:
+ * WordPress Admin Area > Jetpack > Settings > Performance > Performance & speed
+ *
+ * @return bool
+ */
+function dfrapi_jetpack_photon_cdn_module_is_active() {
+	return dfrapi_jetpack_exists() ? in_array( 'photon-cdn', Jetpack::get_active_modules() ) : false;
+}
+
+/**
+ * @param string $image_url URL to the publicly accessible image you want to manipulate.
+ * @param array|string $args An array of arguments, i.e. array( 'w' => '300', 'resize' => array( 123, 456 ) ), or in string form (w=123&h=456).
+ * @param string|null $scheme URL protocol.
+ * @param string|null $context Contextual params to tweak params sent to jetpack_photon_url()
+ *
+ * @return false|string
+ */
+function dfrapi_jetpack_photon_url( $image_url, $args = array(), $scheme = null, $context = null ) {
+
+	if ( ! dfrapi_jetpack_exists() ) {
+		return $image_url;
+	}
+
+	$jetpack_photon_any_extension_for_domain   = boolval( apply_filters( 'dfrapi_jetpack_photon_any_extension_for_domain', $image_url, $args, $scheme, $context ) );
+	$jetpack_photon_add_query_string_to_domain = boolval( apply_filters( 'dfrapi_jetpack_photon_add_query_string_to_domain', $image_url, $args, $scheme, $context ) );
+
+	add_filter( 'jetpack_photon_any_extension_for_domain', function () use ( $jetpack_photon_any_extension_for_domain ) {
+		return $jetpack_photon_any_extension_for_domain;
+	} );
+
+	add_filter( 'jetpack_photon_add_query_string_to_domain', function () use ( $jetpack_photon_add_query_string_to_domain ) {
+		return $jetpack_photon_add_query_string_to_domain;
+	} );
+
+	$photon_url = jetpack_photon_url( $image_url, $args, $scheme );
+
+	remove_filter( 'jetpack_photon_any_extension_for_domain', function () use ( $jetpack_photon_any_extension_for_domain ) {
+		return $jetpack_photon_any_extension_for_domain;
+	} );
+
+	remove_filter( 'jetpack_photon_add_query_string_to_domain', function () use ( $jetpack_photon_add_query_string_to_domain ) {
+		return $jetpack_photon_add_query_string_to_domain;
+	} );
+
+	return $photon_url;
+}

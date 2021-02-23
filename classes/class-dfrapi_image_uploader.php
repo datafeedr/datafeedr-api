@@ -1,21 +1,12 @@
 <?php
 
-//$post_data = new Dfrapi_Image_Post_Data();
-//$uploader  = new Dfrapi_Image_Uploader( 'https://www.geargrabber.net/', $post_data );
-//
-//$uploader->upload();
 
 class Dfrapi_Image_Uploader {
 
 	/**
-	 * @var string $image_url URL of external image to download and import into Media Library.
+	 * @var Dfrapi_Image_Data $image_data
 	 */
-	public $image_url;
-
-	/**
-	 * @var Dfrapi_Image_Post_Data $post_data
-	 */
-	public $post_data;
+	public $image_data;
 
 	/**
 	 * @var int $timeout The amount of time in seconds to wait for an image to be downloaded.
@@ -35,12 +26,10 @@ class Dfrapi_Image_Uploader {
 	/**
 	 * Dfrapi_Image_Uploader constructor.
 	 *
-	 * @param string $image_url
-	 * @param Dfrapi_Image_Post_Data $post_data
+	 * @param Dfrapi_Image_Data $image_data
 	 */
-	public function __construct( string $image_url, Dfrapi_Image_Post_Data $post_data ) {
-		$this->image_url = $image_url;
-		$this->post_data = $post_data;
+	public function __construct( Dfrapi_Image_Data $image_data ) {
+		$this->image_data = $image_data;
 	}
 
 	/**
@@ -60,52 +49,70 @@ class Dfrapi_Image_Uploader {
 
 		$attachment_id = $this->sideload_image();
 
+		// If sideload returned a WP_Error, return it.
 		if ( is_wp_error( $attachment_id ) ) {
 			return $attachment_id;
 		}
 
 		// Maybe set as featured image.
 		if ( $featured ) {
-			set_post_thumbnail( $this->post_data->get_post_parent_id(), $attachment_id );
+			set_post_thumbnail( $this->image_data->get_post_parent_id(), $attachment_id );
 		}
 
 		// Maybe update alternative text field.
-		if ( $this->post_data->get_alternative_text() ) {
-			update_post_meta( $attachment_id, '_wp_attachment_image_alt', sanitize_text_field( $this->post_data->get_alternative_text() ) );
+		if ( $this->image_data->get_alternative_text() ) {
+			update_post_meta( $attachment_id, '_wp_attachment_image_alt', sanitize_text_field( $this->image_data->get_alternative_text() ) );
 		}
 
 		return $attachment_id;
 	}
 
 	/**
+	 * Upload the image and if successful, import into Media Library.
+	 *
 	 * @return int|WP_Error The ID of the attachment or a WP_Error on failure.
 	 */
 	private function sideload_image() {
 
-		// @todo be sure to handle unlinking the original file.
-		$tmp_name = download_url( $this->image_url, $this->timeout );
+		$tmp_name = download_url( $this->image_data->get_image_url(), $this->timeout );
 
 		if ( is_wp_error( $tmp_name ) ) {
+			$this->unlink_tmp_file( $tmp_name );
+
 			return $tmp_name;
 		}
 
 		$mime_type = wp_get_image_mime( $tmp_name );
 
+		error_log( '$mime_type' . ': ' . print_r( $mime_type, true ) );
+		error_log( 'getimagesize($tmp_name)' . ': ' . print_r( getimagesize( $tmp_name ), true ) );
+
 		if ( ! $mime_type ) {
+			$this->unlink_tmp_file( $tmp_name );
+
 			return new WP_Error(
 				'mime_type_indeterminable',
 				__( 'The true mime type cannot be determined for this image.', 'datafeedr-api' ),
-				[ 'Dfrapi_Image_Uploader' => $this ]
+				[
+					'$image_url'   => $this->image_data->get_image_url(),
+					'$post_parent' => $this->image_data->get_post_parent_id(),
+				]
 			);
 		}
 
 		if ( ! in_array( $mime_type, array_keys( $this->extensions() ) ) ) {
+			$this->unlink_tmp_file( $tmp_name );
+
 			return new WP_Error(
 				'mime_type_invalid',
 				sprintf( __( 'The mime type "%s" is not a valid mime type for an image.', 'datafeedr-api' ), esc_html( $mime_type ) ),
-				[ 'Dfrapi_Image_Uploader' => $this ]
+				[
+					'$image_url'   => $this->image_data->get_image_url(),
+					'$post_parent' => $this->image_data->get_post_parent_id(),
+				]
 			);
 		}
+
 
 		$extension = $this->extensions()[ $mime_type ];
 
@@ -114,18 +121,17 @@ class Dfrapi_Image_Uploader {
 
 		add_filter( 'wp_check_filetype_and_ext', [ $this, 'set_missing_extension_or_mime_type' ] );
 
-		$filename = ( is_null( $this->post_data->get_filename() ) ) ? ( $tmp_name ) : $this->post_data->get_filename();
-		$title    = ( is_null( $this->post_data->get_title() ) ) ? ( $tmp_name ) : $this->post_data->get_title();
-
 		$attachment_id = media_handle_sideload(
 			[
-				'name'     => $this->post_data->get_filename( $tmp_name ) . '.' . $extension,
+				'name'     => $this->image_data->get_filename() . '.' . $extension,
 				'tmp_name' => $tmp_name,
 			],
-			$this->post_data->get_post_parent_id(),
-			$this->post_data->get_title(),
-			$this->post_data->get_post_array()
+			$this->image_data->get_post_parent_id(),
+			$this->image_data->get_title(),
+			$this->image_data->get_post_array()
 		);
+
+		$this->unlink_tmp_file( $tmp_name );
 
 		remove_filter( 'wp_check_filetype_and_ext', [ $this, 'set_missing_extension_or_mime_type' ] );
 
@@ -173,6 +179,9 @@ class Dfrapi_Image_Uploader {
 	 * @return array
 	 */
 	private function extensions() {
+
+		// @todo use wp_get_ext_types() and wp_get_mime_types()
+
 		return [
 			'image/jpeg' => 'jpg',
 			'image/jpg'  => 'jpg',
@@ -183,5 +192,14 @@ class Dfrapi_Image_Uploader {
 			'image/tiff' => 'tif',
 			'image/webp' => 'webp',
 		];
+	}
+
+	/**
+	 * Safely unlink a temporary file.
+	 *
+	 * @param string $tmp_name
+	 */
+	public function unlink_tmp_file( string $tmp_name ) {
+		@unlink( $tmp_name );
 	}
 }

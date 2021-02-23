@@ -63,7 +63,7 @@ require_once( DFRAPI_PATH . 'classes/class-datafeedr-timer.php' );
 require_once( DFRAPI_PATH . 'classes/class-datafeedr-currency.php' );
 require_once( DFRAPI_PATH . 'classes/class-datafeedr-price.php' );
 require_once( DFRAPI_PATH . 'classes/class-datafeedr-image-importer.php' );
-require_once( DFRAPI_PATH . 'classes/class-dfrapi_image_post_data.php' );
+require_once( DFRAPI_PATH . 'classes/class-dfrapi_image_data.php' );
 require_once( DFRAPI_PATH . 'classes/class-dfrapi_image_uploader.php' );
 require_once( DFRAPI_PATH . 'functions/functions.php' );
 require_once( DFRAPI_PATH . 'functions/upgrade.php' );

@@ -74,18 +74,20 @@ class Dfrapi_Image_Uploader {
 	 */
 	private function sideload_image() {
 
-		$tmp_name = download_url( $this->image_data->get_image_url(), $this->timeout );
+		// This is our first attempt to download the image (without modified HTTP request args).
+		$tmp_name = $this->download_url();
 
+		// If our first attempt to download the image URL fails, try again with $with_request_filters set to true.
 		if ( is_wp_error( $tmp_name ) ) {
-			$this->unlink_tmp_file( $tmp_name );
+			$tmp_name = $this->download_url( true );
+		}
 
+		// If $tmp_name is still a WP_Error then bail, for some reason we can't download this image.
+		if ( is_wp_error( $tmp_name ) ) {
 			return $tmp_name;
 		}
 
 		$mime_type = wp_get_image_mime( $tmp_name );
-
-		error_log( '$mime_type' . ': ' . print_r( $mime_type, true ) );
-		error_log( 'getimagesize($tmp_name)' . ': ' . print_r( getimagesize( $tmp_name ), true ) );
 
 		if ( ! $mime_type ) {
 			$this->unlink_tmp_file( $tmp_name );
@@ -100,7 +102,7 @@ class Dfrapi_Image_Uploader {
 			);
 		}
 
-		if ( ! in_array( $mime_type, array_keys( $this->extensions() ) ) ) {
+		if ( ! in_array( $mime_type, array_keys( $this->mime_types_and_extensions() ) ) ) {
 			$this->unlink_tmp_file( $tmp_name );
 
 			return new WP_Error(
@@ -113,17 +115,14 @@ class Dfrapi_Image_Uploader {
 			);
 		}
 
-
-		$extension = $this->extensions()[ $mime_type ];
-
 		$this->mime_type = $mime_type;
-		$this->extension = $extension;
+		$this->extension = $this->mime_types_and_extensions()[ $mime_type ];
 
 		add_filter( 'wp_check_filetype_and_ext', [ $this, 'set_missing_extension_or_mime_type' ] );
 
 		$attachment_id = media_handle_sideload(
 			[
-				'name'     => $this->image_data->get_filename() . '.' . $extension,
+				'name'     => $this->image_data->get_filename() . '.' . $this->extension,
 				'tmp_name' => $tmp_name,
 			],
 			$this->image_data->get_post_parent_id(),
@@ -139,12 +138,56 @@ class Dfrapi_Image_Uploader {
 	}
 
 	/**
-	 * Set the amount of time to process download_url() function.
+	 * This is a wrapper for the download_url() function. If $with_request_filters is enabled, that
+	 * means we will add filters to the "http_request_args" in order to change the request
+	 * with the hopes of bypassing any access controls (403) permission issues.
 	 *
-	 * @param int $timeout
+	 * @param false $with_request_filters Set to true to modify HTTP request args before request.
+	 *
+	 * @return string|WP_Error The name of the temporary file or WP_Error on failure.
 	 */
-	public function set_timeout( $timeout = 5 ) {
-		$this->timeout = absint( $timeout );
+	public function download_url( $with_request_filters = false ) {
+
+		if ( $with_request_filters ) {
+			add_filter( 'http_request_args', [ $this, 'modify_http_request_args' ], 10, 2 );
+		}
+
+		$tmp_name = download_url( $this->image_data->get_image_url(), $this->timeout );
+
+		if ( $with_request_filters ) {
+			remove_filter( 'http_request_args', [ $this, 'modify_http_request_args' ] );
+		}
+
+		return $tmp_name;
+	}
+
+	/**
+	 * Modify the arguments sent in the HTTP request to download the image.
+	 *
+	 * These are used in the WP_Http::request() method which is called by the download_url() function.
+	 *
+	 * @param array $default_args
+	 * @param string $url
+	 *
+	 * @return array
+	 */
+	public function modify_http_request_args( array $default_args, string $url ) {
+
+		$custom_args = [
+			'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0',
+			'stream'     => true,
+			'sslverify'  => false,
+		];
+
+		$custom_args = apply_filters(
+			'dfrapi_image_uploader_custom_request_args',
+			$custom_args,
+			$default_args,
+			$url,
+			$this
+		);
+
+		return array_merge( $default_args, $custom_args );
 	}
 
 	/**
@@ -174,24 +217,32 @@ class Dfrapi_Image_Uploader {
 	}
 
 	/**
+	 * Set the amount of time to process download_url() function.
+	 *
+	 * @param int $timeout
+	 */
+	public function set_timeout( $timeout = 5 ) {
+		$this->timeout = absint( $timeout );
+	}
+
+	/**
 	 * An array of image mime types and their respective extensions.
 	 *
 	 * @return array
 	 */
-	private function extensions() {
-
-		// @todo use wp_get_ext_types() and wp_get_mime_types()
-
-		return [
-			'image/jpeg' => 'jpg',
-			'image/jpg'  => 'jpg',
-			'image/jpe'  => 'jpg',
-			'image/png'  => 'png',
-			'image/gif'  => 'gif',
-			'image/bmp'  => 'bmp',
-			'image/tiff' => 'tif',
-			'image/webp' => 'webp',
-		];
+	private function mime_types_and_extensions() {
+		return apply_filters( 'dfrapi_image_uploader_mime_types_and_extensions', [
+			'image/jpeg'   => 'jpg',
+			'image/jpg'    => 'jpg',
+			'image/jpe'    => 'jpg',
+			'image/png'    => 'png',
+			'image/gif'    => 'gif',
+			'image/bmp'    => 'bmp',
+			'image/tiff'   => 'tif',
+			'image/webp'   => 'webp',
+			'image/x-icon' => 'ico',
+			'image/heic'   => 'heic',
+		], $this );
 	}
 
 	/**

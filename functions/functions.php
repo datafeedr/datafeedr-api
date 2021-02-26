@@ -729,14 +729,90 @@ function dfrapi_get_total_products_in_db( $formatted = true, $default = 0 ) {
  * Imports an image from a URL into the WordPress Media Library.
  *
  * @param string $url Image URL.
- * @param array $args Optional. An array of options. See Datafeedr_Image_Importer::default_args()
+ * @param array $args Optional. An array of options.
  *
- * @return Datafeedr_Image_Importer
+ * $args = array(
+ *
+ *      This is the ID of the post we want to attach this image to. If we do not
+ *      want this image to be attached to a post, leave this set to 0.
+ *      'post_id' => 0,
+ *
+ *      This is name of the file name the image will have once it is stored on
+ *      on the server in the WordPress uploads directory.
+ *      'file_name' => '',
+ *
+ *      This is the ID of the User this image will be associated with.
+ *      'user_id' => 0,
+ *
+ *      This is the title of the image (which is different than the file name).
+ *      'title' => '',
+ *
+ *      The description of the image.
+ *      'description' => '',
+ *
+ *      The caption for the image.
+ *      'caption' => '',
+ *
+ *      The alt text. Text to display if image cannot be loaded.
+ *      'alt_text' => '',
+ *
+ *      Whether this image should be set as the post's thumbnail. If the post_id is 0, this setting will be ignored.
+ *      'is_post_thumbnail' => false,
+ *
+ *      The number of seconds to spend attempting to download the image.
+ *      'timeout' => 5
+ *
+ *      Sets the image's owner and source. _owner_datafeedr : dfrapi
+ *      '_source_plugin' => 'dfrapi'
+ * );
+ *
+ * @return Datafeedr_Image_Importer|int|WP_Error
+ * @since 1.2.2 Will return either the Attachment ID or WP_Error if there was an error importing the image.
+ *
  * @since 1.0.71
- *
  */
-function datafeedr_import_image( $url, $args = array() ) {
-	return ( new Datafeedr_Image_Importer( $url, $args ) )->import();
+function datafeedr_import_image( $url, $args = [] ) {
+
+	if ( apply_filters( 'dfrapi_use_legacy_image_importer', false ) ) {
+		return ( new Datafeedr_Image_Importer( $url, $args ) )->import();
+	}
+
+	$default_args = [
+		'title'             => '',
+		'file_name'         => '',
+		'description'       => '',
+		'caption'           => '',
+		'alt_text'          => '',
+		'user_id'           => 0,
+		'post_id'           => 0,
+		'is_post_thumbnail' => true,
+		'timeout'           => 5,
+		'_source_plugin'    => 'dfrapi',
+	];
+
+	$args = array_merge( $default_args, $args );
+
+	$image_data = dfrapi_image_data( $url );
+
+	$image_data->set_title( $args['title'] );
+	$image_data->set_filename( $args['file_name'] );
+	$image_data->set_description( $args['description'] );
+	$image_data->set_caption( $args['caption'] );
+	$image_data->set_alternative_text( $args['alt_text'] );
+	$image_data->set_author_id( absint( $args['user_id'] ) );
+	$image_data->set_post_parent_id( absint( $args['post_id'] ) );
+
+	$uploader = dfrapi_image_uploader( $image_data );
+
+	$uploader->set_timeout( absint( $args['timeout'] ) );
+
+	$attachment_id = $uploader->upload( boolval( $args['is_post_thumbnail'] ) );
+
+	if ( ! is_wp_error( $attachment_id ) ) {
+		update_post_meta( $attachment_id, '_owner_datafeedr', sanitize_text_field( $args['_source_plugin'] ) );
+	}
+
+	return $attachment_id;
 }
 
 /**
@@ -1422,6 +1498,28 @@ function dfrapi_currency( $currency_code, $context = null ) {
  */
 function dfrapi_get_price( $value, $currency_code, $context = null ) {
 	return dfrapi_price( $value, $currency_code, $context )->get_price();
+}
+
+/**
+ * Returns an instance of the Dfrapi_Image_Data class.
+ *
+ * @param string $url The URL we will be uploading.
+ *
+ * @return Dfrapi_Image_Data
+ */
+function dfrapi_image_data( $url ) {
+	return new Dfrapi_Image_Data( $url );
+}
+
+/**
+ * Returns an instance of the Dfrapi_Image_Uploader class.
+ *
+ * @param Dfrapi_Image_Data $image_data
+ *
+ * @return Dfrapi_Image_Uploader
+ */
+function dfrapi_image_uploader( Dfrapi_Image_Data $image_data ) {
+	return new Dfrapi_Image_Uploader( $image_data );
 }
 
 /**

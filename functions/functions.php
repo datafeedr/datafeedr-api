@@ -773,7 +773,7 @@ function dfrapi_get_total_products_in_db( $formatted = true, $default = 0 ) {
  */
 function datafeedr_import_image( $url, $args = [] ) {
 
-	if ( apply_filters( 'dfrapi_use_legacy_image_importer', false ) ) {
+	if ( dfrapi_use_legacy_image_importer() ) {
 		return ( new Datafeedr_Image_Importer( $url, $args ) )->import();
 	}
 
@@ -1671,6 +1671,24 @@ function dfrapi_jetpack_exists() {
 }
 
 /**
+ * Returns true is Jetpack is active, otherwise returns false.
+ *
+ * @return bool
+ */
+function dfrapi_jetpack_is_active() {
+	return dfrapi_jetpack_exists() ? Jetpack::is_active() : false;
+}
+
+/**
+ * Returns true if Jetpack is in Dev/Debug mode.
+ *
+ * @return bool
+ */
+function dfrapi_jetpack_is_in_dev_mode() {
+	return dfrapi_jetpack_exists() ? defined( 'JETPACK_DEV_DEBUG' ) && JETPACK_DEV_DEBUG === true : false;
+}
+
+/**
  * Returns true if "Speed up image load times" is ON here:
  * WordPress Admin Area > Jetpack > Settings > Performance > Performance & speed
  *
@@ -1698,32 +1716,50 @@ function dfrapi_jetpack_photon_cdn_module_is_active() {
  *
  * @return false|string
  */
-function dfrapi_jetpack_photon_url( $image_url, $args = array(), $scheme = null, $context = null ) {
+function dfrapi_jetpack_photon_url( $image_url, $args = [], $scheme = null, $context = null ) {
 
-	if ( ! dfrapi_jetpack_exists() ) {
+	if ( ! dfrapi_jetpack_is_active() && ! dfrapi_jetpack_is_in_dev_mode() ) {
 		return $image_url;
 	}
 
-	$jetpack_photon_any_extension_for_domain   = boolval( apply_filters( 'dfrapi_jetpack_photon_any_extension_for_domain', $image_url, $args, $scheme, $context ) );
-	$jetpack_photon_add_query_string_to_domain = boolval( apply_filters( 'dfrapi_jetpack_photon_add_query_string_to_domain', $image_url, $args, $scheme, $context ) );
+	// @todo come back to these filters...
 
-	add_filter( 'jetpack_photon_any_extension_for_domain', function () use ( $jetpack_photon_any_extension_for_domain ) {
-		return $jetpack_photon_any_extension_for_domain;
-	} );
+	$add_query_string = boolval( apply_filters( 'dfrapi_jetpack_photon_add_query_string_to_domain', false, $image_url, $args, $scheme, $context ) );
 
-	add_filter( 'jetpack_photon_add_query_string_to_domain', function () use ( $jetpack_photon_add_query_string_to_domain ) {
-		return $jetpack_photon_add_query_string_to_domain;
-	} );
+	add_filter( 'jetpack_photon_add_query_string_to_domain', 'dfrapi_jetpack_photon_add_query_string_to_domain', 10, 2 );
+
+//	add_filter( 'jetpack_photon_add_query_string_to_domain', function ( $add_query_string, $host ) use ( $image_url, $args, $scheme, $context ) {
+//		return boolval( apply_filters( 'dfrapi_jetpack_photon_add_query_string_to_domain', $add_query_string, $host, $image_url, $args, $scheme, $context ) );
+//	}, 10, 2 );
 
 	$photon_url = jetpack_photon_url( $image_url, $args, $scheme );
 
-	remove_filter( 'jetpack_photon_any_extension_for_domain', function () use ( $jetpack_photon_any_extension_for_domain ) {
-		return $jetpack_photon_any_extension_for_domain;
-	} );
+//	remove_filter( 'jetpack_photon_add_query_string_to_domain', function ( $add_query_string, $host ) {
+//	}, 10, 2 );
 
-	remove_filter( 'jetpack_photon_add_query_string_to_domain', function () use ( $jetpack_photon_add_query_string_to_domain ) {
-		return $jetpack_photon_add_query_string_to_domain;
-	} );
+//	remove_filter( 'jetpack_photon_any_extension_for_domain', function () use ( $jetpack_photon_any_extension_for_domain ) {
+//		return $jetpack_photon_any_extension_for_domain;
+//	} );
+
+//	remove_filter( 'jetpack_photon_add_query_string_to_domain', function () use ( $jetpack_photon_add_query_string_to_domain ) {
+//		return $jetpack_photon_add_query_string_to_domain;
+//	} );
 
 	return $photon_url;
+}
+
+function dfrapi_jetpack_photon_add_query_string_to_domain( $add_query_string, $host ) {
+	error_log( '$add_query_string' . ': ' . print_r( $add_query_string, true ) );
+	error_log( '$host' . ': ' . print_r( $host, true ) );
+
+	return $add_query_string;
+}
+
+/**
+ * Whether to use the legacy image importer. Default false.
+ *
+ * @return bool
+ */
+function dfrapi_use_legacy_image_importer() {
+	return boolval( apply_filters( 'dfrapi_use_legacy_image_importer', false ) );
 }

@@ -51,6 +51,10 @@ class Dfrapi_Image_Uploader {
 
 		// If sideload returned a WP_Error, return it.
 		if ( is_wp_error( $attachment_id ) ) {
+			$attachment_id->add_data( $this->image_data->get_image_url(), 'image_url' );
+			$attachment_id->add_data( $this->image_data->get_post_parent_id(), 'post_parent' );
+			$attachment_id->add_data( $this->image_data->get_title(), 'post_title' );
+
 			return $attachment_id;
 		}
 
@@ -75,11 +79,20 @@ class Dfrapi_Image_Uploader {
 	private function sideload_image() {
 
 		// This is our first attempt to download the image (without modified HTTP request args).
-		$tmp_name = $this->download_url();
+		$tmp_name = $this->download_url( $this->image_data->get_image_url() );
 
 		// If our first attempt to download the image URL fails, try again with $with_request_filters set to true.
 		if ( is_wp_error( $tmp_name ) ) {
-			$tmp_name = $this->download_url( true );
+			$tmp_name = $this->download_url( $this->image_data->get_image_url(), true );
+		}
+
+		// This is our last attempt to download image using a Jetpack Photon URL (if Jetpack is active).
+		if ( is_wp_error( $tmp_name ) ) {
+			$photon_image_url = dfrapi_jetpack_photon_url( $this->image_data->get_image_url(), [], null, $this );
+
+			if ( $photon_image_url !== $this->image_data->get_image_url() ) {
+				$tmp_name = $this->download_url( $photon_image_url );
+			}
 		}
 
 		// If $tmp_name is still a WP_Error then bail, for some reason we can't download this image.
@@ -142,17 +155,18 @@ class Dfrapi_Image_Uploader {
 	 * means we will add filters to the "http_request_args" in order to change the request
 	 * with the hopes of bypassing any access controls (403) permission issues.
 	 *
+	 * @param string $image_url The image URL to download.
 	 * @param false $with_request_filters Set to true to modify HTTP request args before request.
 	 *
 	 * @return string|WP_Error The name of the temporary file or WP_Error on failure.
 	 */
-	public function download_url( $with_request_filters = false ) {
+	public function download_url( string $image_url, $with_request_filters = false ) {
 
 		if ( $with_request_filters ) {
 			add_filter( 'http_request_args', [ $this, 'modify_http_request_args' ], 10, 2 );
 		}
 
-		$tmp_name = download_url( $this->image_data->get_image_url(), $this->timeout );
+		$tmp_name = download_url( $image_url, $this->timeout );
 
 		if ( $with_request_filters ) {
 			remove_filter( 'http_request_args', [ $this, 'modify_http_request_args' ] );

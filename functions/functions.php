@@ -1503,11 +1503,11 @@ function dfrapi_get_price( $value, $currency_code, $context = null ) {
 /**
  * Returns an instance of the Dfrapi_Image_Data class.
  *
- * @param string $url The URL we will be uploading.
+ * @param string $url The URL of the image we will be uploading.
  *
  * @return Dfrapi_Image_Data
  */
-function dfrapi_image_data( $url ) {
+function dfrapi_image_data( string $url ) {
 	return new Dfrapi_Image_Data( $url );
 }
 
@@ -1712,47 +1712,16 @@ function dfrapi_jetpack_photon_cdn_module_is_active() {
  * @param string $image_url URL to the publicly accessible image you want to manipulate.
  * @param array|string $args An array of arguments, i.e. array( 'w' => '300', 'resize' => array( 123, 456 ) ), or in string form (w=123&h=456).
  * @param string|null $scheme URL protocol.
- * @param string|null $context Contextual params to tweak params sent to jetpack_photon_url()
  *
  * @return false|string
  */
-function dfrapi_jetpack_photon_url( $image_url, $args = [], $scheme = null, $context = null ) {
+function dfrapi_jetpack_photon_url( $image_url, $args = [], $scheme = null ) {
 
 	if ( ! dfrapi_jetpack_is_active() && ! dfrapi_jetpack_is_in_dev_mode() ) {
 		return $image_url;
 	}
 
-	// @todo come back to these filters...
-
-	$add_query_string = boolval( apply_filters( 'dfrapi_jetpack_photon_add_query_string_to_domain', false, $image_url, $args, $scheme, $context ) );
-
-	add_filter( 'jetpack_photon_add_query_string_to_domain', 'dfrapi_jetpack_photon_add_query_string_to_domain', 10, 2 );
-
-//	add_filter( 'jetpack_photon_add_query_string_to_domain', function ( $add_query_string, $host ) use ( $image_url, $args, $scheme, $context ) {
-//		return boolval( apply_filters( 'dfrapi_jetpack_photon_add_query_string_to_domain', $add_query_string, $host, $image_url, $args, $scheme, $context ) );
-//	}, 10, 2 );
-
-	$photon_url = jetpack_photon_url( $image_url, $args, $scheme );
-
-//	remove_filter( 'jetpack_photon_add_query_string_to_domain', function ( $add_query_string, $host ) {
-//	}, 10, 2 );
-
-//	remove_filter( 'jetpack_photon_any_extension_for_domain', function () use ( $jetpack_photon_any_extension_for_domain ) {
-//		return $jetpack_photon_any_extension_for_domain;
-//	} );
-
-//	remove_filter( 'jetpack_photon_add_query_string_to_domain', function () use ( $jetpack_photon_add_query_string_to_domain ) {
-//		return $jetpack_photon_add_query_string_to_domain;
-//	} );
-
-	return $photon_url;
-}
-
-function dfrapi_jetpack_photon_add_query_string_to_domain( $add_query_string, $host ) {
-	error_log( '$add_query_string' . ': ' . print_r( $add_query_string, true ) );
-	error_log( '$host' . ': ' . print_r( $host, true ) );
-
-	return $add_query_string;
+	return jetpack_photon_url( $image_url, $args, $scheme );
 }
 
 /**

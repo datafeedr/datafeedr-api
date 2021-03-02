@@ -1,6 +1,5 @@
 <?php
 
-
 class Dfrapi_Image_Uploader {
 
 	/**
@@ -49,7 +48,7 @@ class Dfrapi_Image_Uploader {
 
 		$attachment_id = $this->sideload_image();
 
-		// If sideload returned a WP_Error, return it.
+		// If sideload returned a WP_Error, add some extra data to the error object and return it.
 		if ( is_wp_error( $attachment_id ) ) {
 			$attachment_id->add_data( $this->image_data->get_image_url(), 'image_url' );
 			$attachment_id->add_data( $this->image_data->get_post_parent_id(), 'post_parent' );
@@ -74,6 +73,14 @@ class Dfrapi_Image_Uploader {
 	/**
 	 * Upload the image and if successful, import into Media Library.
 	 *
+	 * This method will make 2 or 3 attempts to download the image.
+	 *
+	 * First Attempt: Try to download the image with the standard HTTP requests args.
+	 * Second Attempt: Try to download the image with the modified HTTP requests args.
+	 * Third Attempt: If Jetpack is activated, try to download the image using a Jetpack Photon URL.
+	 *
+	 * If all 3 attempts fail, return a WP_Error.
+	 *
 	 * @return int|WP_Error The ID of the attachment or a WP_Error on failure.
 	 */
 	private function sideload_image() {
@@ -88,8 +95,9 @@ class Dfrapi_Image_Uploader {
 
 		// This is our last attempt to download image using a Jetpack Photon URL (if Jetpack is active).
 		if ( is_wp_error( $tmp_name ) ) {
-			$photon_image_url = dfrapi_jetpack_photon_url( $this->image_data->get_image_url(), [], null, $this );
+			$photon_image_url = dfrapi_jetpack_photon_url( $this->image_data->get_image_url() );
 
+			// Make sure the photon image URL is different than the URL of the image we are attempting to download.
 			if ( $photon_image_url !== $this->image_data->get_image_url() ) {
 				$tmp_name = $this->download_url( $photon_image_url );
 			}
@@ -194,7 +202,7 @@ class Dfrapi_Image_Uploader {
 		];
 
 		$custom_args = apply_filters(
-			'dfrapi_image_uploader_custom_request_args',
+			'dfrapi_image_uploader_custom_http_request_args',
 			$custom_args,
 			$default_args,
 			$url,
@@ -205,7 +213,7 @@ class Dfrapi_Image_Uploader {
 	}
 
 	/**
-	 * Sets the image's missing extension or mime type if they are missing.
+	 * Sets the image's extension or mime type if either are missing.
 	 *
 	 * This is required for processing image URLs which aren't formatted with a traditional
 	 * extension such as .jpg or .png. For example, if the image URL uses a query string or is

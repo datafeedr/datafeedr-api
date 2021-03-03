@@ -5,8 +5,8 @@ Tags: woocommerce, datafeedr, affiliate products, dfrapi, import csv, import dat
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
-Tested up to: 5.7-beta
-Stable tag: 1.2.1
+Tested up to: 5.7-RC2
+Stable tag: 1.2.2
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,10 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.2.2 - 2021/03/03 =
+* Complete rewrite of image importer.
+* Added support for Jetpack Photon library when importing 'difficult' images and when Jetpack is active.
 
 = 1.2.1 - 2021/02/18 =
 * Remove `@` from `dfrapi_api_get_query_param()` function.

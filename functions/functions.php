@@ -729,14 +729,95 @@ function dfrapi_get_total_products_in_db( $formatted = true, $default = 0 ) {
  * Imports an image from a URL into the WordPress Media Library.
  *
  * @param string $url Image URL.
- * @param array $args Optional. An array of options. See Datafeedr_Image_Importer::default_args()
+ * @param array $args Optional. An array of options.
  *
- * @return Datafeedr_Image_Importer
+ * $args = array(
+ *
+ *      This is the ID of the post we want to attach this image to. If we do not
+ *      want this image to be attached to a post, leave this set to 0.
+ *      'post_id' => 0,
+ *
+ *      This is name of the file name the image will have once it is stored on
+ *      on the server in the WordPress uploads directory.
+ *      'file_name' => '',
+ *
+ *      This is the ID of the User this image will be associated with.
+ *      'user_id' => 0,
+ *
+ *      This is the title of the image (which is different than the file name).
+ *      'title' => '',
+ *
+ *      The description of the image.
+ *      'description' => '',
+ *
+ *      The caption for the image.
+ *      'caption' => '',
+ *
+ *      The alt text. Text to display if image cannot be loaded.
+ *      'alt_text' => '',
+ *
+ *      Whether this image should be set as the post's thumbnail. If the post_id is 0, this setting will be ignored.
+ *      'is_post_thumbnail' => false,
+ *
+ *      The number of seconds to spend attempting to download the image.
+ *      'timeout' => 5
+ *
+ *      Sets the image's owner and source. _owner_datafeedr : dfrapi
+ *      '_source_plugin' => 'dfrapi'
+ * );
+ *
+ * @return Datafeedr_Image_Importer|int|WP_Error
+ * @since 1.2.2 Will return either the Attachment ID or WP_Error if there was an error importing the image.
+ *
  * @since 1.0.71
- *
  */
-function datafeedr_import_image( $url, $args = array() ) {
-	return ( new Datafeedr_Image_Importer( $url, $args ) )->import();
+function datafeedr_import_image( $url, $args = [] ) {
+
+	if ( dfrapi_use_legacy_image_importer() ) {
+		return ( new Datafeedr_Image_Importer( $url, $args ) )->import();
+	}
+
+	$default_args = [
+		'title'             => '',
+		'file_name'         => '',
+		'description'       => '',
+		'caption'           => '',
+		'alt_text'          => '',
+		'user_id'           => 0,
+		'post_id'           => 0,
+		'is_post_thumbnail' => true,
+		'timeout'           => 5,
+		'_source_plugin'    => 'dfrapi',
+	];
+
+	$args = array_merge( $default_args, $args );
+
+	$image_data = dfrapi_image_data( $url );
+
+	$image_data->set_title( $args['title'] );
+	$image_data->set_filename( $args['file_name'] );
+	$image_data->set_description( $args['description'] );
+	$image_data->set_caption( $args['caption'] );
+	$image_data->set_alternative_text( $args['alt_text'] );
+	$image_data->set_author_id( absint( $args['user_id'] ) );
+	$image_data->set_post_parent_id( absint( $args['post_id'] ) );
+	$image_data->set_post_thumbnail( boolval( $args['is_post_thumbnail'] ) );
+
+	$image_data = apply_filters( 'datafeedr_import_image_image_data', $image_data, $url, $args );
+
+	$uploader = dfrapi_image_uploader( $image_data );
+
+	$uploader->set_timeout( absint( $args['timeout'] ) );
+
+	$attachment_id = $uploader->upload();
+
+	if ( ! is_wp_error( $attachment_id ) ) {
+		update_post_meta( $attachment_id, '_owner_datafeedr', sanitize_text_field( $args['_source_plugin'] ) );
+	}
+
+	do_action( 'datafeedr_import_image_attachment_id', $attachment_id, $image_data, $url, $args );
+
+	return $attachment_id;
 }
 
 /**
@@ -1425,6 +1506,28 @@ function dfrapi_get_price( $value, $currency_code, $context = null ) {
 }
 
 /**
+ * Returns an instance of the Dfrapi_Image_Data class.
+ *
+ * @param string $url The URL of the image we will be uploading.
+ *
+ * @return Dfrapi_Image_Data
+ */
+function dfrapi_image_data( string $url ) {
+	return new Dfrapi_Image_Data( $url );
+}
+
+/**
+ * Returns an instance of the Dfrapi_Image_Uploader class.
+ *
+ * @param Dfrapi_Image_Data $image_data
+ *
+ * @return Dfrapi_Image_Uploader
+ */
+function dfrapi_image_uploader( Dfrapi_Image_Data $image_data ) {
+	return new Dfrapi_Image_Uploader( $image_data );
+}
+
+/**
  * Returns the string to use as the prefix for the ActionScheduler hook name.
  *
  * @return string
@@ -1561,4 +1664,76 @@ function dfrapi_next_scheduled_action( string $hook, array $args = [], string $g
 	return ( dfrapi_action_scheduler_exists() === true )
 		? as_next_scheduled_action( dfrapi_as_hook_name( $hook ), $args, $group )
 		: dfrapi_action_scheduler_exists();
+}
+
+/**
+ * Returns true if the Jetpack::class exists.
+ *
+ * @return bool
+ */
+function dfrapi_jetpack_exists() {
+	return class_exists( Jetpack::class, false );
+}
+
+/**
+ * Returns true is Jetpack is active, otherwise returns false.
+ *
+ * @return bool
+ */
+function dfrapi_jetpack_is_active() {
+	return dfrapi_jetpack_exists() ? Jetpack::is_active() : false;
+}
+
+/**
+ * Returns true if Jetpack is in Dev/Debug mode.
+ *
+ * @return bool
+ */
+function dfrapi_jetpack_is_in_dev_mode() {
+	return dfrapi_jetpack_exists() ? defined( 'JETPACK_DEV_DEBUG' ) && JETPACK_DEV_DEBUG === true : false;
+}
+
+/**
+ * Returns true if "Speed up image load times" is ON here:
+ * WordPress Admin Area > Jetpack > Settings > Performance > Performance & speed
+ *
+ * @return bool
+ */
+function dfrapi_jetpack_photon_module_is_active() {
+	return dfrapi_jetpack_exists() ? in_array( 'photon', Jetpack::get_active_modules() ) : false;
+}
+
+/**
+ * Returns true if "Speed up static file load times" is ON here:
+ * WordPress Admin Area > Jetpack > Settings > Performance > Performance & speed
+ *
+ * @return bool
+ */
+function dfrapi_jetpack_photon_cdn_module_is_active() {
+	return dfrapi_jetpack_exists() ? in_array( 'photon-cdn', Jetpack::get_active_modules() ) : false;
+}
+
+/**
+ * @param string $image_url URL to the publicly accessible image you want to manipulate.
+ * @param array|string $args An array of arguments, i.e. array( 'w' => '300', 'resize' => array( 123, 456 ) ), or in string form (w=123&h=456).
+ * @param string|null $scheme URL protocol.
+ *
+ * @return false|string
+ */
+function dfrapi_jetpack_photon_url( $image_url, $args = [], $scheme = null ) {
+
+	if ( ! dfrapi_jetpack_is_active() && ! dfrapi_jetpack_is_in_dev_mode() ) {
+		return $image_url;
+	}
+
+	return jetpack_photon_url( $image_url, $args, $scheme );
+}
+
+/**
+ * Whether to use the legacy image importer. Default false.
+ *
+ * @return bool
+ */
+function dfrapi_use_legacy_image_importer() {
+	return boolval( apply_filters( 'dfrapi_use_legacy_image_importer', false ) );
 }

@@ -815,6 +815,8 @@ function datafeedr_import_image( $url, $args = [] ) {
 		update_post_meta( $attachment_id, '_owner_datafeedr', sanitize_text_field( $args['_source_plugin'] ) );
 	}
 
+	do_action( 'datafeedr_import_image_attachment_id', $attachment_id, $image_data, $url, $args );
+
 	return $attachment_id;
 }
 

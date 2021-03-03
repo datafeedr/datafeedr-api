@@ -43,6 +43,11 @@ class Dfrapi_Image_Data {
 	private $post_parent = 0;
 
 	/**
+	 * @var bool $is_post_thumbnail Whether or not this image should be set as the post thumbnail.
+	 */
+	private $is_post_thumbnail = false;
+
+	/**
 	 * Dfrapi_Image_Data constructor.
 	 *
 	 * @param string $image_url
@@ -83,6 +88,10 @@ class Dfrapi_Image_Data {
 		return ! empty( $this->alternative_text ) ? $this->alternative_text : '';
 	}
 
+	public function is_post_thumbnail() {
+		return $this->is_post_thumbnail;
+	}
+
 	public function set_image_url( string $image_url ) {
 		$this->image_url = trim( $image_url );
 	}
@@ -113,6 +122,10 @@ class Dfrapi_Image_Data {
 
 	public function set_alternative_text( string $alternative_text ) {
 		$this->alternative_text = trim( $alternative_text );
+	}
+
+	public function set_post_thumbnail( bool $is_post_thumbnail ) {
+		$this->is_post_thumbnail = boolval( $is_post_thumbnail );
 	}
 
 	/**

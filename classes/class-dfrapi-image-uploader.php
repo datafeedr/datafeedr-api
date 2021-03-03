@@ -35,11 +35,9 @@ class Dfrapi_Image_Uploader {
 	 * Uploads an image from the given $this->image_url and return its Attachment ID on success
 	 * or a WP_Error on failure.
 	 *
-	 * @param boolean $featured Optional. Set to true to set this image as the post parent's featured image. Default true.
-	 *
 	 * @return int|WP_Error The ID of the attachment or a WP_Error on failure.
 	 */
-	public function upload( $featured = true ) {
+	public function upload() {
 
 		require_once( ABSPATH . 'wp-includes/pluggable.php' );
 		require_once( ABSPATH . 'wp-admin/includes/media.php' );
@@ -57,8 +55,8 @@ class Dfrapi_Image_Uploader {
 			return $attachment_id;
 		}
 
-		// Maybe set as featured image.
-		if ( $featured ) {
+		// Maybe set as post thumbnail.
+		if ( $this->image_data->is_post_thumbnail() ) {
 			set_post_thumbnail( $this->image_data->get_post_parent_id(), $attachment_id );
 		}
 

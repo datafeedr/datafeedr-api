@@ -801,12 +801,15 @@ function datafeedr_import_image( $url, $args = [] ) {
 	$image_data->set_alternative_text( $args['alt_text'] );
 	$image_data->set_author_id( absint( $args['user_id'] ) );
 	$image_data->set_post_parent_id( absint( $args['post_id'] ) );
+	$image_data->set_post_thumbnail( boolval( $args['is_post_thumbnail'] ) );
+
+	$image_data = apply_filters( 'datafeedr_import_image_image_data', $image_data, $url, $args );
 
 	$uploader = dfrapi_image_uploader( $image_data );
 
 	$uploader->set_timeout( absint( $args['timeout'] ) );
 
-	$attachment_id = $uploader->upload( boolval( $args['is_post_thumbnail'] ) );
+	$attachment_id = $uploader->upload();
 
 	if ( ! is_wp_error( $attachment_id ) ) {
 		update_post_meta( $attachment_id, '_owner_datafeedr', sanitize_text_field( $args['_source_plugin'] ) );

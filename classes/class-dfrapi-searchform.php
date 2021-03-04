@@ -35,6 +35,12 @@ class Dfrapi_SearchForm
             'no'   => __( 'no', DFRAPI_DOMAIN )
         );
 
+	    $opInStock = array(
+		    'yes_unknown' => __( 'yes or unknown', DFRAPI_DOMAIN ),
+		    'yes'         => __( 'yes', DFRAPI_DOMAIN ),
+		    'no'          => __( 'no', DFRAPI_DOMAIN ),
+	    );
+
 	    $sortOpts = array(
 		    ''              => __( 'Relevance', DFRAPI_DOMAIN ),
 		    '+price'        => __( 'Price Ascending', DFRAPI_DOMAIN ),
@@ -206,6 +212,20 @@ class Dfrapi_SearchForm
 			    'help'     => $this->help( 'onsale' )
 		    ),
 		    array(
+			    'title'    => __( 'In Stock', DFRAPI_DOMAIN ),
+			    'name'     => 'instock',
+			    'input'    => 'none',
+			    'operator' => $opInStock,
+			    'help'     => $this->help( 'instock' )
+		    ),
+		    array(
+			    'title'    => __( 'Stock Quantity', DFRAPI_DOMAIN ),
+			    'name'     => 'stockquantity',
+			    'input'    => 'range',
+			    'operator' => $opRange,
+			    'help'     => $this->help( 'stockquantity' )
+		    ),
+		    array(
 			    'title'    => __( 'Has Direct URL', DFRAPI_DOMAIN ),
 			    'name'     => 'direct_url',
 			    'input'    => 'none',
@@ -285,6 +305,8 @@ class Dfrapi_SearchForm
 			'source_id'      => array( 'value' => array() ),
 			'merchant_id'    => array( 'value' => array() ),
 			'onsale'         => array( 'value' => '1' ),
+			'instock'        => array( 'value' => 'yes_unknown' ),
+			'stockquantity'  => array( 'operator' => 'gt', 'value' => '5', 'value2' => '999999' ),
 			'direct_url'     => array( 'value' => '1' ),
 			'image'          => array( 'value' => '1' ),
 			'thumbnail'      => array( 'value' => '1' ),
@@ -699,37 +721,41 @@ class Dfrapi_SearchForm
                     $op = ($operator == 'is') ? 'IN' : '!IN';
                     $filters []= "{$fname} $op {$value}";
                     break;
-                case 'price':
-                case 'finalprice':
-                case 'saleprice':
-                case 'salediscount':
-                    $conv = $fname == 'salediscount' ? 'intval' : 'dfrapi_price_to_int';
-                    $value = $conv($value);
-                    switch($operator) {
-                        case 'between':
-                            $value2 = $conv($value2);
-                            $filters []= "{$fname} > {$value}";
-                            $filters []= "{$fname} < {$value2}";
-                            break;
-                        case 'eq':
-                            $filters []= "{$fname} = {$value}";
-                            break;
-                        case 'lt':
-                            $filters []= "{$fname} < {$value}";
-                            break;
-                        case 'lte':
-                            $filters []= "{$fname} <= {$value}";
-                            break;
-                        case 'gt':
-                            $filters []= "{$fname} > {$value}";
-                            break;
-                        case 'gte':
-                            $filters []= "{$fname} >= {$value}";
-                            break;
-                    }
-                    break;
-                case 'source_id':
-                case 'merchant_id':
+	            case 'price':
+	            case 'finalprice':
+	            case 'saleprice':
+	            case 'salediscount':
+	            case 'stockquantity':
+		            $conv  = ( in_array( $fname, [
+			            'salediscount',
+			            'stockquantity'
+		            ] ) ) ? 'intval' : 'dfrapi_price_to_int';
+		            $value = $conv( $value );
+		            switch ( $operator ) {
+			            case 'between':
+				            $value2     = $conv( $value2 );
+				            $filters [] = "{$fname} > {$value}";
+				            $filters [] = "{$fname} < {$value2}";
+				            break;
+			            case 'eq':
+				            $filters [] = "{$fname} = {$value}";
+				            break;
+			            case 'lt':
+				            $filters [] = "{$fname} < {$value}";
+				            break;
+			            case 'lte':
+				            $filters [] = "{$fname} <= {$value}";
+				            break;
+			            case 'gt':
+				            $filters [] = "{$fname} > {$value}";
+				            break;
+			            case 'gte':
+				            $filters [] = "{$fname} >= {$value}";
+				            break;
+		            }
+		            break;
+	            case 'source_id':
+	            case 'merchant_id':
                     $key = ($operator == 'is') ? 'in' : 'ex';
                     $selected["$key:$fname"] []= $this->ary($value);
                     break;
@@ -745,6 +771,17 @@ class Dfrapi_SearchForm
                     $value = ($operator == 'yes') ? '1' : '0';
                     $filters []= "{$fname} = {$value}";
                     break;
+	            case 'instock':
+		            if ( $operator == 'yes' ) {
+			            $filters [] = "{$fname} = 1";
+			            break;
+		            } elseif ( $operator == 'yes_unknown' ) {
+			            $filters [] = "{$fname} > 0";
+			            break;
+		            } else {
+			            $filters [] = "{$fname} = 0";
+			            break;
+		            }
                 case 'direct_url':
                     $operator = ($operator == 'yes') ? '!EMPTY' : 'EMPTY';
                     $filters []= "{$fname} {$operator}";
@@ -913,7 +950,20 @@ class Dfrapi_SearchForm
         $help['onsale'] = '<h3>' . __('On Sale', DFRAPI_DOMAIN ) . '</h3>';
         $help['onsale'] .= '<p>' . __( 'Set this field to "<strong>yes</strong>" to return only items which are on sale. To exclude products which are on sale, set this field to "<strong>no</strong>".', DFRAPI_DOMAIN ) . '</p>';
 
-        // Has Direct URL
+        // In Stock
+        $help['instock'] = '<h3>' . __('In Stock', DFRAPI_DOMAIN ) . '</h3>';
+        $help['instock'] .= '<p>' . __( 'This allows you to filter products by stock status.', DFRAPI_DOMAIN ) . '</p>';
+        $help['instock'] .= '<p>' . __( '<strong>yes or unknown</strong>: This will return products which are explicitly set as "in-stock" or products which have no field containing stock-related information.', DFRAPI_DOMAIN ) . '</p>';
+        $help['instock'] .= '<p>' . __( '<strong>yes</strong>: This will only return products which are explicitly set as "in-stock".', DFRAPI_DOMAIN ) . '</p>';
+        $help['instock'] .= '<p>' . __( '<strong>no</strong>: This will only return products which are explicitly set as NOT "in-stock".', DFRAPI_DOMAIN ) . '</p>';
+        $help['instock'] .= $this->help_tip( __( 'Not all products contain stock-related information. Therefore selecting "yes or unknown" is the recommended choice when you want to find products which are "in-stock".', DFRAPI_DOMAIN ) );
+
+	    // Stock Quantity
+	    $help['stockquantity'] = '<h3>' . __( 'Stock Quantity', DFRAPI_DOMAIN ) . '</h3>';
+	    $help['stockquantity'] .= '<p>' . __( 'Limit the number products returned to those having a stock quantity within a specified range.', DFRAPI_DOMAIN ) . '</p>';
+        $help['stockquantity'] .= $this->help_tip( __( 'Many merchants do not specify stock quantity in their data feeds. Therefore, adding this filter may exclude products with positive stock quantities. USE WITH CAUTION!', DFRAPI_DOMAIN ) );
+
+	    // Has Direct URL
         $help['direct_url'] = '<h3>' . __('Has Direct URL', DFRAPI_DOMAIN ) . '</h3>';
         $help['direct_url'] .= '<p>' . __( 'Limit your search results to items which have a direct URL (or which don\'t).', DFRAPI_DOMAIN ) . '</p>';
         $help['direct_url'] .= $this->help_tip( __( 'A "Direct URL" is a URL directly to the product page on the merchant\'s website. By default, the "Direct URL" is never used as the URL in your "Buy" links. However, if you need the products in your store to contain a "Direct URL" to the product page on the merchants\' websites, then you should use this filter. This is most useful if you are using Skimlinks (or similar service) to generate your affiliate links instead of the affiliate networks.', DFRAPI_DOMAIN ) );

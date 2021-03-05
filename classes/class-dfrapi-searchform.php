@@ -1,7 +1,5 @@
 <?php
 
-
-
 class Dfrapi_SearchForm
 {
     function fields() {
@@ -34,6 +32,12 @@ class Dfrapi_SearchForm
             'yes'  => __( 'yes', DFRAPI_DOMAIN ),
             'no'   => __( 'no', DFRAPI_DOMAIN )
         );
+
+	    $opInStock = array(
+		    'yes_unknown' => __( 'yes or unknown', DFRAPI_DOMAIN ),
+		    'yes'         => __( 'yes', DFRAPI_DOMAIN ),
+		    'no'          => __( 'no', DFRAPI_DOMAIN ),
+	    );
 
 	    $sortOpts = array(
 		    ''              => __( 'Relevance', DFRAPI_DOMAIN ),
@@ -206,6 +210,13 @@ class Dfrapi_SearchForm
 			    'help'     => $this->help( 'onsale' )
 		    ),
 		    array(
+			    'title'    => __( 'In Stock', DFRAPI_DOMAIN ),
+			    'name'     => 'instock',
+			    'input'    => 'none',
+			    'operator' => $opInStock,
+			    'help'     => $this->help( 'instock' )
+		    ),
+		    array(
 			    'title'    => __( 'Has Direct URL', DFRAPI_DOMAIN ),
 			    'name'     => 'direct_url',
 			    'input'    => 'none',
@@ -285,6 +296,7 @@ class Dfrapi_SearchForm
 			'source_id'      => array( 'value' => array() ),
 			'merchant_id'    => array( 'value' => array() ),
 			'onsale'         => array( 'value' => '1' ),
+			'instock'        => array( 'value' => 'yes_unknown' ),
 			'direct_url'     => array( 'value' => '1' ),
 			'image'          => array( 'value' => '1' ),
 			'thumbnail'      => array( 'value' => '1' ),
@@ -745,7 +757,18 @@ class Dfrapi_SearchForm
                     $value = ($operator == 'yes') ? '1' : '0';
                     $filters []= "{$fname} = {$value}";
                     break;
-                case 'direct_url':
+	            case 'instock':
+		            if ( $operator == 'yes' ) {
+			            $filters [] = "{$fname} = 1";
+			            break;
+		            } elseif ( $operator == 'no' ) {
+			            $filters [] = "{$fname} = 0";
+			            break;
+		            } else {
+			            $filters [] = "{$fname} > 0";
+			            break;
+		            }
+	            case 'direct_url':
                     $operator = ($operator == 'yes') ? '!EMPTY' : 'EMPTY';
                     $filters []= "{$fname} {$operator}";
                     break;
@@ -912,6 +935,14 @@ class Dfrapi_SearchForm
         // On Sale
         $help['onsale'] = '<h3>' . __('On Sale', DFRAPI_DOMAIN ) . '</h3>';
         $help['onsale'] .= '<p>' . __( 'Set this field to "<strong>yes</strong>" to return only items which are on sale. To exclude products which are on sale, set this field to "<strong>no</strong>".', DFRAPI_DOMAIN ) . '</p>';
+
+        // In Stock
+        $help['instock'] = '<h3>' . __('In Stock', DFRAPI_DOMAIN ) . '</h3>';
+        $help['instock'] .= '<p>' . __( 'This allows you to filter products by stock status.', DFRAPI_DOMAIN ) . '</p>';
+        $help['instock'] .= '<p>' . __( '<strong>yes or unknown</strong>: This will return products which are explicitly set as "in-stock" or products which have no field containing stock-related information.', DFRAPI_DOMAIN ) . '</p>';
+        $help['instock'] .= '<p>' . __( '<strong>yes</strong>: This will only return products which are explicitly set as "in-stock".', DFRAPI_DOMAIN ) . '</p>';
+        $help['instock'] .= '<p>' . __( '<strong>no</strong>: This will only return products which are explicitly set as NOT "in-stock".', DFRAPI_DOMAIN ) . '</p>';
+        $help['instock'] .= $this->help_tip( __( 'Not all products contain stock-related information. Therefore selecting "yes or unknown" is the recommended choice when you want to find products which are "in-stock".', DFRAPI_DOMAIN ) );
 
         // Has Direct URL
         $help['direct_url'] = '<h3>' . __('Has Direct URL', DFRAPI_DOMAIN ) . '</h3>';

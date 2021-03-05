@@ -761,14 +761,14 @@ class Dfrapi_SearchForm
 		            if ( $operator == 'yes' ) {
 			            $filters [] = "{$fname} = 1";
 			            break;
-		            } elseif ( $operator == 'yes_unknown' ) {
-			            $filters [] = "{$fname} > 0";
-			            break;
-		            } else {
+		            } elseif ( $operator == 'no' ) {
 			            $filters [] = "{$fname} = 0";
 			            break;
+		            } else {
+			            $filters [] = "{$fname} > 0";
+			            break;
 		            }
-                case 'direct_url':
+	            case 'direct_url':
                     $operator = ($operator == 'yes') ? '!EMPTY' : 'EMPTY';
                     $filters []= "{$fname} {$operator}";
                     break;

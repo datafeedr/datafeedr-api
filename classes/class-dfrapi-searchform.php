@@ -693,6 +693,8 @@ class Dfrapi_SearchForm
                 case 'size':
                 case 'gender':
                 case 'description':
+                case 'merchant':
+                case 'source':
                 case 'category':
                     $s = $this->fulltextFilter($operator, $value);
                     if(!is_null($s[0])) {

@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.8-alpha
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.2.5 - 2021/03/19 =
+* Added new "condition" field to Product Set search form.
 
 = 1.2.4 - 2021/03/11 =
 * Added `source` and `merchant` as possible query params.

@@ -109,6 +109,13 @@ class Dfrapi_SearchForm
 			    'help'     => $this->help( 'gender' )
 		    ),
 		    array(
+			    'title'    => __( 'Condition', DFRAPI_DOMAIN ),
+			    'name'     => 'condition',
+			    'input'    => 'text',
+			    'operator' => $opFulltextExact,
+			    'help'     => $this->help( 'condition' )
+		    ),
+		    array(
 			    'title'    => __( 'Description', DFRAPI_DOMAIN ),
 			    'name'     => 'description',
 			    'input'    => 'text',
@@ -289,6 +296,7 @@ class Dfrapi_SearchForm
 			'material'       => array( 'operator' => 'contain', 'value' => '' ),
 			'size'           => array( 'operator' => 'contain', 'value' => '' ),
 			'gender'         => array( 'operator' => 'contain', 'value' => '' ),
+			'condition'      => array( 'operator' => 'contain', 'value' => '' ),
 			'type'           => array( 'value' => 'product' ),
 			'currency'       => array( 'value' => 'USD' ),
 			'price'          => array( 'operator' => 'between', 'value' => '0', 'value2' => '999999' ),
@@ -692,6 +700,7 @@ class Dfrapi_SearchForm
                 case 'material':
                 case 'size':
                 case 'gender':
+                case 'condition':
                 case 'description':
                 case 'merchant':
                 case 'source':
@@ -882,6 +891,10 @@ class Dfrapi_SearchForm
 	    $help['gender'] = '<h3>' . __('Gender', DFRAPI_DOMAIN ) . '</h3>';
 	    $help['gender'] .= '<p>' . __( 'Search by gender to get specific results. Not every item has a gender field.', DFRAPI_DOMAIN ) . '</p>';
 
+	    // Condition
+	    $help['condition'] = '<h3>' . __('Condition', DFRAPI_DOMAIN ) . '</h3>';
+	    $help['condition'] .= '<p>' . __( 'Search by condition to get specific results. Not every item has a condition field.', DFRAPI_DOMAIN ) . '</p>';
+
         // Description
         $help['description'] = '<h3>' . __('Description', DFRAPI_DOMAIN ) . '</h3>';
         $help['description'] .= '<p>' . __( 'Search the description field for product attributes such as size, color, material, gender or usage.', DFRAPI_DOMAIN ) . '</p>';
@@ -994,6 +1007,7 @@ class Dfrapi_SearchForm
         $help['duplicates'] .= '<p>' . __( 'Enter one of these terms to exclude duplicates matching these fields:', DFRAPI_DOMAIN ) . '<br />';
         $help['duplicates'] .= '<tt>' . __('name', DFRAPI_DOMAIN ) . '</tt><br />';
         $help['duplicates'] .= '<tt>' . __('brand', DFRAPI_DOMAIN ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('description', DFRAPI_DOMAIN ) . '</tt><br />';
         $help['duplicates'] .= '<tt>' . __('currency', DFRAPI_DOMAIN ) . '</tt><br />';
         $help['duplicates'] .= '<tt>' . __('price', DFRAPI_DOMAIN ) . '</tt><br />';
         $help['duplicates'] .= '<tt>' . __('saleprice', DFRAPI_DOMAIN ) . '</tt><br />';

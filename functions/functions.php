@@ -801,7 +801,7 @@ function datafeedr_import_image( $url, $args = [] ) {
 	$image_data->set_alternative_text( $args['alt_text'] );
 	$image_data->set_author_id( absint( $args['user_id'] ) );
 	$image_data->set_post_parent_id( absint( $args['post_id'] ) );
-	$image_data->set_post_thumbnail( boolval( $args['is_post_thumbnail'] ) );
+	$image_data->set_post_thumbnail( (bool) $args['is_post_thumbnail'] );
 
 	$image_data = apply_filters( 'datafeedr_import_image_image_data', $image_data, $url, $args );
 

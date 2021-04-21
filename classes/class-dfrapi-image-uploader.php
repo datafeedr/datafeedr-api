@@ -141,7 +141,7 @@ class Dfrapi_Image_Uploader {
 
 		$attachment_id = media_handle_sideload(
 			[
-				'name'     => $this->image_data->get_filename() . '.' . $this->extension,
+				'name'     => rtrim( substr( $this->image_data->get_filename(), 0, 150 ), '.' ) . '.' . $this->extension,
 				'tmp_name' => $tmp_name,
 			],
 			$this->image_data->get_post_parent_id(),

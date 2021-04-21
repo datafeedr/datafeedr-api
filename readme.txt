@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.8-alpha
-Stable tag: 1.2.6
+Stable tag: 1.2.7
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,10 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.2.7 - 2021/04/21 =
+* Fixed bug where products ending with "." resulted in image ending with double "..".
+* Fixed bug where product names which were very long were causing image imports to fail.
 
 = 1.2.6 - 2021/03/23 =
 * Fixed bug where image URL file names greater than 255 characters were returning a "failed to open stream: File name too long" resulting in a "mime_type_indeterminable" error. Now temporary file names are truncated at 200 characters. This is only related to temporary file names, not the final file name.

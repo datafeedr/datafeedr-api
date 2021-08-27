@@ -843,7 +843,7 @@ class Dfrapi_SearchForm
     		<p>
     			<span class="dashicons dashicons-info"></span> 
     			<em>
-    				<a href="https://v4.datafeedr.com/node/620" target="_blank">' . __('Learn more', DFRAPI_DOMAIN ) . '</a> ' .
+    				<a href="https://datafeedrapi.helpscoutdocs.com/article/216-search-operators" target="_blank">' . __('Learn more', DFRAPI_DOMAIN ) . '</a> ' .
                __('about advanced uses of this field.', DFRAPI_DOMAIN ) . '
     			</em>
     		</p>

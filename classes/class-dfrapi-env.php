@@ -1,6 +1,8 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 if ( ! class_exists( 'Dfrapi_Env' ) ) {
 
@@ -9,26 +11,26 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 	 */
 	class Dfrapi_Env {
 
-		function __construct() { 
-		
+		function __construct() {
+
 			// Cascading Errors
-			if ( !self::api_keys_exist() ) {
+			if ( ! self::api_keys_exist() ) {
 				dfrapi_admin_messages( 'missing_api_keys' );
-			} elseif ( !self::network_is_selected() ) {
+			} elseif ( ! self::network_is_selected() ) {
 				dfrapi_admin_messages( 'missing_network_ids' );
-			} elseif ( !self::merchant_is_selected() ) {
+			} elseif ( ! self::merchant_is_selected() ) {
 				dfrapi_admin_messages( 'missing_merchant_ids' );
 			}
-		
+
 			// Non-cascading Errors
 			if ( self::usage_over_90_percent() ) {
 				dfrapi_admin_messages( 'usage_over_90_percent' );
 			}
-			
+
 			if ( self::missing_affiliate_ids() ) {
 				dfrapi_admin_messages( 'missing_affiliate_ids' );
 			}
-						
+
 			if ( $msg = self::unapproved_zanox_merchants_exist() ) {
 				dfrapi_admin_messages( 'unapproved_zanox_merchants', $msg );
 			}
@@ -43,47 +45,50 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 		}
 
 		static function api_keys_exist() {
-			
+
 			$configuration = (array) get_option( 'dfrapi_configuration' );
-			$access_id = false;
-			$secret_key = false;
-			
+			$access_id     = false;
+			$secret_key    = false;
+
 			if ( isset( $configuration['access_id'] ) && ( $configuration['access_id'] != '' ) ) {
 				$access_id = $configuration['access_id'];
 			}
-	
+
 			if ( isset( $configuration['secret_key'] ) && ( $configuration['secret_key'] != '' ) ) {
 				$secret_key = $configuration['secret_key'];
 			}
-			
+
 			if ( $access_id && $secret_key ) {
 				return true;
 			}
-			
+
 			return false;
 		}
-	
+
 		static function network_is_selected() {
 			$networks = (array) get_option( 'dfrapi_networks' );
-			if ( !empty( $networks['ids'] ) ) {
+			if ( ! empty( $networks['ids'] ) ) {
 				return true;
 			}
+
 			return false;
 		}
-	
+
 		static function merchant_is_selected() {
 			$merchants = (array) get_option( 'dfrapi_merchants' );
-			if ( !empty( $merchants['ids'] ) ) {
+			if ( ! empty( $merchants['ids'] ) ) {
 				return true;
 			}
+
 			return false;
 		}
-		
+
 		static function usage_over_90_percent() {
 			$percentage = dfrapi_get_api_usage_percentage();
 			if ( $percentage >= 90 ) {
 				return true;
 			}
+
 			return false;
 		}
 
@@ -92,22 +97,19 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 			if ( ! empty( $networks ) ) {
 				foreach ( $networks['ids'] as $network ) {
 
-					if (
-						'801' == $network['nid'] ||
-						'811' == $network['nid'] ||
-						'812' == $network['nid'] ||
-						'813' == $network['nid'] ||
-						'814' == $network['nid'] ||
-						'815' == $network['nid'] ||
-						'816' == $network['nid'] ||
-						'817' == $network['nid'] ||
-						'818' == $network['nid']
-					) {
-						continue; // Partnerize does not have affiliate IDs.
+					$network_id = absint( $network['nid'] );
+
+					$parternize_network_ids  = [ 801, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820 ];
+					$effiliation_network_ids = [ 805, 806, 807 ];
+
+					// Partnerize does not have affiliate IDs.
+					if ( in_array( $network_id, $parternize_network_ids ) ) {
+						continue;
 					}
 
-					if ( '805' == $network['nid'] || '806' == $network['nid'] || '807' == $network['nid'] ) {
-						continue; // Effiliation does not have affiliate IDs.
+					// Effiliation does not have affiliate IDs.
+					if ( in_array( $network_id, $effiliation_network_ids ) ) {
+						continue;
 					}
 
 					if ( empty( $network['aid'] ) ) {
@@ -118,7 +120,7 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 
 			return false;
 		}
-			
+
 		static function unapproved_zanox_merchants_exist() {
 
 			return false;
@@ -316,7 +318,7 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 
 			return $msg;
 		}
-		
+
 	} // class Dfrapi_Env
 
 } // class_exists check

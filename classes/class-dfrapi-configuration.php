@@ -101,8 +101,11 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			add_settings_section( 'awin_settings', __( 'Awin Settings', 'datafeedr-api' ), array( &$this, 'section_awin_settings_desc' ), $this->page );
 			add_settings_field( 'awin_access_token', __( 'Awin API Token', 'datafeedr-api' ), array( &$this, 'field_awin_access_token' ), $this->page, 'awin_settings' );
 
-			add_settings_section( 'affiliate_gateway_settings', __( 'The Affiliate Gateway Settings', 'datafeedr-api' ), array( &$this, 'section_affiliate_gateway_settings_desc' ), $this->page );
-			add_settings_field( 'affiliate_gateway_sid', __( 'The Affiliate Gateway SID', 'datafeedr-api' ), array( &$this, 'field_affiliate_gateway_sid' ), $this->page, 'affiliate_gateway_settings' );
+			add_settings_section( 'affiliate_gateway_settings', __( 'Affiliate Gateway Settings', 'datafeedr-api' ), array( &$this, 'section_affiliate_gateway_settings_desc' ), $this->page );
+			add_settings_field( 'affiliate_gateway_sid', __( 'Affiliate Gateway SID', 'datafeedr-api' ), array( &$this, 'field_affiliate_gateway_sid' ), $this->page, 'affiliate_gateway_settings' );
+
+			add_settings_section( 'adservice_settings', __( 'Adservice Settings', 'datafeedr-api' ), array( &$this, 'section_adservice_settings_desc' ), $this->page );
+			add_settings_field( 'adservice_mid', __( 'Adservice Media ID', 'datafeedr-api' ), array( &$this, 'field_adservice_mid' ), $this->page, 'adservice_settings' );
 
 			add_settings_section( 'belboon_settings', __( 'Belboon Settings', 'datafeedr-api' ), array( &$this, 'section_belboon_settings_desc' ), $this->page );
 			add_settings_field( 'belboon_aid', __( 'Adspace ID', 'datafeedr-api' ), array( &$this, 'field_belboon_aid' ), $this->page, 'belboon_settings' );
@@ -210,6 +213,19 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			<?php
 		}
 
+		function section_adservice_settings_desc() {
+			echo __( 'If you want to use the Adservice affiliate network, enter your Adservice Media ID.', 'datafeedr-api' );
+			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/251-how-to-find-your-adservice-affiliate-id-and-media-id" target="_blank" title="' . __( 'Learn how to get your Adservice Media ID', 'datafeedr-api' ) . '">';
+			echo __( 'Learn how to get your Adservice Media ID', 'datafeedr-api' );
+			echo '</a>.';
+		}
+
+		function field_adservice_mid() {
+			?>
+            <input type="text" class="regular-text" name="<?php echo $this->key; ?>[adservice_mid]" value="<?php echo esc_attr( $this->options['adservice_mid'] ); ?>" />
+			<?php
+		}
+
 		function section_belboon_settings_desc() {
 			echo __( 'If you want to use the Belboon affiliate network, enter your Belboon Adspace ID.', 'datafeedr-api' );
 			echo ' <a href="https://datafeedrapi.helpscoutdocs.com/article/125-how-to-find-your-belboon-affiliate-id" target="_blank" title="' . __( 'Learn how to get your Belboon Adspace ID', 'datafeedr-api' ) . '">';
@@ -252,7 +268,11 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			echo __( 'Amazon Product Advertising API keys', 'datafeedr-api' );
 			echo '</a>.';
 			echo '<br /><span style="color:red">';
-			echo __( 'These are ONLY compatible with the Datafeedr Comparison Sets plugin.', 'datafeedr-api' );
+			echo __( 'These are ONLY compatible with the ', 'datafeedr-api' );
+			echo '<a href="https://datafeedr.me/dfrcs" target="_blank">';
+			echo __( 'Datafeedr Comparison Sets', 'datafeedr-api' );
+			echo '</a>';
+			echo __( ' plugin.', 'datafeedr-api' );
 			echo '</span>';
 		}
 
@@ -400,6 +420,11 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				// Validate The Affiliate Gateway SID
 				if ( $key == 'affiliate_gateway_sid' ) {
 					$new_input['affiliate_gateway_sid'] = trim( $value );
+				}
+
+				// Validate Adservice MID
+				if ( $key == 'adservice_mid' ) {
+					$new_input['adservice_mid'] = trim( $value );
 				}
 
 				// Validate Belboon AID

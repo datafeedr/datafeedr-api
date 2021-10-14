@@ -1,6 +1,8 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
@@ -15,7 +17,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 		public function __construct() {
 
-			$this->key = 'dfrapi_networks';
+			$this->key          = 'dfrapi_networks';
 			$this->all_networks = dfrapi_api_get_all_networks();
 			add_action( 'init', array( $this, 'load_settings' ) );
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
@@ -52,8 +54,14 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 		function register_settings() {
 			register_setting( $this->page, $this->key, array( $this, 'validate' ) );
-			add_settings_section( 'networks', __( 'Select Networks', DFRAPI_DOMAIN ), array( &$this, 'section_networks_desc' ), $this->page );
-			add_settings_field( 'ids', __( 'Networks', DFRAPI_DOMAIN ), array( &$this, 'field_network_ids' ), $this->page, 'networks', array( 'label_for' => 'DFRAPI_HIDE_LABEL' ) );
+			add_settings_section( 'networks', __( 'Select Networks', DFRAPI_DOMAIN ), array(
+				&$this,
+				'section_networks_desc'
+			), $this->page );
+			add_settings_field( 'ids', __( 'Networks', DFRAPI_DOMAIN ), array(
+				&$this,
+				'field_network_ids'
+			), $this->page, 'networks', array( 'label_for' => 'DFRAPI_HIDE_LABEL' ) );
 		}
 
 		function section_networks_desc() {
@@ -64,8 +72,8 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			$groups = $this->get_network_group_names();
 			foreach ( $groups as $group ) {
 				$num_networks_checked_in_group = $this->num_networks_checked_in_group( $group );
-				$active = ( $num_networks_checked_in_group != '' ) ? 'active' : '';
-				$group_name = ( 'AffiliateWindow' == $group ) ? 'Awin' : $group;
+				$active                        = ( $num_networks_checked_in_group != '' ) ? 'active' : '';
+				$group_name                    = ( 'AffiliateWindow' == $group ) ? 'Awin' : $group;
 				echo '
 				<div class="group network_logo_30x30_' . dfrapi_group_name_to_css( $group ) . ' ' . $active . '" id="group_' . dfrapi_group_name_to_css( $group ) . '">
 					<div class="meta">
@@ -92,23 +100,23 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 							<th class="checkbox_head"> &nbsp; </th>
 							<th class="networks_head">' . __( 'Network', DFRAPI_DOMAIN ) . '</th>
 							<th class="type_head">' . __( 'Type', DFRAPI_DOMAIN ) . '</th>
-							<th class="aid_head">' . __( 'Affiliate ID', DFRAPI_DOMAIN ) . ' <a href="' .$this->map_link( $group_name ) .'" target="_blank" title="' . __( 'Learn how to find your affiliate ID from ', DFRAPI_DOMAIN ) . $group_name . __( ' (opens in new window).', DFRAPI_DOMAIN ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', DFRAPI_DOMAIN ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#a00;">(' . __( 'required', DFRAPI_DOMAIN ) . ')</small></th>
+							<th class="aid_head">' . __( 'Affiliate ID', DFRAPI_DOMAIN ) . ' <a href="' . $this->map_link( $group_name ) . '" target="_blank" title="' . __( 'Learn how to find your affiliate ID from ', DFRAPI_DOMAIN ) . $group_name . __( ' (opens in new window).', DFRAPI_DOMAIN ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', DFRAPI_DOMAIN ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#a00;">(' . __( 'required', DFRAPI_DOMAIN ) . ')</small></th>
 							<th class="tid_head">' . __( 'Tracking ID', DFRAPI_DOMAIN ) . ' <a href="https://datafeedrapi.helpscoutdocs.com/article/212-tracking-ids" target="_blank" title="' . __( 'Learn more about this field (opens in new window).', DFRAPI_DOMAIN ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', DFRAPI_DOMAIN ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#999;">(' . __( 'optional', DFRAPI_DOMAIN ) . ')</small></th>
 						</tr>
 					</thead>
 					<tbody>
 			';
 
-			$i=0;
+			$i = 0;
 
 			foreach ( $this->all_networks as $network ) {
 
-				$i++;
-				$checked = ( array_key_exists( $network['_id'], (array) $this->options['ids'] ) ) ? ' checked="checked"' : '';
-				$type = ( $network['type'] == 'products' ) ?  __( 'products', DFRAPI_DOMAIN ) :  __( 'coupons', DFRAPI_DOMAIN );
-				$type_class = ( $network['type'] == 'products' ) ?  ' dfrapi_label-info"' :  ' dfrapi_label-success';
+				$i ++;
+				$checked     = ( array_key_exists( $network['_id'], (array) $this->options['ids'] ) ) ? ' checked="checked"' : '';
+				$type        = ( $network['type'] == 'products' ) ? __( 'products', DFRAPI_DOMAIN ) : __( 'coupons', DFRAPI_DOMAIN );
+				$type_class  = ( $network['type'] == 'products' ) ? ' dfrapi_label-info"' : ' dfrapi_label-success';
 				$no_products = ( $network['product_count'] < 1 ) ? 'no_products' : '';
-				$alternate = ( $i % 2 ) ? '' : ' alternate';
+				$alternate   = ( $i % 2 ) ? '' : ' alternate';
 
 				if ( $network['group'] == $group_name ) {
 
@@ -155,6 +163,9 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 					} elseif ( $network['group_id'] == 10033 && is_wp_error( dfrapi_get_affiliate_gateway_sid() ) ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
 						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Your Affiliate Gateway SID is required before you can enter your affiliate ID. Enter SID.</a></td>';
+					} elseif ( $network['group_id'] == 10045 && is_wp_error( dfrapi_get_adservice_mid() ) ) {
+						$url  = admin_url( 'admin.php?page=dfrapi' );
+						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Your Adservice Media ID is required before you can enter your affiliate ID. Enter Media ID.</a></td>';
 					} else {
 						$html .= '<td class="aid_input"><input type="text" name="dfrapi_networks[ids][' . $network['_id'] . '][aid]" value="' . $aid . '" class="aid_input_field" /></td>';
 					}
@@ -174,15 +185,17 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				</table>
 			</div>
 			';
+
 			return $html;
 		}
 
 		function get_network_group_names() {
 			$networks = $this->all_networks;
-			$groups = array();
+			$groups   = array();
 			foreach ( $networks as $network ) {
 				$groups[] = $network['group'];
 			}
+
 			return array_unique( $groups );
 		}
 
@@ -190,23 +203,24 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 		 * This returns <select> menu for adspaces.
 		 */
 		function zanox_adspace( $nid, $selected_adspace ) {
-			$html = '';
+			$html     = '';
 			$adspaces = $this->get_zanox_adspaces();
 			if ( isset( $adspaces['zanox_error'] ) ) {
 				if ( $adspaces['zanox_error'] == 'missing_keys' ) {
 					$html .= '<span><a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" class="dfrapi_warning">' . __( 'Please add your Zanox Connection &amp; Secret Key', DFRAPI_DOMAIN ) . '</a>.</span>';
 				} else {
-					$html .= '<pre>' . print_r( $adspaces['zanox_error'], TRUE ) . '</pre>';
+					$html .= '<pre>' . print_r( $adspaces['zanox_error'], true ) . '</pre>';
 				}
 			} else {
 				$html .= '<select name="dfrapi_networks[ids][' . $nid . '][aid]">';
 				$html .= '<option value="">' . __( 'Select an adspace', DFRAPI_DOMAIN ) . '</option>';
-				foreach( $adspaces as $adspace ) {
+				foreach ( $adspaces as $adspace ) {
 					$selected = selected( $selected_adspace, $adspace['id'], false );
-					$html .= '<option value="' . $adspace['id'] . '" ' . $selected . '>' . $adspace['name'] . '</option>';
+					$html     .= '<option value="' . $adspace['id'] . '" ' . $selected . '>' . $adspace['name'] . '</option>';
 				}
 				$html .= '</select>';
 			}
+
 			return $html;
 		}
 
@@ -215,15 +229,15 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 		 */
 		function get_zanox_adspaces() {
 			$option_name = 'dfrapi_zanox_adspaces';
-			$use_cache = wp_using_ext_object_cache( false );
-			$adspaces = get_transient( $option_name );
+			$use_cache   = wp_using_ext_object_cache( false );
+			$adspaces    = get_transient( $option_name );
 			wp_using_ext_object_cache( $use_cache );
 			if ( false === $adspaces || empty ( $adspaces ) ) {
 				$zanox_keys = dfrapi_get_zanox_keys();
-				if ( !$zanox_keys ) {
+				if ( ! $zanox_keys ) {
 					return array( 'zanox_error' => 'missing_keys' );
 				} else {
-					$client = new Dfr_ZanoxAPIClient( $zanox_keys['connection_key'], $zanox_keys['secret_key'] );
+					$client   = new Dfr_ZanoxAPIClient( $zanox_keys['connection_key'], $zanox_keys['secret_key'] );
 					$adspaces = $client->adspaces();
 					if ( $client->error() ) {
 						return array( 'zanox_error' => $client->error() );
@@ -235,6 +249,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				}
 			}
 			dfrapi_update_transient_whitelist( $option_name );
+
 			return $adspaces;
 		}
 
@@ -274,13 +289,14 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			foreach ( $this->all_networks as $network ) {
 				if ( $network['group'] == $group_name ) {
 					if ( array_key_exists( $network['_id'], (array) $this->options['ids'] ) ) {
-						$count++;
+						$count ++;
 					}
 				}
 			}
 
 			if ( $count > 0 ) {
 				$messages = $this->messages();
+
 				return '<span class="num_checked">' . sprintf( translate_nooped_plural( $messages['num_checked'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
 			}
 		}
@@ -289,12 +305,13 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			$count = 0;
 			foreach ( $this->all_networks as $network ) {
 				if ( $network['group'] == $group_name ) {
-					$count++;
+					$count ++;
 				}
 			}
 
 			if ( $count > 0 ) {
 				$messages = $this->messages();
+
 				return '<span class="num_networks">' . sprintf( translate_nooped_plural( $messages['num_networks'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
 			}
 		}
@@ -309,6 +326,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 			if ( $count > 0 ) {
 				$messages = $this->messages();
+
 				return '<span class="num_merchants">' . sprintf( translate_nooped_plural( $messages['num_merchants'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
 			}
 		}
@@ -323,6 +341,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 			if ( $count > 0 ) {
 				$messages = $this->messages();
+
 				return '<span class="num_products">' . sprintf( translate_nooped_plural( $messages['num_products'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span>';
 			}
 
@@ -330,8 +349,8 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 		function messages() {
 			return array(
-				'num_missing' 	=> _n_noop( '%s missing affiliate ID', '%s missing affiliate IDs' ),
-				'num_checked' 	=> _n_noop( '%s network selected', '%s networks selected' ),
+				'num_missing'   => _n_noop( '%s missing affiliate ID', '%s missing affiliate IDs' ),
+				'num_checked'   => _n_noop( '%s network selected', '%s networks selected' ),
 				'num_networks'  => _n_noop( '%s network', '%s networks' ),
 				'num_merchants' => _n_noop( '%s merchant', '%s merchants' ),
 				'num_products'  => _n_noop( '%s product', '%s products' ),
@@ -344,6 +363,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				'Admitad'               => 'https://datafeedrapi.helpscoutdocs.com/article/241-how-to-find-your-admitad-affiliate-id',
 				'ADCELL'                => 'https://datafeedrapi.helpscoutdocs.com/article/235-how-to-find-your-adcell-affiliate-id',
 				'Adrecord'              => 'https://datafeedrapi.helpscoutdocs.com/article/115-how-to-find-your-adrecord-affiliate-id',
+				'Adservice'             => 'https://datafeedrapi.helpscoutdocs.com/article/251-how-to-find-your-adservice-affiliate-id-and-media-id',
 				'Adtraction'            => 'https://datafeedrapi.helpscoutdocs.com/article/116-how-to-find-your-adtraction-affiliate-id',
 				'Affiliate4You'         => 'http://www.datafeedr.com/docs/item/265',
 				'Awin'                  => 'https://datafeedrapi.helpscoutdocs.com/article/120-how-to-find-your-affiliate-window-affiliate-id',
@@ -364,7 +384,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				'Connexity'             => 'https://datafeedrapi.helpscoutdocs.com/article/178-how-to-find-your-connexity-affiliate-id',
 				'Daisycon'              => 'https://datafeedrapi.helpscoutdocs.com/article/135-how-to-find-your-daisycon-affiliate-id',
 				'DGM'                   => 'http://www.datafeedr.com/docs/item/263',
-				'Digital Advisor'                   => 'https://datafeedrapi.helpscoutdocs.com/article/250-how-to-find-your-digital-advisor-affiliate-id',
+				'Digital Advisor'       => 'https://datafeedrapi.helpscoutdocs.com/article/250-how-to-find-your-digital-advisor-affiliate-id',
 				'Double.net'            => 'https://datafeedrapi.helpscoutdocs.com/article/136-how-to-find-your-double-net-affiliate-id',
 				'Effiliation'           => 'https://datafeedrapi.helpscoutdocs.com/article/211-how-to-find-your-effiliation-api-key',
 				'FamilyBlend'           => 'https://datafeedrapi.helpscoutdocs.com/article/117-how-to-find-your-familyblend-affiliate-id',
@@ -405,10 +425,11 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			if ( isset( $input['ids'] ) ) {
 				foreach ( $input['ids'] as $k => $v ) {
 					if ( isset( $v['nid'] ) ) {
-						$new_input['ids'][$k] = $v;
+						$new_input['ids'][ $k ] = $v;
 					}
 				}
 			}
+
 			return $new_input;
 		}
 

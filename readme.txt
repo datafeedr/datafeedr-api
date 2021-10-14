@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.9-alpha
-Stable tag: 1.2.9
+Stable tag: 1.2.10
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.2.10 - 2021/10/14 =
+* Added support for a new Nordic-oriented affiliate network: [Adservice](https://www.adservice.com/)
 
 = 1.2.9 - 2021/10/03 =
 * Fixed bug where "missing affiliate IDs" error appeared for Partnerize Spain.

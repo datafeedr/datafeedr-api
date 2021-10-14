@@ -1116,7 +1116,7 @@ function dfrapi_get_affiliate_gateway_sid() {
  */
 function dfrapi_insert_affiliate_gateway_sid_into_affiliate_link( $url, $product, $tracking_id ) {
 
-	if ( $product['source'] != 'The Affiliate Gateway' ) {
+	if ( $product['source'] !== 'The Affiliate Gateway' ) {
 		return $url;
 	}
 
@@ -1132,6 +1132,53 @@ function dfrapi_insert_affiliate_gateway_sid_into_affiliate_link( $url, $product
 }
 
 add_filter( 'dfrapi_after_tracking_id_insertion', 'dfrapi_insert_affiliate_gateway_sid_into_affiliate_link', 20, 3 );
+
+/**
+ * Get Adservice Media ID from this page WordPress Admin Area > Datafeedr API > Configuration
+ *
+ * @return string|WP_Error
+ * @since 1.0.102
+ */
+function dfrapi_get_adservice_mid() {
+
+	static $sid = null;
+
+	if ( null === $sid ) {
+
+		$config = get_option( 'dfrapi_configuration', [] );
+
+		$sid = ( isset( $config['adservice_mid'] ) && ! empty( $config['adservice_mid'] ) ) ?
+			trim( $config['adservice_mid'] ) :
+			new WP_Error(
+				'missing_adservice_mid',
+				'Please enter your Adservice Media ID <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
+			);
+	}
+
+	return $sid;
+}
+
+/**
+ * Insert Media ID into Adservice affiliate links.
+ *
+ * @param string $url
+ * @param array $product
+ * @param string $tracking_id
+ *
+ * @return string
+ */
+function dfrapi_insert_adservice_mid_into_affiliate_link( $url, $product, $tracking_id ) {
+
+	if ( ! dfrapi_str_contains( $product['source'], 'Adservice' ) ) {
+		return $url;
+	}
+
+	$mid = dfrapi_get_adservice_mid();
+
+	return is_wp_error( $mid ) ? $url : str_replace( '{MID}', $mid, $url );
+}
+
+add_filter( 'dfrapi_after_tracking_id_insertion', 'dfrapi_insert_adservice_mid_into_affiliate_link', 20, 3 );
 
 /**
  * @param array $merchants

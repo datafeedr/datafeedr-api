@@ -71,7 +71,7 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 = 1.2.11 - 2021/11/17 =
 * Added new "Product ID" Product Set search filter. Now you can search by a specific Product ID.
 * Added new "Barcode" Product Set search filter. Now you can search products by EAN, UPC or GTIN.
-* Added new "Has Barcode" Product Set search filter. Now you can include/exclude products based on whether or not they have a Barcode (ie. UPC, EAN or GTIN).
+* Added new "Has Barcode" Product Set search filter. Now you can include or exclude products based on whether or not they have a Barcode (ie. UPC, EAN or GTIN).
 
 = 1.2.10 - 2021/10/14 =
 * Added support for a new Nordic-oriented affiliate network: [Adservice](https://www.adservice.com/)

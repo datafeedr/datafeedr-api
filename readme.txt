@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.9-alpha
-Stable tag: 1.2.10
+Stable tag: 1.2.11
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,11 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.2.11 - 2021/11/17 =
+* Added new "Product ID" Product Set search filter. Now you can search by a specific Product ID.
+* Added new "Barcode" Product Set search filter. Now you can search products by EAN, UPC or GTIN.
+* Added new "Has Barcode" Product Set search filter. Now you can include/exclude products based on whether or not they have a Barcode (ie. UPC, EAN or GTIN).
 
 = 1.2.10 - 2021/10/14 =
 * Added support for a new Nordic-oriented affiliate network: [Adservice](https://www.adservice.com/)

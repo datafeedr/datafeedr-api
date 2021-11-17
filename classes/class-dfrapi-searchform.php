@@ -3,35 +3,41 @@
 class Dfrapi_SearchForm
 {
     function fields() {
-        $opFulltext = array(
-            'contain'       => __( 'contains', DFRAPI_DOMAIN ),
-            'not_contain'   => __( 'doesn\'t contain', DFRAPI_DOMAIN ),
-            'start'         => __( 'starts with', DFRAPI_DOMAIN ),
-            'end'           => __( 'ends with', DFRAPI_DOMAIN ),
-            'match'         => __( 'matches', DFRAPI_DOMAIN )
-        );
-        $opFulltextExact = array_merge($opFulltext, array(
-            'is'  => __( 'is', DFRAPI_DOMAIN )
-        ));
-        $opRange = array(
-            'eq'      => __( 'equal to', DFRAPI_DOMAIN ),
-            'lt'      => __( 'less than', DFRAPI_DOMAIN ),
-            'lte'     => __( 'less than or equal to', DFRAPI_DOMAIN ),
-            'gt'      => __( 'greater than', DFRAPI_DOMAIN ),
-            'gte'     => __( 'greater than or equal to', DFRAPI_DOMAIN ),
-            'between' => __( 'between', DFRAPI_DOMAIN )
-        );
-        $opIs = array(
-            'is'     => __( 'is', DFRAPI_DOMAIN )
-        );
-        $opIsIsnt = array(
-            'is'     => __( 'is', DFRAPI_DOMAIN ),
-            'is_not' => __( 'isn\'t', DFRAPI_DOMAIN )
-        );
-        $opYesNo = array(
-            'yes'  => __( 'yes', DFRAPI_DOMAIN ),
-            'no'   => __( 'no', DFRAPI_DOMAIN )
-        );
+
+	    $opFulltext = array(
+		    'contain'     => __( 'contains', DFRAPI_DOMAIN ),
+		    'not_contain' => __( 'doesn\'t contain', DFRAPI_DOMAIN ),
+		    'start'       => __( 'starts with', DFRAPI_DOMAIN ),
+		    'end'         => __( 'ends with', DFRAPI_DOMAIN ),
+		    'match'       => __( 'matches', DFRAPI_DOMAIN )
+	    );
+
+	    $opFulltextExact = array_merge( $opFulltext, array(
+		    'is' => __( 'is', DFRAPI_DOMAIN )
+	    ) );
+
+	    $opRange = array(
+		    'eq'      => __( 'equal to', DFRAPI_DOMAIN ),
+		    'lt'      => __( 'less than', DFRAPI_DOMAIN ),
+		    'lte'     => __( 'less than or equal to', DFRAPI_DOMAIN ),
+		    'gt'      => __( 'greater than', DFRAPI_DOMAIN ),
+		    'gte'     => __( 'greater than or equal to', DFRAPI_DOMAIN ),
+		    'between' => __( 'between', DFRAPI_DOMAIN )
+	    );
+
+	    $opIs = array(
+		    'is' => __( 'is', DFRAPI_DOMAIN )
+	    );
+
+	    $opIsIsnt = array(
+		    'is'     => __( 'is', DFRAPI_DOMAIN ),
+		    'is_not' => __( 'isn\'t', DFRAPI_DOMAIN )
+	    );
+
+	    $opYesNo = array(
+		    'yes' => __( 'yes', DFRAPI_DOMAIN ),
+		    'no'  => __( 'no', DFRAPI_DOMAIN )
+	    );
 
 	    $opInStock = array(
 		    'yes_unknown' => __( 'yes or unknown', DFRAPI_DOMAIN ),
@@ -72,6 +78,20 @@ class Dfrapi_SearchForm
 			    'input'    => 'text',
 			    'operator' => $opFulltextExact,
 			    'help'     => $this->help( 'name' )
+		    ),
+		    array(
+			    'title'    => __( 'Product ID', DFRAPI_DOMAIN ),
+			    'name'     => 'id',
+			    'input'    => 'text',
+			    'operator' => $opIsIsnt,
+			    'help'     => $this->help( 'id' )
+		    ),
+		    array(
+			    'title'    => __( 'Barcode', DFRAPI_DOMAIN ),
+			    'name'     => 'barcode',
+			    'input'    => 'text',
+			    'operator' => $opIsIsnt,
+			    'help'     => $this->help( 'barcode' )
 		    ),
 		    array(
 			    'title'    => __( 'Brand', DFRAPI_DOMAIN ),
@@ -196,6 +216,13 @@ class Dfrapi_SearchForm
 			    'help'     => $this->help( 'finalprice' )
 		    ),
 		    array(
+			    'title'    => __( 'Discount', DFRAPI_DOMAIN ),
+			    'name'     => 'salediscount',
+			    'input'    => 'range',
+			    'operator' => $opRange,
+			    'help'     => $this->help( 'salediscount' )
+		    ),
+		    array(
 			    'title'    => __( 'Network', DFRAPI_DOMAIN ),
 			    'name'     => 'source_id',
 			    'input'    => 'network',
@@ -231,18 +258,18 @@ class Dfrapi_SearchForm
 			    'help'     => $this->help( 'direct_url' )
 		    ),
 		    array(
-			    'title'    => __( 'Discount', DFRAPI_DOMAIN ),
-			    'name'     => 'salediscount',
-			    'input'    => 'range',
-			    'operator' => $opRange,
-			    'help'     => $this->help( 'salediscount' )
-		    ),
-		    array(
 			    'title'    => __( 'Has Image', DFRAPI_DOMAIN ),
 			    'name'     => 'image',
 			    'input'    => 'none',
 			    'operator' => $opYesNo,
 			    'help'     => $this->help( 'image' )
+		    ),
+		    array(
+			    'title'    => __( 'Has Barcode', DFRAPI_DOMAIN ),
+			    'name'     => 'has_barcode',
+			    'input'    => 'none',
+			    'operator' => $opYesNo,
+			    'help'     => $this->help( 'has_barcode' )
 		    ),
 		    array(
 			    'title'    => __( 'Last Updated', DFRAPI_DOMAIN ),
@@ -290,6 +317,8 @@ class Dfrapi_SearchForm
 	function defaults() {
 		return array(
 			'any'            => array( 'operator' => 'contain', 'value' => '' ),
+			'id'             => array( 'operator' => 'is', 'value' => '' ),
+			'barcode'        => array( 'operator' => 'is', 'value' => '' ),
 			'name'           => array( 'operator' => 'contain', 'value' => '' ),
 			'brand'          => array( 'operator' => 'contain', 'value' => '' ),
 			'color'          => array( 'operator' => 'contain', 'value' => '' ),
@@ -307,6 +336,7 @@ class Dfrapi_SearchForm
 			'instock'        => array( 'value' => 'yes_unknown' ),
 			'direct_url'     => array( 'value' => '1' ),
 			'image'          => array( 'value' => '1' ),
+			'has_barcode'    => array( 'value' => '1' ),
 			'thumbnail'      => array( 'value' => '1' ),
 			'time_updated'   => array( 'operator' => 'lt', 'value' => 'today' ),
 			'limit'          => array( 'value' => 1000 ),
@@ -718,10 +748,11 @@ class Dfrapi_SearchForm
                     $op = ($operator == 'is') ? '=' : '!=';
                     $filters []= "{$fname} $op {$value}";
                     break;
-                case 'id':
-                    $op = ($operator == 'is') ? 'IN' : '!IN';
-                    $filters []= "{$fname} $op {$value}";
-                    break;
+	            case 'id':
+	            case 'barcode':
+		            $op = ($operator == 'is') ? 'IN' : '!IN';
+		            $filters []= "{$fname} $op {$value}";
+		            break;
                 case 'price':
                 case 'finalprice':
                 case 'saleprice':
@@ -784,10 +815,14 @@ class Dfrapi_SearchForm
                     $filters []= "{$fname} {$operator}";
                     break;
                 case 'image':
-                case 'thumbnail':
-                    $operator = ($operator == 'yes') ? '!EMPTY' : 'EMPTY';
-                    $filters []= "image {$operator}";
-                    break;
+	            case 'thumbnail':
+		            $operator = ($operator == 'yes') ? '!EMPTY' : 'EMPTY';
+		            $filters []= "image {$operator}";
+		            break;
+	            case 'has_barcode':
+		            $operator = ( $operator === 'yes') ? '!EMPTY' : 'EMPTY';
+		            $filters []= "barcode {$operator}";
+		            break;
                 case 'time_updated':
                     $value = @date('Y-m-d H:i:s', strtotime($value));
                     switch($operator) {
@@ -869,6 +904,19 @@ class Dfrapi_SearchForm
         $help['name'] .= $this->help_tip( __( 'Some merchants include color, size, gender, product codes, sale information and promotions in the product name field.', DFRAPI_DOMAIN ) );
         $help['name'] .= $this->help_operators();
 
+        // ID
+        $help['id'] = '<h3>' . __('Product ID', DFRAPI_DOMAIN ) . '</h3>';
+        $help['id'] .= '<p>' . __( 'Search by Product ID to find specific products.', DFRAPI_DOMAIN ) . '</p>';
+        $help['id'] .= $this->help_tip( __( 'Separate each product ID with a comma "," to search for multiple products by their IDs.<br /><br />Example: <strong>4088900432286084, 8177000167015036, 2651801988581531</strong>', DFRAPI_DOMAIN ) );
+        $help['id'] .= '<p>' . __( 'Product IDs are assigned by Datafeedr and are not related to any IDs merchants use to identify their products. Each product in the Datafeedr product database has a unique Product ID.', DFRAPI_DOMAIN ) . '</p>';
+//        $help['id'] .= $this->help_operators();
+
+	    // Barcode
+	    $help['barcode'] = '<h3>' . __('Barcode', DFRAPI_DOMAIN ) . '</h3>';
+	    $help['barcode'] .= '<p>' . __( 'Search for products by their barcode (ie. EAN, UPC or GTIN value).', DFRAPI_DOMAIN ) . '</p>';
+	    $help['barcode'] .= $this->help_tip( __( 'Separate each barcode with a comma "," to search for multiple products by their barcodes.<br /><br />Example: <strong>889169871993, 889169900167, 889169488559</strong>', DFRAPI_DOMAIN ) );
+	    $help['barcode'] .= '<p>' . __( 'The Barcode search filter ignores leading zeros. Therefore, searching for <strong>889169871993</strong> and searching for <strong>00889169871993</strong> will return the same results.', DFRAPI_DOMAIN ) . '</p>';
+
         // Brand
         $help['brand'] = '<h3>' . __('Brand', DFRAPI_DOMAIN ) . '</h3>';
         $help['brand'] .= '<p>' . __( 'Search by brand name to get specific results. Not every item has a brand name.', DFRAPI_DOMAIN ) . '</p>';
@@ -937,6 +985,11 @@ class Dfrapi_SearchForm
         $help['finalprice'] .= '<p>' . __( 'Filter your search results based on the final price. Return items less than, greater than, or within a sale price range that you set.', DFRAPI_DOMAIN ) . '</p>';
         $help['finalprice'] .= $this->help_tip( __( 'The final price is the lower price when comparing the regular price and sale price field.', DFRAPI_DOMAIN ) );
 
+	    // Discount
+	    $help['salediscount'] = '<h3>' . __('Discount', DFRAPI_DOMAIN ) . '</h3>';
+	    $help['salediscount'] .= '<p>' . __( 'Limit your search results to items with a specified discount. Enter the number in terms of percentage (1 - 100) to indicate a discount less than, greater than, or between a given range. You do not need to enter the percentage sign.', DFRAPI_DOMAIN ) . '</p>';
+	    $help['salediscount'] .= $this->help_tip( __( 'To display, for example, only products that are on sale for a discount of 20% or more, choose the "greater than" operator and type "19".', DFRAPI_DOMAIN ) );
+
         // Network
         $help['source_id'] = '<h3>' . __('Network', DFRAPI_DOMAIN ) . '</h3>';
         $help['source_id'] .= '<p>' . __( 'Limit your search results to items from one or more affiliate networks.', DFRAPI_DOMAIN ) . '</p>';
@@ -964,17 +1017,16 @@ class Dfrapi_SearchForm
         $help['direct_url'] .= '<p>' . __( 'Limit your search results to items which have a direct URL (or which don\'t).', DFRAPI_DOMAIN ) . '</p>';
         $help['direct_url'] .= $this->help_tip( __( 'A "Direct URL" is a URL directly to the product page on the merchant\'s website. By default, the "Direct URL" is never used as the URL in your "Buy" links. However, if you need the products in your store to contain a "Direct URL" to the product page on the merchants\' websites, then you should use this filter. This is most useful if you are using Skimlinks (or similar service) to generate your affiliate links instead of the affiliate networks.', DFRAPI_DOMAIN ) );
 
-        // Discount
-        $help['salediscount'] = '<h3>' . __('Discount', DFRAPI_DOMAIN ) . '</h3>';
-        $help['salediscount'] .= '<p>' . __( 'Limit your search results to items with a specified discount. Enter the number in terms of percentage (1 - 100) to indicate a discount less than, greater than, or between a given range. You do not need to enter the percentage sign.', DFRAPI_DOMAIN ) . '</p>';
-        $help['salediscount'] .= $this->help_tip( __( 'To display, for example, only products that are on sale for a discount of 20% or more, choose the "greater than" operator and type "19".', DFRAPI_DOMAIN ) );
+	    // Has Image
+	    $help['image'] = '<h3>' . __('Has Image', DFRAPI_DOMAIN ) . '</h3>';
+	    $help['image'] .= '<p>' . __( 'Limit your search results to items which have an image (or which don\'t).', DFRAPI_DOMAIN ) . '</p>';
+	    $help['image'] .= $this->help_tip( __( 'Sometimes the image URL in the merchant\'s data feed is broken. Items with broken images will still return in search results even though there appears to be no image.', DFRAPI_DOMAIN ) );
 
-        // Has Image
-        $help['image'] = '<h3>' . __('Has Image', DFRAPI_DOMAIN ) . '</h3>';
-        $help['image'] .= '<p>' . __( 'Limit your search results to items which have an image (or which don\'t).', DFRAPI_DOMAIN ) . '</p>';
-        $help['image'] .= $this->help_tip( __( 'Sometimes the image URL in the merchant\'s data feed is broken. Items with broken images will still return in search results even though there appears to be no image.', DFRAPI_DOMAIN ) );
+	    // Has Barcode
+	    $help['has_barcode'] = '<h3>' . __('Has Barcode', DFRAPI_DOMAIN ) . '</h3>';
+	    $help['has_barcode'] .= '<p>' . __( 'Limit your search results to products which have a barcode (ie. a UPC, EAN or GTIN value).', DFRAPI_DOMAIN ) . '</p>';
 
-        // Last Updated
+	    // Last Updated
         $help['time_updated'] = '<h3>' . __('Last Updated', DFRAPI_DOMAIN ) . '</h3>';
         $help['time_updated'] .= '<p>' . __( 'Filter products by the last time they were updated by the merchant. Enter an English textual datetime description using PHP\'s <a href="http://www.php.net/strtotime" target="_blank">strtotime()</a> function.', DFRAPI_DOMAIN ) . '</p>';
         $help['time_updated'] .= '<h3>' . __('Examples', DFRAPI_DOMAIN ) . '</h3>';

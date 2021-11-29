@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
 Tested up to: 5.9-alpha
-Stable tag: 1.2.11
+Stable tag: 1.2.12
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,13 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.2.12 - 2021/11/29 =
+* Added new `getQueryScore()` method to `DatafeedrSearchRequestBase` class.
+* Added `score` to API `$response` array.
+* Removed [Add All] button from list of Merchants on WordPress Admin Area > Datafeedr API > Merchants page to prevent thousands of merchants being selected inadvertently.
+* Updated URLs to Docs and Contact page.
+* Fixed missing action links on WordPress Admin Area > Plugins page.
 
 = 1.2.11 - 2021/11/17 =
 * Added new "Product ID" Product Set search filter. Now you can search by a specific Product ID.

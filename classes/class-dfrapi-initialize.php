@@ -33,7 +33,7 @@ class Dfrapi_Initialize {
 
 		add_action( 'wp_ajax_search_form', 		array( $this, 'ajax_search_form' ) );
 
-		add_filter( 'plugin_action_links_' . DFRAPI_BASENAME, array( $this, 'action_links' ) );
+		add_filter( 'plugin_action_links_' . 'datafeedr-api/datafeedr-api.php', array( $this, 'action_links' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 
 		do_action( 'dfrapi_loaded' );
@@ -194,11 +194,11 @@ class Dfrapi_Initialize {
 	}
 
 	function plugin_row_meta( $links, $plugin_file ) {
-		if ( $plugin_file == DFRAPI_BASENAME ) {
-			/* $links[] = sprintf( '<a href="' . admin_url( 'plugin-install.php?tab=search&type=tag&s=dfrapi' ) . '">%s</a>', __( 'Integration Plugins', DFRAPI_DOMAIN ) ); */
-			$links[] = sprintf( '<a href="' . DFRAPI_HELP_URL . '">%s</a>', __( 'Support', DFRAPI_DOMAIN ) );
-			return $links;
+		if ( $plugin_file === 'datafeedr-api/datafeedr-api.php' ) {
+			$links[] = sprintf( '<a href="' . DFRAPI_DOCS_URL . '" target="_blank">%s</a>', __( 'Documentation', DFRAPI_DOMAIN ) );
+			$links[] = sprintf( '<a href="' . DFRAPI_HELP_URL . '" target="_blank">%s</a>', __( 'Support', DFRAPI_DOMAIN ) );
 		}
+
 		return $links;
 	}
 
@@ -206,7 +206,7 @@ class Dfrapi_Initialize {
 		return array_merge(
 			$links,
 			array(
-				'config' => '<a href="' . admin_url( 'admin.php?page=dfrapi' ) . '">' . __( 'API Settings', DFRAPI_DOMAIN ) . '</a>',
+				'config' => '<a href="' . admin_url( 'admin.php?page=dfrapi' ) . '">' . __( 'Configuration', DFRAPI_DOMAIN ) . '</a>',
 			)
 		);
 	}

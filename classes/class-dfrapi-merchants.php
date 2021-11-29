@@ -170,7 +170,6 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
                     <div class="dfrapi_pane_left">
                         <div class="dfrapi_pane_title">
                             <span>' . __( 'Available Merchants', DFRAPI_DOMAIN ) . '</span>
-							<a class="add_all button">' . __( 'Add All', DFRAPI_DOMAIN ) . '</a>
 						</span>
 
                         </div>

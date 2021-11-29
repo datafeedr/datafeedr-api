@@ -508,6 +508,7 @@ function dfrapi_api_get_products_by_id( $ids, $ppp = 20, $page = 1 ) {
 		$response['last_status'] = $api->lastStatus();
 		$response['found_count'] = count( $ids );
 		$response['params']      = $search->getParams();
+		$response['score']       = $search->getQueryScore();
 
 		// Return it!
 		return $response;
@@ -679,9 +680,9 @@ function dfrapi_api_get_products_by_query( $query, $ppp = 20, $page = 1, $exclud
 		$response['excluded']    = $excluded;
 		$response['products']    = $products;
 		$response['last_status'] = $api->lastStatus();
-		//$response['found_count'] 	= $search->getFoundCount(); Old, returned wrong value (#8672)
 		$response['found_count'] = $search->getResultCount();
 		$response['params']      = $search->getParams();
+		$response['score']       = $search->getQueryScore();
 
 		// Return it!
 		return $response;

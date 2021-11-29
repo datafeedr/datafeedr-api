@@ -805,6 +805,17 @@ class DatafeedrSearchRequestBase {
 	}
 
 	/**
+	 * Get the complexity score of the current query.
+	 *
+	 * @return int
+	 * @throws DatafeedrError
+	 * @since 1.2.12
+	 */
+	public function getQueryScore() {
+		return abs( (int) $this->_responseItem( 'score', 0 ) );
+	}
+
+	/**
 	 * Returns the full response from the last search.
 	 *
 	 * Possible items in array include the following:

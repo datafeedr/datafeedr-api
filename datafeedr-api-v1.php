@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define constants.
  */
-define( 'DFRAPI_VERSION', '1.2.11' );
+define( 'DFRAPI_VERSION', '1.2.12' );
 define( 'DFRAPI_URL', plugin_dir_url( __FILE__ ) );
 define( 'DFRAPI_PATH', plugin_dir_path( __FILE__ ) );
 define( 'DFRAPI_BASENAME', plugin_basename( __FILE__ ) );
@@ -16,13 +16,14 @@ define( 'DFRAPI_DOMAIN', 'datafeedr-api' );
 define( 'DFRAPI_HOME_URL', 'https://www.datafeedr.com' );
 define( 'DFRAPI_KEYS_URL', 'https://members.datafeedr.com/api' );
 define( 'DFRAPI_USER_URL', 'https://members.datafeedr.com/' );
-define( 'DFRAPI_HELP_URL', 'https://datafeedrapi.helpscoutdocs.com/contact' );
-define( 'DFRAPI_BUG_REPORTS_URL', 'https://datafeedrapi.helpscoutdocs.com/' );
-define( 'DFRAPI_QNA_URL', 'https://datafeedrapi.helpscoutdocs.com/' );
-define( 'DFRAPI_DOCS_URL', 'https://datafeedrapi.helpscoutdocs.com/' );
-define( 'DFRAPI_REPORT_BUG_URL', 'https://datafeedrapi.helpscoutdocs.com/contact' );
-define( 'DFRAPI_ASK_QUESTION_URL', 'https://datafeedrapi.helpscoutdocs.com/contact' );
-define( 'DFRAPI_EMAIL_US_URL', 'https://datafeedrapi.helpscoutdocs.com/contact' );
+define( 'DFRAPI_HELP_URL', 'https://datafeedr.me/contact' );
+define( 'DFRAPI_BUG_REPORTS_URL', 'https://datafeedr.me/docs' );
+define( 'DFRAPI_QNA_URL', 'https://datafeedr.me/docs' );
+define( 'DFRAPI_DOCS_URL', 'https://datafeedr.me/docs' );
+define( 'DFRAPI_REPORT_BUG_URL', 'https://datafeedr.me/contact' );
+define( 'DFRAPI_ASK_QUESTION_URL', 'https://datafeedr.me/contact' );
+define( 'DFRAPI_EMAIL_US_URL', 'https://datafeedr.me/contact' );
+define( 'DFRAPI_COMPLEX_QUERY_SCORE', 10000 );
 
 /**
  * Require WP 3.8+

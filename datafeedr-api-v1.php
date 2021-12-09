@@ -24,6 +24,7 @@ define( 'DFRAPI_REPORT_BUG_URL', 'https://datafeedr.me/contact' );
 define( 'DFRAPI_ASK_QUESTION_URL', 'https://datafeedr.me/contact' );
 define( 'DFRAPI_EMAIL_US_URL', 'https://datafeedr.me/contact' );
 define( 'DFRAPI_COMPLEX_QUERY_SCORE', 10000 );
+define( 'DFRAPI_EXCESSIVE_MERCHANT_COUNT', 1000 );
 
 /**
  * Require WP 3.8+

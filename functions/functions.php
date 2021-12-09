@@ -1784,3 +1784,78 @@ function dfrapi_jetpack_photon_url( $image_url, $args = [], $scheme = null ) {
 function dfrapi_use_legacy_image_importer() {
 	return boolval( apply_filters( 'dfrapi_use_legacy_image_importer', false ) );
 }
+
+/**
+ * Formats an Admin Notice and echos it.
+ *
+ * You must send a fully escaped $message to dfrapi_admin_notice() because this
+ * function will NOT escape the $message variable.
+ *
+ * Also, $message is already wrapped in <p></p> tags. Therefore, it cannot contain
+ * additional <p> tags or any other HTML element not allowed as a child to <p> tags.
+ *
+ * @param string $message Notice message. Will NOT be escaped.
+ * @param string $status Either error, warning, success or info.
+ * @param string|null $heading Optional. The notice heading or title.
+ * @param string|null $plugin Optional. The name of the plugin responsible for generating this notice.
+ *
+ * @return void
+ */
+function dfrapi_admin_notice( string $message, string $status, string $heading = null, string $plugin = null ) {
+	$plugin    = $plugin ? esc_html( trim( $plugin ) ) : '';
+	$heading   = $heading ? esc_html( trim( $heading ) ) : '';
+	$separator = $plugin && $heading ? ' &bull; ' : '';
+	$label     = $plugin || $heading ? sprintf( '<strong>%1$s%2$s%3$s</strong><br>', $plugin, $separator, $heading ) : '';
+
+	$status = in_array( $status, [ 'error', 'warning', 'success', 'info' ] ) ? $status : 'info';
+	$class  = esc_attr( 'notice notice-' . $status );
+
+	printf( '<div class="%1$s"><p>%2$s%3$s</p></div>', $class, $label, $message );
+}
+
+/**
+ * Get selected merchants. Format is like this:
+ *
+ *  Array (
+ *      [ids] => Array (
+ *          [0] => 1258
+ *          [1] => 12927
+ *          [2] => 1312
+ *          [3] => 14342
+ *      )
+ *  )
+ *
+ * @return array
+ */
+function dfrapi_get_selected_merchants(): array {
+	return (array) get_option( 'dfrapi_merchants', [] );
+}
+
+/**
+ * Get the list of selected Merchant IDs.
+ *
+ * @return array
+ */
+function dfrapi_get_selected_merchant_ids(): array {
+	$merchants = dfrapi_get_selected_merchants();
+
+	return isset( $merchants['ids'] ) ? (array) $merchants['ids'] : [];
+}
+
+/**
+ * Get the total number of selected merchants.
+ *
+ * @return int
+ */
+function dfrapi_selected_merchant_count(): int {
+	return count( dfrapi_get_selected_merchant_ids() );
+}
+
+/**
+ * Returns the absolute URL for the Datafeedr API > Merchants page.
+ *
+ * @return string
+ */
+function dfrapi_merchants_page_url(): string {
+	return add_query_arg( [ 'page' => 'dfrapi_merchants' ], admin_url( 'admin.php' ) );
+}

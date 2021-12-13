@@ -74,6 +74,7 @@ require_once( DFRAPI_PATH . 'libraries/zanox_client.php' );
 require_once( DFRAPI_PATH . 'classes/class-dfrapi-searchform.php' );
 require_once( DFRAPI_PATH . 'functions/api.php' );
 require_once( DFRAPI_PATH . 'functions/filters.php' );
+require_once( DFRAPI_PATH . 'functions/actions.php' );
 
 /**
  * Display admin notices for each required plugin that needs to be

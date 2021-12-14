@@ -44,12 +44,13 @@ add_action( 'admin_notices', 'dfrapi_wp_version_notice' );
 function dfrapi_wp_version_notice() {
 	$version = get_bloginfo( 'version' );
 	if ( version_compare( $version, '3.8', '<' ) ) {
-		echo '<div class="error"><p>' . __( 'The ', DFRAPI_DOMAIN ) . '<strong><em>';
-		_e( 'Datafeedr API', DFRAPI_DOMAIN );
-		echo '</em></strong>';
-		_e( ' plugin could not be activated because it requires WordPress version 3.8 or greater. Please upgrade your installation of WordPress.',
-			DFRAPI_DOMAIN );
-		echo '</p></div>';
+		dfrapi_admin_notice(
+			__( 'The Datafeedr API Plugin could not be activated because it requires WordPress version 3.8 or greater. Please upgrade your installation of WordPress.', 'datafeedr-api' ),
+			'error',
+			__( 'Unsupported WordPress Version', 'datafeedr-api' ),
+			'Datafeedr API'
+		);
+
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
 		}

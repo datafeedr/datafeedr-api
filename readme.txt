@@ -5,8 +5,8 @@ Tags: woocommerce, datafeedr, affiliate products, dfrapi, import csv, import dat
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
-Tested up to: 5.9-alpha
-Stable tag: 1.2.12
+Tested up to: 5.9-beta3
+Stable tag: 1.2.13
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,12 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.2.13 - 2021/12/15 =
+* Added new `admin_notices` api.
+* Added new error notice if 1,000 or more merchants are selected.
+* Added some new helper functions related to merchants.
+* Rewrote some of the existing `admin_notices`
 
 = 1.2.12 - 2021/11/29 =
 * Added new `getQueryScore()` method to `DatafeedrSearchRequestBase` class.

@@ -39,9 +39,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 		function admin_notice() {
 			if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] == true && isset( $_GET['page'] ) && $this->key == $_GET['page'] ) {
-				echo '<div class="updated"><p>';
-				_e( 'Networks successfully updated!', DFRAPI_DOMAIN );
-				echo '</p></div>';
+				dfrapi_admin_notice( __( 'Networks successfully updated!', 'datafeedr-api' ), 'success' );
 			}
 		}
 

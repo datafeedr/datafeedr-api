@@ -36,9 +36,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
 		function admin_notice() {
 			if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] == true && isset( $_GET['page'] ) && 'dfrapi' == $_GET['page'] ) {
-				echo '<div class="updated"><p>';
-				_e( 'Configuration successfully updated!', 'datafeedr-api' );
-				echo '</p></div>';
+				dfrapi_admin_notice( __( 'Configuration successfully updated!', 'datafeedr-api' ), 'success' );
 			}
 		}
 

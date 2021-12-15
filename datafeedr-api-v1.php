@@ -24,6 +24,7 @@ define( 'DFRAPI_REPORT_BUG_URL', 'https://datafeedr.me/contact' );
 define( 'DFRAPI_ASK_QUESTION_URL', 'https://datafeedr.me/contact' );
 define( 'DFRAPI_EMAIL_US_URL', 'https://datafeedr.me/contact' );
 define( 'DFRAPI_COMPLEX_QUERY_SCORE', 10000 );
+define( 'DFRAPI_EXCESSIVE_MERCHANT_COUNT', 1000 );
 
 /**
  * Require WP 3.8+
@@ -43,12 +44,13 @@ add_action( 'admin_notices', 'dfrapi_wp_version_notice' );
 function dfrapi_wp_version_notice() {
 	$version = get_bloginfo( 'version' );
 	if ( version_compare( $version, '3.8', '<' ) ) {
-		echo '<div class="error"><p>' . __( 'The ', DFRAPI_DOMAIN ) . '<strong><em>';
-		_e( 'Datafeedr API', DFRAPI_DOMAIN );
-		echo '</em></strong>';
-		_e( ' plugin could not be activated because it requires WordPress version 3.8 or greater. Please upgrade your installation of WordPress.',
-			DFRAPI_DOMAIN );
-		echo '</p></div>';
+		dfrapi_admin_notice(
+			__( 'The Datafeedr API Plugin could not be activated because it requires WordPress version 3.8 or greater. Please upgrade your installation of WordPress.', 'datafeedr-api' ),
+			'error',
+			__( 'Unsupported WordPress Version', 'datafeedr-api' ),
+			'Datafeedr API'
+		);
+
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
 		}
@@ -73,6 +75,7 @@ require_once( DFRAPI_PATH . 'libraries/zanox_client.php' );
 require_once( DFRAPI_PATH . 'classes/class-dfrapi-searchform.php' );
 require_once( DFRAPI_PATH . 'functions/api.php' );
 require_once( DFRAPI_PATH . 'functions/filters.php' );
+require_once( DFRAPI_PATH . 'functions/actions.php' );
 
 /**
  * Display admin notices for each required plugin that needs to be

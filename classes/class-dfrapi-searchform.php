@@ -5,11 +5,11 @@ class Dfrapi_SearchForm
     function fields() {
 
 	    $opFulltext = array(
+		    'match'       => __( 'matches', DFRAPI_DOMAIN ),
 		    'contain'     => __( 'contains', DFRAPI_DOMAIN ),
 		    'not_contain' => __( 'doesn\'t contain', DFRAPI_DOMAIN ),
 		    'start'       => __( 'starts with', DFRAPI_DOMAIN ),
 		    'end'         => __( 'ends with', DFRAPI_DOMAIN ),
-		    'match'       => __( 'matches', DFRAPI_DOMAIN )
 	    );
 
 	    $opFulltextExact = array_merge( $opFulltext, array(
@@ -316,16 +316,16 @@ class Dfrapi_SearchForm
 
 	function defaults() {
 		return array(
-			'any'            => array( 'operator' => 'contain', 'value' => '' ),
+			'any'            => array( 'operator' => 'match', 'value' => '' ),
 			'id'             => array( 'operator' => 'is', 'value' => '' ),
 			'barcode'        => array( 'operator' => 'is', 'value' => '' ),
-			'name'           => array( 'operator' => 'contain', 'value' => '' ),
-			'brand'          => array( 'operator' => 'contain', 'value' => '' ),
-			'color'          => array( 'operator' => 'contain', 'value' => '' ),
-			'material'       => array( 'operator' => 'contain', 'value' => '' ),
-			'size'           => array( 'operator' => 'contain', 'value' => '' ),
-			'gender'         => array( 'operator' => 'contain', 'value' => '' ),
-			'condition'      => array( 'operator' => 'contain', 'value' => '' ),
+			'name'           => array( 'operator' => 'match', 'value' => '' ),
+			'brand'          => array( 'operator' => 'match', 'value' => '' ),
+			'color'          => array( 'operator' => 'match', 'value' => '' ),
+			'material'       => array( 'operator' => 'match', 'value' => '' ),
+			'size'           => array( 'operator' => 'match', 'value' => '' ),
+			'gender'         => array( 'operator' => 'match', 'value' => '' ),
+			'condition'      => array( 'operator' => 'match', 'value' => '' ),
 			'type'           => array( 'value' => 'product' ),
 			'currency'       => array( 'value' => 'USD' ),
 			'price'          => array( 'operator' => 'between', 'value' => '0', 'value2' => '999999' ),

@@ -5,8 +5,8 @@ Tags: woocommerce, datafeedr, affiliate products, dfrapi, import csv, import dat
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.8
-Tested up to: 5.9-RC2
-Stable tag: 1.2.14
+Tested up to: 5.9-RC4
+Stable tag: 1.2.15
 
 Connect to the Datafeedr API.
 
@@ -67,6 +67,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.2.15 - 2022/01/25 =
+* Fixed bug where `get_option( 'dfrapi_transient_whitelist', [] )` didn't always return an array.
 
 = 1.2.14 - 2022/01/12 =
 * Made "matches" the default option in the search drop down menu instead of "contains". issues/668

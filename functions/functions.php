@@ -339,7 +339,7 @@ function dfrapi_user_pages( $page ) {
  * API cache on Tools page.
  */
 function dfrapi_update_transient_whitelist( $option_name ) {
-	$whitelist   = get_option( 'dfrapi_transient_whitelist', array() );
+	$whitelist   = (array) get_option( 'dfrapi_transient_whitelist', [] );
 	$whitelist[] = $option_name;
 	update_option( 'dfrapi_transient_whitelist', array_unique( $whitelist ) );
 }

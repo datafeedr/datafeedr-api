@@ -1,17 +1,57 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 /**
- * Exit if accessed directly
+ * Returns true if the user's Datafeedr API keys exist or false if they do not.
+ *
+ * @return bool
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+function dfrapi_datafeedr_api_keys_exist(): bool {
+	return dfrapi_get_datafeedr_access_id() && dfrapi_get_datafeedr_secret_key();
+}
+
+/**
+ * Returns the user's Datafeedr API Access ID or false if it does not exist.
+ *
+ * @return false|string
+ */
+function dfrapi_get_datafeedr_access_id() {
+
+	$configuration = (array) get_option( 'dfrapi_configuration', [] );
+
+	if ( ! isset( $configuration['access_id'] ) ) {
+		return false;
+	}
+
+	$access_id = trim( $configuration['access_id'] );
+
+	return ! empty( $access_id ) ? $access_id : false;
+}
+
+/**
+ * Returns the user's Datafeedr API Secret Key or false if it does not exist.
+ *
+ * @return false|string
+ */
+function dfrapi_get_datafeedr_secret_key() {
+
+	$configuration = (array) get_option( 'dfrapi_configuration', [] );
+
+	if ( ! isset( $configuration['secret_key'] ) ) {
+		return false;
+	}
+
+	$secret_key = trim( $configuration['secret_key'] );
+
+	return ! empty( $secret_key ) ? $secret_key : false;
 }
 
 function dfrapi_get_api_usage_percentage() {
 	$account = get_option( 'dfrapi_account' );
 	if ( $account ) {
 		if ( $account['max_requests'] > 0 ) {
-			$percentage = floor( ( intval( $account['request_count'] ) / intval( $account['max_requests'] ) * 100 ) );
+			$percentage = floor( ( (int) $account['request_count'] / (int) $account['max_requests'] * 100 ) );
 		} else {
 			$percentage = 0;
 		}
@@ -474,7 +514,8 @@ function dfrapi_output_api_error( $data ) {
 	?>
     <div class="dfrapi_api_error">
         <div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
-        <div class="dfrapi_msg"><strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
+        <div class="dfrapi_msg">
+            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
         </div>
         <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
         </div>
@@ -700,7 +741,8 @@ function dfrapi_html_output_api_error( $data ) {
 	?>
     <div class="dfrapi_api_error">
         <div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
-        <div class="dfrapi_msg"><strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
+        <div class="dfrapi_msg">
+            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
         </div>
         <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
         </div>
@@ -1811,13 +1853,78 @@ function dfrapi_use_legacy_image_importer() {
 function dfrapi_admin_notice( string $message, string $status, string $heading = null, string $plugin = null ) {
 	$plugin    = $plugin ? esc_html( trim( $plugin ) ) : '';
 	$heading   = $heading ? esc_html( trim( $heading ) ) : '';
-	$separator = $plugin && $heading ? ' &bull; ' : '';
+	$separator = $plugin && $heading ? ' &mdash; ' : '';
 	$label     = $plugin || $heading ? sprintf( '<strong>%1$s%2$s%3$s</strong><br>', $plugin, $separator, $heading ) : '';
 
 	$status = in_array( $status, [ 'error', 'warning', 'success', 'info' ] ) ? $status : 'info';
 	$class  = esc_attr( 'notice notice-' . $status );
 
 	printf( '<div class="%1$s"><p>%2$s%3$s</p></div>', $class, $label, $message );
+}
+
+/**
+ * Get selected networks. Format is like this:
+ *
+ *  Array (
+ *      [ids] => Array (
+ *          [18] => Array (
+ *              [nid] => 18
+ *              [aid] => abc123
+ *              [tid] =>
+ *          )
+ *          [1200] => Array (
+ *              [nid] => 1200
+ *              [aid] => qwerty
+ *              [tid] =>
+ *          )
+ *          [126] => Array (
+ *              [nid] => 126
+ *              [aid] => 15759
+ *              [tid] =>
+ *          )
+ *      )
+ *  )
+ *
+ * @return array
+ */
+function dfrapi_get_selected_networks(): array {
+	return (array) get_option( 'dfrapi_networks', [] );
+}
+
+/**
+ * Get the list of selected Network IDs.
+ *
+ * @return array
+ */
+function dfrapi_get_selected_network_ids(): array {
+	$ids      = [];
+	$networks = dfrapi_get_selected_networks();
+
+	if ( ! isset( $networks['ids'] ) ) {
+		return $ids;
+	}
+
+	if ( ! is_array( $networks['ids'] ) ) {
+		return $ids;
+	}
+
+	foreach ( $networks['ids'] as $k => $v ) {
+		$nid = absint( $v['nid'] ?? 0 );
+		if ( $nid > 0 ) {
+			$ids[] = $nid;
+		}
+	}
+
+	return array_filter( array_unique( $ids ) );
+}
+
+/**
+ * Get the total number of selected networks.
+ *
+ * @return int
+ */
+function dfrapi_selected_network_count(): int {
+	return count( dfrapi_get_selected_network_ids() );
 }
 
 /**
@@ -1859,10 +1966,28 @@ function dfrapi_selected_merchant_count(): int {
 }
 
 /**
+ * Returns the absolute URL for the Datafeedr API > Networks page.
+ *
+ * @return string
+ */
+function dfrapi_networks_page_url(): string {
+	return add_query_arg( [ 'page' => 'dfrapi_networks' ], admin_url( 'admin.php' ) );
+}
+
+/**
  * Returns the absolute URL for the Datafeedr API > Merchants page.
  *
  * @return string
  */
 function dfrapi_merchants_page_url(): string {
 	return add_query_arg( [ 'page' => 'dfrapi_merchants' ], admin_url( 'admin.php' ) );
+}
+
+/**
+ * Returns the absolute URL for the Datafeedr API > Configuration page.
+ *
+ * @return string
+ */
+function dfrapi_configuration_page_url(): string {
+	return add_query_arg( [ 'page' => 'dfrapi' ], admin_url( 'admin.php' ) );
 }

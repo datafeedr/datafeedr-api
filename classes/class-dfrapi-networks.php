@@ -1,8 +1,9 @@
 <?php
 
+// Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} // Exit if accessed directly
+}
 
 if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
@@ -52,18 +53,18 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 		function register_settings() {
 			register_setting( $this->page, $this->key, array( $this, 'validate' ) );
-			add_settings_section( 'networks', __( 'Select Networks', DFRAPI_DOMAIN ), array(
+			add_settings_section( 'networks', __( 'Select Networks', 'datafeedr-api' ), array(
 				&$this,
 				'section_networks_desc'
 			), $this->page );
-			add_settings_field( 'ids', __( 'Networks', DFRAPI_DOMAIN ), array(
+			add_settings_field( 'ids', __( 'Networks', 'datafeedr-api' ), array(
 				&$this,
 				'field_network_ids'
 			), $this->page, 'networks', array( 'label_for' => 'DFRAPI_HIDE_LABEL' ) );
 		}
 
 		function section_networks_desc() {
-			echo __( 'Select the affiliate networks you belong to, enter your affiliate ID for each then click <strong>[Save Changes]</strong>.', DFRAPI_DOMAIN );
+			echo __( 'Select the affiliate networks you belong to, enter your affiliate ID for each then click <strong>[Save Changes]</strong>.', 'datafeedr-api' );
 		}
 
 		function field_network_ids() {
@@ -96,10 +97,10 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 					<thead>
 						<tr>
 							<th class="checkbox_head"> &nbsp; </th>
-							<th class="networks_head">' . __( 'Network', DFRAPI_DOMAIN ) . '</th>
-							<th class="type_head">' . __( 'Type', DFRAPI_DOMAIN ) . '</th>
-							<th class="aid_head">' . __( 'Affiliate ID', DFRAPI_DOMAIN ) . ' <a href="' . $this->map_link( $group_name ) . '" target="_blank" title="' . __( 'Learn how to find your affiliate ID from ', DFRAPI_DOMAIN ) . $group_name . __( ' (opens in new window).', DFRAPI_DOMAIN ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', DFRAPI_DOMAIN ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#a00;">(' . __( 'required', DFRAPI_DOMAIN ) . ')</small></th>
-							<th class="tid_head">' . __( 'Tracking ID', DFRAPI_DOMAIN ) . ' <a href="https://datafeedrapi.helpscoutdocs.com/article/212-tracking-ids" target="_blank" title="' . __( 'Learn more about this field (opens in new window).', DFRAPI_DOMAIN ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', DFRAPI_DOMAIN ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#999;">(' . __( 'optional', DFRAPI_DOMAIN ) . ')</small></th>
+							<th class="networks_head">' . __( 'Network', 'datafeedr-api' ) . '</th>
+							<th class="type_head">' . __( 'Type', 'datafeedr-api' ) . '</th>
+							<th class="aid_head">' . __( 'Affiliate ID', 'datafeedr-api' ) . ' <a href="' . $this->map_link( $group_name ) . '" target="_blank" title="' . __( 'Learn how to find your affiliate ID from ', 'datafeedr-api' ) . $group_name . __( ' (opens in new window).', 'datafeedr-api' ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', 'datafeedr-api' ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#a00;">(' . __( 'required', 'datafeedr-api' ) . ')</small></th>
+							<th class="tid_head">' . __( 'Tracking ID', 'datafeedr-api' ) . ' <a href="https://datafeedrapi.helpscoutdocs.com/article/212-tracking-ids" target="_blank" title="' . __( 'Learn more about this field (opens in new window).', 'datafeedr-api' ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', 'datafeedr-api' ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#999;">(' . __( 'optional', 'datafeedr-api' ) . ')</small></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -111,7 +112,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 				$i ++;
 				$checked     = ( array_key_exists( $network['_id'], (array) $this->options['ids'] ) ) ? ' checked="checked"' : '';
-				$type        = ( $network['type'] == 'products' ) ? __( 'products', DFRAPI_DOMAIN ) : __( 'coupons', DFRAPI_DOMAIN );
+				$type        = ( $network['type'] == 'products' ) ? __( 'products', 'datafeedr-api' ) : __( 'coupons', 'datafeedr-api' );
 				$type_class  = ( $network['type'] == 'products' ) ? ' dfrapi_label-info"' : ' dfrapi_label-success';
 				$no_products = ( $network['product_count'] < 1 ) ? 'no_products' : '';
 				$alternate   = ( $i % 2 ) ? '' : ' alternate';
@@ -137,7 +138,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 							<label for="nid_' . $network['_id'] . '">
 								' . $network['name'] . '
 								<div class="network_info">
-									<span class="num_merchants">' . number_format( $network['merchant_count'] ) . ' ' . __( 'merchants', DFRAPI_DOMAIN ) . '  <span class="sep">/</span>
+									<span class="num_merchants">' . number_format( $network['merchant_count'] ) . ' ' . __( 'merchants', 'datafeedr-api' ) . '  <span class="sep">/</span>
 									<span class="num_products">' . number_format( $network['product_count'] ) . ' ' . $type . '</span>
 								</div>
 							</label>
@@ -147,9 +148,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 						</td>
 					';
 
-					if ( $network['group_id'] == 10037 ) {
-						$html .= '<td class="aid_input">' . $this->zanox_adspace( $network['_id'], $aid ) . '</td>';
-					} elseif ( $network['group_id'] == 10027 ) {
+					if ( $network['group_id'] == 10027 ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
 						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Add/Edit Partnerize Keys</a></td>';
 					} elseif ( $network['group_id'] == 10017 ) {
@@ -197,60 +196,6 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			return array_unique( $groups );
 		}
 
-		/**
-		 * This returns <select> menu for adspaces.
-		 */
-		function zanox_adspace( $nid, $selected_adspace ) {
-			$html     = '';
-			$adspaces = $this->get_zanox_adspaces();
-			if ( isset( $adspaces['zanox_error'] ) ) {
-				if ( $adspaces['zanox_error'] == 'missing_keys' ) {
-					$html .= '<span><a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" class="dfrapi_warning">' . __( 'Please add your Zanox Connection &amp; Secret Key', DFRAPI_DOMAIN ) . '</a>.</span>';
-				} else {
-					$html .= '<pre>' . print_r( $adspaces['zanox_error'], true ) . '</pre>';
-				}
-			} else {
-				$html .= '<select name="dfrapi_networks[ids][' . $nid . '][aid]">';
-				$html .= '<option value="">' . __( 'Select an adspace', DFRAPI_DOMAIN ) . '</option>';
-				foreach ( $adspaces as $adspace ) {
-					$selected = selected( $selected_adspace, $adspace['id'], false );
-					$html     .= '<option value="' . $adspace['id'] . '" ' . $selected . '>' . $adspace['name'] . '</option>';
-				}
-				$html .= '</select>';
-			}
-
-			return $html;
-		}
-
-		/**
-		 * This returns adspaces for a Zanox user.
-		 */
-		function get_zanox_adspaces() {
-			$option_name = 'dfrapi_zanox_adspaces';
-			$use_cache   = wp_using_ext_object_cache( false );
-			$adspaces    = get_transient( $option_name );
-			wp_using_ext_object_cache( $use_cache );
-			if ( false === $adspaces || empty ( $adspaces ) ) {
-				$zanox_keys = dfrapi_get_zanox_keys();
-				if ( ! $zanox_keys ) {
-					return array( 'zanox_error' => 'missing_keys' );
-				} else {
-					$client   = new Dfr_ZanoxAPIClient( $zanox_keys['connection_key'], $zanox_keys['secret_key'] );
-					$adspaces = $client->adspaces();
-					if ( $client->error() ) {
-						return array( 'zanox_error' => $client->error() );
-					} else {
-						$use_cache = wp_using_ext_object_cache( false );
-						set_transient( $option_name, $adspaces, HOUR_IN_SECONDS );
-						wp_using_ext_object_cache( $use_cache );
-					}
-				}
-			}
-			dfrapi_update_transient_whitelist( $option_name );
-
-			return $adspaces;
-		}
-
 		function num_missing_affiliate_ids_in_group( $group_name ) {
 			$count = 0;
 			foreach ( $this->all_networks as $network ) {
@@ -276,7 +221,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				$messages = $this->messages();
 
 				return '<span class="num_missing">' . sprintf( translate_nooped_plural( $messages['num_missing'],
-						$count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
+						$count, 'datafeedr-api' ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
 			}
 
 			return '';
@@ -295,7 +240,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			if ( $count > 0 ) {
 				$messages = $this->messages();
 
-				return '<span class="num_checked">' . sprintf( translate_nooped_plural( $messages['num_checked'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
+				return '<span class="num_checked">' . sprintf( translate_nooped_plural( $messages['num_checked'], $count, 'datafeedr-api' ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
 			}
 		}
 
@@ -310,7 +255,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			if ( $count > 0 ) {
 				$messages = $this->messages();
 
-				return '<span class="num_networks">' . sprintf( translate_nooped_plural( $messages['num_networks'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
+				return '<span class="num_networks">' . sprintf( translate_nooped_plural( $messages['num_networks'], $count, 'datafeedr-api' ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
 			}
 		}
 
@@ -325,7 +270,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			if ( $count > 0 ) {
 				$messages = $this->messages();
 
-				return '<span class="num_merchants">' . sprintf( translate_nooped_plural( $messages['num_merchants'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
+				return '<span class="num_merchants">' . sprintf( translate_nooped_plural( $messages['num_merchants'], $count, 'datafeedr-api' ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
 			}
 		}
 
@@ -340,7 +285,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			if ( $count > 0 ) {
 				$messages = $this->messages();
 
-				return '<span class="num_products">' . sprintf( translate_nooped_plural( $messages['num_products'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span>';
+				return '<span class="num_products">' . sprintf( translate_nooped_plural( $messages['num_products'], $count, 'datafeedr-api' ), number_format( $count ) ) . '</span>';
 			}
 
 		}

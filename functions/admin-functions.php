@@ -13,13 +13,13 @@ require_once( DFRAPI_PATH . 'functions/ajax.php' );
 function dfrapi_setting_pages( $key=false ) {
 	
 	$pages = array ( 
-		'dfrapi-configuration' => __( 'Configuration', DFRAPI_DOMAIN ),
-		'dfrapi-networks' => __( 'Networks', DFRAPI_DOMAIN ),
-		'dfrapi-merchants' => __( 'Merchants', DFRAPI_DOMAIN ),
-		'dfrapi-tools' => __( 'Tools', DFRAPI_DOMAIN ),
-		'dfrapi-export' => __( 'Export', DFRAPI_DOMAIN ),
-		'dfrapi-import' => __( 'Import', DFRAPI_DOMAIN ),
-		'dfrapi-account' => __( 'Account', DFRAPI_DOMAIN ),
+		'dfrapi-configuration' => __( 'Configuration', 'datafeedr-api' ),
+		'dfrapi-networks' => __( 'Networks', 'datafeedr-api' ),
+		'dfrapi-merchants' => __( 'Merchants', 'datafeedr-api' ),
+		'dfrapi-tools' => __( 'Tools', 'datafeedr-api' ),
+		'dfrapi-export' => __( 'Export', 'datafeedr-api' ),
+		'dfrapi-import' => __( 'Import', 'datafeedr-api' ),
+		'dfrapi-account' => __( 'Account', 'datafeedr-api' ),
 	);
 	
 	if ( isset( $pages[$key] ) ) {
@@ -38,97 +38,97 @@ function dfrapi_admin_messages( $key = false, $msg = '' ) {
 		// User is missing 1 or more of their API Keys.
 		'missing_api_keys' => array(
 			'class' 		=> 'notice notice-warning',
-			'message' 		=> __( 'Your Datafeedr API Keys are missing. ', DFRAPI_DOMAIN ),
+			'message' 		=> __( 'Your Datafeedr API Keys are missing. ', 'datafeedr-api' ),
 			'url'			=> 'admin.php?page=dfrapi',
-			'button_text'	=> __( 'Add API Keys', DFRAPI_DOMAIN )
+			'button_text'	=> __( 'Add API Keys', 'datafeedr-api' )
 		),
 		
 		// User is missing a network
 		'missing_network_ids' => array(
 			'class' 		=> 'notice notice-warning',
-			'message' 		=> __( 'You haven\'t selected any affiliate networks yet.', DFRAPI_DOMAIN ),
+			'message' 		=> __( 'You haven\'t selected any affiliate networks yet.', 'datafeedr-api' ),
 			'url'			=> 'admin.php?page=dfrapi_networks',
-			'button_text'	=> __( 'Select Networks', DFRAPI_DOMAIN )
+			'button_text'	=> __( 'Select Networks', 'datafeedr-api' )
 		),
 		
 		// User is missing a merchant
 		'missing_merchant_ids' => array(
 			'class' 		=> 'notice notice-warning',
-			'message' 		=> __( 'You haven\'t selected any merchants yet.', DFRAPI_DOMAIN ),
+			'message' 		=> __( 'You haven\'t selected any merchants yet.', 'datafeedr-api' ),
 			'url'			=> 'admin.php?page=dfrapi_merchants',
-			'button_text'	=> __( 'Select Merchants', DFRAPI_DOMAIN )
+			'button_text'	=> __( 'Select Merchants', 'datafeedr-api' )
 		),
 		
 		// Display message that user has used 90%+ of API requests.
 		'usage_over_90_percent' => array(
 			'class' 		=> 'notice notice-warning',
-			'message' 		=> __( 'You have used ', DFRAPI_DOMAIN ) . dfrapi_get_api_usage_percentage() . __( '% of your total Datafeedr API requests this month. ', DFRAPI_DOMAIN ),
+			'message' 		=> __( 'You have used ', 'datafeedr-api' ) . dfrapi_get_api_usage_percentage() . __( '% of your total Datafeedr API requests this month. ', 'datafeedr-api' ),
 			'url'			=> 'admin.php?page=dfrapi_account',
-			'button_text'	=> __( 'View Account', DFRAPI_DOMAIN )
+			'button_text'	=> __( 'View Account', 'datafeedr-api' )
 		),
 		
 		// Missing affiliate IDs message.
 		'missing_affiliate_ids' => array(
 			'class' 		=> 'notice notice-warning',
-			'message' 		=> __( 'You are missing affiliate IDs. ', DFRAPI_DOMAIN ),
+			'message' 		=> __( 'You are missing affiliate IDs. ', 'datafeedr-api' ),
 			'url'			=> 'admin.php?page=dfrapi_networks',
-			'button_text'	=> __( 'Enter your Affiliate IDs', DFRAPI_DOMAIN )
+			'button_text'	=> __( 'Enter your Affiliate IDs', 'datafeedr-api' )
 		),
 				
 		// Unapproved Zanox merchant(s) message.
 		'unapproved_zanox_merchants' => array(
 			'class' 		=> 'notice notice-error',
-			'message' 		=> '<strong>' . __( 'Unapproved Zanox Merchant(s):', DFRAPI_DOMAIN ) . '</strong> ' .
-								__( 'You have selected one or more Zanox merchants who have not approved your Adspace ID(s):<br />', DFRAPI_DOMAIN ) .
+			'message' 		=> '<strong>' . __( 'Unapproved Zanox Merchant(s):', 'datafeedr-api' ) . '</strong> ' .
+								__( 'You have selected one or more Zanox merchants who have not approved your Adspace ID(s):<br />', 'datafeedr-api' ) .
 			                    $msg . '<br /><br />' .
-								__( 'Please remove unapproved Zanox merchants from your ', DFRAPI_DOMAIN ) .
+								__( 'Please remove unapproved Zanox merchants from your ', 'datafeedr-api' ) .
 								'<a href="' . admin_url( 'admin.php?page=dfrapi_merchants' ) . '" target="_blank">' .
-								__( 'Zanox merchant selection', DFRAPI_DOMAIN ) .
+								__( 'Zanox merchant selection', 'datafeedr-api' ) .
 								'</a>' .
-								__( ' then delete your cached API data ', DFRAPI_DOMAIN ) .
+								__( ' then delete your cached API data ', 'datafeedr-api' ) .
 								'<a href="' . admin_url( 'admin.php?page=dfrapi_tools' ) . '" target="_blank">' .
-								__( 'here', DFRAPI_DOMAIN ) .
+								__( 'here', 'datafeedr-api' ) .
 								'</a>.',
 			'url'			=> '',
-			'button_text'	=> __( '', DFRAPI_DOMAIN )
+			'button_text'	=> __( '', 'datafeedr-api' )
 		),
 		
 		// Unapproved Partnerize merchant(s) message.
 		'unapproved_ph_merchants' => array(
 			'class'       => 'notice notice-error',
-			'message'     => '<strong>' . __( 'Unapproved Partnerize Merchant(s):', DFRAPI_DOMAIN ) . '</strong> ' .
+			'message'     => '<strong>' . __( 'Unapproved Partnerize Merchant(s):', 'datafeedr-api' ) . '</strong> ' .
 			                 __( 'You have selected one or more Partnerize merchants who have not approved your publisher account:<br />',
-				                 DFRAPI_DOMAIN ) .
+				                 'datafeedr-api' ) .
 			                 $msg . '<br /><br />' .
-			                 __( 'Please remove unapproved Partnerize merchants from your ', DFRAPI_DOMAIN ) .
+			                 __( 'Please remove unapproved Partnerize merchants from your ', 'datafeedr-api' ) .
 			                 '<a href="' . admin_url( 'admin.php?page=dfrapi_merchants' ) . '" target="_blank">' .
-			                 __( 'Partnerize merchant selection', DFRAPI_DOMAIN ) .
+			                 __( 'Partnerize merchant selection', 'datafeedr-api' ) .
 			                 '</a>' .
-			                 __( ' then delete your cached API data ', DFRAPI_DOMAIN ) .
+			                 __( ' then delete your cached API data ', 'datafeedr-api' ) .
 			                 '<a href="' . admin_url( 'admin.php?page=dfrapi_tools' ) . '" target="_blank">' .
-			                 __( 'here', DFRAPI_DOMAIN ) .
+			                 __( 'here', 'datafeedr-api' ) .
 			                 '</a>.',
 			'url'         => '',
-			'button_text' => __( '', DFRAPI_DOMAIN )
+			'button_text' => __( '', 'datafeedr-api' )
 		),
 
 		// Unapproved Effiliation merchant(s) message.
 		'unapproved_effiliation_merchants' => array(
 			'class'       => 'notice notice-error',
-			'message'     => '<strong>' . __( 'Unapproved Effiliation Merchant(s):', DFRAPI_DOMAIN ) . '</strong> ' .
+			'message'     => '<strong>' . __( 'Unapproved Effiliation Merchant(s):', 'datafeedr-api' ) . '</strong> ' .
 			                 __( 'You have selected one or more Effiliation merchants who have not approved your publisher account:<br />',
-				                 DFRAPI_DOMAIN ) .
+				                 'datafeedr-api' ) .
 			                 $msg . '<br /><br />' .
-			                 __( 'Please remove unapproved Effiliation merchants from your ', DFRAPI_DOMAIN ) .
+			                 __( 'Please remove unapproved Effiliation merchants from your ', 'datafeedr-api' ) .
 			                 '<a href="' . admin_url( 'admin.php?page=dfrapi_merchants' ) . '" target="_blank">' .
-			                 __( 'Effiliation merchant selection', DFRAPI_DOMAIN ) .
+			                 __( 'Effiliation merchant selection', 'datafeedr-api' ) .
 			                 '</a>' .
-			                 __( ' then delete your cached API data ', DFRAPI_DOMAIN ) .
+			                 __( ' then delete your cached API data ', 'datafeedr-api' ) .
 			                 '<a href="' . admin_url( 'admin.php?page=dfrapi_tools' ) . '" target="_blank">' .
-			                 __( 'here', DFRAPI_DOMAIN ) .
+			                 __( 'here', 'datafeedr-api' ) .
 			                 '</a>.',
 			'url'         => '',
-			'button_text' => __( '', DFRAPI_DOMAIN )
+			'button_text' => __( '', 'datafeedr-api' )
 		),
 		
 	);
@@ -153,7 +153,7 @@ function dfrapi_admin_notices( $key, $messages ) {
  */
 function dfrapi_fix_button( $url, $button_text=false ) {
 	if ( !$button_text ) {
-		$button_text = __( 'Fix This Now', DFRAPI_DOMAIN );
+		$button_text = __( 'Fix This Now', 'datafeedr-api' );
 	}
 	if ( substr( $url, 0, 4 ) === "http" ) {
 		return ' <a target="blank" href="' . $url . '">' .$button_text . '</a>';
@@ -206,29 +206,29 @@ function dfrapi_help_tab( $screen ) {
 
 	$screen->add_help_tab( array(
 		'id'	=> 'dfrapi_support_tab',
-		'title'	=> __( 'Support', DFRAPI_DOMAIN ),
+		'title'	=> __( 'Support', 'datafeedr-api' ),
 		'content'	=>
-			'<h2>' . __( "Datafeedr Support", DFRAPI_DOMAIN ) . '</h2>' . 
-			'<p>' . sprintf(__( 'Find answers to common questions and problems in the <a href="%s?utm_source=plugin&utm_medium=link&utm_campaign=helptab" target="_blank">documentation</a> and in the <a href="%s?utm_source=plugin&utm_medium=link&utm_campaign=helptab" target="_blank">support forum</a>', DFRAPI_DOMAIN ), DFRAPI_DOCS_URL, DFRAPI_QNA_URL ) . '. ' . __( 'For additional help, feel free to contact us using the links below.', DFRAPI_DOMAIN ) . '</p>' .
-			'<p><a href="' . DFRAPI_ASK_QUESTION_URL . '?utm_source=plugin&utm_medium=link&utm_campaign=helptab" class="button button-primary" target="_blank">' . __( 'Post a Question', DFRAPI_DOMAIN ) . '</a> (' . __( 'recommended', DFRAPI_DOMAIN ) . ')</p>' . 
-			'<p><a href="' . DFRAPI_EMAIL_US_URL . '?utm_source=plugin&utm_medium=link&utm_campaign=helptab" class="button" target="_blank">' . __( 'Email Us', DFRAPI_DOMAIN ) . '</a></p>'
+			'<h2>' . __( "Datafeedr Support", 'datafeedr-api' ) . '</h2>' .
+			'<p>' . sprintf(__( 'Find answers to common questions and problems in the <a href="%s?utm_source=plugin&utm_medium=link&utm_campaign=helptab" target="_blank">documentation</a> and in the <a href="%s?utm_source=plugin&utm_medium=link&utm_campaign=helptab" target="_blank">support forum</a>', 'datafeedr-api' ), DFRAPI_DOCS_URL, DFRAPI_QNA_URL ) . '. ' . __( 'For additional help, feel free to contact us using the links below.', 'datafeedr-api' ) . '</p>' .
+			'<p><a href="' . DFRAPI_ASK_QUESTION_URL . '?utm_source=plugin&utm_medium=link&utm_campaign=helptab" class="button button-primary" target="_blank">' . __( 'Post a Question', 'datafeedr-api' ) . '</a> (' . __( 'recommended', 'datafeedr-api' ) . ')</p>' .
+			'<p><a href="' . DFRAPI_EMAIL_US_URL . '?utm_source=plugin&utm_medium=link&utm_campaign=helptab" class="button" target="_blank">' . __( 'Email Us', 'datafeedr-api' ) . '</a></p>'
 
 	) );
 
 	$screen->add_help_tab( array(
 		'id'	=> 'dfrapi_bug_tab',
-		'title'	=> __( 'Found a bug?', DFRAPI_DOMAIN ),
+		'title'	=> __( 'Found a bug?', 'datafeedr-api' ),
 		'content'	=>
-			'<h2>' . __( "Found a bug?", DFRAPI_DOMAIN ) . '</h2>' . 
-			'<p>' . sprintf( __( 'If you find a bug within Datafeedr, check the <a href="%s?utm_source=plugin&utm_medium=link&utm_campaign=helptab" target="_blank">Bug Reports</a> to see if it’s already been reported. Report a new bug with as much description as possible (context, screenshots, error log, etc.) Thank you!', DFRAPI_DOMAIN ), DFRAPI_BUG_REPORTS_URL ) . '</p>' .
-			'<p><a href="' . DFRAPI_REPORT_BUG_URL . '?utm_source=plugin&utm_medium=link&utm_campaign=helptab" class="button button-primary" target="_blank">' . __( 'Report a bug', DFRAPI_DOMAIN ) . '</a></p>'
+			'<h2>' . __( "Found a bug?", 'datafeedr-api' ) . '</h2>' .
+			'<p>' . sprintf( __( 'If you find a bug within Datafeedr, check the <a href="%s?utm_source=plugin&utm_medium=link&utm_campaign=helptab" target="_blank">Bug Reports</a> to see if it’s already been reported. Report a new bug with as much description as possible (context, screenshots, error log, etc.) Thank you!', 'datafeedr-api' ), DFRAPI_BUG_REPORTS_URL ) . '</p>' .
+			'<p><a href="' . DFRAPI_REPORT_BUG_URL . '?utm_source=plugin&utm_medium=link&utm_campaign=helptab" class="button button-primary" target="_blank">' . __( 'Report a bug', 'datafeedr-api' ) . '</a></p>'
 
 	) );
 
 	$screen->set_help_sidebar(
-		'<p><strong>' . __( 'For more information:', DFRAPI_DOMAIN ) . '</strong></p>' .
-		'<p><a href="' . DFRAPI_HOME_URL . '?utm_source=plugin&utm_medium=link&utm_campaign=helptab" target="_blank">' . __( 'About Datafeedr', DFRAPI_DOMAIN ) . '</a></p>' .
-		'<p><a href="' . DFRAPI_KEYS_URL . '?utm_source=plugin&utm_medium=link&utm_campaign=helptab" target="_blank">' . __( 'Datafeedr API Keys', DFRAPI_DOMAIN ) . '</a></p>'
+		'<p><strong>' . __( 'For more information:', 'datafeedr-api' ) . '</strong></p>' .
+		'<p><a href="' . DFRAPI_HOME_URL . '?utm_source=plugin&utm_medium=link&utm_campaign=helptab" target="_blank">' . __( 'About Datafeedr', 'datafeedr-api' ) . '</a></p>' .
+		'<p><a href="' . DFRAPI_KEYS_URL . '?utm_source=plugin&utm_medium=link&utm_campaign=helptab" target="_blank">' . __( 'Datafeedr API Keys', 'datafeedr-api' ) . '</a></p>'
 	);
 
 	return $screen;

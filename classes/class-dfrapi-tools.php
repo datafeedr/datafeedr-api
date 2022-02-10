@@ -22,8 +22,8 @@ if ( ! class_exists( 'Dfrapi_Tools' ) ) {
 		function admin_menu() {
 			add_submenu_page(
 				'dfrapi',
-				__( 'Tools &#8212; Datafeedr API', DFRAPI_DOMAIN ),
-				__( 'Tools', DFRAPI_DOMAIN ),
+				__( 'Tools &#8212; Datafeedr API', 'datafeedr-api' ),
+				__( 'Tools', 'datafeedr-api' ),
 				'manage_options',
 				$this->key,
 				array( $this, 'output' )
@@ -46,7 +46,7 @@ if ( ! class_exists( 'Dfrapi_Tools' ) ) {
 
 				$('#dfrapi_delete_cached_api_data').on('click',function(e) {
 					$("#dfrapi_delete_cached_api_data_result").hide();
-					$("#dfrapi_delete_cached_api_data").text('<?php _e("Deleting...", DFRAPI_DOMAIN); ?>').addClass('button-disabled');
+					$("#dfrapi_delete_cached_api_data").text('<?php _e("Deleting...", 'datafeedr-api'); ?>').addClass('button-disabled');
 					$.ajax({
 						type: "POST",
 						url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",
@@ -55,7 +55,7 @@ if ( ! class_exists( 'Dfrapi_Tools' ) ) {
 							dfrapi_security: "<?php echo wp_create_nonce( 'dfrapi_ajax_nonce' ); ?>"
 						}
 					}).done(function(html) {
-						$("#dfrapi_delete_cached_api_data").text('<?php _e("Delete Cached API Data", DFRAPI_DOMAIN); ?>').removeClass('button-disabled');
+						$("#dfrapi_delete_cached_api_data").text('<?php _e("Delete Cached API Data", 'datafeedr-api'); ?>').removeClass('button-disabled');
 						$("#dfrapi_delete_cached_api_data_result").show().html(html);
 
 					});
@@ -64,7 +64,7 @@ if ( ! class_exists( 'Dfrapi_Tools' ) ) {
 
                 $('#dfrapi_test_api_connection').on('click',function(e) {
                     $("#dfrapi_test_api_connection_result").hide();
-                    $("#dfrapi_test_api_connection").text('<?php _e("Testing...", DFRAPI_DOMAIN); ?>').addClass('button-disabled');
+                    $("#dfrapi_test_api_connection").text('<?php _e("Testing...", 'datafeedr-api'); ?>').addClass('button-disabled');
                     $.ajax({
                         type: "POST",
                         url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",
@@ -73,7 +73,7 @@ if ( ! class_exists( 'Dfrapi_Tools' ) ) {
                             dfrapi_security: "<?php echo wp_create_nonce( 'dfrapi_ajax_nonce' ); ?>"
                         }
                     }).done(function(html) {
-                        $("#dfrapi_test_api_connection").text('<?php _e("Test Connection", DFRAPI_DOMAIN); ?>').removeClass('button-disabled');
+                        $("#dfrapi_test_api_connection").text('<?php _e("Test Connection", 'datafeedr-api'); ?>').removeClass('button-disabled');
                         $("#dfrapi_test_api_connection_result").show().html(html);
 
                     });
@@ -93,21 +93,21 @@ if ( ! class_exists( 'Dfrapi_Tools' ) ) {
 		function register_settings() {
 			register_setting( $this->page, $this->key, array( $this, 'validate' ) );
 
-			add_settings_section( 'test_connection', __( 'Test API Connection', DFRAPI_DOMAIN ), array( &$this, 'section_test_connection_desc' ), $this->page );
-			add_settings_section( 'delete_transient_data', __( 'Delete Cached API Data', DFRAPI_DOMAIN ), array( &$this, 'section_delete_transient_data_desc' ), $this->page );
+			add_settings_section( 'test_connection', __( 'Test API Connection', 'datafeedr-api' ), array( &$this, 'section_test_connection_desc' ), $this->page );
+			add_settings_section( 'delete_transient_data', __( 'Delete Cached API Data', 'datafeedr-api' ), array( &$this, 'section_delete_transient_data_desc' ), $this->page );
 		}
 
 		function section_delete_transient_data_desc() { ?>
-            <p><?php _e( 'Deleting cached data will not affect your store, however, it will require multiple API requests in order to re-build the data. Typically, you only delete cached data when Datafeedr Support instructs you to do so.', DFRAPI_DOMAIN ); ?></p>
-            <p><a href="#" id="dfrapi_delete_cached_api_data" class="button"><?php _e("Delete Cached API Data", DFRAPI_DOMAIN); ?></a></p>
+            <p><?php _e( 'Deleting cached data will not affect your store, however, it will require multiple API requests in order to re-build the data. Typically, you only delete cached data when Datafeedr Support instructs you to do so.', 'datafeedr-api' ); ?></p>
+            <p><a href="#" id="dfrapi_delete_cached_api_data" class="button"><?php _e("Delete Cached API Data", 'datafeedr-api'); ?></a></p>
             <div id="dfrapi_delete_cached_api_data_result" style="padding: 10px; border: 1px solid silver; display: none; background: #FFF; color: green;"></div>
             <hr />
 			<?php
 		}
 
 		function section_test_connection_desc() { ?>
-            <p><?php _e( 'Test your web server\'s connection to the Datafeedr API servers. This will not count against your overall API request count.', DFRAPI_DOMAIN ); ?></p>
-            <p><a href="#" id="dfrapi_test_api_connection" class="button"><?php _e("Test Connection", DFRAPI_DOMAIN); ?></a></p>
+            <p><?php _e( 'Test your web server\'s connection to the Datafeedr API servers. This will not count against your overall API request count.', 'datafeedr-api' ); ?></p>
+            <p><a href="#" id="dfrapi_test_api_connection" class="button"><?php _e("Test Connection", 'datafeedr-api'); ?></a></p>
             <div id="dfrapi_test_api_connection_result" style="padding: 10px; border: 1px solid silver; display: none; background: #FFF;"></div>
             <hr />
 			<?php

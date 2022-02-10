@@ -33,11 +33,10 @@ class Dfrapi_Initialize {
 
 		add_action( 'wp_ajax_search_form', 		array( $this, 'ajax_search_form' ) );
 
-		add_filter( 'plugin_action_links_' . 'datafeedr-api/datafeedr-api.php', array( $this, 'action_links' ) );
+		add_filter( 'plugin_action_links_' . DFRAPI_BASENAME, array( $this, 'action_links' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 
 		do_action( 'dfrapi_loaded' );
-
 	}
 
     function ajax_search_form() {
@@ -48,8 +47,8 @@ class Dfrapi_Initialize {
 
 	function admin_menu() {
 		add_menu_page(
-			__( 'Datafeedr API', DFRAPI_DOMAIN ),
-			__( 'Datafeedr API', DFRAPI_DOMAIN ),
+			__( 'Datafeedr API', 'datafeedr-api' ),
+			__( 'Datafeedr API', 'datafeedr-api' ),
 			'manage_options',
 			'dfrapi',
 			'',
@@ -61,8 +60,8 @@ class Dfrapi_Initialize {
 	function networks_menu() {
 		add_submenu_page(
 			'dfrapi',
-			__( 'Networks &#8212; Datafeedr API', DFRAPI_DOMAIN ),
-			__( 'Networks', DFRAPI_DOMAIN ),
+			__( 'Networks &#8212; Datafeedr API', 'datafeedr-api' ),
+			__( 'Networks', 'datafeedr-api' ),
 			'manage_options',
 			'dfrapi_networks',
 			array( $this, 'networks_output' )
@@ -82,7 +81,7 @@ class Dfrapi_Initialize {
 		submit_button();
 		echo '</form>';
 		echo '<div id="dfr_unload_message" style="display:none">' .
-		     __( 'You have unsaved changes', DFRAPI_DOMAIN ) .
+		     __( 'You have unsaved changes', 'datafeedr-api' ) .
 		     '</div>';
 		echo '</div>';
 	}
@@ -90,8 +89,8 @@ class Dfrapi_Initialize {
 	function merchants_menu() {
 		add_submenu_page(
 			'dfrapi',
-			__( 'Merchants &#8212; Datafeedr API', DFRAPI_DOMAIN ),
-			__( 'Merchants', DFRAPI_DOMAIN ),
+			__( 'Merchants &#8212; Datafeedr API', 'datafeedr-api' ),
+			__( 'Merchants', 'datafeedr-api' ),
 			'manage_options',
 			'dfrapi_merchants',
 			array( $this, 'merchants_output' )
@@ -111,7 +110,7 @@ class Dfrapi_Initialize {
 		submit_button();
 		echo '</form>';
 		echo '<div id="dfr_unload_message" style="display:none">' .
-		     __( 'You have unsaved changes', DFRAPI_DOMAIN ) . '</div>';
+		     __( 'You have unsaved changes', 'datafeedr-api' ) . '</div>';
 		echo '</div>';
 	}
 
@@ -186,7 +185,7 @@ class Dfrapi_Initialize {
 		if ( $notices = get_option( 'dfrapi_admin_notices' ) ) {
 			foreach ( $notices as $key => $message ) {
 				$button = ( $message['url'] != '' ) ? dfrapi_fix_button( $message['url'], $message['button_text'] ) : '';
-				$upgrade_account = ( $key == 'usage_over_90_percent' ) ? ' | <a href="' . dfrapi_user_pages( 'change' ) . '?utm_source=plugin&utm_medium=link&utm_campaign=upgradenag">' . __( 'Upgrade', DFRAPI_DOMAIN ) . '</a>' : '';
+				$upgrade_account = ( $key == 'usage_over_90_percent' ) ? ' | <a href="' . dfrapi_user_pages( 'change' ) . '?utm_source=plugin&utm_medium=link&utm_campaign=upgradenag">' . __( 'Upgrade', 'datafeedr-api' ) . '</a>' : '';
 				echo '<div class="'.$message['class'].'"><p>'.$message['message'].$button.$upgrade_account.'</p></div>';
 			}
 			delete_option( 'dfrapi_admin_notices' );
@@ -194,9 +193,9 @@ class Dfrapi_Initialize {
 	}
 
 	function plugin_row_meta( $links, $plugin_file ) {
-		if ( $plugin_file === 'datafeedr-api/datafeedr-api.php' ) {
-			$links[] = sprintf( '<a href="' . DFRAPI_DOCS_URL . '" target="_blank">%s</a>', __( 'Documentation', DFRAPI_DOMAIN ) );
-			$links[] = sprintf( '<a href="' . DFRAPI_HELP_URL . '" target="_blank">%s</a>', __( 'Support', DFRAPI_DOMAIN ) );
+		if ( $plugin_file === DFRAPI_BASENAME ) {
+			$links[] = sprintf( '<a href="' . DFRAPI_DOCS_URL . '" target="_blank">%s</a>', __( 'Documentation', 'datafeedr-api' ) );
+			$links[] = sprintf( '<a href="' . DFRAPI_HELP_URL . '" target="_blank">%s</a>', __( 'Support', 'datafeedr-api' ) );
 		}
 
 		return $links;
@@ -206,7 +205,7 @@ class Dfrapi_Initialize {
 		return array_merge(
 			$links,
 			array(
-				'config' => '<a href="' . admin_url( 'admin.php?page=dfrapi' ) . '">' . __( 'Configuration', DFRAPI_DOMAIN ) . '</a>',
+				'config' => '<a href="' . admin_url( 'admin.php?page=dfrapi' ) . '">' . __( 'Configuration', 'datafeedr-api' ) . '</a>',
 			)
 		);
 	}

@@ -54,12 +54,12 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 
 		function register_settings() {
 			register_setting( $this->page, $this->key, array( $this, 'validate' ) );
-			add_settings_section( 'merchants', __( 'Select Merchants', DFRAPI_DOMAIN ), array( &$this, 'section_merchants_desc' ), $this->page );
-			add_settings_field( 'ids', __( 'Merchants', DFRAPI_DOMAIN ), array( &$this, 'field_merchant_ids' ), $this->page, 'merchants', array( 'label_for' => 'DFRAPI_HIDE_LABEL' ) );
+			add_settings_section( 'merchants', __( 'Select Merchants', 'datafeedr-api' ), array( &$this, 'section_merchants_desc' ), $this->page );
+			add_settings_field( 'ids', __( 'Merchants', 'datafeedr-api' ), array( &$this, 'field_merchant_ids' ), $this->page, 'merchants', array( 'label_for' => 'DFRAPI_HIDE_LABEL' ) );
 		}
 
 		function section_merchants_desc() {
-			echo __( 'Select merchants from your affiliate networks then click <strong>[Save Changes]</strong>.', DFRAPI_DOMAIN );
+			echo __( 'Select merchants from your affiliate networks then click <strong>[Save Changes]</strong>.', 'datafeedr-api' );
 		}
 
 		function field_merchant_ids() {
@@ -75,7 +75,7 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 				$network = $this->get_network_info( $user_network );
 
 				if ( empty( $network ) ) {
-					 _e( 'No networks have been selected.', DFRAPI_DOMAIN );
+					 _e( 'No networks have been selected.', 'datafeedr-api' );
 					break;
 				}
 
@@ -101,8 +101,8 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 
             $no_products = ( $merchant['product_count'] < 1 ) ? 'no_products hidden' : '';
 
-            $button = '<span class="merchant_hint_remove">' . __( 'Click to remove', DFRAPI_DOMAIN ) . "</span>"
-                    . '<span class="merchant_hint_add">' . __( 'Click to add', DFRAPI_DOMAIN ) . "</span>";
+            $button = '<span class="merchant_hint_remove">' . __( 'Click to remove', 'datafeedr-api' ) . "</span>"
+                    . '<span class="merchant_hint_add">' . __( 'Click to add', 'datafeedr-api' ) . "</span>";
 
             return '
                 <div class="merchant ' . $no_products . '" id="merchant_id_' . $merchant['_id'] . '">
@@ -139,13 +139,13 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 				<div style="display:none;" class="merchants" id="merchants_for_nid_' . $network_id . '">
 					<div class="merchant_actions">
 						<span class="filter_action">
-							' . __( 'Search', DFRAPI_DOMAIN ) . ': <input type="text"> 
-							<a class="reset_search button" title="' . __( 'Clear search', DFRAPI_DOMAIN ) . '">&times;</a>
+							' . __( 'Search', 'datafeedr-api' ) . ': <input type="text"> 
+							<a class="reset_search button" title="' . __( 'Clear search', 'datafeedr-api' ) . '">&times;</a>
 						</span>
 						<span class="sep">|</span>
 						<span class="hide_action">
-							<a style="display:none" class="hide_empty_merchants button">' . __( 'Hide Empty Merchants', DFRAPI_DOMAIN ) . '</a>
-							<a class="show_empty_merchants button">' . __( 'Show Empty Merchants', DFRAPI_DOMAIN ) . '</a>
+							<a style="display:none" class="hide_empty_merchants button">' . __( 'Hide Empty Merchants', 'datafeedr-api' ) . '</a>
+							<a class="show_empty_merchants button">' . __( 'Show Empty Merchants', 'datafeedr-api' ) . '</a>
 						</span>
 					</div>
 				';
@@ -167,7 +167,7 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
                 <div class="dfrapi_panes">
                     <div class="dfrapi_pane_left">
                         <div class="dfrapi_pane_title">
-                            <span>' . __( 'Available Merchants', DFRAPI_DOMAIN ) . '</span>
+                            <span>' . __( 'Available Merchants', 'datafeedr-api' ) . '</span>
 						</span>
 
                         </div>
@@ -177,8 +177,8 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
                     </div>
                     <div class="dfrapi_pane_right">
                         <div class="dfrapi_pane_title">
-                            <span>' . __( 'Selected Merchants', DFRAPI_DOMAIN ) . '</span>
-							<a class="remove_all button">' . __( 'Remove All', DFRAPI_DOMAIN ) . '</a>
+                            <span>' . __( 'Selected Merchants', 'datafeedr-api' ) . '</span>
+							<a class="remove_all button">' . __( 'Remove All', 'datafeedr-api' ) . '</a>
                         </div>
                         <div class="dfrapi_pane_content">
                             ' . $right . '
@@ -225,9 +225,9 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 			$messages = $this->messages();
 
 			if ( $count > 0 ) {
-				return '<span class="num_checked_some">' . sprintf( translate_nooped_plural( $messages['num_checked'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
+				return '<span class="num_checked_some">' . sprintf( translate_nooped_plural( $messages['num_checked'], $count, 'datafeedr-api' ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
 			} else {
-				return '<span class="num_checked_none">' . sprintf( translate_nooped_plural( $messages['num_checked'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
+				return '<span class="num_checked_none">' . sprintf( translate_nooped_plural( $messages['num_checked'], $count, 'datafeedr-api' ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
 			}
 		}
 
@@ -235,14 +235,14 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 			$count = ( $network['merchant_count'] > 0 ) ? $network['merchant_count'] : 0;
 			if ( $count > 0 ) {
 				$messages = $this->messages();
-				return '<span class="num_merchants">' . sprintf( translate_nooped_plural( $messages['num_merchants'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
+				return '<span class="num_merchants">' . sprintf( translate_nooped_plural( $messages['num_merchants'], $count, 'datafeedr-api' ), number_format( $count ) ) . '</span> <span class="sep">/</span> ';
 			}
 		}
 
 		function num_products_in_network( $network ) {
 			$count = ( $network['product_count'] > 0 ) ? $network['product_count'] : 0;
 			$messages = $this->messages();
-			return '<span class="num_products">' . sprintf( translate_nooped_plural( $messages['num_products'], $count, DFRAPI_DOMAIN ), number_format( $count ) ) . '</span>';
+			return '<span class="num_products">' . sprintf( translate_nooped_plural( $messages['num_products'], $count, 'datafeedr-api' ), number_format( $count ) ) . '</span>';
 		}
 
 		function validate( $input ) {

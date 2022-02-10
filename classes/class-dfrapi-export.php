@@ -21,8 +21,8 @@ if ( ! class_exists( 'Dfrapi_Export' ) ) {
 		function admin_menu() {
 			add_submenu_page(
 				'dfrapi',
-				__( 'Export &#8212; Datafeedr API', DFRAPI_DOMAIN ), 
-				__( 'Export', DFRAPI_DOMAIN ), 
+				__( 'Export &#8212; Datafeedr API', 'datafeedr-api' ),
+				__( 'Export', 'datafeedr-api' ),
 				'manage_options', 
 				$this->key,
 				array( $this, 'output' ) 
@@ -39,8 +39,8 @@ if ( ! class_exists( 'Dfrapi_Export' ) ) {
 	
 		function register_settings() {
 			register_setting( $this->page, $this->key, array( $this, 'validate' ) );
-			add_settings_section( 'export_network_data', __( 'Network Data', DFRAPI_DOMAIN ), array( &$this, 'section_export_network_data' ), $this->page );
-			add_settings_section( 'export_merchant_data', __( 'Merchant Data', DFRAPI_DOMAIN ), array( &$this, 'section_export_merchant_data' ), $this->page );
+			add_settings_section( 'export_network_data', __( 'Network Data', 'datafeedr-api' ), array( &$this, 'section_export_network_data' ), $this->page );
+			add_settings_section( 'export_merchant_data', __( 'Merchant Data', 'datafeedr-api' ), array( &$this, 'section_export_merchant_data' ), $this->page );
 		}
 		
 		function section_export_network_data() {

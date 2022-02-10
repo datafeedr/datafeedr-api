@@ -22,8 +22,8 @@ if ( ! class_exists( 'Dfrapi_Import' ) ) {
 		function admin_menu() {
 			add_submenu_page(
 				'dfrapi',
-				__( 'Import &#8212; Datafeedr API', DFRAPI_DOMAIN ), 
-				__( 'Import', DFRAPI_DOMAIN ), 
+				__( 'Import &#8212; Datafeedr API', 'datafeedr-api' ),
+				__( 'Import', 'datafeedr-api' ),
 				'manage_options', 
 				$this->key,
 				array( $this, 'output' ) 
@@ -43,26 +43,26 @@ if ( ! class_exists( 'Dfrapi_Import' ) ) {
 			wp_nonce_field( 'update-options' );
 			settings_fields( $this->page );
 			do_settings_sections( $this->page);
-			submit_button( __( 'Import Data', DFRAPI_DOMAIN ) );
+			submit_button( __( 'Import Data', 'datafeedr-api' ) );
 			echo '</form>';		
 			echo '</div>';
 		}
 	
 		function register_settings() {
 			register_setting( $this->page, $this->key, array( $this, 'validate' ) );
-			add_settings_section( 'import_data', __( 'Import Data', DFRAPI_DOMAIN ), array( &$this, 'section_import_data_desc' ), $this->page );
-			add_settings_field( 'import_data_textarea', __( 'Data to Import', DFRAPI_DOMAIN ), array( &$this, 'field_import_data_textarea' ), $this->page, 'import_data' );
+			add_settings_section( 'import_data', __( 'Import Data', 'datafeedr-api' ), array( &$this, 'section_import_data_desc' ), $this->page );
+			add_settings_field( 'import_data_textarea', __( 'Data to Import', 'datafeedr-api' ), array( &$this, 'field_import_data_textarea' ), $this->page, 'import_data' );
 		}
 	
 		function section_import_data_desc() { 
-			echo '<p>' . __( 'Import data from another website when you want to use the same selection of networks and/or merchants as you have already configured on another website.', DFRAPI_DOMAIN ) . '</p>';
-			echo '<p>' . __( 'You can import network and merchant data at the same time.', DFRAPI_DOMAIN ) . '</p>';
+			echo '<p>' . __( 'Import data from another website when you want to use the same selection of networks and/or merchants as you have already configured on another website.', 'datafeedr-api' ) . '</p>';
+			echo '<p>' . __( 'You can import network and merchant data at the same time.', 'datafeedr-api' ) . '</p>';
 			echo '<p class="dfrapi_warning">';
-			echo '<strong>' . __( 'WARNING: ', DFRAPI_DOMAIN ) . '</strong> ';
-			echo __( 'Importing will overwrite all of your current ', DFRAPI_DOMAIN );
-			echo ' <a href="' . admin_url( 'admin.php?page=dfrapi_networks' ) . '">'. __( 'network settings', DFRAPI_DOMAIN ) . '</a>';
-			echo __( ' and/or ', DFRAPI_DOMAIN );
-			echo ' <a href="' . admin_url( 'admin.php?page=dfrapi_merchants' ) . '">'. __( 'merchant settings', DFRAPI_DOMAIN ) . '</a>';
+			echo '<strong>' . __( 'WARNING: ', 'datafeedr-api' ) . '</strong> ';
+			echo __( 'Importing will overwrite all of your current ', 'datafeedr-api' );
+			echo ' <a href="' . admin_url( 'admin.php?page=dfrapi_networks' ) . '">'. __( 'network settings', 'datafeedr-api' ) . '</a>';
+			echo __( ' and/or ', 'datafeedr-api' );
+			echo ' <a href="' . admin_url( 'admin.php?page=dfrapi_merchants' ) . '">'. __( 'merchant settings', 'datafeedr-api' ) . '</a>';
 			echo '.</p>';
 		}
 

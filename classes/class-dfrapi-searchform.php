@@ -5,173 +5,173 @@ class Dfrapi_SearchForm
     function fields() {
 
 	    $opFulltext = array(
-		    'match'       => __( 'matches', DFRAPI_DOMAIN ),
-		    'contain'     => __( 'contains', DFRAPI_DOMAIN ),
-		    'not_contain' => __( 'doesn\'t contain', DFRAPI_DOMAIN ),
-		    'start'       => __( 'starts with', DFRAPI_DOMAIN ),
-		    'end'         => __( 'ends with', DFRAPI_DOMAIN ),
+		    'match'       => __( 'matches', 'datafeedr-api' ),
+		    'contain'     => __( 'contains', 'datafeedr-api' ),
+		    'not_contain' => __( 'doesn\'t contain', 'datafeedr-api' ),
+		    'start'       => __( 'starts with', 'datafeedr-api' ),
+		    'end'         => __( 'ends with', 'datafeedr-api' ),
 	    );
 
 	    $opFulltextExact = array_merge( $opFulltext, array(
-		    'is' => __( 'is', DFRAPI_DOMAIN )
+		    'is' => __( 'is', 'datafeedr-api' )
 	    ) );
 
 	    $opRange = array(
-		    'eq'      => __( 'equal to', DFRAPI_DOMAIN ),
-		    'lt'      => __( 'less than', DFRAPI_DOMAIN ),
-		    'lte'     => __( 'less than or equal to', DFRAPI_DOMAIN ),
-		    'gt'      => __( 'greater than', DFRAPI_DOMAIN ),
-		    'gte'     => __( 'greater than or equal to', DFRAPI_DOMAIN ),
-		    'between' => __( 'between', DFRAPI_DOMAIN )
+		    'eq'      => __( 'equal to', 'datafeedr-api' ),
+		    'lt'      => __( 'less than', 'datafeedr-api' ),
+		    'lte'     => __( 'less than or equal to', 'datafeedr-api' ),
+		    'gt'      => __( 'greater than', 'datafeedr-api' ),
+		    'gte'     => __( 'greater than or equal to', 'datafeedr-api' ),
+		    'between' => __( 'between', 'datafeedr-api' )
 	    );
 
 	    $opIs = array(
-		    'is' => __( 'is', DFRAPI_DOMAIN )
+		    'is' => __( 'is', 'datafeedr-api' )
 	    );
 
 	    $opIsIsnt = array(
-		    'is'     => __( 'is', DFRAPI_DOMAIN ),
-		    'is_not' => __( 'isn\'t', DFRAPI_DOMAIN )
+		    'is'     => __( 'is', 'datafeedr-api' ),
+		    'is_not' => __( 'isn\'t', 'datafeedr-api' )
 	    );
 
 	    $opYesNo = array(
-		    'yes' => __( 'yes', DFRAPI_DOMAIN ),
-		    'no'  => __( 'no', DFRAPI_DOMAIN )
+		    'yes' => __( 'yes', 'datafeedr-api' ),
+		    'no'  => __( 'no', 'datafeedr-api' )
 	    );
 
 	    $opInStock = array(
-		    'yes_unknown' => __( 'yes or unknown', DFRAPI_DOMAIN ),
-		    'yes'         => __( 'yes', DFRAPI_DOMAIN ),
-		    'no'          => __( 'no', DFRAPI_DOMAIN ),
+		    'yes_unknown' => __( 'yes or unknown', 'datafeedr-api' ),
+		    'yes'         => __( 'yes', 'datafeedr-api' ),
+		    'no'          => __( 'no', 'datafeedr-api' ),
 	    );
 
 	    $sortOpts = array(
-		    ''              => __( 'Relevance', DFRAPI_DOMAIN ),
-		    '+price'        => __( 'Price Ascending', DFRAPI_DOMAIN ),
-		    '-price'        => __( 'Price Descending', DFRAPI_DOMAIN ),
-		    '+saleprice'    => __( 'Sale Price Ascending', DFRAPI_DOMAIN ),
-		    '-saleprice'    => __( 'Sale Price Descending', DFRAPI_DOMAIN ),
-		    '+finalprice'   => __( 'Final Price Ascending', DFRAPI_DOMAIN ),
-		    '-finalprice'   => __( 'Final Price Descending', DFRAPI_DOMAIN ),
-		    '+salediscount' => __( 'Discount Ascending', DFRAPI_DOMAIN ),
-		    '-salediscount' => __( 'Discount Descending', DFRAPI_DOMAIN ),
-		    '+merchant'     => __( 'Merchant', DFRAPI_DOMAIN ),
-		    '+time_created' => __( 'Date Created Ascending', DFRAPI_DOMAIN ),
-		    '-time_created' => __( 'Date Created Descending', DFRAPI_DOMAIN ),
-		    '+time_updated' => __( 'Last Updated Ascending', DFRAPI_DOMAIN ),
-		    '-time_updated' => __( 'Last Updated Descending', DFRAPI_DOMAIN ),
-		    '+_id'          => __( 'Product ID Ascending', DFRAPI_DOMAIN ),
-		    '-_id'          => __( 'Product ID Descending', DFRAPI_DOMAIN ),
+		    ''              => __( 'Relevance', 'datafeedr-api' ),
+		    '+price'        => __( 'Price Ascending', 'datafeedr-api' ),
+		    '-price'        => __( 'Price Descending', 'datafeedr-api' ),
+		    '+saleprice'    => __( 'Sale Price Ascending', 'datafeedr-api' ),
+		    '-saleprice'    => __( 'Sale Price Descending', 'datafeedr-api' ),
+		    '+finalprice'   => __( 'Final Price Ascending', 'datafeedr-api' ),
+		    '-finalprice'   => __( 'Final Price Descending', 'datafeedr-api' ),
+		    '+salediscount' => __( 'Discount Ascending', 'datafeedr-api' ),
+		    '-salediscount' => __( 'Discount Descending', 'datafeedr-api' ),
+		    '+merchant'     => __( 'Merchant', 'datafeedr-api' ),
+		    '+time_created' => __( 'Date Created Ascending', 'datafeedr-api' ),
+		    '-time_created' => __( 'Date Created Descending', 'datafeedr-api' ),
+		    '+time_updated' => __( 'Last Updated Ascending', 'datafeedr-api' ),
+		    '-time_updated' => __( 'Last Updated Descending', 'datafeedr-api' ),
+		    '+_id'          => __( 'Product ID Ascending', 'datafeedr-api' ),
+		    '-_id'          => __( 'Product ID Descending', 'datafeedr-api' ),
 	    );
 
 	    return array(
 		    array(
-			    'title'    => __( 'Any Field', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Any Field', 'datafeedr-api' ),
 			    'name'     => 'any',
 			    'input'    => 'text',
 			    'operator' => $opFulltext,
 			    'help'     => $this->help( 'any' )
 		    ),
 		    array(
-			    'title'    => __( 'Product Name', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Product Name', 'datafeedr-api' ),
 			    'name'     => 'name',
 			    'input'    => 'text',
 			    'operator' => $opFulltextExact,
 			    'help'     => $this->help( 'name' )
 		    ),
 		    array(
-			    'title'    => __( 'Product ID', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Product ID', 'datafeedr-api' ),
 			    'name'     => 'id',
 			    'input'    => 'text',
 			    'operator' => $opIsIsnt,
 			    'help'     => $this->help( 'id' )
 		    ),
 		    array(
-			    'title'    => __( 'Barcode', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Barcode', 'datafeedr-api' ),
 			    'name'     => 'barcode',
 			    'input'    => 'text',
 			    'operator' => $opIsIsnt,
 			    'help'     => $this->help( 'barcode' )
 		    ),
 		    array(
-			    'title'    => __( 'Brand', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Brand', 'datafeedr-api' ),
 			    'name'     => 'brand',
 			    'input'    => 'text',
 			    'operator' => $opFulltextExact,
 			    'help'     => $this->help( 'brand' )
 		    ),
 		    array(
-			    'title'    => __( 'Color', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Color', 'datafeedr-api' ),
 			    'name'     => 'color',
 			    'input'    => 'text',
 			    'operator' => $opFulltextExact,
 			    'help'     => $this->help( 'color' )
 		    ),
 		    array(
-			    'title'    => __( 'Material', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Material', 'datafeedr-api' ),
 			    'name'     => 'material',
 			    'input'    => 'text',
 			    'operator' => $opFulltextExact,
 			    'help'     => $this->help( 'material' )
 		    ),
 		    array(
-			    'title'    => __( 'Size', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Size', 'datafeedr-api' ),
 			    'name'     => 'size',
 			    'input'    => 'text',
 			    'operator' => $opFulltextExact,
 			    'help'     => $this->help( 'size' )
 		    ),
 		    array(
-			    'title'    => __( 'Gender', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Gender', 'datafeedr-api' ),
 			    'name'     => 'gender',
 			    'input'    => 'text',
 			    'operator' => $opFulltextExact,
 			    'help'     => $this->help( 'gender' )
 		    ),
 		    array(
-			    'title'    => __( 'Condition', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Condition', 'datafeedr-api' ),
 			    'name'     => 'condition',
 			    'input'    => 'text',
 			    'operator' => $opFulltextExact,
 			    'help'     => $this->help( 'condition' )
 		    ),
 		    array(
-			    'title'    => __( 'Description', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Description', 'datafeedr-api' ),
 			    'name'     => 'description',
 			    'input'    => 'text',
 			    'operator' => $opFulltext,
 			    'help'     => $this->help( 'description' )
 		    ),
 		    array(
-			    'title'    => __( 'Tags', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Tags', 'datafeedr-api' ),
 			    'name'     => 'tags',
 			    'input'    => 'text',
 			    'operator' => array(
-				    'in'     => __( 'contain', DFRAPI_DOMAIN ),
-				    'not_in' => __( 'don\'t contain', DFRAPI_DOMAIN )
+				    'in'     => __( 'contain', 'datafeedr-api' ),
+				    'not_in' => __( 'don\'t contain', 'datafeedr-api' )
 			    ),
 			    'help'     => $this->help( 'tags' )
 		    ),
 		    array(
-			    'title'    => __( 'Category', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Category', 'datafeedr-api' ),
 			    'name'     => 'category',
 			    'input'    => 'text',
 			    'operator' => $opFulltext,
 			    'help'     => $this->help( 'category' )
 		    ),
 		    array(
-			    'title'    => __( 'Product Type', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Product Type', 'datafeedr-api' ),
 			    'name'     => 'type',
 			    'input'    => 'select',
 			    'options'  => array(
-				    'products' => __( 'Product', DFRAPI_DOMAIN ),
-				    'coupons'  => __( 'Coupon', DFRAPI_DOMAIN )
+				    'products' => __( 'Product', 'datafeedr-api' ),
+				    'coupons'  => __( 'Coupon', 'datafeedr-api' )
 			    ),
 			    'operator' => $opIs,
 			    'help'     => $this->help( 'type' )
 		    ),
 		    array(
-			    'title'    => __( 'Currency', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Currency', 'datafeedr-api' ),
 			    'name'     => 'currency',
 			    'input'    => 'select',
 			    'options'  => array(
@@ -195,98 +195,98 @@ class Dfrapi_SearchForm
 			    'help'     => $this->help( 'currency' )
 		    ),
 		    array(
-			    'title'    => __( 'Price', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Price', 'datafeedr-api' ),
 			    'name'     => 'price',
 			    'input'    => 'range',
 			    'operator' => $opRange,
 			    'help'     => $this->help( 'price' )
 		    ),
 		    array(
-			    'title'    => __( 'Sale Price', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Sale Price', 'datafeedr-api' ),
 			    'name'     => 'saleprice',
 			    'input'    => 'range',
 			    'operator' => $opRange,
 			    'help'     => $this->help( 'saleprice' )
 		    ),
 		    array(
-			    'title'    => __( 'Final Price', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Final Price', 'datafeedr-api' ),
 			    'name'     => 'finalprice',
 			    'input'    => 'range',
 			    'operator' => $opRange,
 			    'help'     => $this->help( 'finalprice' )
 		    ),
 		    array(
-			    'title'    => __( 'Discount', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Discount', 'datafeedr-api' ),
 			    'name'     => 'salediscount',
 			    'input'    => 'range',
 			    'operator' => $opRange,
 			    'help'     => $this->help( 'salediscount' )
 		    ),
 		    array(
-			    'title'    => __( 'Network', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Network', 'datafeedr-api' ),
 			    'name'     => 'source_id',
 			    'input'    => 'network',
 			    'operator' => $opIsIsnt,
 			    'help'     => $this->help( 'source_id' )
 		    ),
 		    array(
-			    'title'    => __( 'Merchant', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Merchant', 'datafeedr-api' ),
 			    'name'     => 'merchant_id',
 			    'input'    => 'merchant',
 			    'operator' => $opIsIsnt,
 			    'help'     => $this->help( 'merchant_id' )
 		    ),
 		    array(
-			    'title'    => __( 'On Sale', DFRAPI_DOMAIN ),
+			    'title'    => __( 'On Sale', 'datafeedr-api' ),
 			    'name'     => 'onsale',
 			    'input'    => 'none',
 			    'operator' => $opYesNo,
 			    'help'     => $this->help( 'onsale' )
 		    ),
 		    array(
-			    'title'    => __( 'In Stock', DFRAPI_DOMAIN ),
+			    'title'    => __( 'In Stock', 'datafeedr-api' ),
 			    'name'     => 'instock',
 			    'input'    => 'none',
 			    'operator' => $opInStock,
 			    'help'     => $this->help( 'instock' )
 		    ),
 		    array(
-			    'title'    => __( 'Has Direct URL', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Has Direct URL', 'datafeedr-api' ),
 			    'name'     => 'direct_url',
 			    'input'    => 'none',
 			    'operator' => $opYesNo,
 			    'help'     => $this->help( 'direct_url' )
 		    ),
 		    array(
-			    'title'    => __( 'Has Image', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Has Image', 'datafeedr-api' ),
 			    'name'     => 'image',
 			    'input'    => 'none',
 			    'operator' => $opYesNo,
 			    'help'     => $this->help( 'image' )
 		    ),
 		    array(
-			    'title'    => __( 'Has Barcode', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Has Barcode', 'datafeedr-api' ),
 			    'name'     => 'has_barcode',
 			    'input'    => 'none',
 			    'operator' => $opYesNo,
 			    'help'     => $this->help( 'has_barcode' )
 		    ),
 		    array(
-			    'title'    => __( 'Last Updated', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Last Updated', 'datafeedr-api' ),
 			    'name'     => 'time_updated',
 			    'input'    => 'range',
 			    'operator' => array( 'lt' => 'before', 'gt' => 'after', 'between' => 'between' ),
 			    'help'     => $this->help( 'time_updated' )
 		    ),
 		    array(
-			    'title'    => __( 'Limit', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Limit', 'datafeedr-api' ),
 			    'name'     => 'limit',
 			    'input'    => 'text',
 			    'operator' => array( 'is' => 'is' ),
 			    'help'     => $this->help( 'limit' )
 		    ),
 		    array(
-			    'title'    => __( 'Merchant Limit', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Merchant Limit', 'datafeedr-api' ),
 			    'name'     => 'merchant_limit',
 			    'input'    => 'select',
 			    'options'  => array_filter( range( 0, 50 ), function ( $num ) {
@@ -296,18 +296,18 @@ class Dfrapi_SearchForm
 			    'help'     => $this->help( 'merchant_limit' )
 		    ),
 		    array(
-			    'title'    => __( 'Sort By', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Sort By', 'datafeedr-api' ),
 			    'name'     => 'sort',
 			    'input'    => 'none',
 			    'operator' => $sortOpts,
 			    'help'     => $this->help( 'sort' )
 		    ),
 		    array(
-			    'title'    => __( 'Exclude Duplicates', DFRAPI_DOMAIN ),
+			    'title'    => __( 'Exclude Duplicates', 'datafeedr-api' ),
 			    'name'     => 'duplicates',
 			    'input'    => 'text',
 			    'operator' => array(
-				    'is' => __( 'matching these fields', DFRAPI_DOMAIN ),
+				    'is' => __( 'matching these fields', 'datafeedr-api' ),
 			    ),
 			    'help'     => $this->help( 'duplicates' )
 		    )
@@ -428,11 +428,11 @@ class Dfrapi_SearchForm
 
     function networksMerchantsPopup($kind, $value) {
         $title = array(
-            'network'  => __( 'Select Networks', DFRAPI_DOMAIN ),
-            'merchant' => __( 'Select Merchants', DFRAPI_DOMAIN )
+            'network'  => __( 'Select Networks', 'datafeedr-api' ),
+            'merchant' => __( 'Select Merchants', 'datafeedr-api' )
         );
-        $clear = __( 'Clear search', DFRAPI_DOMAIN );
-        $ok = __( 'OK', DFRAPI_DOMAIN );
+        $clear = __( 'Clear search', 'datafeedr-api' );
+        $ok = __( 'OK', 'datafeedr-api' );
         $cells = "";
 
         $all = ($kind == 'network') ?
@@ -485,7 +485,7 @@ class Dfrapi_SearchForm
         }
         $html = implode(', ', $names);
         if(count($value) - count($names)) {
-            $html  .= ' ' . sprintf(__( 'and %s more', DFRAPI_DOMAIN ), count($value) - count($names));
+            $html  .= ' ' . sprintf(__( 'and %s more', 'datafeedr-api' ), count($value) - count($names));
         }
         return $html;
     }
@@ -493,7 +493,7 @@ class Dfrapi_SearchForm
     function chooseBox($kind, $field, $index, $value) {
         $pfx = $this->inputPrefix($index);
         $value = implode(',', $this->ary($value));
-        $choose = __( 'choose', DFRAPI_DOMAIN );
+        $choose = __( 'choose', 'datafeedr-api' );
         return "
             <div class='dfrapi_choose_box' rel='{$kind}'>
                 <span class='names'></span>
@@ -540,7 +540,7 @@ class Dfrapi_SearchForm
             case 'range':
                 $value  = htmlspecialchars($value);
                 $value2 = htmlspecialchars($this->get($params, 'value2'));
-                $and = __( 'and', DFRAPI_DOMAIN );
+                $and = __( 'and', 'datafeedr-api' );
                 $input = "
         			<input class='short' name='{$pfx}[value]' type='text' value=\"$value\"/>{$percent_sign}
 		        	<span class='value2' style='display:none'>
@@ -634,8 +634,8 @@ class Dfrapi_SearchForm
             }
         }
 
-        $loading = __( 'Loading, please wait', DFRAPI_DOMAIN );
-        $add = __( 'add filter', DFRAPI_DOMAIN );
+        $loading = __( 'Loading, please wait', 'datafeedr-api' );
+        $add = __( 'add filter', 'datafeedr-api' );
         return "
             <div id='dfrapi_search_form'>
                 <input type='hidden' id='dfrapi_useSelected' value='{$this->useSelected}' />
@@ -866,7 +866,7 @@ class Dfrapi_SearchForm
     	<div class="dfrapi_search_tip">
     		<span class="dashicons dashicons-lightbulb"></span>
     		<p>
-    			<strong>' . __( 'TIP:', DFRAPI_DOMAIN ) . '</strong> ' .
+    			<strong>' . __( 'TIP:', 'datafeedr-api' ) . '</strong> ' .
                $tip . '
     		</p>
     	</div>
@@ -878,8 +878,8 @@ class Dfrapi_SearchForm
     		<p>
     			<span class="dashicons dashicons-info"></span> 
     			<em>
-    				<a href="https://datafeedrapi.helpscoutdocs.com/article/216-search-operators" target="_blank">' . __('Learn more', DFRAPI_DOMAIN ) . '</a> ' .
-               __('about advanced uses of this field.', DFRAPI_DOMAIN ) . '
+    				<a href="https://datafeedrapi.helpscoutdocs.com/article/216-search-operators" target="_blank">' . __('Learn more', 'datafeedr-api' ) . '</a> ' .
+               __('about advanced uses of this field.', 'datafeedr-api' ) . '
     			</em>
     		</p>
     	';
@@ -890,194 +890,194 @@ class Dfrapi_SearchForm
         $help = array();
 
         // Any
-        $help['any'] = '<h3>' . __('Any Field', DFRAPI_DOMAIN ) . '</h3>';
-        $help['any'] .= '<p>' . __( 'Search all indexed text fields at once to return a broad set of results.', DFRAPI_DOMAIN ) . '</p>';
-        $help['any'] .= '<p>' . __( 'The fields listed below are indexed as text fields and searchable using Any Field. Image, currency, and price fields are not searched.', DFRAPI_DOMAIN ) . '</p>';
-        $help['any'] .= '<p><em>' . __( '*Note that not all merchants and networks provide every field. ', DFRAPI_DOMAIN ) . '</em></p>';
-        $help['any'] .= '<p>' . __( 'Fields searched using Any Field:', DFRAPI_DOMAIN ) . '</p>';
+        $help['any'] = '<h3>' . __('Any Field', 'datafeedr-api' ) . '</h3>';
+        $help['any'] .= '<p>' . __( 'Search all indexed text fields at once to return a broad set of results.', 'datafeedr-api' ) . '</p>';
+        $help['any'] .= '<p>' . __( 'The fields listed below are indexed as text fields and searchable using Any Field. Image, currency, and price fields are not searched.', 'datafeedr-api' ) . '</p>';
+        $help['any'] .= '<p><em>' . __( '*Note that not all merchants and networks provide every field. ', 'datafeedr-api' ) . '</em></p>';
+        $help['any'] .= '<p>' . __( 'Fields searched using Any Field:', 'datafeedr-api' ) . '</p>';
         $help['any'] .= '<table width="100%" border="0" style="margin-bottom:20px"><tr><td width="33%" valign="top">accommodationtype<br />address<br />artist<br />author<br />bestsellers<br />brand<br />category<br />city<br />color<br />commissiontype<br />condition<br />country<br />county<br />description<br />destination<br />discount</td><td width="33%" valign="top">discounttype<br />ean<br />fabric<br />featured<br />flavour<br />gender<br />genre<br />isbn<br />language<br />location<br />manufacturer<br />manufacturerid<br />material<br />size<br />gender<br />model<br />mpn<br />name</td><td width="33%" valign="top">offercode<br />offertype<br />platform<br />productnumber<br />promo<br />publisher<br />rating<br />region<br />size<br />sku<br />stars<br />state<br />subcategory<br />tags<br />upc<br />weight</td></tr></table>';
         $help['any'] .= $this->help_operators();
 
         // Name
-        $help['name'] = '<h3>' . __('Product Name', DFRAPI_DOMAIN ) . '</h3>';
-        $help['name'] .= '<p>' . __( 'Search by product name to narrow your results.', DFRAPI_DOMAIN ) . '</p>';
-        $help['name'] .= $this->help_tip( __( 'Some merchants include color, size, gender, product codes, sale information and promotions in the product name field.', DFRAPI_DOMAIN ) );
+        $help['name'] = '<h3>' . __('Product Name', 'datafeedr-api' ) . '</h3>';
+        $help['name'] .= '<p>' . __( 'Search by product name to narrow your results.', 'datafeedr-api' ) . '</p>';
+        $help['name'] .= $this->help_tip( __( 'Some merchants include color, size, gender, product codes, sale information and promotions in the product name field.', 'datafeedr-api' ) );
         $help['name'] .= $this->help_operators();
 
         // ID
-        $help['id'] = '<h3>' . __('Product ID', DFRAPI_DOMAIN ) . '</h3>';
-        $help['id'] .= '<p>' . __( 'Search by Product ID to find specific products.', DFRAPI_DOMAIN ) . '</p>';
-        $help['id'] .= $this->help_tip( __( 'Separate each product ID with a comma "," to search for multiple products by their IDs.<br /><br />Example: <strong>4088900432286084, 8177000167015036, 2651801988581531</strong>', DFRAPI_DOMAIN ) );
-        $help['id'] .= '<p>' . __( 'Product IDs are assigned by Datafeedr and are not related to any IDs merchants use to identify their products. Each product in the Datafeedr product database has a unique Product ID.', DFRAPI_DOMAIN ) . '</p>';
+        $help['id'] = '<h3>' . __('Product ID', 'datafeedr-api' ) . '</h3>';
+        $help['id'] .= '<p>' . __( 'Search by Product ID to find specific products.', 'datafeedr-api' ) . '</p>';
+        $help['id'] .= $this->help_tip( __( 'Separate each product ID with a comma "," to search for multiple products by their IDs.<br /><br />Example: <strong>4088900432286084, 8177000167015036, 2651801988581531</strong>', 'datafeedr-api' ) );
+        $help['id'] .= '<p>' . __( 'Product IDs are assigned by Datafeedr and are not related to any IDs merchants use to identify their products. Each product in the Datafeedr product database has a unique Product ID.', 'datafeedr-api' ) . '</p>';
 //        $help['id'] .= $this->help_operators();
 
 	    // Barcode
-	    $help['barcode'] = '<h3>' . __('Barcode', DFRAPI_DOMAIN ) . '</h3>';
-	    $help['barcode'] .= '<p>' . __( 'Search for products by their barcode (ie. EAN, UPC or GTIN value).', DFRAPI_DOMAIN ) . '</p>';
-	    $help['barcode'] .= $this->help_tip( __( 'Separate each barcode with a comma "," to search for multiple products by their barcodes.<br /><br />Example: <strong>889169871993, 889169900167, 889169488559</strong>', DFRAPI_DOMAIN ) );
-	    $help['barcode'] .= '<p>' . __( 'The Barcode search filter ignores leading zeros. Therefore, searching for <strong>889169871993</strong> and searching for <strong>00889169871993</strong> will return the same results.', DFRAPI_DOMAIN ) . '</p>';
+	    $help['barcode'] = '<h3>' . __('Barcode', 'datafeedr-api' ) . '</h3>';
+	    $help['barcode'] .= '<p>' . __( 'Search for products by their barcode (ie. EAN, UPC or GTIN value).', 'datafeedr-api' ) . '</p>';
+	    $help['barcode'] .= $this->help_tip( __( 'Separate each barcode with a comma "," to search for multiple products by their barcodes.<br /><br />Example: <strong>889169871993, 889169900167, 889169488559</strong>', 'datafeedr-api' ) );
+	    $help['barcode'] .= '<p>' . __( 'The Barcode search filter ignores leading zeros. Therefore, searching for <strong>889169871993</strong> and searching for <strong>00889169871993</strong> will return the same results.', 'datafeedr-api' ) . '</p>';
 
         // Brand
-        $help['brand'] = '<h3>' . __('Brand', DFRAPI_DOMAIN ) . '</h3>';
-        $help['brand'] .= '<p>' . __( 'Search by brand name to get specific results. Not every item has a brand name.', DFRAPI_DOMAIN ) . '</p>';
-        $help['brand'] .= $this->help_tip( __( 'Enter the shorter version of a brand name in this field. Omit words such as "Incorporated", "Limited" and their abbreviations like Inc., Ltd. and so on.', DFRAPI_DOMAIN ) );
+        $help['brand'] = '<h3>' . __('Brand', 'datafeedr-api' ) . '</h3>';
+        $help['brand'] .= '<p>' . __( 'Search by brand name to get specific results. Not every item has a brand name.', 'datafeedr-api' ) . '</p>';
+        $help['brand'] .= $this->help_tip( __( 'Enter the shorter version of a brand name in this field. Omit words such as "Incorporated", "Limited" and their abbreviations like Inc., Ltd. and so on.', 'datafeedr-api' ) );
         $help['brand'] .= $this->help_operators();
 
         // Color
-        $help['color'] = '<h3>' . __('Color', DFRAPI_DOMAIN ) . '</h3>';
-        $help['color'] .= '<p>' . __( 'Search by color to get specific results. Not every item has a color field.', DFRAPI_DOMAIN ) . '</p>';
+        $help['color'] = '<h3>' . __('Color', 'datafeedr-api' ) . '</h3>';
+        $help['color'] .= '<p>' . __( 'Search by color to get specific results. Not every item has a color field.', 'datafeedr-api' ) . '</p>';
 
 	    // Material
-	    $help['material'] = '<h3>' . __('Material', DFRAPI_DOMAIN ) . '</h3>';
-	    $help['material'] .= '<p>' . __( 'Search by material to get specific results. Not every item has a material field.', DFRAPI_DOMAIN ) . '</p>';
+	    $help['material'] = '<h3>' . __('Material', 'datafeedr-api' ) . '</h3>';
+	    $help['material'] .= '<p>' . __( 'Search by material to get specific results. Not every item has a material field.', 'datafeedr-api' ) . '</p>';
 
 	    // Size
-	    $help['size'] = '<h3>' . __('Size', DFRAPI_DOMAIN ) . '</h3>';
-	    $help['size'] .= '<p>' . __( 'Search by size to get specific results. Not every item has a size field.', DFRAPI_DOMAIN ) . '</p>';
+	    $help['size'] = '<h3>' . __('Size', 'datafeedr-api' ) . '</h3>';
+	    $help['size'] .= '<p>' . __( 'Search by size to get specific results. Not every item has a size field.', 'datafeedr-api' ) . '</p>';
 
 	    // Gender
-	    $help['gender'] = '<h3>' . __('Gender', DFRAPI_DOMAIN ) . '</h3>';
-	    $help['gender'] .= '<p>' . __( 'Search by gender to get specific results. Not every item has a gender field.', DFRAPI_DOMAIN ) . '</p>';
+	    $help['gender'] = '<h3>' . __('Gender', 'datafeedr-api' ) . '</h3>';
+	    $help['gender'] .= '<p>' . __( 'Search by gender to get specific results. Not every item has a gender field.', 'datafeedr-api' ) . '</p>';
 
 	    // Condition
-	    $help['condition'] = '<h3>' . __('Condition', DFRAPI_DOMAIN ) . '</h3>';
-	    $help['condition'] .= '<p>' . __( 'Search by condition to get specific results. Not every item has a condition field.', DFRAPI_DOMAIN ) . '</p>';
+	    $help['condition'] = '<h3>' . __('Condition', 'datafeedr-api' ) . '</h3>';
+	    $help['condition'] .= '<p>' . __( 'Search by condition to get specific results. Not every item has a condition field.', 'datafeedr-api' ) . '</p>';
 
         // Description
-        $help['description'] = '<h3>' . __('Description', DFRAPI_DOMAIN ) . '</h3>';
-        $help['description'] .= '<p>' . __( 'Search the description field for product attributes such as size, color, material, gender or usage.', DFRAPI_DOMAIN ) . '</p>';
-        $help['description'] .= $this->help_tip( __( 'Most merchants provide a product description. Some product details may only appear in the description and not in any other field. However, some merchants duplicate the product name or product code in the description field without supplying additional details or leave the product description blank.', DFRAPI_DOMAIN ) );
+        $help['description'] = '<h3>' . __('Description', 'datafeedr-api' ) . '</h3>';
+        $help['description'] .= '<p>' . __( 'Search the description field for product attributes such as size, color, material, gender or usage.', 'datafeedr-api' ) . '</p>';
+        $help['description'] .= $this->help_tip( __( 'Most merchants provide a product description. Some product details may only appear in the description and not in any other field. However, some merchants duplicate the product name or product code in the description field without supplying additional details or leave the product description blank.', 'datafeedr-api' ) );
         $help['description'] .= $this->help_operators();
 
         // Tags
-        $help['tags'] = '<h3>' . __('Tags', DFRAPI_DOMAIN ) . '</h3>';
-        $help['tags'] .= '<p>' . __( 'Limit search results based on product tag and keyword information.', DFRAPI_DOMAIN ) . '</p>';
-        $help['tags'] .= $this->help_tip( __( 'This field contains data from various keyword-related fields provided by the merchant. This field does not always exist.', DFRAPI_DOMAIN ) );
+        $help['tags'] = '<h3>' . __('Tags', 'datafeedr-api' ) . '</h3>';
+        $help['tags'] .= '<p>' . __( 'Limit search results based on product tag and keyword information.', 'datafeedr-api' ) . '</p>';
+        $help['tags'] .= $this->help_tip( __( 'This field contains data from various keyword-related fields provided by the merchant. This field does not always exist.', 'datafeedr-api' ) );
 
         // Category
-        $help['category'] = '<h3>' . __('Category', DFRAPI_DOMAIN ) . '</h3>';
-        $help['category'] .= '<p>' . __( 'Limit search results based on category information.', DFRAPI_DOMAIN ) . '</p>';
-        $help['category'] .= $this->help_tip( __( 'This field contains data from various category-related fields provided by the merchant. This field does not always exist.', DFRAPI_DOMAIN ) );
+        $help['category'] = '<h3>' . __('Category', 'datafeedr-api' ) . '</h3>';
+        $help['category'] .= '<p>' . __( 'Limit search results based on category information.', 'datafeedr-api' ) . '</p>';
+        $help['category'] .= $this->help_tip( __( 'This field contains data from various category-related fields provided by the merchant. This field does not always exist.', 'datafeedr-api' ) );
         $help['category'] .= $this->help_operators();
 
         // Type
-        $help['type'] = '<h3>' . __('Product Type', DFRAPI_DOMAIN ) . '</h3>';
-        $help['type'] .= '<p>' . __( 'Limit your search results to one type of item, either Product or Coupon.', DFRAPI_DOMAIN ) . '</p>';
-        $help['type'] .= $this->help_tip( __( 'In order to use this filter, you must have already selected merchants that provide that type of item. For example, if you choose "Product type: Coupon" but have not selected any merchants that offer coupons, your search will return an error.', DFRAPI_DOMAIN ) );
+        $help['type'] = '<h3>' . __('Product Type', 'datafeedr-api' ) . '</h3>';
+        $help['type'] .= '<p>' . __( 'Limit your search results to one type of item, either Product or Coupon.', 'datafeedr-api' ) . '</p>';
+        $help['type'] .= $this->help_tip( __( 'In order to use this filter, you must have already selected merchants that provide that type of item. For example, if you choose "Product type: Coupon" but have not selected any merchants that offer coupons, your search will return an error.', 'datafeedr-api' ) );
 
         // Currency
-        $help['currency'] = '<h3>' . __('Currency', DFRAPI_DOMAIN ) . '</h3>';
-        $help['currency'] .= '<p>' . __( 'Limit your search results to items with a specific currency code.', DFRAPI_DOMAIN ) . '</p>';
-        $help['currency'] .= $this->help_tip( __( 'Selecting a currency code is one way to limit your search results to items from a specific country. However, not every item has been given a currency code value by the merchant. Items without a currency code will be excluded from your search results.', DFRAPI_DOMAIN ) );
+        $help['currency'] = '<h3>' . __('Currency', 'datafeedr-api' ) . '</h3>';
+        $help['currency'] .= '<p>' . __( 'Limit your search results to items with a specific currency code.', 'datafeedr-api' ) . '</p>';
+        $help['currency'] .= $this->help_tip( __( 'Selecting a currency code is one way to limit your search results to items from a specific country. However, not every item has been given a currency code value by the merchant. Items without a currency code will be excluded from your search results.', 'datafeedr-api' ) );
 
         // Price
-        $help['price'] = '<h3>' . __('Price', DFRAPI_DOMAIN ) . '</h3>';
-        $help['price'] .= '<p>' . __( 'Filter your search results based on price. Return products less than, greater than, or within a price range that you set.', DFRAPI_DOMAIN ) . '</p>';
-        $help['price'] .= $this->help_tip( __( 'This field does not search on sale price. If you set a price range to less than 30, you will exclude an item with a regular price of 40 that is on sale for less than 30.', DFRAPI_DOMAIN ) );
+        $help['price'] = '<h3>' . __('Price', 'datafeedr-api' ) . '</h3>';
+        $help['price'] .= '<p>' . __( 'Filter your search results based on price. Return products less than, greater than, or within a price range that you set.', 'datafeedr-api' ) . '</p>';
+        $help['price'] .= $this->help_tip( __( 'This field does not search on sale price. If you set a price range to less than 30, you will exclude an item with a regular price of 40 that is on sale for less than 30.', 'datafeedr-api' ) );
 
         // Sale Price
-        $help['saleprice'] = '<h3>' . __('Sale Price', DFRAPI_DOMAIN ) . '</h3>';
-        $help['saleprice'] .= '<p>' . __( 'Filter your search results based on sale price. Return items less than, greater than, or within a sale price range that you set.', DFRAPI_DOMAIN ) . '</p>';
-        $help['saleprice'] .= $this->help_tip( __( 'This field does not search on regular price.  If you set a sale price range to between 50 and 100, an item with a sale price of 40 will be excluded even if it\'s regular price matches the range you set.', DFRAPI_DOMAIN ) );
+        $help['saleprice'] = '<h3>' . __('Sale Price', 'datafeedr-api' ) . '</h3>';
+        $help['saleprice'] .= '<p>' . __( 'Filter your search results based on sale price. Return items less than, greater than, or within a sale price range that you set.', 'datafeedr-api' ) . '</p>';
+        $help['saleprice'] .= $this->help_tip( __( 'This field does not search on regular price.  If you set a sale price range to between 50 and 100, an item with a sale price of 40 will be excluded even if it\'s regular price matches the range you set.', 'datafeedr-api' ) );
 
         // Final Price
-        $help['finalprice'] = '<h3>' . __('Final Price', DFRAPI_DOMAIN ) . '</h3>';
-        $help['finalprice'] .= '<p>' . __( 'Filter your search results based on the final price. Return items less than, greater than, or within a sale price range that you set.', DFRAPI_DOMAIN ) . '</p>';
-        $help['finalprice'] .= $this->help_tip( __( 'The final price is the lower price when comparing the regular price and sale price field.', DFRAPI_DOMAIN ) );
+        $help['finalprice'] = '<h3>' . __('Final Price', 'datafeedr-api' ) . '</h3>';
+        $help['finalprice'] .= '<p>' . __( 'Filter your search results based on the final price. Return items less than, greater than, or within a sale price range that you set.', 'datafeedr-api' ) . '</p>';
+        $help['finalprice'] .= $this->help_tip( __( 'The final price is the lower price when comparing the regular price and sale price field.', 'datafeedr-api' ) );
 
 	    // Discount
-	    $help['salediscount'] = '<h3>' . __('Discount', DFRAPI_DOMAIN ) . '</h3>';
-	    $help['salediscount'] .= '<p>' . __( 'Limit your search results to items with a specified discount. Enter the number in terms of percentage (1 - 100) to indicate a discount less than, greater than, or between a given range. You do not need to enter the percentage sign.', DFRAPI_DOMAIN ) . '</p>';
-	    $help['salediscount'] .= $this->help_tip( __( 'To display, for example, only products that are on sale for a discount of 20% or more, choose the "greater than" operator and type "19".', DFRAPI_DOMAIN ) );
+	    $help['salediscount'] = '<h3>' . __('Discount', 'datafeedr-api' ) . '</h3>';
+	    $help['salediscount'] .= '<p>' . __( 'Limit your search results to items with a specified discount. Enter the number in terms of percentage (1 - 100) to indicate a discount less than, greater than, or between a given range. You do not need to enter the percentage sign.', 'datafeedr-api' ) . '</p>';
+	    $help['salediscount'] .= $this->help_tip( __( 'To display, for example, only products that are on sale for a discount of 20% or more, choose the "greater than" operator and type "19".', 'datafeedr-api' ) );
 
         // Network
-        $help['source_id'] = '<h3>' . __('Network', DFRAPI_DOMAIN ) . '</h3>';
-        $help['source_id'] .= '<p>' . __( 'Limit your search results to items from one or more affiliate networks.', DFRAPI_DOMAIN ) . '</p>';
-        $help['source_id'] .= $this->help_tip( __( 'Affiliate networks are generally country-specific. Using the Network filter is one way to limit your search results by country.', DFRAPI_DOMAIN ) );
+        $help['source_id'] = '<h3>' . __('Network', 'datafeedr-api' ) . '</h3>';
+        $help['source_id'] .= '<p>' . __( 'Limit your search results to items from one or more affiliate networks.', 'datafeedr-api' ) . '</p>';
+        $help['source_id'] .= $this->help_tip( __( 'Affiliate networks are generally country-specific. Using the Network filter is one way to limit your search results by country.', 'datafeedr-api' ) );
 
         // Merchant
-        $help['merchant_id'] = '<h3>' . __('Merchant', DFRAPI_DOMAIN ) . '</h3>';
-        $help['merchant_id'] .= '<p>' . __( 'Limit your search results to items from one or more merchants.', DFRAPI_DOMAIN ) . '</p>';
-        $help['merchant_id'] .= $this->help_tip( __( 'Using the Merchant filter is a quick way to exclude unrelated products and reduce the number of API requests made when building a Product Set. For example, if you are creating a Product Set related to cat products, exclude all merchants that only sell dog products.', DFRAPI_DOMAIN ) );
+        $help['merchant_id'] = '<h3>' . __('Merchant', 'datafeedr-api' ) . '</h3>';
+        $help['merchant_id'] .= '<p>' . __( 'Limit your search results to items from one or more merchants.', 'datafeedr-api' ) . '</p>';
+        $help['merchant_id'] .= $this->help_tip( __( 'Using the Merchant filter is a quick way to exclude unrelated products and reduce the number of API requests made when building a Product Set. For example, if you are creating a Product Set related to cat products, exclude all merchants that only sell dog products.', 'datafeedr-api' ) );
 
         // On Sale
-        $help['onsale'] = '<h3>' . __('On Sale', DFRAPI_DOMAIN ) . '</h3>';
-        $help['onsale'] .= '<p>' . __( 'Set this field to "<strong>yes</strong>" to return only items which are on sale. To exclude products which are on sale, set this field to "<strong>no</strong>".', DFRAPI_DOMAIN ) . '</p>';
+        $help['onsale'] = '<h3>' . __('On Sale', 'datafeedr-api' ) . '</h3>';
+        $help['onsale'] .= '<p>' . __( 'Set this field to "<strong>yes</strong>" to return only items which are on sale. To exclude products which are on sale, set this field to "<strong>no</strong>".', 'datafeedr-api' ) . '</p>';
 
         // In Stock
-        $help['instock'] = '<h3>' . __('In Stock', DFRAPI_DOMAIN ) . '</h3>';
-        $help['instock'] .= '<p>' . __( 'This allows you to filter products by stock status.', DFRAPI_DOMAIN ) . '</p>';
-        $help['instock'] .= '<p>' . __( '<strong>yes or unknown</strong>: This will return products which are explicitly set as "in-stock" or products which have no field containing stock-related information.', DFRAPI_DOMAIN ) . '</p>';
-        $help['instock'] .= '<p>' . __( '<strong>yes</strong>: This will only return products which are explicitly set as "in-stock".', DFRAPI_DOMAIN ) . '</p>';
-        $help['instock'] .= '<p>' . __( '<strong>no</strong>: This will only return products which are explicitly set as NOT "in-stock".', DFRAPI_DOMAIN ) . '</p>';
-        $help['instock'] .= $this->help_tip( __( 'Not all products contain stock-related information. Therefore selecting "yes or unknown" is the recommended choice when you want to find products which are "in-stock".', DFRAPI_DOMAIN ) );
+        $help['instock'] = '<h3>' . __('In Stock', 'datafeedr-api' ) . '</h3>';
+        $help['instock'] .= '<p>' . __( 'This allows you to filter products by stock status.', 'datafeedr-api' ) . '</p>';
+        $help['instock'] .= '<p>' . __( '<strong>yes or unknown</strong>: This will return products which are explicitly set as "in-stock" or products which have no field containing stock-related information.', 'datafeedr-api' ) . '</p>';
+        $help['instock'] .= '<p>' . __( '<strong>yes</strong>: This will only return products which are explicitly set as "in-stock".', 'datafeedr-api' ) . '</p>';
+        $help['instock'] .= '<p>' . __( '<strong>no</strong>: This will only return products which are explicitly set as NOT "in-stock".', 'datafeedr-api' ) . '</p>';
+        $help['instock'] .= $this->help_tip( __( 'Not all products contain stock-related information. Therefore selecting "yes or unknown" is the recommended choice when you want to find products which are "in-stock".', 'datafeedr-api' ) );
 
         // Has Direct URL
-        $help['direct_url'] = '<h3>' . __('Has Direct URL', DFRAPI_DOMAIN ) . '</h3>';
-        $help['direct_url'] .= '<p>' . __( 'Limit your search results to items which have a direct URL (or which don\'t).', DFRAPI_DOMAIN ) . '</p>';
-        $help['direct_url'] .= $this->help_tip( __( 'A "Direct URL" is a URL directly to the product page on the merchant\'s website. By default, the "Direct URL" is never used as the URL in your "Buy" links. However, if you need the products in your store to contain a "Direct URL" to the product page on the merchants\' websites, then you should use this filter. This is most useful if you are using Skimlinks (or similar service) to generate your affiliate links instead of the affiliate networks.', DFRAPI_DOMAIN ) );
+        $help['direct_url'] = '<h3>' . __('Has Direct URL', 'datafeedr-api' ) . '</h3>';
+        $help['direct_url'] .= '<p>' . __( 'Limit your search results to items which have a direct URL (or which don\'t).', 'datafeedr-api' ) . '</p>';
+        $help['direct_url'] .= $this->help_tip( __( 'A "Direct URL" is a URL directly to the product page on the merchant\'s website. By default, the "Direct URL" is never used as the URL in your "Buy" links. However, if you need the products in your store to contain a "Direct URL" to the product page on the merchants\' websites, then you should use this filter. This is most useful if you are using Skimlinks (or similar service) to generate your affiliate links instead of the affiliate networks.', 'datafeedr-api' ) );
 
 	    // Has Image
-	    $help['image'] = '<h3>' . __('Has Image', DFRAPI_DOMAIN ) . '</h3>';
-	    $help['image'] .= '<p>' . __( 'Limit your search results to items which have an image (or which don\'t).', DFRAPI_DOMAIN ) . '</p>';
-	    $help['image'] .= $this->help_tip( __( 'Sometimes the image URL in the merchant\'s data feed is broken. Items with broken images will still return in search results even though there appears to be no image.', DFRAPI_DOMAIN ) );
+	    $help['image'] = '<h3>' . __('Has Image', 'datafeedr-api' ) . '</h3>';
+	    $help['image'] .= '<p>' . __( 'Limit your search results to items which have an image (or which don\'t).', 'datafeedr-api' ) . '</p>';
+	    $help['image'] .= $this->help_tip( __( 'Sometimes the image URL in the merchant\'s data feed is broken. Items with broken images will still return in search results even though there appears to be no image.', 'datafeedr-api' ) );
 
 	    // Has Barcode
-	    $help['has_barcode'] = '<h3>' . __('Has Barcode', DFRAPI_DOMAIN ) . '</h3>';
-	    $help['has_barcode'] .= '<p>' . __( 'Limit your search results to products which have a barcode (ie. a UPC, EAN or GTIN value).', DFRAPI_DOMAIN ) . '</p>';
+	    $help['has_barcode'] = '<h3>' . __('Has Barcode', 'datafeedr-api' ) . '</h3>';
+	    $help['has_barcode'] .= '<p>' . __( 'Limit your search results to products which have a barcode (ie. a UPC, EAN or GTIN value).', 'datafeedr-api' ) . '</p>';
 
 	    // Last Updated
-        $help['time_updated'] = '<h3>' . __('Last Updated', DFRAPI_DOMAIN ) . '</h3>';
-        $help['time_updated'] .= '<p>' . __( 'Filter products by the last time they were updated by the merchant. Enter an English textual datetime description using PHP\'s <a href="http://www.php.net/strtotime" target="_blank">strtotime()</a> function.', DFRAPI_DOMAIN ) . '</p>';
-        $help['time_updated'] .= '<h3>' . __('Examples', DFRAPI_DOMAIN ) . '</h3>';
+        $help['time_updated'] = '<h3>' . __('Last Updated', 'datafeedr-api' ) . '</h3>';
+        $help['time_updated'] .= '<p>' . __( 'Filter products by the last time they were updated by the merchant. Enter an English textual datetime description using PHP\'s <a href="http://www.php.net/strtotime" target="_blank">strtotime()</a> function.', 'datafeedr-api' ) . '</p>';
+        $help['time_updated'] .= '<h3>' . __('Examples', 'datafeedr-api' ) . '</h3>';
         $help['time_updated'] .= '<p>';
-        $help['time_updated'] .= '<tt>' . __('last week', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['time_updated'] .= '<tt>' . __('2 days ago', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['time_updated'] .= '<tt>' . __('1 month ago', DFRAPI_DOMAIN ) . '</tt>';
+        $help['time_updated'] .= '<tt>' . __('last week', 'datafeedr-api' ) . '</tt><br />';
+        $help['time_updated'] .= '<tt>' . __('2 days ago', 'datafeedr-api' ) . '</tt><br />';
+        $help['time_updated'] .= '<tt>' . __('1 month ago', 'datafeedr-api' ) . '</tt>';
         $help['time_updated'] .= '</p>';
-        $help['time_updated'] .= '<p>' . __( '', DFRAPI_DOMAIN ) . '</p>';
-        $help['time_updated'] .= $this->help_tip( __( 'An item\'s Last Updated date will not change if the merchant does not change any product information during a data feed update.', DFRAPI_DOMAIN ) );
+        $help['time_updated'] .= '<p>' . __( '', 'datafeedr-api' ) . '</p>';
+        $help['time_updated'] .= $this->help_tip( __( 'An item\'s Last Updated date will not change if the merchant does not change any product information during a data feed update.', 'datafeedr-api' ) );
 
         // Limit
-        $help['limit'] = '<h3>' . __('Limit', DFRAPI_DOMAIN ) . '</h3>';
-        $help['limit'] .= '<p>' . __( 'Limit the number of items returned in your search results. The maximum number of products that can be returned is 10,000.', DFRAPI_DOMAIN ) . '</p>';
-        $help['limit'] .= $this->help_tip( __( 'Limiting the number of products returned helps reduce the number of API requests made during searching and updating Product Sets.', DFRAPI_DOMAIN ) );
+        $help['limit'] = '<h3>' . __('Limit', 'datafeedr-api' ) . '</h3>';
+        $help['limit'] .= '<p>' . __( 'Limit the number of items returned in your search results. The maximum number of products that can be returned is 10,000.', 'datafeedr-api' ) . '</p>';
+        $help['limit'] .= $this->help_tip( __( 'Limiting the number of products returned helps reduce the number of API requests made during searching and updating Product Sets.', 'datafeedr-api' ) );
 
         // Merchant Limit
-        $help['merchant_limit'] = '<h3>' . __('Merchant Limit', DFRAPI_DOMAIN ) . '</h3>';
-        $help['merchant_limit'] .= '<p>' . __( 'Limit the number of items returned per merchant. The number must be between 1 and 50.', DFRAPI_DOMAIN ) . '</p>';
-        $help['merchant_limit'] .= $this->help_tip( __( 'This is useful to use when you have one merchant which has many products that match your search but other merchants have fewer of those same products and you want equal distribution between all merchants.', DFRAPI_DOMAIN ) );
+        $help['merchant_limit'] = '<h3>' . __('Merchant Limit', 'datafeedr-api' ) . '</h3>';
+        $help['merchant_limit'] .= '<p>' . __( 'Limit the number of items returned per merchant. The number must be between 1 and 50.', 'datafeedr-api' ) . '</p>';
+        $help['merchant_limit'] .= $this->help_tip( __( 'This is useful to use when you have one merchant which has many products that match your search but other merchants have fewer of those same products and you want equal distribution between all merchants.', 'datafeedr-api' ) );
 
         // Sort By
-        $help['sort'] = '<h3>' . __('Sort By', DFRAPI_DOMAIN ) . '</h3>';
-        $help['sort'] .= '<p>' . __( 'Change the sort criteria by which items are displayed in your search results.', DFRAPI_DOMAIN ) . '</p>';
-        $help['sort'] .= $this->help_tip( __( 'By default, search results are sorted by relevance. You can change that to sort by price, sale price, discount, or last updated date in ascending order (lowest to highest) or descending order (highest to lowest). You can also sort by merchant, which lists items alphabetically by merchant name.', DFRAPI_DOMAIN ) );
+        $help['sort'] = '<h3>' . __('Sort By', 'datafeedr-api' ) . '</h3>';
+        $help['sort'] .= '<p>' . __( 'Change the sort criteria by which items are displayed in your search results.', 'datafeedr-api' ) . '</p>';
+        $help['sort'] .= $this->help_tip( __( 'By default, search results are sorted by relevance. You can change that to sort by price, sale price, discount, or last updated date in ascending order (lowest to highest) or descending order (highest to lowest). You can also sort by merchant, which lists items alphabetically by merchant name.', 'datafeedr-api' ) );
 
         // Exclude Duplicates
-        $help['duplicates'] = '<h3>' . __('Exclude Duplicates', DFRAPI_DOMAIN ) . '</h3>';
-        $help['duplicates'] .= '<p>' . __( 'Exclude items that contain identical product names, image URLs, etc. Enter one or more terms from the list below. Separate terms by a space (meaning AND) or | (pipe symbol, meaning OR).', DFRAPI_DOMAIN ) . '<br />';
-        $help['duplicates'] .= '<p>' . __( 'Enter one of these terms to exclude duplicates matching these fields:', DFRAPI_DOMAIN ) . '<br />';
-        $help['duplicates'] .= '<tt>' . __('name', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['duplicates'] .= '<tt>' . __('brand', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['duplicates'] .= '<tt>' . __('description', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['duplicates'] .= '<tt>' . __('currency', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['duplicates'] .= '<tt>' . __('price', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['duplicates'] .= '<tt>' . __('saleprice', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['duplicates'] .= '<tt>' . __('source_id', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['duplicates'] .= '<tt>' . __('merchant_id', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['duplicates'] .= '<tt>' . __('direct_url', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['duplicates'] .= '<tt>' . __('onsale', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['duplicates'] .= '<tt>' . __('image', DFRAPI_DOMAIN ) . '</tt><br />';
-        $help['duplicates'] .= '<tt>' . __('thumbnail', DFRAPI_DOMAIN ) . '</tt>';
+        $help['duplicates'] = '<h3>' . __('Exclude Duplicates', 'datafeedr-api' ) . '</h3>';
+        $help['duplicates'] .= '<p>' . __( 'Exclude items that contain identical product names, image URLs, etc. Enter one or more terms from the list below. Separate terms by a space (meaning AND) or | (pipe symbol, meaning OR).', 'datafeedr-api' ) . '<br />';
+        $help['duplicates'] .= '<p>' . __( 'Enter one of these terms to exclude duplicates matching these fields:', 'datafeedr-api' ) . '<br />';
+        $help['duplicates'] .= '<tt>' . __('name', 'datafeedr-api' ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('brand', 'datafeedr-api' ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('description', 'datafeedr-api' ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('currency', 'datafeedr-api' ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('price', 'datafeedr-api' ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('saleprice', 'datafeedr-api' ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('source_id', 'datafeedr-api' ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('merchant_id', 'datafeedr-api' ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('direct_url', 'datafeedr-api' ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('onsale', 'datafeedr-api' ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('image', 'datafeedr-api' ) . '</tt><br />';
+        $help['duplicates'] .= '<tt>' . __('thumbnail', 'datafeedr-api' ) . '</tt>';
         $help['duplicates'] .= '</p>';
-        $help['duplicates'] .= '<h3>' . __('Examples', DFRAPI_DOMAIN ) . '</h3>';
+        $help['duplicates'] .= '<h3>' . __('Examples', 'datafeedr-api' ) . '</h3>';
         $help['duplicates'] .= '<p>';
-        $help['duplicates'] .= '<tt>' . __('image</tt> - Exclude items which have the same image URL.', DFRAPI_DOMAIN ) . '<br />';
-        $help['duplicates'] .= '<tt>' . __('name image</tt> - Exclude items with the same name AND the same image URL.', DFRAPI_DOMAIN ) . '<br />';
-        $help['duplicates'] .= '<tt>' . __('name|image</tt> - Exclude items with the same name OR the same image URL.', DFRAPI_DOMAIN ) . '<br />';
-        $help['duplicates'] .= '<tt>' . __('merchant_id name|image</tt> - Exclude items which have the same merchant id AND (product name OR image URL).', DFRAPI_DOMAIN ) . '<br />';
+        $help['duplicates'] .= '<tt>' . __('image</tt> - Exclude items which have the same image URL.', 'datafeedr-api' ) . '<br />';
+        $help['duplicates'] .= '<tt>' . __('name image</tt> - Exclude items with the same name AND the same image URL.', 'datafeedr-api' ) . '<br />';
+        $help['duplicates'] .= '<tt>' . __('name|image</tt> - Exclude items with the same name OR the same image URL.', 'datafeedr-api' ) . '<br />';
+        $help['duplicates'] .= '<tt>' . __('merchant_id name|image</tt> - Exclude items which have the same merchant id AND (product name OR image URL).', 'datafeedr-api' ) . '<br />';
         $help['duplicates'] .= '</p>';
-        $help['duplicates'] .= $this->help_tip( __( 'By excluding duplicates, you will eliminate all but one item. For example, if 20 products have identical image URLs and you exclude duplicates matching the <strong>image</strong> field, <em>one</em> item will be returned and 19 items will be excluded.', DFRAPI_DOMAIN ) );
+        $help['duplicates'] .= $this->help_tip( __( 'By excluding duplicates, you will eliminate all but one item. For example, if 20 products have identical image URLs and you exclude duplicates matching the <strong>image</strong> field, <em>one</em> item will be returned and 19 items will be excluded.', 'datafeedr-api' ) );
 
 
         if (isset($help[$field])) {

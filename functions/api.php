@@ -488,10 +488,10 @@ function dfrapi_api_get_products_by_id( $ids, $ppp = 20, $page = 1 ) {
 				$excluded_products[] = array(
 					'_id'         => $excluded_id,
 					'_wc_url'     => $wc_url,
-					'name'        => $excluded_id . ' - ' . __( 'Unavailable', DFRAPI_DOMAIN ),
+					'name'        => $excluded_id . ' - ' . __( 'Unavailable', 'datafeedr-api' ),
 					'price'       => 0,
 					'finalprice'  => 0,
-					'description' => __( 'This product is either temporarily or permanently unavailable.', DFRAPI_DOMAIN ),
+					'description' => __( 'This product is either temporarily or permanently unavailable.', 'datafeedr-api' ),
 					'image'       => DFRAPI_URL . 'images/icons/noimage.png',
 					'merchant'    => 'n/a',
 					'source'      => 'n/a',

@@ -4,9 +4,10 @@ Contributors: datafeedr.com
 Tags: woocommerce, datafeedr, affiliate products, dfrapi, import csv, import datafeed, import data feed, data feed, datafeed, import affiliate products
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 5.9-RC4
-Stable tag: 1.2.15
+Tested up to: 6.0-alpha
+Stable tag: 1.2.16
 
 Connect to the Datafeedr API.
 
@@ -39,9 +40,12 @@ Additionally, we have written plugins that integrate the *Datafeedr API* plugin 
 
 **Requirements**
 
-* PHP's `CURL` support must be enabled.
-* PHP Version 7.4 (or greater).
-* WordPress site with HTTPS (SSL/TLS) enabled.
+* PHP 7.4 or greater
+* MySQL version 5.6 or greater
+* [WordPress memory limit of 256 MB or greater](https://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP)
+* PHP's `CURL` enabled
+* WordPress Cron enabled
+* [HTTPS support](https://wordpress.org/news/2016/12/moving-toward-ssl/)
 
 == Installation ==
 
@@ -67,6 +71,17 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.2.16 - 2022/02/10 =
+* Replaced all occurrences of `DFRAPI_DOMAIN` with `'datafeedr-api'`.
+* Replaced references to ``'datafeedr-api/datafeedr-api.php'` with `DFRAPI_BASENAME`.
+* Removed `datafeedr-api-v2.php` file and related `Wuwei` code (which wasn't doing anything).
+* Moved all code from `datafeedr-api-v1.php` to the main `datafeedr-api.php` file.
+* Removed the `zanox_client.php` library and some code related to Zanox.
+* Updated Requirements in the readme file.
+* Added `Requires PHP: 7.4` to readme.txt header and plugin header.
+* Added new `register_activation_hook` to ensure that the Datafeedr API plugin cannot be activated at the Network level on Multisite installs.
+* Moved WordPress Version check to `register_activation_hook` instead of a regular action.
 
 = 1.2.15 - 2022/01/25 =
 * Fixed bug where `get_option( 'dfrapi_transient_whitelist', [] )` didn't always return an array.

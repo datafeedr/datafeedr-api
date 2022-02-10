@@ -10,7 +10,7 @@ License: GPL v3
 Requires PHP: 7.4
 Requires at least: 3.8
 Tested up to: 6.0-alpha
-Version: 1.2.16
+Version: 1.2.17
 
 Datafeedr API Plugin
 Copyright (C) 2022, Datafeedr - help@datafeedr.com
@@ -32,11 +32,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Define constants.
  */
-define( 'DFRAPI_VERSION', '1.2.16' );
+define( 'DFRAPI_VERSION', '1.2.17' );
 define( 'DFRAPI_URL', plugin_dir_url( __FILE__ ) ); // https://example.com/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_PATH', plugin_dir_path( __FILE__ ) ); // /absolute/path/to/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_BASENAME', plugin_basename( __FILE__ ) ); // datafeedr-api/datafeedr-api.php
 define( 'DFRAPI_PLUGIN_FILE', __FILE__ ); // /absolute/path/to/wp-content/plugins/datafeedr-api/datafeedr-api.php
+define( 'DFRAPI_DOMAIN', 'datafeedr-api' ); // deprecated.
 define( 'DFRAPI_HOME_URL', 'https://www.datafeedr.com' );
 define( 'DFRAPI_KEYS_URL', 'https://members.datafeedr.com/api' );
 define( 'DFRAPI_USER_URL', 'https://members.datafeedr.com/' );

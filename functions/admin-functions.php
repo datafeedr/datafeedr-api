@@ -62,7 +62,7 @@ function dfrapi_admin_messages( $key = false, $msg = '' ) {
 		// Display message that user has used 90%+ of API requests.
 		'usage_over_90_percent' => array(
 			'class' 		=> 'notice notice-warning',
-			'message' 		=> __( 'You have used ', 'datafeedr-api' ) . dfrapi_get_api_usage_percentage() . __( '% of your total Datafeedr API requests this month. ', 'datafeedr-api' ),
+			'message' 		=> __( 'You have used ', 'datafeedr-api' ) . dfrapi_get_api_usage_as_percentage() . __( '% of your total Datafeedr API requests this month. ', 'datafeedr-api' ),
 			'url'			=> 'admin.php?page=dfrapi_account',
 			'button_text'	=> __( 'View Account', 'datafeedr-api' )
 		),

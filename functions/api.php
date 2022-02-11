@@ -10,7 +10,6 @@ function dfrapi_api_get_status() {
 	} catch ( Exception $err ) {
 		return dfrapi_api_error( $err );
 	}
-
 }
 
 /**
@@ -760,4 +759,111 @@ function dfrapi_get_affiliate_id_for_effiliation_merchant( $merchant_id ) {
 	}
 
 	return $affiliate_ids[ $merchant['suids'] ]['affiliate_id'];
+}
+
+/**
+ * An array of data about the user's Datafeedr account. Formatted like:
+ *
+ *  Array (
+ *      [network_count] => 227
+ *      [plan_id] => 30600000
+ *      [user_id] => 70123
+ *      [max_total] => 10000
+ *      [merchant_count] => 84031
+ *      [max_requests] => 100000
+ *      [bill_day] => 25
+ *      [request_count] => 11061
+ *      [product_count] => 797373259
+ *      [max_length] => 100
+ *  )
+ *
+ * @return array
+ */
+function dfrapi_get_user_account_data(): array {
+	return (array) get_option( 'dfrapi_account', [] );
+}
+
+/**
+ * Returns the total number of networks in the Datafeedr API.
+ *
+ * @return int
+ */
+function dfrapi_get_network_count(): int {
+	$data = dfrapi_get_user_account_data();
+
+	return absint( $data['network_count'] ?? 0 );
+}
+
+/**
+ * Returns the total number of merchants in the Datafeedr API.
+ *
+ * @return int
+ */
+function dfrapi_get_merchant_count(): int {
+	$data = dfrapi_get_user_account_data();
+
+	return absint( $data['merchant_count'] ?? 0 );
+}
+
+/**
+ * Returns the total number of products in the Datafeedr API.
+ *
+ * @return int
+ */
+function dfrapi_get_product_count(): int {
+	$data = dfrapi_get_user_account_data();
+
+	return absint( $data['product_count'] ?? 0 );
+}
+
+/**
+ * The maximum number of API requests the user is allowed to make during a single subscription period (i.e. 30 days).
+ *
+ * @return int
+ */
+function dfrapi_get_max_requests(): int {
+	$data = dfrapi_get_user_account_data();
+
+	return absint( $data['max_requests'] ?? 0 );
+}
+
+/**
+ * The current number of API requests the user has made during the current subscription period (i.e. 30 days).
+ *
+ * @return int
+ */
+function dfrapi_get_request_count(): int {
+	$data = dfrapi_get_user_account_data();
+
+	return absint( $data['request_count'] ?? 0 );
+}
+
+/**
+ * @param int $precision
+ *
+ * @return float|int
+ */
+function dfrapi_get_api_usage_as_percentage( int $precision = 2 ) {
+	$max_requests  = dfrapi_get_max_requests();
+	$request_count = dfrapi_get_request_count();
+
+	return $max_requests > 0 ? round( ( $request_count / $max_requests * 100 ), $precision ) : 0;
+}
+
+/**
+ * Returns an array of network IDs for the Partnerize affiliate network.
+ *
+ * @return int[]
+ */
+function dfrapi_get_partnerize_network_ids(): array {
+	return [ 801, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820 ];
+}
+
+/**
+ * Returns an array of network IDs for the Effiliation affiliate network.
+ *
+ * @return int[]
+ */
+function dfrapi_get_effiliation_network_ids(): array {
+	return [ 805, 806, 807 ];
 }

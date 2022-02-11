@@ -48,7 +48,8 @@ function dfrapi_get_datafeedr_secret_key() {
 }
 
 function dfrapi_get_api_usage_percentage() {
-	$account = get_option( 'dfrapi_account' );
+
+	$account = (array) get_option( 'dfrapi_account', [] );
 	if ( $account ) {
 		if ( $account['max_requests'] > 0 ) {
 			$percentage = floor( ( (int) $account['request_count'] / (int) $account['max_requests'] * 100 ) );
@@ -62,10 +63,19 @@ function dfrapi_get_api_usage_percentage() {
 	return false;
 }
 
+/**
+ * Returns true if the user has used more than 90% of their API requests. Otherwise returns false.
+ *
+ * @return bool
+ */
+function dfrapi_api_usage_over_90_percent(): bool {
+	return dfrapi_get_api_usage_as_percentage() >= 90;
+}
+
 add_action( 'init', 'dfrapi_email_user_about_usage' );
 function dfrapi_email_user_about_usage() {
 
-	$percentage = dfrapi_get_api_usage_percentage();
+	$percentage = dfrapi_get_api_usage_as_percentage( 0 );
 	$status     = get_option( 'dfrapi_account', array() );
 
 	$request_count      = ( isset( $status['request_count'] ) ) ? abs( $status['request_count'] ) : 0;
@@ -1897,21 +1907,27 @@ function dfrapi_get_selected_networks(): array {
  * @return array
  */
 function dfrapi_get_selected_network_ids(): array {
-	$ids      = [];
-	$networks = dfrapi_get_selected_networks();
 
-	if ( ! isset( $networks['ids'] ) ) {
-		return $ids;
-	}
+	static $ids = null;
 
-	if ( ! is_array( $networks['ids'] ) ) {
-		return $ids;
-	}
+	if ( $ids === null ) {
 
-	foreach ( $networks['ids'] as $k => $v ) {
-		$nid = absint( $v['nid'] ?? 0 );
-		if ( $nid > 0 ) {
-			$ids[] = $nid;
+		$ids      = [];
+		$networks = dfrapi_get_selected_networks();
+
+		if ( ! isset( $networks['ids'] ) ) {
+			return $ids;
+		}
+
+		if ( ! is_array( $networks['ids'] ) ) {
+			return $ids;
+		}
+
+		foreach ( $networks['ids'] as $k => $v ) {
+			$nid = absint( $v['nid'] ?? 0 );
+			if ( $nid > 0 ) {
+				$ids[] = $nid;
+			}
 		}
 	}
 
@@ -1925,6 +1941,15 @@ function dfrapi_get_selected_network_ids(): array {
  */
 function dfrapi_selected_network_count(): int {
 	return count( dfrapi_get_selected_network_ids() );
+}
+
+/**
+ * Returns true if the user has selected at least 1 network. Otherwise, returns false.
+ *
+ * @return bool
+ */
+function dfrapi_user_has_selected_networks(): bool {
+	return dfrapi_selected_network_count() > 0;
 }
 
 /**
@@ -1966,6 +1991,15 @@ function dfrapi_selected_merchant_count(): int {
 }
 
 /**
+ * Returns true if the user has selected at least 1 merchant. Otherwise, returns false.
+ *
+ * @return bool
+ */
+function dfrapi_user_has_selected_merchants(): bool {
+	return dfrapi_selected_merchant_count() > 0;
+}
+
+/**
  * Returns the absolute URL for the Datafeedr API > Networks page.
  *
  * @return string
@@ -1990,4 +2024,69 @@ function dfrapi_merchants_page_url(): string {
  */
 function dfrapi_configuration_page_url(): string {
 	return add_query_arg( [ 'page' => 'dfrapi' ], admin_url( 'admin.php' ) );
+}
+
+/**
+ * Returns an array of Network IDs of those networks who require an affiliate ID but the
+ * user has not yet entered an affiliate ID.
+ *
+ * @return array
+ */
+function dfrapi_get_network_ids_missing_affiliate_id(): array {
+
+	static $ids = null;
+
+	if ( $ids === null ) {
+
+		$ids      = [];
+		$networks = dfrapi_get_selected_networks();
+
+		if ( ! isset( $networks['ids'] ) ) {
+			return $ids;
+		}
+
+		if ( ! is_array( $networks['ids'] ) ) {
+			return $ids;
+		}
+
+		$no_affiliate_id_required = dfrapi_get_ids_of_networks_which_dont_require_affiliate_ids();
+
+		foreach ( $networks['ids'] as $k => $v ) {
+
+			$nid = absint( $v['nid'] ?? 0 );
+
+			if ( in_array( $nid, $no_affiliate_id_required, true ) ) {
+				continue;
+			}
+
+			$aid = trim( $v['aid'] ?? '' );
+
+			if ( $nid > 0 && empty( $aid ) ) {
+				$ids[] = $nid;
+			}
+		}
+	}
+
+	return array_filter( array_unique( $ids ) );
+}
+
+/**
+ * Returns an array of Network IDs which don't require the user to enter an affiliate ID.
+ *
+ * @return array
+ */
+function dfrapi_get_ids_of_networks_which_dont_require_affiliate_ids(): array {
+	return array_merge(
+		dfrapi_get_partnerize_network_ids(),
+		dfrapi_get_effiliation_network_ids()
+	);
+}
+
+/**
+ * Returns true if user is missing at least one affiliate ID. Otherwise, returns false.
+ *
+ * @return bool
+ */
+function dfrapi_user_is_missing_affiliate_ids(): bool {
+	return count( dfrapi_get_network_ids_missing_affiliate_id() ) > 0;
 }

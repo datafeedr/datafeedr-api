@@ -64,7 +64,7 @@ add_action( 'admin_notices', 'dfrapi_datafeedr_api_keys_do_not_exist_notice' );
 function dfrapi_no_networks_selected_admin_notice() {
 
 	// Don't display notice if at least one network has been selected.
-	if ( dfrapi_selected_network_count() > 0 ) {
+	if ( dfrapi_user_has_selected_networks() ) {
 		return;
 	}
 
@@ -95,7 +95,7 @@ add_action( 'admin_notices', 'dfrapi_no_networks_selected_admin_notice' );
 function dfrapi_no_merchants_selected_admin_notice() {
 
 	// Don't display notice if at least one merchant has been selected.
-	if ( dfrapi_selected_merchant_count() > 0 ) {
+	if ( dfrapi_user_has_selected_merchants() ) {
 		return;
 	}
 
@@ -105,7 +105,7 @@ function dfrapi_no_merchants_selected_admin_notice() {
 	}
 
 	// Don't display notice if no networks have been selected yet.
-	if ( dfrapi_selected_network_count() < 1 ) {
+	if ( ! dfrapi_user_has_selected_networks() ) {
 		return;
 	}
 
@@ -123,6 +123,52 @@ function dfrapi_no_merchants_selected_admin_notice() {
 
 add_action( 'admin_notices', 'dfrapi_no_merchants_selected_admin_notice' );
 
+
+function dfrapi_api_usage_over_90_percent_admin_notice() {
+
+	if ( ! dfrapi_api_usage_over_90_percent() ) {
+		return;
+	}
+
+	$status  = 'warning';
+	$plugin  = 'Datafeedr API';
+	$heading = __( '90% of API Requests Used', 'datafeedr-api' );
+	$url     = dfrapi_user_pages( 'change' );
+	$message = sprintf(
+		__( 'You have used over 90%% of your Datafeedr API requests for the current period. <a href="%1$s" target="_blank" rel="noopener nofollow">Upgrade your Datafeedr API subscription</a> to immediately access additional API requests.', 'datafeedr-api' ),
+		esc_url( $url )
+	);
+
+	dfrapi_admin_notice( $message, $status, $heading, $plugin );
+}
+
+add_action( 'admin_notices', 'dfrapi_api_usage_over_90_percent_admin_notice' );
+
+function dfrapi_user_is_missing_affiliate_ids_admin_notice() {
+
+	if ( ! dfrapi_user_is_missing_affiliate_ids() ) {
+		return;
+	}
+
+	$missing_count = count( dfrapi_get_network_ids_missing_affiliate_id() );
+
+	$status  = 'warning';
+	$plugin  = 'Datafeedr API';
+	$heading = __( 'Missing Affiliate IDs', 'datafeedr-api' );
+	$url     = dfrapi_networks_page_url();
+	$ids = translate_nooped_plural(_n_noop( 'affiliate ID', 'affiliate IDs', 'datafeedr-api' ), number_format_i18n($missing_count));
+	$message = sprintf(
+		__( 'You are missing %2$d %3$s. Please go to <a href="%1$s">Datafeedr API > Networks</a> and enter your missing %3$s.', 'datafeedr-api' ),
+		esc_url( $url ),
+		absint( $missing_count ),
+		esc_html($ids)
+	);
+
+	dfrapi_admin_notice( $message, $status, $heading, $plugin );
+}
+
+add_action( 'admin_notices', 'dfrapi_user_is_missing_affiliate_ids_admin_notice' );
+
 function dfrapi_display_admin_notices() {
 
 	// @todo keep working through these Dfrapi_Env notices.
@@ -138,4 +184,4 @@ function dfrapi_display_admin_notices() {
 	}
 }
 
-//add_action( 'admin_notices', 'dfrapi_display_admin_notices' );
+add_action( 'admin_notices', 'dfrapi_display_admin_notices' );

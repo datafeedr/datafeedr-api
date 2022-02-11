@@ -120,7 +120,7 @@ if ( ! class_exists( 'Dfrapi_Initialize' ) ) {
 			}
 
 			// Show "Merchants" page if API keys are present AND a network is selected.
-			if ( dfrapi_datafeedr_api_keys_exist() && Dfrapi_Env::network_is_selected() ) {
+			if ( dfrapi_datafeedr_api_keys_exist() && dfrapi_user_has_selected_networks() ) {
 
 				if ( is_admin() && isset( $_GET['page'] ) && 'dfrapi_merchants' === $_GET['page'] ) {
 					new Dfrapi_Merchants();

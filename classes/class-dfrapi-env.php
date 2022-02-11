@@ -15,14 +15,6 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 		public function __construct() {
 
 			// Non-cascading Errors
-			if ( self::usage_over_90_percent() ) {
-				dfrapi_admin_messages( 'usage_over_90_percent' );
-			}
-
-			if ( self::missing_affiliate_ids() ) {
-				dfrapi_admin_messages( 'missing_affiliate_ids' );
-			}
-
 			if ( $msg = self::unapproved_ph_merchants_exist() ) {
 				dfrapi_admin_messages( 'unapproved_ph_merchants', $msg );
 			}
@@ -33,50 +25,33 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 		}
 
 		public static function api_keys_exist(): bool {
+			_deprecated_function( __METHOD__, '1.3.0', 'dfrapi_datafeedr_api_keys_exist()' );
+
 			return dfrapi_datafeedr_api_keys_exist();
 		}
 
 		public static function network_is_selected(): bool {
-			return dfrapi_selected_network_count() > 0;
+			_deprecated_function( __METHOD__, '1.3.0', 'dfrapi_user_has_selected_networks()' );
+
+			return dfrapi_user_has_selected_networks();
 		}
 
 		public static function merchant_is_selected(): bool {
-			return dfrapi_selected_merchant_count() > 0;
+			_deprecated_function( __METHOD__, '1.3.0', 'dfrapi_user_has_selected_merchants()' );
+
+			return dfrapi_user_has_selected_merchants();
 		}
 
 		public static function usage_over_90_percent(): bool {
-			$percentage = dfrapi_get_api_usage_percentage();
+			_deprecated_function( __METHOD__, '1.3.0', 'dfrapi_api_usage_over_90_percent()' );
 
-			return $percentage >= 90;
+			return dfrapi_api_usage_over_90_percent();
 		}
 
-		static function missing_affiliate_ids() {
-			$networks = get_option( 'dfrapi_networks', array() );
-			if ( ! empty( $networks ) ) {
-				foreach ( $networks['ids'] as $network ) {
+		public static function missing_affiliate_ids(): bool {
+			_deprecated_function( __METHOD__, '1.3.0', 'dfrapi_user_is_missing_affiliate_ids()' );
 
-					$network_id = absint( $network['nid'] );
-
-					$parternize_network_ids  = [ 801, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820 ];
-					$effiliation_network_ids = [ 805, 806, 807 ];
-
-					// Partnerize does not have affiliate IDs.
-					if ( in_array( $network_id, $parternize_network_ids ) ) {
-						continue;
-					}
-
-					// Effiliation does not have affiliate IDs.
-					if ( in_array( $network_id, $effiliation_network_ids ) ) {
-						continue;
-					}
-
-					if ( empty( $network['aid'] ) ) {
-						return true;
-					}
-				}
-			}
-
-			return false;
+			return dfrapi_user_is_missing_affiliate_ids();
 		}
 
 		static function unapproved_ph_merchants_exist() {
@@ -84,7 +59,7 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 			global $wpdb;
 
 			// Get range of Partnerize Network IDs
-			$ph_network_ids = range( 801, 802 );
+			$ph_network_ids = dfrapi_get_partnerize_network_ids();
 
 			// Get user's currently selected networks and convert into simple array of IDs.
 			$selected_networks    = get_option( 'dfrapi_networks', array( 'ids' => array() ) );
@@ -149,7 +124,7 @@ if ( ! class_exists( 'Dfrapi_Env' ) ) {
 			global $wpdb;
 
 			// Get range of Effiliation Network IDs
-			$effiliation_network_ids = range( 805, 807 );
+			$effiliation_network_ids = dfrapi_get_effiliation_network_ids();
 
 			// Get user's currently selected networks and convert into simple array of IDs.
 			$selected_networks    = get_option( 'dfrapi_networks', array( 'ids' => array() ) );

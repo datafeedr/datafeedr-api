@@ -16,10 +16,6 @@ if ( ! class_exists( 'Dfrapi_Initialize' ) ) {
 			add_action( 'admin_menu', [ $this, 'merchants_menu' ], 30 );
 			add_action( 'wp_ajax_search_form', [ $this, 'ajax_search_form' ] );
 
-			// Filters
-			add_filter( 'plugin_action_links_' . DFRAPI_BASENAME, [ $this, 'action_links' ] );
-			add_filter( 'plugin_row_meta', [ $this, 'plugin_row_meta' ], 10, 2 );
-
 			// Datafeedr Admin Pages have been loaded. Broadcast "loaded" action.
 			do_action( 'dfrapi_loaded' );
 		}
@@ -138,25 +134,6 @@ if ( ! class_exists( 'Dfrapi_Initialize' ) ) {
 				new Dfrapi_Import();
 				new Dfrapi_Account();
 			}
-		}
-
-
-		public function plugin_row_meta( $links, $plugin_file ) {
-			if ( $plugin_file === DFRAPI_BASENAME ) {
-				$links[] = sprintf( '<a href="' . DFRAPI_DOCS_URL . '" target="_blank">%s</a>', __( 'Documentation', 'datafeedr-api' ) );
-				$links[] = sprintf( '<a href="' . DFRAPI_HELP_URL . '" target="_blank">%s</a>', __( 'Support', 'datafeedr-api' ) );
-			}
-
-			return $links;
-		}
-
-		public function action_links( $links ) {
-			return array_merge(
-				$links,
-				array(
-					'config' => '<a href="' . admin_url( 'admin.php?page=dfrapi' ) . '">' . __( 'Configuration', 'datafeedr-api' ) . '</a>',
-				)
-			);
 		}
 
 	}

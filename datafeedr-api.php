@@ -85,9 +85,13 @@ register_activation_hook( __FILE__, 'dfrapi_register_activation' );
 /**
  * Load Functions
  */
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/functions.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/global.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/upgrade.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/api.php';
+
+/**
+ * Load Libraries
+ */
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/libraries/datafeedr.php';
 
 /**
  * Load files only if we're in the WordPress Admin Area of the site.
@@ -95,7 +99,7 @@ require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/api.php';
 if ( is_admin() ) {
 
 	// Core admin functions.
-	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/admin-functions.php';
+	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/admin.php';
 
 	// Load required classes.
 	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-env.php'; // Checks environment for any problems.
@@ -107,12 +111,8 @@ if ( is_admin() ) {
 	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-import.php'; // Import page.
 	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-account.php'; // Account page.
 	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-help.php'; // Help tabs.
-
+	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-searchform.php'; // Search Form.
 	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-initialize.php';
-
-
-	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/admin-notices.php';
-	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/enqueue-scripts.php';
 }
 
 /**
@@ -126,15 +126,19 @@ require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-price.php
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-image-importer.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-image-data.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-image-uploader.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-searchform.php';
 
 /**
- * Load Libraries
+ * Global Hooks
  */
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/libraries/datafeedr.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/global/emails.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/global/affiliate-ids.php';
 
 /**
- * Load Hooks
+ * Load Admin Hooks
  */
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/filters.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/actions.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/admin-notices.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/ajax.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/debug-information.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/enqueue-scripts.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/interface.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/merchants.php';

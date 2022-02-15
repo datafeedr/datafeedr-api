@@ -73,6 +73,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 					'awin_access_token'        => '',
 					'affiliate_gateway_sid'    => '',
 					'belboon_aid'              => '',
+					'adservice_mid'            => '',
 					'hs_beacon'                => 'on',
 				),
 				$this->options

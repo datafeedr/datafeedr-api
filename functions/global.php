@@ -1492,6 +1492,10 @@ function dfrapi_get_selected_network_ids(): array {
 			return $ids;
 		}
 
+		if ( empty( $networks['ids'] ) ) {
+			return $ids;
+		}
+
 		if ( ! is_array( $networks['ids'] ) ) {
 			return $ids;
 		}
@@ -1502,9 +1506,11 @@ function dfrapi_get_selected_network_ids(): array {
 				$ids[] = absint( $nid );
 			}
 		}
+
+		$ids = array_filter( array_unique( $ids ) );
 	}
 
-	return array_filter( array_unique( $ids ) );
+	return $ids;
 }
 
 /**
@@ -1572,9 +1578,11 @@ function dfrapi_get_selected_merchant_ids(): array {
 		foreach ( $merchants['ids'] as $id ) {
 			$ids[] = absint( $id );
 		}
+
+		$ids = array_filter( array_unique( $ids ) );
 	}
 
-	return array_filter( array_unique( $ids ) );
+	return $ids;
 }
 
 /**
@@ -2569,10 +2577,72 @@ function dfrapi_get_partnerize_network_ids(): array {
 }
 
 /**
+ * Returns the Group ID for Partnerize.
+ *
+ * @return int
+ */
+function dfrapi_get_partnerize_group_id(): int {
+	return 10027;
+}
+
+/**
  * Returns an array of network IDs for the Effiliation affiliate network.
  *
  * @return int[]
  */
 function dfrapi_get_effiliation_network_ids(): array {
 	return [ 805, 806, 807 ];
+}
+
+/**
+ * Returns the Group ID for Effiliation.
+ *
+ * @return int
+ */
+function dfrapi_get_effiliation_group_id(): int {
+	return 10017;
+}
+
+/**
+ * Returns the Group ID for Belboon.
+ *
+ * @return int
+ */
+function dfrapi_get_belboon_group_id(): int {
+	return 10007;
+}
+
+/**
+ * Get the affiliate ID for a specific network.
+ *
+ * @param int $network_id
+ * @param mixed $default
+ *
+ * @return mixed|string Returns the affiliate ID if found otherwise it returns the value of $default.
+ */
+function dfrapi_get_affiliate_id_by_network_id( int $network_id, $default = false ) {
+
+	static $network_ids = null;
+
+	if ( $network_ids === null ) {
+
+		$network_ids = [];
+
+		$networks = dfrapi_get_selected_networks();
+
+		if ( isset( $networks['ids'] ) && is_array( $networks['ids'] ) && ! empty( $networks['ids'] ) ) {
+			$network_ids = $networks['ids'];
+		}
+	}
+
+	foreach ( $network_ids as $k => $v ) {
+		$nid = absint( $v['nid'] ?? 0 );
+		if ( $nid === $network_id ) {
+			$aid = trim( $v['aid'] ?? '' );
+
+			return ! empty( $aid ) ? $aid : $default;
+		}
+	}
+
+	return $default;
 }

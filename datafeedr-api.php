@@ -111,7 +111,6 @@ if ( is_admin() ) {
 	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-import.php'; // Import page.
 	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-account.php'; // Account page.
 	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-help.php'; // Help tabs.
-	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-searchform.php'; // Search Form.
 	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-initialize.php';
 }
 
@@ -126,6 +125,7 @@ require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-price.php
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-image-importer.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-image-data.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-image-uploader.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-searchform.php'; // Search Form.
 
 /**
  * Global Hooks

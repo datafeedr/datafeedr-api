@@ -112,10 +112,40 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 				$i ++;
 				$checked     = ( array_key_exists( $network['_id'], (array) $this->options['ids'] ) ) ? ' checked="checked"' : '';
-				$type        = ( $network['type'] == 'products' ) ? __( 'products', 'datafeedr-api' ) : __( 'coupons', 'datafeedr-api' );
-				$type_class  = ( $network['type'] == 'products' ) ? ' dfrapi_label-info"' : ' dfrapi_label-success';
+				$type        = ( $network['type'] === 'products' ) ? __( 'products', 'datafeedr-api' ) : __( 'coupons', 'datafeedr-api' );
+				$type_class  = ( $network['type'] === 'products' ) ? ' dfrapi_label-info"' : ' dfrapi_label-success';
 				$no_products = ( $network['product_count'] < 1 ) ? 'no_products' : '';
 				$alternate   = ( $i % 2 ) ? '' : ' alternate';
+
+				if ( $network['group'] == $group_name && (int) $network['group_id'] === dfrapi_get_partnerize_group_id() && ! dfrapi_get_ph_keys() ) {
+					$html .= sprintf(
+						__( '<tr><td colspan="4"><strong>%1$s</strong><br />Please go to <a href="%2$s">Datafeedr API > Configuration</a> and enter your Partnerize API keys before selecting this network.</td></tr>', 'datafeedr-api' ),
+						esc_html( $network['name'] ),
+						esc_url( dfrapi_configuration_page_url() )
+					);
+
+					continue;
+				}
+
+				if ( $network['group'] == $group_name && (int) $network['group_id'] === dfrapi_get_effiliation_group_id() && ! dfrapi_get_effiliation_keys() ) {
+					$html .= sprintf(
+						__( '<tr><td colspan="4"><strong>%1$s</strong><br />Please go to <a href="%2$s">Datafeedr API > Configuration</a> and enter your Effiliation Key before selecting this network.</td></tr>', 'datafeedr-api' ),
+						esc_html( $network['name'] ),
+						esc_url( dfrapi_configuration_page_url() )
+					);
+
+					continue;
+				}
+
+				if ( $network['group'] == $group_name && (int) $network['group_id'] === dfrapi_get_belboon_group_id() && is_wp_error( dfrapi_get_belboon_adspace_id() ) ) {
+					$html .= sprintf(
+						__( '<tr><td colspan="4"><strong>%1$s</strong><br />Please go to <a href="%2$s">Datafeedr API > Configuration</a> and enter your Belboon Adspace ID before selecting this network.</td></tr>', 'datafeedr-api' ),
+						esc_html( $network['name'] ),
+						esc_url( dfrapi_configuration_page_url() )
+					);
+
+					continue;
+				}
 
 				if ( $network['group'] == $group_name ) {
 
@@ -148,13 +178,13 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 						</td>
 					';
 
-					if ( $network['group_id'] == 10027 ) {
+					if ( $network['group_id'] == dfrapi_get_partnerize_group_id() ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
-						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Add/Edit Partnerize Keys</a></td>';
-					} elseif ( $network['group_id'] == 10017 ) {
+						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Edit Partnerize Keys</a></td>';
+					} elseif ( $network['group_id'] == dfrapi_get_effiliation_group_id() ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
-						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Add/Edit Effiliation Key</a></td>';
-					} elseif ( $network['group_id'] == 10007 && is_wp_error( dfrapi_get_belboon_adspace_id() ) ) {
+						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Edit Effiliation Key</a></td>';
+					} elseif ( $network['group_id'] == dfrapi_get_belboon_group_id() && is_wp_error( dfrapi_get_belboon_adspace_id() ) ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
 						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Your Belboon Adspace ID is required before you can enter your affiliate ID. Enter Adspace ID.</a></td>';
 					} elseif ( $network['group_id'] == 10033 && is_wp_error( dfrapi_get_affiliate_gateway_sid() ) ) {
@@ -200,17 +230,17 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			$count = 0;
 			foreach ( $this->all_networks as $network ) {
 
-				if ( $network['group_id'] == 10027 ) {
+				if ( $network['group_id'] == dfrapi_get_partnerize_group_id() ) {
 					continue;
 				}
 
-				if ( $network['group_id'] == 10017 ) {
+				if ( $network['group_id'] == dfrapi_get_effiliation_group_id() ) {
 					continue;
 				}
 
 				if ( $network['group'] == $group_name ) {
 					if ( array_key_exists( $network['_id'], (array) $this->options['ids'] ) ) {
-						if ( trim( $this->options['ids'][ $network['_id'] ]['aid'] ) == '' ) {
+						if ( dfrapi_get_affiliate_id_by_network_id( (int) $network['_id'] ) === false ) {
 							$count ++;
 						}
 					}

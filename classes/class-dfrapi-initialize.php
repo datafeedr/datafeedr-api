@@ -10,7 +10,6 @@ if ( ! class_exists( 'Dfrapi_Initialize' ) ) {
 
 			// Actions
 			add_action( 'plugins_loaded', [ $this, 'initialize_classes' ] );
-//			add_action( 'admin_notices', [ $this, 'admin_notices' ] );
 			add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 			add_action( 'admin_menu', [ $this, 'networks_menu' ], 20 );
 			add_action( 'admin_menu', [ $this, 'merchants_menu' ], 30 );

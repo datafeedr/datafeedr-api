@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Exit if accessed directly
- */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Add Datafeedr API Plugins settings and configuration to the WordPress
@@ -15,11 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 add_filter( 'debug_information', function ( $info ) {
 
-	$options      = get_option( 'dfrapi_configuration', [] );
-	$networks     = (array) get_option( 'dfrapi_networks', [] );
-	$network_ids  = isset( $networks['ids'] ) ? array_keys( (array) $networks['ids'] ) : [];
-	$merchants    = (array) get_option( 'dfrapi_merchants', [] );
-	$merchant_ids = isset( $merchants['ids'] ) ? (array) $merchants['ids'] : [];
+	$options = get_option( 'dfrapi_configuration', [] );
+
+	$network_ids  = dfrapi_get_selected_network_ids();
+	$network_cnt  = dfrapi_selected_network_count();
+	$merchant_ids = dfrapi_get_selected_merchant_ids();
+	$merchant_cnt = dfrapi_selected_merchant_count();
 
 	$info['datafeedr-api-plugin'] = [
 		'label'       => __( 'Datafeedr API Plugin', 'datafeedr-api' ),
@@ -97,23 +93,23 @@ add_filter( 'debug_information', function ( $info ) {
 			],
 			'selected_networks'        => [
 				'label' => __( 'Selected Networks', 'datafeedr-api' ),
-				'value' => absint( count( $network_ids ) ),
-				'debug' => absint( count( $network_ids ) ),
+				'value' => number_format_i18n( $network_cnt ),
+				'debug' => $network_cnt,
 			],
 			'selected_network_ids'     => [
 				'label' => __( 'Selected Network IDs', 'datafeedr-api' ),
 				'value' => implode( ', ', $network_ids ),
-				'debug' => implode( ', ', $network_ids ),
+				'debug' => implode( ',', $network_ids ),
 			],
 			'selected_merchants'       => [
 				'label' => __( 'Selected Merchants', 'datafeedr-api' ),
-				'value' => absint( count( $merchant_ids ) ),
-				'debug' => absint( count( $merchant_ids ) ),
+				'value' => number_format_i18n( $merchant_cnt ),
+				'debug' => $merchant_cnt,
 			],
 			'selected_merchant_ids'    => [
 				'label' => __( 'Selected Merchants IDs', 'datafeedr-api' ),
 				'value' => implode( ', ', $merchant_ids ),
-				'debug' => implode( ', ', $merchant_ids ),
+				'debug' => implode( ',', $merchant_ids ),
 			],
 		]
 	];

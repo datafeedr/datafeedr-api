@@ -1,6 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
 
 if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
@@ -73,6 +73,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 					'awin_access_token'        => '',
 					'affiliate_gateway_sid'    => '',
 					'belboon_aid'              => '',
+					'adservice_mid'            => '',
 					'hs_beacon'                => 'on',
 				),
 				$this->options
@@ -351,88 +352,88 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			foreach( $input as $key => $value ) {
 
 				// Validate "access_id"
-				if ( $key == 'access_id' ) {
+				if ( $key === 'access_id' ) {
 					$new_input['access_id'] = trim( $value );
 				}
 
 				// Validate "secret_key"
-				if ( $key == 'secret_key' ) {
+				if ( $key === 'secret_key' ) {
 					$new_input['secret_key'] = trim( $value );
 				}
 
 				// Validate "transport_method"
-				if ( $key == 'transport_method' ) {
+				if ( $key === 'transport_method' ) {
 					$new_input['transport_method'] = trim( $value );
 				}
 
 				// Validate "disable_api"
-				if ( $key == 'disable_api' ) {
+				if ( $key === 'disable_api' ) {
 					$new_input['disable_api'] = trim( $value );
 				}
 
 				// Validate Amazon Access Key ID
-				if ( $key == 'amazon_access_key_id' ) {
+				if ( $key === 'amazon_access_key_id' ) {
 					$new_input['amazon_access_key_id'] = trim( $value );
 				}
 
 				// Validate Amazon Secret Access Key
-				if ( $key == 'amazon_secret_access_key' ) {
+				if ( $key === 'amazon_secret_access_key' ) {
 					$new_input['amazon_secret_access_key'] = trim( $value );
 				}
 
 				// Validate Amazon Tracking ID
-				if ( $key == 'amazon_tracking_id' ) {
+				if ( $key === 'amazon_tracking_id' ) {
 					$new_input['amazon_tracking_id'] = trim( $value );
 				}
 
 				// Validate Amazon Locale
-				if ( $key == 'amazon_locale' ) {
+				if ( $key === 'amazon_locale' ) {
 					$new_input['amazon_locale'] = trim( $value );
 				}
 
 				// Validate PH Application Key
-				if ( $key == 'ph_application_key' ) {
+				if ( $key === 'ph_application_key' ) {
 					$new_input['ph_application_key'] = trim( $value );
 				}
 
 				// Validate PH User API Key
-				if ( $key == 'ph_user_api_key' ) {
+				if ( $key === 'ph_user_api_key' ) {
 					$new_input['ph_user_api_key'] = trim( $value );
 				}
 
 				// Validate PH Publisher Key
-				if ( $key == 'ph_publisher_id' ) {
+				if ( $key === 'ph_publisher_id' ) {
 					$new_input['ph_publisher_id'] = trim( $value );
 				}
 
 				// Validate Effiliation Key
-				if ( $key == 'effiliation_key' ) {
+				if ( $key === 'effiliation_key' ) {
 					$new_input['effiliation_key'] = trim( $value );
 				}
 
 				// Validate Awin Acceess Token
-				if ( $key == 'awin_access_token' ) {
+				if ( $key === 'awin_access_token' ) {
 					$new_input['awin_access_token'] = trim( $value );
 				}
 
 				// Validate The Affiliate Gateway SID
-				if ( $key == 'affiliate_gateway_sid' ) {
+				if ( $key === 'affiliate_gateway_sid' ) {
 					$new_input['affiliate_gateway_sid'] = trim( $value );
 				}
 
 				// Validate Adservice MID
-				if ( $key == 'adservice_mid' ) {
+				if ( $key === 'adservice_mid' ) {
 					$new_input['adservice_mid'] = trim( $value );
 				}
 
 				// Validate Belboon AID
-				if ( $key == 'belboon_aid' ) {
+				if ( $key === 'belboon_aid' ) {
 					$new_input['belboon_aid'] = trim( $value );
 				}
 
 				// Enable HelpScout Beacon
-				if ( $key == 'hs_beacon' ) {
-					$new_input['hs_beacon'] = ( 'on' == $value ) ? 'on' : 'off';
+				if ( $key === 'hs_beacon' ) {
+					$new_input['hs_beacon'] = ( 'on' === $value ) ? 'on' : 'off';
 				}
 
 			} // foreach

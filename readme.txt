@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
 Tested up to: 6.0-alpha
-Stable tag: 1.2.17
+Stable tag: 1.3.0
 
 Connect to the Datafeedr API.
 
@@ -71,6 +71,22 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.0 - 2022/02/16 =
+* General code refactor and file rearranging.
+* Updated API usage over 90%  notice.
+* Updated Missing affiliate IDs notice.
+* Updated No networks selected notice.
+* Updated No merchants selected notice.
+* Added User account data helper functions.
+* Removed all functionality from Env file.
+* Moved functions and actions into appropriate files.
+* Fixed undefined index related to "adservice_mid".
+* Removed old, unused action.
+* Prevented the selection of Belboon, Effiliation and Partnerize networks if required keys were missing.
+* Moved the searchform require to all pages, not just admin.
+* Added helper functions for group IDs.
+* Added new function that gets affiliate ID by network ID.
 
 = 1.2.17 - 2022/02/10 =
 * Fixed bug related to `DFRAPI_DOMAIN` missing.

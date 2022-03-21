@@ -109,9 +109,9 @@ function dfrapi_get_zanox_keys() {
 /**
  * Get Partnerize Keys.
  *
- * @return array|bool Array of keys or false if they do not exist.
  * @since 1.0.66
  *
+ * @return array|bool Array of keys or false if they do not exist.
  */
 function dfrapi_get_ph_keys() {
 
@@ -147,9 +147,9 @@ function dfrapi_get_ph_keys() {
 /**
  * Get Effiliation Keys.
  *
- * @return array|bool Array of keys or false if they do not exist.
  * @since 1.0.81
  *
+ * @return array|bool Array of keys or false if they do not exist.
  */
 function dfrapi_get_effiliation_keys() {
 
@@ -176,9 +176,9 @@ function dfrapi_get_effiliation_keys() {
  * If the Amazon API keys such as the Access Key ID, Secret Access Key, Tracking ID and Locale all
  * exists, then this function returns them in array format. Otherwise it returns false.
  *
- * @return array|bool Returns array of values if all values exist, otherwise false.
  * @since 1.0.33
  *
+ * @return array|bool Returns array of values if all values exist, otherwise false.
  */
 function dfrapi_get_amazon_keys() {
 
@@ -307,9 +307,9 @@ function dfrapi_url( $product ) {
 /**
  * Return Amazon Associate Tag (ie. Tracking ID).
  *
- * @return string Associate Tag or empty string if it does not exist.
  * @since 1.0.60
  *
+ * @return string Associate Tag or empty string if it does not exist.
  */
 function dfrapi_get_amazon_associate_tag() {
 	$config = get_option( 'dfrapi_configuration' );
@@ -599,6 +599,10 @@ function dfrapi_get_total_products_in_db( $formatted = true, $default = 0 ) {
 /**
  * Imports an image from a URL into the WordPress Media Library.
  *
+ * @since 1.2.2 Will return either the Attachment ID or WP_Error if there was an error importing the image.
+ *
+ * @since 1.0.71
+ *
  * @param string $url Image URL.
  * @param array $args Optional. An array of options.
  *
@@ -638,9 +642,6 @@ function dfrapi_get_total_products_in_db( $formatted = true, $default = 0 ) {
  * );
  *
  * @return Datafeedr_Image_Importer|int|WP_Error
- * @since 1.2.2 Will return either the Attachment ID or WP_Error if there was an error importing the image.
- *
- * @since 1.0.71
  */
 function datafeedr_import_image( $url, $args = [] ) {
 
@@ -694,12 +695,13 @@ function datafeedr_import_image( $url, $args = [] ) {
 /**
  * Returns true if the $string starts with one of the $patterns. Otherwise returns false.
  *
- * @param string $string The haystack.
- * @param string|array $patterns The patterns to search for in the beginning of the $string.
- *
- * @return bool True if string starts with the pattern(s) else returns false.
  * @since 1.0.78
  *
+ * @param string|array $patterns The patterns to search for in the beginning of the $string.
+ *
+ * @param string $string The haystack.
+ *
+ * @return bool True if string starts with the pattern(s) else returns false.
  */
 function dfrapi_string_starts_with( $string, $patterns ) {
 	$patterns = ( is_string( $patterns ) ) ? array( $patterns ) : $patterns;
@@ -716,9 +718,9 @@ function dfrapi_string_starts_with( $string, $patterns ) {
 /**
  * Returns true if we are viewing a Datafeedr-specific page in the WordPress Admin Area.
  *
- * @return bool
  * @since 1.0.84
  *
+ * @return bool
  * @global $pagenow
  *
  */
@@ -819,8 +821,8 @@ function dfrapi_get_affiliate_and_tracking_id( $network_id, $id_type = 'aid' ) {
 /**
  * Get The Affiliate Gateway SID from this page WordPress Admin Area > Datafeedr API > Configuration
  *
- * @return string|WP_Error
  * @since 1.0.102
+ * @return string|WP_Error
  */
 function dfrapi_get_affiliate_gateway_sid() {
 
@@ -844,8 +846,8 @@ function dfrapi_get_affiliate_gateway_sid() {
 /**
  * Get Adservice Media ID from this page WordPress Admin Area > Datafeedr API > Configuration
  *
- * @return string|WP_Error
  * @since 1.0.102
+ * @return string|WP_Error
  */
 function dfrapi_get_adservice_mid() {
 
@@ -869,8 +871,8 @@ function dfrapi_get_adservice_mid() {
 /**
  * Get Belboon Adspace ID from this page WordPress Admin Area > Datafeedr API > Configuration
  *
- * @return string|WP_Error
  * @since 1.0.124
+ * @return string|WP_Error
  */
 function dfrapi_get_belboon_adspace_id() {
 
@@ -1810,9 +1812,9 @@ function dfrapi_api_get_query_param( $query, $param ) {
 		foreach ( $query as $k => $v ) {
 			if ( $v['field'] == $param ) {
 				return array(
-					'field'    => isset( $v['field'] ) ? $v['field'] : '',
-					'operator' => isset( $v['operator'] ) ? $v['operator'] : '',
-					'value'    => isset( $v['value'] ) ? $v['value'] : '',
+					'field'    => $v['field'] ?? '',
+					'operator' => $v['operator'] ?? '',
+					'value'    => $v['value'] ?? '',
 				);
 			}
 		}
@@ -2087,10 +2089,10 @@ function dfrapi_api_get_products_by_id( $ids, $ppp = 20, $page = 1 ) {
 	}
 
 	// Make sure $page is a positive integer.
-	$page = intval( abs( $page ) );
+	$page = absint( $page );
 
 	// Make sure $ppp is a positive integer.
-	$ppp = intval( abs( $ppp ) );
+	$ppp = absint( $ppp );
 
 	// Make sure $ppp is not greater than "max_length".
 	$account = (array) get_option( 'dfrapi_account' );
@@ -2266,10 +2268,10 @@ function dfrapi_api_get_products_by_query( $query, $ppp = 20, $page = 1, $exclud
 	}
 
 	// Make sure $page is a positive integer.
-	$page = intval( abs( $page ) );
+	$page = absint( $page );
 
 	// Make sure $ppp is a positive integer.
-	$ppp = intval( abs( $ppp ) );
+	$ppp = absint( $ppp );
 
 	// Make sure $ppp is not greater than "max_length".
 	$account = (array) get_option( 'dfrapi_account' );
@@ -2281,7 +2283,7 @@ function dfrapi_api_get_products_by_query( $query, $ppp = 20, $page = 1, $exclud
 	// Changing this will only break your site. It's not overridable.
 	$max_total = $account['max_total'];
 
-	// Detemine query limit (if exists).
+	// Determine query limit (if exists).
 	$query_limit = dfrapi_api_get_query_param( $query, 'limit' );
 	$query_limit = ( $query_limit )
 		? $query_limit['value']
@@ -2292,7 +2294,7 @@ function dfrapi_api_get_products_by_query( $query, $ppp = 20, $page = 1, $exclud
 		$query_limit = $max_total;
 	}
 
-	// Detemine merchant limit (if exists).
+	// Determine merchant limit (if exists).
 	$merchant_limit = dfrapi_api_get_query_param( $query, 'merchant_limit' );
 	$merchant_limit = ( $merchant_limit )
 		? absint( $merchant_limit['value'] )
@@ -2462,7 +2464,7 @@ function dfrapi_request_effiliation_affiliate_ids( $api_key = null ) {
  */
 function dfrapi_get_affiliate_id_for_effiliation_merchant( $merchant_id ) {
 	$merchants     = dfrapi_api_get_merchants_by_id( $merchant_id );
-	$merchant      = isset( $merchants[0] ) ? $merchants[0] : [ 'suids' => '' ];
+	$merchant      = $merchants[0] ?? [ 'suids' => '' ];
 	$affiliate_ids = dfrapi_request_effiliation_affiliate_ids();
 
 	if ( is_wp_error( $affiliate_ids ) ) {
@@ -2645,4 +2647,163 @@ function dfrapi_get_affiliate_id_by_network_id( int $network_id, $default = fals
 	}
 
 	return $default;
+}
+
+/**
+ * Get one or more fields from a Datafeedr Product array.
+ *
+ * @since 1.3.1
+ *
+ * @param array $product A Datafeedr Product array (as returned from Datafeedr API).
+ * @param string|array $fields A single field or an array of fields to return. Examples:
+ *      - 'barcode'
+ *      - ['barcode']
+ *      - ['barcode', 'ean']
+ * @param mixed $default Value to return if no fields are found in $product array. Default: null
+ * @param false|string $concatenate False to return the first field found or a separator to concatenate all found fields.
+ *
+ * @return mixed
+ */
+function dfrapi_get_fields_from_product( array $product, $fields, $default = null, $concatenate = false ) {
+
+	if ( ! is_string( $fields ) && ! is_array( $fields ) ) {
+		return $default;
+	}
+
+	if ( is_string( $fields ) ) {
+		$fields = [ (string) $fields ];
+	}
+
+	$fields = array_filter( $fields );
+
+	if ( empty( $fields ) ) {
+		return $default;
+	}
+
+	if ( count( $fields ) === 1 ) {
+		return $product[ $fields[0] ] ?? $default;
+	}
+
+	$values = [];
+
+	foreach ( $fields as $field ) {
+		if ( isset( $product[ $field ] ) ) {
+			$values[] = $product[ $field ];
+		}
+	}
+
+	if ( empty( $values ) ) {
+		return $default;
+	}
+
+	return is_string( $concatenate ) ? implode( $concatenate, $values ) : $values[0];
+}
+
+/**
+ * Returns a URL to install a plugin from the WordPress.org repo.
+ *
+ * @since 1.3.1
+ *
+ * @param string $plugin Path to the plugin file relative to the plugin's directory. Ex: datafeedr-api/datafeedr-api.php
+ *
+ * @return string
+ */
+function dfrapi_get_install_plugin_url( string $plugin ): string {
+
+	if ( ! current_user_can( 'install_plugins' ) ) {
+		return admin_url( 'plugins.php' );
+	}
+
+	return add_query_arg(
+		[ 'action' => 'install-plugin', 'plugin' => dfrapi_parse_plugin_path( $plugin, 'dirname' ) ],
+		wp_nonce_url( admin_url( 'update.php' ), 'install-plugin_' . dfrapi_parse_plugin_path( $plugin, 'dirname' ) )
+	);
+}
+
+/**
+ * Returns a URL to activate a plugin.
+ *
+ * @since 1.3.1
+ *
+ * @param string $plugin Path to the plugin file relative to the plugin's directory. Ex: datafeedr-api/datafeedr-api.php
+ *
+ * @return string
+ */
+function dfrapi_get_activate_plugin_url( string $plugin ): string {
+
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+		return admin_url( 'plugins.php' );
+	}
+
+	return add_query_arg(
+		[ 'action' => 'activate', 'plugin' => dfrapi_parse_plugin_path( $plugin ), 'paged' => '1', 's' => '' ],
+		wp_nonce_url( network_admin_url( 'plugins.php' ), 'activate-plugin_' . dfrapi_parse_plugin_path( $plugin ) )
+	);
+}
+
+/**
+ * Returns true if plugin is installed. Otherwise, returns false.
+ *
+ * @since 1.3.1
+ *
+ * @param string $plugin Path to the plugin file relative to the plugin's directory. Ex: datafeedr-api/datafeedr-api.php
+ *
+ * @return bool
+ */
+function dfrapi_plugin_is_installed( string $plugin ): bool {
+	return file_exists( dfrapi_parse_plugin_path( $plugin, 'absolute' ) );
+}
+
+/**
+ * This function parses and sanitizes a plugin path and returns it in the desired format.
+ *
+ * @since 1.3.1
+ *
+ * @param string $plugin Path to the plugin file relative to the plugin's directory. Ex: datafeedr-api/datafeedr-api.php
+ * @param string $format The format in which to return the plugin info.
+ *
+ * @return string
+ */
+function dfrapi_parse_plugin_path( string $plugin, string $format = 'relative' ): string {
+
+	// For examples below, if $plugin equals = "hello-dolly/hello.php"...
+	$valid_formats = [
+		'absolute',  // /home/public_html/user/wp-content/plugins/hello-dolly/hello.php
+		'relative',  // hello-dolly/hello.php
+		'dirname',   // hello-dolly
+		'basename',  // hello.php
+		'filename',  // hello
+		'extension', // php
+	];
+
+	$path = pathinfo( $plugin );
+
+	$dirname   = sanitize_file_name( $path['dirname'] ?? '' );
+	$basename  = sanitize_file_name( $path['basename'] ?? '' );
+	$extension = sanitize_file_name( $path['extension'] ?? '' );
+	$filename  = sanitize_file_name( $path['filename'] ?? '' );
+
+	$format = in_array( $format, $valid_formats, true ) ? $format : 'relative';
+
+	if ( $format === 'absolute' ) {
+		return trailingslashit( WP_PLUGIN_DIR ) . trailingslashit( $dirname ) . $basename;
+	}
+
+	if ( $format === 'dirname' ) {
+		return $dirname;
+	}
+
+	if ( $format === 'basename' ) {
+		return $basename;
+	}
+
+	if ( $format === 'filename' ) {
+		return $filename;
+	}
+
+	if ( $format === 'extension' ) {
+		return $extension;
+	}
+
+	return empty( $dirname ) ? $basename : trailingslashit( $dirname ) . $basename;
 }

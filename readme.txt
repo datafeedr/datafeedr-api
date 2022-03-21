@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
 Tested up to: 6.0-alpha
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 
 Connect to the Datafeedr API.
 
@@ -71,6 +71,14 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.1 - 2022/03/21 =
+* Added `dfrapi_get_fields_from_product()` function.
+* Added `dfrapi_get_install_plugin_url()` function.
+* Added `dfrapi_get_activate_plugin_url()` function.
+* Added `dfrapi_plugin_is_installed()` function.
+* Added `dfrapi_parse_plugin_path()` function.
+* Replaced some conditionals with ternary operator.
 
 = 1.3.0 - 2022/02/16 =
 * General code refactor and file rearranging.

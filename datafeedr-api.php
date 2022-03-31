@@ -117,6 +117,8 @@ if ( is_admin() ) {
 /**
  * Load Classes
  */
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-product.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-product-fields.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-plugin-dependency.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-cron.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-timer.php';

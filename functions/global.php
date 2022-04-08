@@ -1121,6 +1121,24 @@ function dfrapi_str_contains_all( $haystack, array $needles ) {
 }
 
 /**
+ * Determine if a given string starts with a given substring.
+ *
+ * @param string $haystack
+ * @param string|string[] $needles
+ *
+ * @return bool
+ */
+function dfrapi_str_starts_with( string $haystack, $needles ): bool {
+	foreach ( (array) $needles as $needle ) {
+		if ( (string) $needle !== '' && strncmp( $haystack, $needle, strlen( $needle ) ) === 0 ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
  * Returns an integer value of string by:
  *  - removing all non-numeric characters
  *  - retaining any negative sign
@@ -1870,6 +1888,82 @@ function dfrapi_api_get_all_networks( $nids = array() ) {
 	dfrapi_update_transient_whitelist( $option_name );
 
 	return $networks;
+}
+
+/**
+ * Returns an array of Network IDs associated with Coupons.
+ *
+ * @return array
+ */
+function dfrapi_get_coupon_network_ids() {
+
+	$cache_lifetime = MONTH_IN_SECONDS;
+	$transient_name = 'dfrapi_coupon_network_ids';
+
+	$ids = get_transient( $transient_name );
+
+	if ( $ids === false ) {
+
+		$ids = [];
+
+		try {
+			$response = dfrapi_api_request( 'networks' )->get_response();
+			$networks = $response->networks();
+			foreach ( $networks as $network ) {
+				if ( $network['type'] === 'coupons' ) {
+					$ids[] = absint( $network['_id'] );
+				}
+			}
+
+		} catch ( Exception $err ) {
+			return dfrapi_api_error( $err );
+		}
+
+		$ids = array_filter( array_unique( $ids ) );
+		set_transient( $transient_name, $ids, $cache_lifetime );
+	}
+
+	dfrapi_update_transient_whitelist( $transient_name );
+
+	return $ids;
+}
+
+/**
+ * Returns an array of Network IDs associated with Products (not Coupons).
+ *
+ * @return array
+ */
+function dfrapi_get_product_network_ids() {
+
+	$cache_lifetime = MONTH_IN_SECONDS;
+	$transient_name = 'dfrapi_product_network_ids';
+
+	$ids = get_transient( $transient_name );
+
+	if ( $ids === false ) {
+
+		$ids = [];
+
+		try {
+			$response = dfrapi_api_request( 'networks' )->get_response();
+			$networks = $response->networks();
+			foreach ( $networks as $network ) {
+				if ( $network['type'] === 'products' ) {
+					$ids[] = absint( $network['_id'] );
+				}
+			}
+
+		} catch ( Exception $err ) {
+			return dfrapi_api_error( $err );
+		}
+
+		$ids = array_filter( array_unique( $ids ) );
+		set_transient( $transient_name, $ids, $cache_lifetime );
+	}
+
+	dfrapi_update_transient_whitelist( $transient_name );
+
+	return $ids;
 }
 
 /**
@@ -2807,3 +2901,320 @@ function dfrapi_parse_plugin_path( string $plugin, string $format = 'relative' )
 
 	return empty( $dirname ) ? $basename : trailingslashit( $dirname ) . $basename;
 }
+
+/**
+ * Returns an Dfrapi_Api_Request object to perform an HTTP Post request.
+ *
+ * @param string $action The request action. Options: status, search, merchants, networks
+ * @param array $request Optional. An array of request data.
+ * @param string $output Optional. Options: array or object. Default: array
+ *
+ * @return Dfrapi_Api_Request
+ */
+function dfrapi_api_request( string $action, array $request = [], string $output = 'array' ): Dfrapi_Api_Request {
+	return new Dfrapi_Api_Request( $action, $request, $output );
+}
+
+/**
+ * @param string $field
+ * @param string $operator
+ * @param string|array $value If $value is array, it will be imploded with a comma. Otherwise, it will be used as-is.
+ *
+ * @return string
+ */
+function dfrapi_generate_query_filter( string $field, string $operator, $value = '' ): string {
+	$value = is_array( $value ) ? implode( ',', $value ) : (string) $value;
+
+	return dfrapi_format_query_filter_string( sprintf( '%s %s %s', $field, $operator, $value ) );
+}
+
+/**
+ * @param string $filter
+ *      merchant_id !IN 123, 456
+ *      image !EMPTY
+ *
+ * @see dfrapi_convert_query_filter_into_array()
+ *
+ * @return string Returns properly formatted $filter as a string. Could be an empty string so be aware of that.
+ */
+function dfrapi_format_query_filter_string( string $filter ): string {
+	return trim( implode( ' ', array_values( dfrapi_convert_query_filter_into_array( $filter ) ) ) );
+}
+
+/**
+ * @param string $filter
+ *      merchant_id !IN 123, 456
+ *      image !EMPTY
+ *
+ * @return array Return array of Field, Operator and Value. If $filter is empty, return empty array.
+ */
+function dfrapi_convert_query_filter_into_array( string $filter ): array {
+
+	/**
+	 * Comment examples below based on:
+	 *
+	 * $filter = merchant_id !IN 12345, 67890
+	 */
+
+	$filter = trim( $filter );
+
+	if ( empty( $filter ) ) {
+		return [];
+	}
+
+	/**
+	 * Get the $field which is the string before the very first space " ".
+	 *
+	 * $field = merchant_id
+	 */
+	$field = dfrapi_str_before( $filter, ' ' );
+
+	/**
+	 * Get the remaining value of $filter after $field has been removed from $filter.
+	 *
+	 * $remaining_filter = !IN 12345, 67890
+	 */
+	$remaining_filter = trim( str_replace( $field, '', $filter ) );
+
+	/**
+	 * Get the $operator which is the string before the very first space " " in $remaining_filter.
+	 *
+	 * $operator = !IN
+	 */
+	$operator = trim( dfrapi_str_before( $remaining_filter, ' ' ) );
+
+	/**
+	 * Get the remaining value of $filter after $operator has been removed from $remaining_filter.
+	 *
+	 * $value = 12345, 67890
+	 */
+	$value = trim( str_replace( $operator, '', $remaining_filter ) );
+
+	return [
+		'field'    => strtolower( $field ),
+		'operator' => str_replace( [ 'GTE', 'GT', 'LTE', 'LT' ], [ ">=", ">", "<=", "<" ], strtoupper( $operator ) ),
+		'value'    => strtolower( $value ),
+	];
+}
+
+/**
+ * Parses a string of IDs and returns them as an array.
+ *
+ * IMPORTANT:
+ *  - Values of 0 (zero) are removed.
+ *  - Duplicates are removed.
+ *  - Negative numbers become positive numbers.
+ *
+ * @param string $string
+ * @param string $separator
+ *
+ * @return array
+ */
+function dfrapi_parse_string_of_ids( string $string, string $separator = ',' ): array {
+	$value = explode( $separator, $string );
+	$value = array_map( 'trim', $value );
+	$value = array_map( 'absint', $value );
+	$value = array_filter( $value );
+	$value = array_unique( $value );
+
+	return array_values( $value );
+}
+
+//function dfrapi_array_clean( array $arr ): array {
+//	return array_unique( array_filter( $arr ) );
+//}
+//
+//function dfrapi_absint_array_clean( array $arr ): array {
+//	return dfrapi_array_clean( array_map( 'absint', $arr ) );
+//}
+
+function dfrapi_parse_api_request_from_shortcode_query_attribute( array $query ) {
+
+	/**
+	 *
+	 * 'limit'              => null,
+	 * 'offset'             => null,
+	 * 'sort'               => null,
+	 * 'exclude_duplicates' => null,
+	 */
+
+//	$request          = [];
+//	$request['query'] = [];
+//
+//	$fitlers = explode( ';', $query );
+//
+//	foreach ( $fitlers as $filter ) {
+//
+//		$filter = trim( $filter );
+//
+//		if ( dfrapi_str_starts_with( $filter, [ 'limit' ] ) ) {
+//            $request['limit'] = $limit            = absint( $attributes['limit'] );
+//			$request['limit'] = $limit >= 1 && $limit <= 100 ? $limit : 20;
+//		}
+//
+//
+//	}
+//
+//
+//	$request = [];
+//
+//	$filters = array_filter( explode( ';', $attributes['filters'] ) );
+//
+//	if ( empty( $filters ) ) {
+//		return __( 'No filters found', 'datafeedr-api' );
+//	}
+//
+//
+//	foreach ( $filters as $filter ) {
+//
+//		$filter = trim( $filter );
+//
+//		if ( ! dfrapi_str_starts_with( strtolower( $filter ), [
+//			'merchant_id in',
+//			'merchant_id =',
+//			'merchant_id all',
+//		] ) ) {
+//			$request['query'][] = $filter;
+//		} else {
+//			if ( dfrapi_str_starts_with( strtolower( $filter ), [ 'merchant_id in', 'merchant_id =' ] ) ) {
+//				$request['query'][] = $filter;
+//			} elseif ( dfrapi_str_starts_with( strtolower( $filter ), [ 'merchant_id all' ] ) ) {
+//				continue;
+//			} else {
+//				$request['query'][] = 'merchant_id IN ' . implode( ',', dfrapi_get_selected_merchant_ids() );
+//			}
+//		}
+//
+//
+//	}
+//
+//
+//	if ( $attributes['limit'] !== null ) {
+//		$limit            = absint( $attributes['limit'] );
+//		$request['limit'] = $limit >= 1 && $limit <= 100 ? $limit : 20;
+//	}
+//
+//	if ( $attributes['offset'] !== null ) {
+//		$offset            = absint( $attributes['offset'] );
+//		$request['offset'] = $offset > 9999 ? 0 : $offset;
+//	}
+//
+//	if ( $attributes['sort'] !== null ) {
+//		$request['sort'] = explode( ';', $attributes['sort'] );
+//	}
+//
+//	if ( $attributes['exclude_duplicates'] !== null ) {
+//		$request['exclude_duplicates'] = $attributes['exclude_duplicates'];
+//	}
+
+}
+
+/**
+ * [dfrapi filters="barcode IN 123,456"]
+ * [dfrapi filters="barcode IN 841487129811,841487128340,8595033345065" limit="5" exclude_duplicates="merchant_id" sort="finalprice" cache_lifetime="60" template="dfrapi-shortcode.php"]
+ */
+add_shortcode( 'dfrapi', static function ( $attributes ) {
+
+	return ( new Dfrapi_Shortcode( $attributes ) )->result();
+
+//	$attributes = shortcode_atts( [
+//		'filters'            => '',
+//		'limit'              => null,
+//		'offset'             => null,
+//		'sort'               => null,
+//		'exclude_duplicates' => null,
+//		'cache'              => ( DAY_IN_SECONDS * 3 ),
+//		'template'           => null,
+//	], $attributes );
+//
+//	// This should get data from options table.
+//	$cache = absint( $attributes['cache'] ) > 0 ? absint( $attributes['cache'] ) : ( DAY_IN_SECONDS * 3 );
+//
+//	$hash = md5( maybe_serialize( $attributes ) );
+//
+//	$transient_name = 'dfrapi_shortcode_' . $hash;
+//
+//	if ( false !== ( $cached_value = get_transient( $transient_name ) ) ) {
+//		$response = maybe_unserialize( $cached_value );
+//		ob_start();
+//		include dirname( DFRAPI_PLUGIN_FILE ) . '/templates/dfrapi-shortcode.php';
+//
+//		return ob_get_clean();
+//	}
+//
+//	$filters = array_values( array_filter( array_unique( array_map( 'trim', explode( ';', $attributes['filters'] ) ) ) ) );
+//
+//	if ( empty( $filters ) ) {
+//		return __( 'No filters found', 'datafeedr-api' );
+//	}
+//
+//	$i     = 0;
+//	$query = [];
+//
+//	foreach ( $filters as $filter ) {
+//		$i ++;
+//		$query[ 'f' . $i ] = $filter;
+//	}
+//
+//	$has_network_filter = false;
+//	$network_filters    = [ 'source_id in', 'source_id =', 'source_id all' ];
+//
+//	$has_merchant_filter = false;
+//	$merchant_filters    = [ 'merchant_id in', 'merchant_id =', 'merchant_id all' ];
+//
+//	foreach ( $query as $k => $v ) {
+//		if ( dfrapi_str_starts_with( strtolower( $v ), $network_filters ) ) {
+//			$has_network_filter = true;
+//			if ( dfrapi_str_contains( strtolower( $v ), [ 'all' ] ) ) {
+//				unset( $query[ $k ] );
+//			}
+//		}
+//		if ( dfrapi_str_starts_with( strtolower( $v ), $merchant_filters ) ) {
+//			$has_merchant_filter = true;
+//			if ( dfrapi_str_contains( strtolower( $v ), [ 'all' ] ) ) {
+//				unset( $query[ $k ] );
+//			}
+//		}
+//	}
+//
+//	if ( ! $has_network_filter ) {
+//		$i ++;
+//		$query[ 'f' . $i ] = 'source_id IN ' . implode( ',', dfrapi_get_selected_network_ids() );
+//	}
+//
+//	if ( ! $has_merchant_filter ) {
+//		$i ++;
+//		$query[ 'f' . $i ] = 'merchant_id IN ' . implode( ',', dfrapi_get_selected_merchant_ids() );
+//	}
+//
+//	if ( $attributes['limit'] !== null ) {
+//		$limit            = absint( $attributes['limit'] );
+//		$request['limit'] = $limit >= 1 && $limit <= 100 ? $limit : 20;
+//	}
+//
+//	if ( $attributes['offset'] !== null ) {
+//		$offset            = absint( $attributes['offset'] );
+//		$request['offset'] = $offset > 9999 ? 0 : $offset;
+//	}
+//
+//	if ( $attributes['sort'] !== null ) {
+//		$request['sort'] = explode( ';', $attributes['sort'] );
+//	}
+//
+//	if ( $attributes['exclude_duplicates'] !== null ) {
+//		$request['exclude_duplicates'] = $attributes['exclude_duplicates'];
+//	}
+//
+//	$request['query'] = array_values( $query );
+//
+//	$response = dfrapi_api_request( 'search', $request )->get_response();
+//
+//	do_action( 'dfrapi_shortcode_response', $response );
+//
+//	set_transient( $transient_name, maybe_serialize( $response ), $cache );
+//
+//	ob_start();
+//	include dirname( DFRAPI_PLUGIN_FILE ) . '/templates/dfrapi-shortcode.php';
+//
+//	return ob_get_clean();
+} );

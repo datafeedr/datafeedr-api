@@ -117,6 +117,9 @@ if ( is_admin() ) {
 /**
  * Load Classes
  */
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-api-request.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-api-response.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-shortcode.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-plugin-dependency.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-cron.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-timer.php';

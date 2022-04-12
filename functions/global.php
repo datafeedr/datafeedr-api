@@ -2925,7 +2925,7 @@ function dfrapi_api_request( string $action, array $request = [], string $output
 function dfrapi_generate_query_filter( string $field, string $operator, $value = '' ): string {
 	$value = is_array( $value ) ? implode( ',', $value ) : (string) $value;
 
-	return dfrapi_format_query_filter_string( sprintf( '%s %s %s', $field, $operator, $value ) );
+	return trim( sprintf( '%s %s %s', $field, $operator, $value ) );
 }
 
 /**
@@ -2948,54 +2948,54 @@ function dfrapi_format_query_filter_string( string $filter ): string {
  *
  * @return array Return array of Field, Operator and Value. If $filter is empty, return empty array.
  */
-function dfrapi_convert_query_filter_into_array( string $filter ): array {
-
-	/**
-	 * Comment examples below based on:
-	 *
-	 * $filter = merchant_id !IN 12345, 67890
-	 */
-
-	$filter = trim( $filter );
-
-	if ( empty( $filter ) ) {
-		return [];
-	}
-
-	/**
-	 * Get the $field which is the string before the very first space " ".
-	 *
-	 * $field = merchant_id
-	 */
-	$field = dfrapi_str_before( $filter, ' ' );
-
-	/**
-	 * Get the remaining value of $filter after $field has been removed from $filter.
-	 *
-	 * $remaining_filter = !IN 12345, 67890
-	 */
-	$remaining_filter = trim( str_replace( $field, '', $filter ) );
-
-	/**
-	 * Get the $operator which is the string before the very first space " " in $remaining_filter.
-	 *
-	 * $operator = !IN
-	 */
-	$operator = trim( dfrapi_str_before( $remaining_filter, ' ' ) );
-
-	/**
-	 * Get the remaining value of $filter after $operator has been removed from $remaining_filter.
-	 *
-	 * $value = 12345, 67890
-	 */
-	$value = trim( str_replace( $operator, '', $remaining_filter ) );
-
-	return [
-		'field'    => strtolower( $field ),
-		'operator' => str_replace( [ 'GTE', 'GT', 'LTE', 'LT' ], [ ">=", ">", "<=", "<" ], strtoupper( $operator ) ),
-		'value'    => strtolower( $value ),
-	];
-}
+//function dfrapi_convert_query_filter_into_array( string $filter ): array {
+//
+//	/**
+//	 * Comment examples below based on:
+//	 *
+//	 * $filter = merchant_id !IN 12345, 67890
+//	 */
+//
+//	$filter = trim( $filter );
+//
+//	if ( empty( $filter ) ) {
+//		return [];
+//	}
+//
+//	/**
+//	 * Get the $field which is the string before the very first space " ".
+//	 *
+//	 * $field = merchant_id
+//	 */
+//	$field = dfrapi_str_before( $filter, ' ' );
+//
+//	/**
+//	 * Get the remaining value of $filter after $field has been removed from $filter.
+//	 *
+//	 * $remaining_filter = !IN 12345, 67890
+//	 */
+//	$remaining_filter = trim( str_replace( $field, '', $filter ) );
+//
+//	/**
+//	 * Get the $operator which is the string before the very first space " " in $remaining_filter.
+//	 *
+//	 * $operator = !IN
+//	 */
+//	$operator = trim( dfrapi_str_before( $remaining_filter, ' ' ) );
+//
+//	/**
+//	 * Get the remaining value of $filter after $operator has been removed from $remaining_filter.
+//	 *
+//	 * $value = 12345, 67890
+//	 */
+//	$value = trim( str_replace( $operator, '', $remaining_filter ) );
+//
+//	return [
+//		'field'    => strtolower( $field ),
+//		'operator' => str_replace( [ 'GTE', 'GT', 'LTE', 'LT' ], [ ">=", ">", "<=", "<" ], strtoupper( $operator ) ),
+//		'value'    => strtolower( $value ),
+//	];
+//}
 
 /**
  * Parses a string of IDs and returns them as an array.
@@ -3003,7 +3003,7 @@ function dfrapi_convert_query_filter_into_array( string $filter ): array {
  * IMPORTANT:
  *  - Values of 0 (zero) are removed.
  *  - Duplicates are removed.
- *  - Negative numbers become positive numbers.
+ *  - Negative numbers are converted to positive numbers.
  *
  * @param string $string
  * @param string $separator

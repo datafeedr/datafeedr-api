@@ -3,7 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * [dfrapi filters='name like nemo tent ; merchant ALL; currency in USD, CAD ; onsale EQ 1 ; finalprice gte 15000 ; finalprice lte 33500' exclude_duplicates='merchant_id' sort='finalprice' cache='10']
+ * [dfrapi filters="name LIKE nemo tent ; merchant ALL; currency IN usd, cad ; onsale EQ 1 ; finalprice GTE 15000 ; finalprice LTE 33500" exclude_duplicates="merchant_id" sort="finalprice" cache="10"]
  */
 class Dfrapi_Shortcode {
 
@@ -13,275 +13,247 @@ class Dfrapi_Shortcode {
 			'limit'     => 5,
 			'custom'    => false,
 			'operators' => [ 'LIKE', 'NOT_LIKE' ],
-			'alias'     => null,
 		],
 		'id'           => [
 			'field'     => 'id',
 			'limit'     => 1,
 			'custom'    => false,
 			'operators' => [ 'IN', 'NOT_IN' ],
-			'alias'     => null,
 		],
 		'barcode'      => [
 			'field'     => 'barcode',
 			'limit'     => 1,
 			'custom'    => false,
 			'operators' => [ 'IN', 'NOT_IN' ],
-			'alias'     => null,
 		],
 		'name'         => [
 			'field'     => 'name',
 			'limit'     => 5,
 			'custom'    => false,
 			'operators' => [ 'LIKE', 'NOT_LIKE' ],
-			'alias'     => null,
 		],
 		'description'  => [
 			'field'     => 'description',
 			'limit'     => 3,
 			'custom'    => false,
 			'operators' => [ 'LIKE', 'NOT_LIKE' ],
-			'alias'     => null,
 		],
 		'tags'         => [
 			'field'     => 'tags',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'LIKE', 'NOT_LIKE' ],
-			'alias'     => null,
 		],
 		'category'     => [
 			'field'     => 'category',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'LIKE', 'NOT_LIKE' ],
-			'alias'     => null,
 		],
 		'currency'     => [
 			'field'     => 'currency',
 			'limit'     => 1,
 			'custom'    => false,
 			'operators' => [ 'IN', 'NOT_IN' ],
-			'alias'     => null,
 		],
 		'brand'        => [
 			'field'     => 'brand',
 			'limit'     => 1,
 			'custom'    => false,
 			'operators' => [ 'LIKE', 'NOT_LIKE' ],
-			'alias'     => null,
 		],
 		'merchant'     => [
 			'field'     => 'merchant',
 			'limit'     => 1,
 			'custom'    => false,
-			'operators' => [ 'LIKE', 'NOT_LIKE', 'IN', 'NOT_IN' ],
-			'alias'     => null,
+			'operators' => [ 'LIKE', 'NOT_LIKE', 'IN', 'NOT_IN', 'ALL', 'LIKE_ALL' ],
 		],
 		'source'       => [
 			'field'     => 'source',
 			'limit'     => 1,
 			'custom'    => false,
-			'operators' => [ 'LIKE', 'NOT_LIKE', 'IN', 'NOT_IN' ],
-			'alias'     => null,
+			'operators' => [
+				'LIKE',
+				'NOT_LIKE',
+				'IN',
+				'NOT_IN', // @todo need ALL_NOT_IN for source and merchant
+				'ALL',
+				'LIKE_ALL',
+				'COUPONS',
+				'PRODUCTS',
+				'ALL_COUPONS',
+				'ALL_PRODUCTS',
+				'LIKE_COUPONS',
+				'LIKE_PRODUCTS',
+				'LIKE_ALL_COUPONS',
+				'LIKE_ALL_PRODUCTS',
+			],
 		],
 		'price'        => [
 			'field'     => 'price',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'EQ', 'GTE', 'LTE', 'GT', 'LT' ],
-			'alias'     => null,
 		],
 		'saleprice'    => [
 			'field'     => 'saleprice',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'EQ', 'GTE', 'LTE', 'GT', 'LT' ],
-			'alias'     => null,
 		],
 		'finalprice'   => [
 			'field'     => 'finalprice',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'EQ', 'GTE', 'LTE', 'GT', 'LT' ],
-			'alias'     => null,
 		],
 		'salediscount' => [
 			'field'     => 'salediscount',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'EQ', 'GTE', 'LTE', 'GT', 'LT' ],
-			'alias'     => null,
 		],
 		'time_updated' => [
 			'field'     => 'time_updated',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'EQ', 'GTE', 'LTE', 'GT', 'LT' ],
-			'alias'     => null,
 		],
 		'color'        => [
 			'field'     => 'color',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'LIKE', 'NOT_LIKE' ],
-			'alias'     => null,
 		],
 		'material'     => [
 			'field'     => 'material',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'LIKE', 'NOT_LIKE' ],
-			'alias'     => null,
 		],
 		'size'         => [
 			'field'     => 'size',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'LIKE', 'NOT_LIKE' ],
-			'alias'     => null,
 		],
 		'gender'       => [
 			'field'     => 'gender',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'LIKE', 'NOT_LIKE' ],
-			'alias'     => null,
 		],
 		'condition'    => [
 			'field'     => 'condition',
 			'limit'     => 2,
 			'custom'    => false,
 			'operators' => [ 'LIKE', 'NOT_LIKE' ],
-			'alias'     => null,
 		],
 		'onsale'       => [
 			'field'     => 'onsale',
 			'limit'     => 1,
 			'custom'    => false,
 			'operators' => [ 'EQ' ],
-			'alias'     => null,
 		],
 		'instock'      => [
 			'field'     => 'instock',
 			'limit'     => 1,
 			'custom'    => false,
 			'operators' => [ 'EQ' ],
-			'alias'     => null,
 		],
 		'direct_url'   => [
 			'field'     => 'direct_url',
 			'limit'     => 1,
 			'custom'    => false,
 			'operators' => [ 'EMPTY', 'NOT_EMPTY' ],
-			'alias'     => null,
 		],
 		'image'        => [
 			'field'     => 'image',
 			'limit'     => 1,
 			'custom'    => false,
 			'operators' => [ 'EQ' ],
-			'alias'     => null,
 		],
 		'has_barcode'  => [
 			'field'     => 'has_barcode',
 			'limit'     => 1,
 			'custom'    => false,
 			'operators' => [ 'EQ' ],
-			'alias'     => null,
-		],
-		'record_type'  => [
-			'field'     => 'record_type',
-			'limit'     => 1,
-			'custom'    => true,
-			'operators' => [ 'EQ' ],
-			'alias'     => null,
 		],
 	];
 
 	public const FIELD_ALIASES = [
 		'network' => 'source',
-		'm'       => 'merchant',
+		'm'       => 'merchant', // @todo remove before prod
 	];
 
 	public const OPERATORS = [
-		'IN'        => [ 'operator' => 'IN', 'custom' => false, ],
-		'NOT_IN'    => [ 'operator' => '!IN', 'custom' => false, ],
-		'LIKE'      => [ 'operator' => 'LIKE', 'custom' => false, ],
-		'NOT_LIKE'  => [ 'operator' => '!LIKE', 'custom' => false, ],
-		'EMPTY'     => [ 'operator' => 'EMPTY', 'custom' => false, ],
-		'NOT_EMPTY' => [ 'operator' => '!EMPTY', 'custom' => false, ],
-		'GTE'       => [ 'operator' => '>=', 'custom' => false, ],
-		'GT'        => [ 'operator' => '>', 'custom' => false, ],
-		'LTE'       => [ 'operator' => '<=', 'custom' => false, ],
-		'LT'        => [ 'operator' => '<', 'custom' => false, ],
-		'EQ'        => [ 'operator' => '=', 'custom' => false, ],
-		'NOT_EQ'    => [ 'operator' => '!=', 'custom' => false, ],
-		'ALL'       => [ 'operator' => '', 'custom' => true, ],
-		'LIKE_ALL'  => [ 'operator' => '', 'custom' => true, ],
+		'IN'                => [ 'operator' => 'IN', 'custom' => false, ],
+		'NOT_IN'            => [ 'operator' => '!IN', 'custom' => false, ],
+		'LIKE'              => [ 'operator' => 'LIKE', 'custom' => false, ],
+		'NOT_LIKE'          => [ 'operator' => '!LIKE', 'custom' => false, ],
+		'EMPTY'             => [ 'operator' => 'EMPTY', 'custom' => false, ],
+		'NOT_EMPTY'         => [ 'operator' => '!EMPTY', 'custom' => false, ],
+		'GTE'               => [ 'operator' => '>=', 'custom' => false, ],
+		'GT'                => [ 'operator' => '>', 'custom' => false, ],
+		'LTE'               => [ 'operator' => '<=', 'custom' => false, ],
+		'LT'                => [ 'operator' => '<', 'custom' => false, ],
+		'EQ'                => [ 'operator' => '=', 'custom' => false, ],
+		'NOT_EQ'            => [ 'operator' => '!=', 'custom' => false, ],
+		'ALL'               => [ 'operator' => '', 'custom' => true, ],
+		'LIKE_ALL'          => [ 'operator' => '', 'custom' => true, ],
+		'COUPONS'           => [ 'operator' => '', 'custom' => true, ],
+		'PRODUCTS'          => [ 'operator' => '', 'custom' => true, ],
+		'ALL_COUPONS'       => [ 'operator' => '', 'custom' => true, ],
+		'ALL_PRODUCTS'      => [ 'operator' => '', 'custom' => true, ],
+		'LIKE_COUPONS'      => [ 'operator' => '', 'custom' => true, ],
+		'LIKE_PRODUCTS'     => [ 'operator' => '', 'custom' => true, ],
+		'LIKE_ALL_COUPONS'  => [ 'operator' => '', 'custom' => true, ],
+		'LIKE_ALL_PRODUCTS' => [ 'operator' => '', 'custom' => true, ],
 	];
 
-	/**
-	 * @var array $attributes
-	 */
+	// @var array $original_attributes
+	private $original_attributes;
+
+	// @var array $attributes
 	private $attributes;
 
-	/**
-	 * @var string $transient_name
-	 */
+	// @var string $transient_name
 	private $transient_name;
 
-	/**
-	 * @var mixed $transient
-	 */
+	// @var mixed $transient
 	private $transient;
 
-	/**
-	 * @var int|null $limit
-	 */
+	// @var int|null $limit
 	private $limit;
 
-	/**
-	 * @var int|null $offset
-	 */
+	// @var int|null $offset
 	private $offset;
 
-	/**
-	 * @var array|null $sort
-	 */
+	// @var array|null $sort
 	private $sort;
 
-	/**
-	 * @var string|null $exclude_duplicates
-	 */
+	// @var string|null $exclude_duplicates
 	private $exclude_duplicates;
 
-	/**
-	 * @var int $cache_lifetime
-	 */
+	// @var int $cache_lifetime
 	private $cache_lifetime;
 
-	/**
-	 * @var array $fields
-	 */
+	// @var array $fields
 	private $fields;
 
-	/**
-	 * @var array $field_aliases
-	 */
+	// @var array $field_aliases
 	private $field_aliases;
 
-	/**
-	 * @var array $operators
-	 */
+	// @var array $operators
 	private $operators;
 
-	/**
-	 * @var array $filters
-	 */
+	// @var array $filters
 	private $filters;
 
 	public function __construct( array $attributes ) {
+
+		// Store original attributes to return during an error.
+		$this->original_attributes = $attributes;
 
 		$this->attributes = shortcode_atts( [
 			'filters'            => '',
@@ -316,7 +288,7 @@ class Dfrapi_Shortcode {
 //		return 'just testing';
 
 		if ( $this->transient_exists() ) {
-			$response = $this->transient;
+			$response = maybe_unserialize( $this->transient );
 		} else {
 
 			if ( empty( $this->filters ) ) {
@@ -325,14 +297,25 @@ class Dfrapi_Shortcode {
 
 			$response = dfrapi_api_request( 'search', $this->get_request() )->get_response();
 
-			// @todo check for errors here!
+			do_action( 'dfrapi_shortcode_response', $response, $this );
+
+			// If there are errors, set cache_lifetime to 15 minutes, so it doesn't stay cached for days.
+			if ( $response->is_ok() ) {
+				// @todo check for product count
+				$cache_lifetime = $this->get_cache_lifetime();
+				do_action( 'dfrapi_shortcode_response_success', $response, $this );
+			} else {
+				// @todo check for errors here!
+				$cache_lifetime = MINUTE_IN_SECONDS * 15; // Maybe make this configurable
+				do_action( 'dfrapi_shortcode_response_failed', $response, $this );
+			}
 
 			do_action( 'dfrapi_shortcode_response', $response, $this );
 
-			set_transient( $this->transient_name, maybe_serialize( $response ), $this->get_cache_lifetime() );
+			set_transient( $this->transient_name, maybe_serialize( $response ), $cache_lifetime );
 		}
-
-		return $this->output_buffer( $response );
+		
+		return $response->is_ok() ? $this->output_buffer( $response ) : 'Something went wrong' . $response->body_error_message();
 	}
 
 	public function get_request(): array {
@@ -355,90 +338,451 @@ class Dfrapi_Shortcode {
 			$request['exclude_duplicates'] = $this->exclude_duplicates;
 		}
 
+		// @todo make sure build_query() returns something other than an empty array.
 		$request['query'] = $this->build_query();
 
-		// @todo add filter to before returning $request
+		// @todo add filter before returning $request
 
 		error_log( '$request' . ': ' . print_r( $request, true ) );
 
 		return $request;
 	}
 
-	public function get_attributes(): array {
-		return $this->attributes;
-	}
-
-	public function get_transient_name(): string {
-		return $this->transient_name;
-	}
-
-	public function get_transient() {
-		return $this->transient;
-	}
-
-	public function get_filters(): array {
-		return $this->filters;
-	}
-
-	public function get_limit(): ?int {
-		return $this->limit;
-	}
-
-	public function get_offset(): ?int {
-		return $this->offset;
-	}
-
-	public function get_sort(): ?array {
-		return $this->sort;
-	}
-
-	public function get_exclude_duplicates(): ?string {
-		return $this->exclude_duplicates;
-	}
-
-	public function get_cache_lifetime(): int {
-		return $this->cache_lifetime;
-	}
-
 	/**
-	 * @param string $field
-	 * @param string $operator
-	 * @param string|array $value If $value is array, it will be imploded with a comma. Otherwise, it will be used as-is.
-	 *
-	 * @return string
+	 * @return array
 	 */
-	public static function generate_query_filter( string $field, string $operator, $value = '' ): string {
-		$value = is_array( $value ) ? implode( ',', $value ) : (string) $value;
-
-		return dfrapi_format_query_filter_string( sprintf( '%s %s %s', $field, $operator, $value ) );
-	}
-
 	private function build_query(): array {
 
 		$query = [];
 
-		// @todo still need to handle product_type (product vs coupon)
-
 		$merchant_filter_handled = false;
+		$network_filter_handled  = false;
 
 		foreach ( $this->filters as $filter ) {
 
 			extract( $filter, EXTR_OVERWRITE );
+
 			$field = $this->get_field_attribute( $field, 'field' );
 
 			if ( $field === 'merchant' ) {
 				$query                   = $this->handle_merchant_filters( $query, $operator, $value );
 				$merchant_filter_handled = true;
+			} elseif ( $field === 'source' ) {
+				$query                  = $this->handle_network_filters( $query, $operator, $value );
+				$network_filter_handled = true;
 			} else {
-				$query[ $this->uniqid() ] = dfrapi_generate_query_filter( $field, $operator, $value );
+				$query[ $this->uniqid() ] = $this->generate_query_filter( $field, $operator, $value );
 			}
 		}
 
 		if ( ! $merchant_filter_handled ) {
-			$query[ $this->uniqid() ] = dfrapi_generate_query_filter( 'merchant_id', 'IN', $this->selected_merchant_ids() );
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'merchant_id', 'IN', $this->selected_merchant_ids() );
+		}
+
+		if ( ! $network_filter_handled ) {
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', $this->selected_network_ids() );
 		}
 
 		return array_values( $query );
+	}
+
+	/**
+	 * This method generates the merchant-related queries for a shortcode's filters.
+	 *
+	 * There are currently 6 options for filtering on merchant data.
+	 *
+	 * The default search is: merchant_id IN "user's selected merchant IDs"
+	 *
+	 *
+	 * @param array $query An array holding the existing query so far.
+	 * @param string $operator This will be the true operator (such as !LIKE), not a placeholder (such as NOT_LIKE).
+	 * @param string $value Optional. For some operators, no $value is expected.
+	 *
+	 * @return array An updated $query array with the necessary merchant filters in place.
+	 */
+	private function handle_merchant_filters( array $query, string $operator, string $value = '' ): array {
+
+		/**
+		 * [dfrapi filters="name LIKE Petzl Tikka ; merchant ALL"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from ALL merchants (selected or not). This method is most useful if the
+		 * user is using something like Sovrn (VigLink) or Skimlinks.
+		 */
+		if ( $operator === 'ALL' ) {
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE Petzl Tikka ; merchant IN 21755, 97391"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from the merchant 21755 (Peter Glenn Ski & Sports) and 97391 (Sun & Ski)
+		 * regardless of whether they have been selected here Datafeedr API > Merchants
+		 */
+		if ( $operator === 'IN' && ! empty( $value ) ) {
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'merchant_id', 'IN', dfrapi_parse_string_of_ids( $value ) );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE Petzl Tikka ; merchant !IN 21755, 97391"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from the user's selected merchants (Datafeedr API > Merchants) excluding
+		 * merchants 21755 (Peter Glenn Ski & Sports) and 97391 (Sun & Ski).
+		 */
+		if ( $operator === '!IN' && ! empty( $value ) ) {
+			$excluded_merchant_ids = dfrapi_parse_string_of_ids( $value );
+			$included_merchant_ids = array_values( array_diff( $this->selected_merchant_ids(), $excluded_merchant_ids ) );
+
+			if ( ! empty( $included_merchant_ids ) ) {
+				$query[ $this->uniqid() ] = $this->generate_query_filter( 'merchant_id', 'IN', $included_merchant_ids );
+			}
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; merchant LIKE patagonia"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from the user's selected merchants (Datafeedr API > Merchants) but
+		 * limited to merchants which match the name ("patagonia"). Therefore, if a user has selected merchants with
+		 * "patagonia" in their name, products from those merchants will be returned. This method is most useful when
+		 * trying to generate a list of coupons for a specific merchant.
+		 */
+		if ( $operator === 'LIKE' && ! empty( $value ) ) {
+			$query                    = $this->add_selected_merchants_to_query( $query );
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'merchant', 'LIKE', $value );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; merchant NOT_LIKE patagonia"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from the user's selected merchants (Datafeedr API > Merchants) but
+		 * exclude merchants which match the name ("patagonia").
+		 */
+		if ( $operator === '!LIKE' && ! empty( $value ) ) {
+			$query                    = $this->add_selected_merchants_to_query( $query );
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'merchant', '!LIKE', $value );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; merchant LIKE_ALL patagonia"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from ALL merchants (selected or not) but limited to merchants which
+		 * match the name ("patagonia").
+		 */
+		if ( $operator === 'LIKE_ALL' && ! empty( $value ) ) {
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'merchant', 'LIKE', $value );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE Petzl Tikka"]  **DEFAULT**
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from the merchants selected here Datafeedr API > Merchants. This is the
+		 * best usage in most cases.
+		 */
+		return $this->add_selected_merchants_to_query( $query );
+	}
+
+	private function handle_network_filters( array $query, string $operator, string $value = '' ): array {
+
+		/**
+		 * [dfrapi filters="name LIKE Petzl Tikka ; source ALL"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from ALL networks (selected or not). This method is most useful if the
+		 * user is using something like Sovrn (VigLink) or Skimlinks.
+		 */
+		if ( $operator === 'ALL' ) {
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE Petzl Tikka ; source IN 126, 6"] (See method's doc block)
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from the networks 126 (Avantlink US) and 6 (ShareASale)
+		 * regardless of whether they have been selected here Datafeedr API > Networks.
+		 */
+		if ( $operator === 'IN' && ! empty( $value ) ) {
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', dfrapi_parse_string_of_ids( $value ) );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE Petzl Tikka ; source NOT_IN 126, 6"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from the user's selected networks (Datafeedr API > Networks) excluding
+		 * networks 126 (Avantlink US) and 6 (ShareASale).
+		 */
+		if ( $operator === '!IN' && ! empty( $value ) ) {
+
+			$network_ids = array_values( array_diff( $this->selected_network_ids(), dfrapi_parse_string_of_ids( $value ) ) );
+
+			if ( ! empty( $network_ids ) ) {
+				$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', $network_ids );
+			}
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; source LIKE rakuten"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from the user's selected networks (Datafeedr API > Networks) but
+		 * limited to Networks which match the name ("rakuten"). Therefore, if a user has selected networks with
+		 * "rakuten" in their name, products from those networks will be returned.
+		 */
+		if ( $operator === 'LIKE' && ! empty( $value ) ) {
+			$query                    = $this->add_selected_networks_to_query( $query );
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'source', 'LIKE', $value );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; source NOT_LIKE rakuten"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from the user's selected networks (Datafeedr API > Networks) but
+		 * exclude networks which match the name ("rakuten").
+		 */
+		if ( $operator === '!LIKE' && ! empty( $value ) ) {
+			$query                    = $this->add_selected_networks_to_query( $query );
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'source', '!LIKE', $value );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; source LIKE_ALL rakuten"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from ALL networks (selected or not) but limited to Networks which
+		 * match the name ("rakuten").
+		 */
+		if ( $operator === 'LIKE_ALL' && ! empty( $value ) ) {
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'source', 'LIKE', $value );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; source COUPONS"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from selected "Coupon" networks.
+		 */
+		if ( $operator === 'COUPONS' ) {
+
+			$network_ids = dfrapi_get_selected_coupon_network_ids();
+
+			if ( ! empty( $network_ids ) ) {
+				$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', $network_ids );
+			}
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; source PRODUCTS"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from selected "Product" networks.
+		 */
+		if ( $operator === 'PRODUCTS' ) {
+
+			$network_ids = dfrapi_get_selected_product_network_ids();
+
+			if ( ! empty( $network_ids ) ) {
+				$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', $network_ids );
+			}
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; source ALL_COUPONS"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from ALL "Coupon" networks. Should be used in conjunction with
+		 * "merchant ALL".
+		 */
+		if ( $operator === 'ALL_COUPONS' ) {
+
+			$network_ids = dfrapi_get_all_coupon_network_ids();
+
+			if ( ! empty( $network_ids ) ) {
+				$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', $network_ids );
+			}
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; source ALL_PRODUCTS"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from ALL "Product" networks. Should be used in conjunction with
+		 * "merchant ALL".
+		 */
+		if ( $operator === 'ALL_PRODUCTS' ) {
+
+			$network_ids = dfrapi_get_all_product_network_ids();
+
+			if ( ! empty( $network_ids ) ) {
+				$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', $network_ids );
+			}
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; source LIKE_COUPONS rakuten"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all coupons from selected networks which are "Coupon" networks and where the network
+		 * name matches the network name ("rakuten").
+		 */
+		if ( $operator === 'LIKE_COUPONS' && ! empty( $value ) ) {
+
+			$network_ids = dfrapi_get_selected_coupon_network_ids();
+
+			if ( ! empty( $network_ids ) ) {
+				$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', $network_ids );
+			}
+
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'source', 'LIKE', $value );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; source LIKE_PRODUCTS rakuten"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from selected networks which are "Product" networks and where the network
+		 * name matches the network name ("rakuten").
+		 */
+		if ( $operator === 'LIKE_PRODUCTS' && ! empty( $value ) ) {
+
+			$network_ids = dfrapi_get_selected_product_network_ids();
+
+			if ( ! empty( $network_ids ) ) {
+				$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', $network_ids );
+			}
+
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'source', 'LIKE', $value );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; source LIKE_ALL_COUPONS rakuten"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all coupons from ALL networks which are "Coupon" networks and where the network
+		 * name matches the network name ("rakuten").
+		 */
+		if ( $operator === 'LIKE_ALL_COUPONS' && ! empty( $value ) ) {
+
+			$coupon_network_ids = dfrapi_get_all_coupon_network_ids();
+
+			if ( ! empty( $coupon_network_ids ) ) {
+				$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', $coupon_network_ids );
+			}
+
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'source', 'LIKE', $value );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters="name LIKE puff jacket ; source LIKE_ALL_PRODUCTS rakuten"]
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from ALL networks which are "Product" networks and where the network
+		 * name matches the network name ("rakuten").
+		 */
+		if ( $operator === 'LIKE_ALL_PRODUCTS' && ! empty( $value ) ) {
+
+			$product_network_ids = dfrapi_get_all_product_network_ids();
+
+			if ( ! empty( $product_network_ids ) ) {
+				$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', $product_network_ids );
+			}
+
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'source', 'LIKE', $value );
+
+			return $query;
+		}
+
+		/**
+		 * [dfrapi filters='name LIKE Petzl Tikka'] **DEFAULT**
+		 * -------------------------------------------------------------------------------------------------------------
+		 * This usage will search all products from the networks selected here Datafeedr API > Networks. This is the
+		 * best usage in most cases.
+		 */
+		return $this->add_selected_networks_to_query( $query );
+	}
+
+	/**
+	 * This adds the user's selected merchants (Datafeedr API > Merchants) to the $query array.
+	 *
+	 * @param array $query
+	 *
+	 * @return array
+	 */
+	private function add_selected_merchants_to_query( array $query ): array {
+		$selected_merchant_ids = $this->selected_merchant_ids();
+		if ( ! empty( $selected_merchant_ids ) ) {
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'merchant_id', 'IN', $selected_merchant_ids );
+		}
+
+		return $query;
+	}
+
+	/**
+	 * This adds the user's selected networks (Datafeedr API > Networks) to the $query array.
+	 *
+	 * @param array $query
+	 *
+	 * @return array
+	 */
+	private function add_selected_networks_to_query( array $query ): array {
+		$selected_network_ids = $this->selected_network_ids();
+		if ( ! empty( $selected_network_ids ) ) {
+			$query[ $this->uniqid() ] = $this->generate_query_filter( 'source_id', 'IN', $selected_network_ids );
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Returns an array of the user's selected merchant IDs (Datafeedr API > Merchants).
+	 *
+	 * @return array
+	 */
+	private function selected_merchant_ids(): array {
+
+		static $ids = null;
+
+		if ( $ids === null ) {
+			$ids = array_values( dfrapi_get_selected_merchant_ids() );
+		}
+
+		return $ids;
+	}
+
+	/**
+	 * Returns an array of the user's selected network IDs (Datafeedr API > Networks).
+	 *
+	 * @return array
+	 */
+	private function selected_network_ids(): array {
+
+		static $ids = null;
+
+		if ( $ids === null ) {
+			$ids = array_values( dfrapi_get_selected_network_ids() );
+		}
+
+		return $ids;
 	}
 
 	/**
@@ -523,6 +867,7 @@ class Dfrapi_Shortcode {
 				continue;
 			}
 
+			// If $operator is not supported by this field, continue.
 			if ( ! in_array( $operator, $this->get_field_attribute( $field, 'operators' ), true ) ) {
 				continue;
 			}
@@ -546,240 +891,6 @@ class Dfrapi_Shortcode {
 		}
 
 		return $parsed_filters;
-	}
-
-	/**
-	 * This method generates the merchant-related queries for a shortcode's filters.
-	 *
-	 * There are currently 6 options for filtering on merchant data.
-	 *
-	 * The default search is: merchant_id IN "user's selected merchant IDs"
-	 *
-	 * Examples:
-	 *
-	 * [dfrapi filters='name LIKE Petzl Tikka']  **DEFAULT**
-	 * -----------------------------------------------------------------------------------------------------------------
-	 * This usage will search all products from the merchants selected here Datafeedr API > Merchants. This is the
-	 * best usage in most cases.
-	 *
-	 *
-	 * [dfrapi filters='name LIKE Petzl Tikka ; merchant IN 21755, 97391']
-	 * -----------------------------------------------------------------------------------------------------------------
-	 * This usage will search all products from the merchant 21755 (Peter Glenn Ski & Sports) and 97391 (Sun & Ski)
-	 * regardless of whether they have been selected here Datafeedr API > Merchants
-	 *
-	 *
-	 * [dfrapi filters='name LIKE Petzl Tikka ; merchant !IN 21755, 97391']
-	 * -----------------------------------------------------------------------------------------------------------------
-	 * This usage will search all products from the user's selected merchants (Datafeedr API > Merchants) excluding
-	 * merchants 21755 (Peter Glenn Ski & Sports) and 97391 (Sun & Ski).
-	 *
-	 *
-	 * [dfrapi filters='name LIKE puff jacket ; merchant LIKE patagonia']
-	 * -----------------------------------------------------------------------------------------------------------------
-	 * This usage will search all products from the user's selected merchants (Datafeedr API > Merchants) but limited
-	 * to merchants which match the name ("patagonia"). Therefore, if a user has selected merchants with "patagonia" in
-	 * their name, products from those merchants will be returned. This method is most useful when trying to generate
-	 * a list of coupons for a specific merchant.
-	 *
-	 *
-	 * [dfrapi filters='name LIKE puff jacket ; merchant NOT_LIKE patagonia']
-	 * -----------------------------------------------------------------------------------------------------------------
-	 * This usage will search all products from the user's selected merchants (Datafeedr API > Merchants) but exclude
-	 * merchants which match the name ("patagonia").
-	 *
-	 *
-	 * [dfrapi filters='name LIKE puff jacket ; merchant LIKE_ALL patagonia']
-	 * -----------------------------------------------------------------------------------------------------------------
-	 * This usage will search all products from ALL merchants (selected or not) but limited to merchants which match the
-	 * name ("patagonia").
-	 *
-	 *
-	 * [dfrapi filters='name LIKE Petzl Tikka ; merchant ALL']
-	 * -----------------------------------------------------------------------------------------------------------------
-	 * This usage will search all products from ALL merchants (selected or not). This method is most useful if the user
-	 * is using something like Sovrn (VigLink) or Skimlinks.
-	 *
-	 * @param array $query
-	 *
-	 * @return array An updated $query array with the necessary merchant filters in place.
-	 */
-	private function handle_merchant_filters( array $query, string $operator, string $value = '' ): array {
-
-		$selected_merchant_ids = $this->selected_merchant_ids();
-
-		// [dfrapi filters='name LIKE Petzl Tikka ; merchant IN 21755, 97391'] (See method's doc block)
-		if ( $operator === 'IN' && ! empty( $value ) ) {
-			$query[ $this->uniqid() ] = dfrapi_generate_query_filter( 'merchant_id', 'IN', dfrapi_parse_string_of_ids( $value ) );
-
-			return $query;
-		}
-
-		// [dfrapi filters='name LIKE Petzl Tikka ; merchant !IN 21755, 97391'] (See method's doc block)
-		if ( $operator === '!IN' && ! empty( $value ) ) {
-			$excluded_merchant_ids = dfrapi_parse_string_of_ids( $value );
-			$included_merchant_ids = array_values( array_diff( $selected_merchant_ids, $excluded_merchant_ids ) );
-
-			if ( ! empty( $included_merchant_ids ) ) {
-				$query[ $this->uniqid() ] = dfrapi_generate_query_filter( 'merchant_id', 'IN', $included_merchant_ids );
-			}
-
-			return $query;
-		}
-
-		// [dfrapi filters='name LIKE puff jacket ; merchant LIKE patagonia'] (See method's doc block)
-		if ( $operator === 'LIKE' && ! empty( $value ) ) {
-
-			if ( ! empty( $selected_merchant_ids ) ) {
-				$query[ $this->uniqid() ] = dfrapi_generate_query_filter( 'merchant_id', 'IN', $selected_merchant_ids );
-			}
-
-			$query[ $this->uniqid() ] = dfrapi_generate_query_filter( 'merchant', 'LIKE', $value );
-
-			return $query;
-		}
-
-		// [dfrapi filters='name NOT_LIKE puff jacket ; merchant LIKE patagonia'] (See method's doc block)
-		if ( $operator === '!LIKE' && ! empty( $value ) ) {
-
-			if ( ! empty( $selected_merchant_ids ) ) {
-				$query[ $this->uniqid() ] = dfrapi_generate_query_filter( 'merchant_id', 'IN', $selected_merchant_ids );
-			}
-
-			$query[ $this->uniqid() ] = dfrapi_generate_query_filter( 'merchant', '!LIKE', $value );
-
-			return $query;
-		}
-
-		// [dfrapi filters='name LIKE Petzl Tikka ; merchant ALL'] (See method's doc block)
-		if ( $operator === 'ALL' ) {
-			return $query;
-		}
-
-		// [dfrapi filters='name LIKE puff jacket ; merchant LIKE_ALL patagonia'] (See method's doc block)
-		if ( $operator === 'LIKE_ALL' && ! empty( $value ) ) {
-			$query[ $this->uniqid() ] = dfrapi_generate_query_filter( 'merchant', 'LIKE', $value );
-
-			return $query;
-		}
-
-		// [dfrapi filters='name LIKE Petzl Tikka'] (See method's doc block)
-		if ( ! empty( $selected_merchant_ids ) ) {
-			$query[ $this->uniqid() ] = dfrapi_generate_query_filter( 'merchant_id', 'IN', $selected_merchant_ids );
-		}
-
-		return $query;
-	}
-
-	private function selected_merchant_ids(): array {
-
-		$ids = null;
-
-		if ( $ids === null ) {
-			$ids = array_values( dfrapi_get_selected_merchant_ids() );
-		}
-
-		return $ids;
-	}
-
-	private function output_buffer( $response ) {
-		$response = maybe_unserialize( $response );
-
-		// @todo maybe create variables like $records, $merchants, $networks, etc... here to pass to template
-
-		ob_start();
-		// @todo allow template override
-		include dirname( DFRAPI_PLUGIN_FILE ) . '/templates/dfrapi-shortcode.php';
-
-		return ob_get_clean();
-	}
-
-	private function set_transient_name(): void {
-		$hash = md5( maybe_serialize( $this->attributes ) );
-
-		$this->transient_name = 'dfrapi_shortcode_' . $hash;
-	}
-
-	private function set_transient(): void {
-		$this->transient = get_transient( $this->transient_name );
-	}
-
-	private function transient_exists(): bool {
-		return $this->transient !== false;
-	}
-
-	private function set_filters(): void {
-		$this->filters = $this->parse_filter_string( $this->attributes['filters'] );
-	}
-
-	private function set_fields(): void {
-		$this->fields = (array) apply_filters( 'dfrapi_shortcode_fields', self::FIELDS, $this );
-	}
-
-	private function set_field_aliases(): void {
-		$this->field_aliases = (array) apply_filters( 'dfrapi_shortcode_field_aliases', self::FIELD_ALIASES, $this );
-	}
-
-	public function get_fields(): array {
-		return $this->fields;
-	}
-
-	public function get_field_aliases(): array {
-		return $this->field_aliases;
-	}
-
-	private function set_operators(): void {
-		$this->operators = self::OPERATORS;
-	}
-
-	public function get_operators(): array {
-		return $this->operators;
-	}
-
-	private function get_field_attributes( string $field ): ?array {
-		$field = $this->get_canonical_field_name( $field );
-
-		return $this->fields[ $field ] ?? null;
-	}
-
-	private function get_field_attribute( string $field, string $attribute ) {
-		$attributes = (array) $this->get_field_attributes( $field );
-
-		return $attributes[ $attribute ] ?? null;
-	}
-
-	private function get_operator_attribute( string $operator, string $attribute ) {
-		return $this->operators[ $operator ][ $attribute ] ?? null;
-	}
-
-	private function get_canonical_field_name( string $field_name_or_field_alias_name ): string {
-		return array_key_exists( $field_name_or_field_alias_name, $this->get_field_aliases() )
-			? $this->get_field_aliases()[ $field_name_or_field_alias_name ]
-			: $field_name_or_field_alias_name;
-	}
-
-	/**
-	 * Returns an array of Operators which are custom.
-	 *
-	 * Example:
-	 *
-	 *  Array (
-	 *      [ALL] => Array (
-	 *          [operator] =>
-	 *          [custom] => 1
-	 *      )
-	 *      [LIKE_ALL] => Array (
-	 *          [operator] =>
-	 *          [custom] => 1
-	 *      )
-	 *  )
-	 *
-	 * @return array
-	 */
-	private function get_custom_operators(): array {
-		return array_filter( $this->get_operators(), static function ( $operator ) {
-			return (bool) $operator['custom'];
-		} );
 	}
 
 	/**
@@ -830,6 +941,175 @@ class Dfrapi_Shortcode {
 		return str_replace( array_keys( $map ), array_values( $map ), trim( $string ) );
 	}
 
+	/**
+	 * Returns $field, $operator and $value as a string for use in the "query" part of a Datafeedr API request.
+	 *
+	 * @param string $field
+	 * @param string $operator
+	 * @param string|array $value If $value is array, it will be imploded with a comma. Otherwise, it will be used as-is.
+	 *
+	 * @return string
+	 */
+	private function generate_query_filter( string $field, string $operator, $value = '' ): string {
+		$value = is_array( $value ) ? implode( ',', $value ) : (string) $value;
+
+		return trim( sprintf( '%s %s %s', $field, $operator, $value ) );
+	}
+
+	/**
+	 * Returns the HTML for display.
+	 *
+	 * @param $response
+	 *
+	 * @return false|string
+	 */
+	private function output_buffer( $response ) {
+
+		$response = maybe_unserialize( $response );
+
+		// @todo maybe create variables like $records, $merchants, $networks, etc... here to pass to template
+
+		ob_start();
+
+		// @todo allow template override
+
+		include dirname( DFRAPI_PLUGIN_FILE ) . '/templates/dfrapi-shortcode.php';
+
+		return ob_get_clean();
+	}
+
+	private function uniqid(): string {
+		return 'a' . wp_generate_password( 6, false );
+	}
+
+	private function transient_exists(): bool {
+		return $this->transient !== false;
+	}
+
+	public function get_fields(): array {
+		return $this->fields;
+	}
+
+	public function get_field_aliases(): array {
+		return $this->field_aliases;
+	}
+
+	public function get_operators(): array {
+		return $this->operators;
+	}
+
+	public function get_field_attributes( string $field ): ?array {
+		$field = $this->get_canonical_field_name( $field );
+
+		return $this->fields[ $field ] ?? null;
+	}
+
+	public function get_field_attribute( string $field, string $attribute ) {
+		$attributes = (array) $this->get_field_attributes( $field );
+
+		return $attributes[ $attribute ] ?? null;
+	}
+
+	public function get_operator_attribute( string $operator, string $attribute ) {
+		return $this->operators[ $operator ][ $attribute ] ?? null;
+	}
+
+	public function get_canonical_field_name( string $field_name_or_field_alias_name ): string {
+		return array_key_exists( $field_name_or_field_alias_name, $this->get_field_aliases() )
+			? $this->get_field_aliases()[ $field_name_or_field_alias_name ]
+			: $field_name_or_field_alias_name;
+	}
+
+	public function get_original_attributes(): array {
+		return $this->original_attributes;
+	}
+
+	public function get_attributes(): array {
+		return $this->attributes;
+	}
+
+	public function get_transient_name(): string {
+		return $this->transient_name;
+	}
+
+	public function get_transient() {
+		return $this->transient;
+	}
+
+	public function get_filters(): array {
+		return $this->filters;
+	}
+
+	public function get_limit(): ?int {
+		return $this->limit;
+	}
+
+	public function get_offset(): ?int {
+		return $this->offset;
+	}
+
+	public function get_sort(): ?array {
+		return $this->sort;
+	}
+
+	public function get_exclude_duplicates(): ?string {
+		return $this->exclude_duplicates;
+	}
+
+	public function get_cache_lifetime(): int {
+		return $this->cache_lifetime;
+	}
+
+	/**
+	 * Returns an array of Operators which are custom.
+	 *
+	 * Example:
+	 *
+	 *  Array (
+	 *      [ALL] => Array (
+	 *          [operator] =>
+	 *          [custom] => 1
+	 *      )
+	 *      [LIKE_ALL] => Array (
+	 *          [operator] =>
+	 *          [custom] => 1
+	 *      )
+	 *  )
+	 *
+	 * @return array
+	 */
+	public function get_custom_operators(): array {
+		return array_filter( $this->get_operators(), static function ( $operator ) {
+			return (bool) $operator['custom'];
+		} );
+	}
+
+	private function set_operators(): void {
+		$this->operators = self::OPERATORS;
+	}
+
+	private function set_transient_name(): void {
+		$hash = md5( maybe_serialize( $this->attributes ) );
+
+		$this->transient_name = 'dfrapi_shortcode_' . $hash;
+	}
+
+	private function set_transient(): void {
+		$this->transient = get_transient( $this->transient_name );
+	}
+
+	private function set_filters(): void {
+		$this->filters = $this->parse_filter_string( $this->attributes['filters'] );
+	}
+
+	private function set_fields(): void {
+		$this->fields = (array) apply_filters( 'dfrapi_shortcode_fields', self::FIELDS, $this );
+	}
+
+	private function set_field_aliases(): void {
+		$this->field_aliases = (array) apply_filters( 'dfrapi_shortcode_field_aliases', self::FIELD_ALIASES, $this );
+	}
+
 	private function set_limit(): void {
 		if ( $this->attributes['limit'] !== null ) {
 			$limit       = absint( $this->attributes['limit'] );
@@ -859,9 +1139,5 @@ class Dfrapi_Shortcode {
 	private function set_cache_lifetime(): void {
 		$cache                = absint( $this->attributes['cache'] );
 		$this->cache_lifetime = $cache > 0 ? $cache : ( DAY_IN_SECONDS * 3 );
-	}
-
-	private function uniqid(): string {
-		return 'a' . wp_generate_password( 6, false );
 	}
 }

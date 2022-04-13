@@ -12,6 +12,7 @@
 		$name        = $product['name'] ?? 'Product';
 		$image       = $product['image'] ?? $product['thumbnail'] ?? '';
 		$merchant    = $product['merchant'];
+		$direct_url  = $product['direct_url'] ?? false;
 		$tags        = $product['tags'] ?? 'n/a';
 		$barcode     = $product['barcode'] ?? 'n/a';
 		$id          = absint( $product['_id'] );
@@ -32,6 +33,11 @@
                 / <?php esc_html_e( $merchant_id ); ?> / <?php esc_html_e( $id ); ?>
                 <br>Barcode: <?php esc_html_e( $barcode ); ?>
                 <br>Tags: <?php esc_html_e( $tags ); ?>
+				<?php if ( $direct_url ) : ?>
+                    <br />Direct URL: <a href="<?php echo esc_url( $direct_url ); ?>" target="_blank" rel="noopener">
+						<?php esc_html_e( $direct_url ); ?>
+                    </a>
+				<?php endif; ?>
             </div>
             <div style="width:15%;text-align: right;">
 				<?php if ( $is_on_sale ) : ?>

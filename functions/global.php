@@ -1895,10 +1895,10 @@ function dfrapi_api_get_all_networks( $nids = array() ) {
  *
  * @return array
  */
-function dfrapi_get_coupon_network_ids() {
+function dfrapi_get_all_coupon_network_ids(): array {
 
 	$cache_lifetime = MONTH_IN_SECONDS;
-	$transient_name = 'dfrapi_coupon_network_ids';
+	$transient_name = 'dfrapi_all_coupon_network_ids';
 
 	$ids = get_transient( $transient_name );
 
@@ -1933,10 +1933,10 @@ function dfrapi_get_coupon_network_ids() {
  *
  * @return array
  */
-function dfrapi_get_product_network_ids() {
+function dfrapi_get_all_product_network_ids(): array {
 
 	$cache_lifetime = MONTH_IN_SECONDS;
-	$transient_name = 'dfrapi_product_network_ids';
+	$transient_name = 'dfrapi_all_product_network_ids';
 
 	$ids = get_transient( $transient_name );
 
@@ -1962,6 +1962,44 @@ function dfrapi_get_product_network_ids() {
 	}
 
 	dfrapi_update_transient_whitelist( $transient_name );
+
+	return $ids;
+}
+
+/**
+ * Returns an array of user selected Network IDs which are associated with "products" (as opposed to "coupons").
+ *
+ * @return array
+ */
+function dfrapi_get_selected_product_network_ids(): array {
+
+	static $ids = null;
+
+	if ( $ids === null ) {
+		$selected_network_ids = array_values( dfrapi_get_selected_network_ids() );
+		$product_network_ids  = array_values( dfrapi_get_all_product_network_ids() );
+
+		$ids = array_values( array_intersect( $selected_network_ids, $product_network_ids ) );
+	}
+
+	return $ids;
+}
+
+/**
+ * Returns an array of user selected Network IDs which are associated with "coupons" (as opposed to "products").
+ *
+ * @return array
+ */
+function dfrapi_get_selected_coupon_network_ids(): array {
+
+	static $ids = null;
+
+	if ( $ids === null ) {
+		$selected_network_ids = array_values( dfrapi_get_selected_network_ids() );
+		$coupon_network_ids   = array_values( dfrapi_get_all_coupon_network_ids() );
+
+		$ids = array_values( array_intersect( $selected_network_ids, $coupon_network_ids ) );
+	}
 
 	return $ids;
 }
@@ -2922,11 +2960,11 @@ function dfrapi_api_request( string $action, array $request = [], string $output
  *
  * @return string
  */
-function dfrapi_generate_query_filter( string $field, string $operator, $value = '' ): string {
-	$value = is_array( $value ) ? implode( ',', $value ) : (string) $value;
-
-	return trim( sprintf( '%s %s %s', $field, $operator, $value ) );
-}
+//function dfrapi_generate_query_filter( string $field, string $operator, $value = '' ): string {
+//	$value = is_array( $value ) ? implode( ',', $value ) : (string) $value;
+//
+//	return trim( sprintf( '%s %s %s', $field, $operator, $value ) );
+//}
 
 /**
  * @param string $filter
@@ -2937,9 +2975,9 @@ function dfrapi_generate_query_filter( string $field, string $operator, $value =
  *
  * @return string Returns properly formatted $filter as a string. Could be an empty string so be aware of that.
  */
-function dfrapi_format_query_filter_string( string $filter ): string {
-	return trim( implode( ' ', array_values( dfrapi_convert_query_filter_into_array( $filter ) ) ) );
-}
+//function dfrapi_format_query_filter_string( string $filter ): string {
+//	return trim( implode( ' ', array_values( dfrapi_convert_query_filter_into_array( $filter ) ) ) );
+//}
 
 /**
  * @param string $filter

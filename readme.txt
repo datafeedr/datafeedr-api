@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 6.0-alpha
-Stable tag: 1.3.1
+Tested up to: 6.0-RC1
+Stable tag: 1.3.2
 
 Connect to the Datafeedr API.
 
@@ -71,6 +71,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.2 - 2022/05/09 =
+* Added support for new affiliate network: [Addrevenue](https://addrevenue.io/).
 
 = 1.3.1 - 2022/03/21 =
 * Added `dfrapi_get_fields_from_product()` function.

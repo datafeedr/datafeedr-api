@@ -335,6 +335,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				'2Performant'           => 'https://datafeedrapi.helpscoutdocs.com/article/240-how-to-find-your-2performant-affiliate-id',
 				'Admitad'               => 'https://datafeedrapi.helpscoutdocs.com/article/241-how-to-find-your-admitad-affiliate-id',
 				'ADCELL'                => 'https://datafeedrapi.helpscoutdocs.com/article/235-how-to-find-your-adcell-affiliate-id',
+				'Addrevenue'            => 'https://datafeedrapi.helpscoutdocs.com/article/259-how-to-find-your-addrevenue-affiliate-id',
 				'Adrecord'              => 'https://datafeedrapi.helpscoutdocs.com/article/115-how-to-find-your-adrecord-affiliate-id',
 				'Adservice'             => 'https://datafeedrapi.helpscoutdocs.com/article/251-how-to-find-your-adservice-affiliate-id-and-media-id',
 				'Adtraction'            => 'https://datafeedrapi.helpscoutdocs.com/article/116-how-to-find-your-adtraction-affiliate-id',

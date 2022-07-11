@@ -9,8 +9,8 @@ Text Domain: datafeedr-api
 License: GPL v3
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 6.0-RC1
-Version: 1.3.2
+Tested up to: 6.0.1-RC1
+Version: 1.3.3
 
 Datafeedr API Plugin
 Copyright (C) 2022, Datafeedr - help@datafeedr.com
@@ -32,15 +32,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Define constants.
  */
-define( 'DFRAPI_VERSION', '1.3.2' );
+define( 'DFRAPI_VERSION', '1.3.3' );
 define( 'DFRAPI_URL', plugin_dir_url( __FILE__ ) ); // https://example.com/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_PATH', plugin_dir_path( __FILE__ ) ); // /absolute/path/to/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_BASENAME', plugin_basename( __FILE__ ) ); // datafeedr-api/datafeedr-api.php
 define( 'DFRAPI_PLUGIN_FILE', __FILE__ ); // /absolute/path/to/wp-content/plugins/datafeedr-api/datafeedr-api.php
 define( 'DFRAPI_DOMAIN', 'datafeedr-api' ); // Deprecated as of 2022-02-10 14:18:51
 define( 'DFRAPI_HOME_URL', 'https://www.datafeedr.com' );
-define( 'DFRAPI_KEYS_URL', 'https://members.datafeedr.com/api' );
-define( 'DFRAPI_USER_URL', 'https://members.datafeedr.com/' );
+define( 'DFRAPI_KEYS_URL', 'https://datafeedr.me/api' );
+define( 'DFRAPI_USER_URL', 'https://datafeedr.me/dashboard' );
 define( 'DFRAPI_HELP_URL', 'https://datafeedr.me/contact' );
 define( 'DFRAPI_BUG_REPORTS_URL', 'https://datafeedr.me/docs' );
 define( 'DFRAPI_QNA_URL', 'https://datafeedr.me/docs' );

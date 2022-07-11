@@ -223,15 +223,15 @@ function dfrapi_get_amazon_keys() {
 function dfrapi_user_pages( $page ) {
 
 	$pages = array(
-		'edit'     => 'https://members.datafeedr.com/account',
-		'invoices' => 'https://members.datafeedr.com/invoices',
-		'billing'  => 'https://members.datafeedr.com/billing',
-		'cancel'   => 'https://members.datafeedr.com/',
-		'change'   => 'https://members.datafeedr.com/subscription',
-		'signup'   => 'https://members.datafeedr.com/subscribe',
-		'summary'  => 'https://members.datafeedr.com/subscription',
-		'api'      => 'https://members.datafeedr.com/api',
-		'factory'  => 'https://members.datafeedr.com/factory',
+		'edit'     => 'https://datafeedr.me/dashboard',
+		'invoices' => 'https://datafeedr.me/dashboard',
+		'billing'  => 'https://datafeedr.me/dashboard',
+		'cancel'   => 'https://datafeedr.me/dashboard',
+		'change'   => 'https://datafeedr.me/dashboard',
+		'signup'   => 'https://datafeedr.me/dashboard',
+		'summary'  => 'https://datafeedr.me/dashboard',
+		'api'      => 'https://datafeedr.me/dashboard',
+		'factory'  => 'https://datafeedr.me/dashboard',
 	);
 
 	return $pages[ $page ];

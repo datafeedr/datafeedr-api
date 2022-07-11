@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 6.0-RC1
-Stable tag: 1.3.2
+Tested up to: 6.0.1-RC1
+Stable tag: 1.3.3
 
 Connect to the Datafeedr API.
 
@@ -15,9 +15,9 @@ Connect to the Datafeedr API.
 
 > **Important**
 
-> The *Datafeedr API* plugin requires that you have an active Datafeedr API Product subscription. [Purchase Subscription](https://members.datafeedr.com/subscribe?utm_campaign=dfrapiplugin&utm_medium=referral&utm_source=wporg)
+> The *Datafeedr API* plugin requires that you have an active Datafeedr API Product subscription. [Purchase Subscription](https://datafeedr.me/pricing).
 
-The Datafeedr API provides access to our database of affiliate products. We have aggregated over 500,000,000 products from over [10,000+ merchants and 30+ affiliate networks](https://datafeedr.me/networks). We have indexed and normalized the product data making it easy for you to search for and find products you want to promote on your website.
+The Datafeedr API provides access to our database of affiliate products. We have aggregated over 900,000,000 products from over [25,000+ merchants and 35+ affiliate networks](https://datafeedr.me/networks). We have indexed and normalized the product data making it easy for you to search for and find products you want to promote on your website.
 
 The *Datafeedr API* plugin currently integrates with the following plugins:
 
@@ -36,7 +36,9 @@ The *Datafeedr API* plugin provides the interface to connect to the Datafeedr AP
 
 The *Datafeedr API* plugin was built to be extended. The *Datafeedr API* plugin contains its own functions that third party developers can use to connect to the Datafeedr API, make search requests or display an 'advanced search' form. We encourage other developers to build on top of the *Datafeedr API* plugin.
 
-Additionally, we have written plugins that integrate the *Datafeedr API* plugin with WooCommerce. More extensions are on the way...
+Additionally, we have written plugins that integrate the *Datafeedr API* plugin with WooCommerce.
+
+*For personal-use only. Please contact us if you have any questions.*
 
 **Requirements**
 
@@ -71,6 +73,10 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.3 - 2022/07/11 =
+* Updated readme.
+* Update links to new member's website.
 
 = 1.3.2 - 2022/05/09 =
 * Added support for new affiliate network: [Addrevenue](https://addrevenue.io/).

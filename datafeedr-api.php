@@ -88,6 +88,16 @@ register_activation_hook( __FILE__, 'dfrapi_register_activation' );
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/global.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/upgrade.php';
 
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/interfaces/Dfrapi_Search_Field_Interface.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/abstracts/Dfrapi_Search_Field_Abstract.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Fields/Dfrapi_Any_Search_Field.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Fields/Dfrapi_Barcode_Search_Field.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Fields/Dfrapi_Name_Search_Field.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Fields/Dfrapi_Id_Search_Field.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Api_Search.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Api_Search_Operators.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Api_Search_Fields.php';
+
 /**
  * Load Libraries
  */

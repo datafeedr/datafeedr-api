@@ -129,6 +129,13 @@ class Dfrapi_SearchForm
 			    'help'     => $this->help( 'gender' )
 		    ),
 		    array(
+			    'title'    => __( 'SKU', 'datafeedr-api' ),
+			    'name'     => 'sku',
+			    'input'    => 'text',
+			    'operator' => $opFulltextExact,
+			    'help'     => $this->help( 'sku' )
+		    ),
+		    array(
 			    'title'    => __( 'Condition', 'datafeedr-api' ),
 			    'name'     => 'condition',
 			    'input'    => 'text',
@@ -325,6 +332,7 @@ class Dfrapi_SearchForm
 			'material'       => array( 'operator' => 'match', 'value' => '' ),
 			'size'           => array( 'operator' => 'match', 'value' => '' ),
 			'gender'         => array( 'operator' => 'match', 'value' => '' ),
+			'sku'            => array( 'operator' => 'match', 'value' => '' ),
 			'condition'      => array( 'operator' => 'match', 'value' => '' ),
 			'type'           => array( 'value' => 'product' ),
 			'currency'       => array( 'value' => 'USD' ),
@@ -730,6 +738,7 @@ class Dfrapi_SearchForm
                 case 'material':
                 case 'size':
                 case 'gender':
+                case 'sku':
                 case 'condition':
                 case 'description':
                 case 'merchant':
@@ -938,6 +947,10 @@ class Dfrapi_SearchForm
 	    // Gender
 	    $help['gender'] = '<h3>' . __('Gender', 'datafeedr-api' ) . '</h3>';
 	    $help['gender'] .= '<p>' . __( 'Search by gender to get specific results. Not every item has a gender field.', 'datafeedr-api' ) . '</p>';
+
+	    // SKU
+	    $help['sku'] = '<h3>' . __('SKU', 'datafeedr-api' ) . '</h3>';
+	    $help['sku'] .= '<p>' . __( 'Search by SKU to get specific results. Not every item has a SKU field.', 'datafeedr-api' ) . '</p>';
 
 	    // Condition
 	    $help['condition'] = '<h3>' . __('Condition', 'datafeedr-api' ) . '</h3>';

@@ -2,18 +2,26 @@
 
 defined( 'ABSPATH' ) || exit;
 
-class Dfrapi_Any_Search_Field extends Dfrapi_Search_Field_Abstract {
+class Dfrapi_Any_Search_Filter extends Dfrapi_Search_Filter_Abstract {
 
 	public function label(): string {
 		return __( 'Any Field', 'datafeedr-api' );
 	}
 
-	public function field(): string {
+	public function name(): string {
 		return 'any';
 	}
 
 	public function limit(): int {
 		return 99;
+	}
+
+	public function format($query) {
+
+		if ( dfrapi_str_starts_with( strtolower( $param . ' ' ), $names ) ) {
+
+		}
+
 	}
 
 	public function operators(): array {

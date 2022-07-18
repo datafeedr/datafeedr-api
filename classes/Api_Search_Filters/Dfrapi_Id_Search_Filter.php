@@ -2,13 +2,13 @@
 
 defined( 'ABSPATH' ) || exit;
 
-class Dfrapi_Id_Search_Field extends Dfrapi_Search_Field_Abstract {
+class Dfrapi_Id_Search_Filter extends Dfrapi_Search_Filter_Abstract {
 
 	public function label(): string {
 		return __( 'Product ID', 'datafeedr-api' );
 	}
 
-	public function field(): string {
+	public function name(): string {
 		return 'id';
 	}
 

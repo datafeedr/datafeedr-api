@@ -2,7 +2,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-interface Dfrapi_Search_Field_Interface {
+interface Dfrapi_Search_Filter_Interface {
 
 	/**
 	 * @return string
@@ -12,7 +12,7 @@ interface Dfrapi_Search_Field_Interface {
 	/**
 	 * @return string
 	 */
-	public function field(): string;
+	public function name(): string;
 
 	/**
 	 * @return int
@@ -23,4 +23,5 @@ interface Dfrapi_Search_Field_Interface {
 	 * @return array
 	 */
 	public function operators(): array;
+
 }

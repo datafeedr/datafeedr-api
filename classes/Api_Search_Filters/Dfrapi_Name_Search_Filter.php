@@ -2,13 +2,13 @@
 
 defined( 'ABSPATH' ) || exit;
 
-class Dfrapi_Name_Search_Field extends Dfrapi_Search_Field_Abstract {
+class Dfrapi_Name_Search_Filter extends Dfrapi_Search_Filter_Abstract {
 
 	public function label(): string {
 		return __( 'Product Name', 'datafeedr-api' );
 	}
 
-	public function field(): string {
+	public function name(): string {
 		return 'name';
 	}
 

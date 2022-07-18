@@ -5,42 +5,39 @@ defined( 'ABSPATH' ) || exit;
 class Dfrapi_Api_Search {
 
 	/**
-	 *  Array
-	 *      (
-	 *          [0] => Array
-	 *          (
-	 *              [value] => 87933,12143,37384
-	 *              [field] => merchant_id
-	 *              [operator] => is
-	 *          )
-	 *          [2] => Array
-	 *          (
-	 *              [value] => name|barcode|description|direct_url
-	 *              [field] => duplicates
-	 *              [operator] => is
-	 *          )
-	 *          [29] => Array
-	 *          (
-	 *              [value] => 2
-	 *              [field] => merchant_limit
-	 *              [operator] => is
-	 *          )
-	 *      )
-	 *  )
+	 * [
+	 * 'name like patagonia puff',
+	 * 'merchant_id IN 12345, 6789',
+	 * 'barcode IN 999123123',
+	 * 'sort -name',
+	 * ];
 	 *
 	 * @var array
 	 */
-	public $originalParams;
+	public array $original_params;
+	public array $filters;
+	public array $options;
 
-	public $query;
+	public $context;
 
-	public function __construct( array $params, array $options = [], $context = null ) {
-		$this->originalParams = $params;
+	public function __construct( array $params, $context = null ) {
+		$this->original_params = $params;
+		$this->context         = $context;
 		$this->parseParams();
 	}
 
-	private function parseParams() {
-		// do something with $this->originalParams;
-		$this->parsedParams = $this->originalParams;
+	private function parseParams(): void {
+		$this->set_filters();
+		$this->set_options();
 	}
+
+	private function set_filters(): void {
+		$this->filters = Dfrapi_Api_Search_Filters::parse( $this->original_params );
+	}
+
+	// Sets limit, offset, sort and duplicate options
+	private function set_options(): void {
+
+	}
+
 }

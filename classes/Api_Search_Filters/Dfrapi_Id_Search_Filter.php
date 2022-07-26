@@ -8,7 +8,7 @@ class Dfrapi_Id_Search_Filter extends Dfrapi_Search_Filter_Abstract {
 		return __( 'Product ID', 'datafeedr-api' );
 	}
 
-	public function name(): string {
+	public static function name(): string {
 		return 'id';
 	}
 

@@ -12,7 +12,7 @@ interface Dfrapi_Search_Filter_Interface {
 	/**
 	 * @return string
 	 */
-	public function name(): string;
+	public static function name(): string;
 
 	/**
 	 * @return int

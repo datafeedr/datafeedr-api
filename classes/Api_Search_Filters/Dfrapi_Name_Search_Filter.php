@@ -8,7 +8,7 @@ class Dfrapi_Name_Search_Filter extends Dfrapi_Search_Filter_Abstract {
 		return __( 'Product Name', 'datafeedr-api' );
 	}
 
-	public function name(): string {
+	public static function name(): string {
 		return 'name';
 	}
 
@@ -18,8 +18,8 @@ class Dfrapi_Name_Search_Filter extends Dfrapi_Search_Filter_Abstract {
 
 	public function operators(): array {
 		return [
-			Dfrapi_Api_Search_Operators::LIKE,
-			Dfrapi_Api_Search_Operators::NOT_LIKE,
+			Dfrapi_Like_Operator::class,
+			Dfrapi_Not_Like_Operator::class,
 		];
 	}
 }

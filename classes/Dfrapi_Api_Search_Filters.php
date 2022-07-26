@@ -5,15 +5,15 @@ defined( 'ABSPATH' ) || exit;
 class Dfrapi_Api_Search_Filters {
 
 	/**
-	 * @return array
+	 * @return Dfrapi_Search_Filter_Interface[]
+	 * @todo maybe add apply_filters here so this can be extended.
 	 */
 	public static function all(): array {
-		// @todo maybe add apply_filters here so this can be extended.
 		return [
-			'any'     => new Dfrapi_Any_Search_Filter,
-			'name'    => new Dfrapi_Name_Search_Filter,
-			'id'      => new Dfrapi_Id_Search_Filter,
-			'barcode' => new Dfrapi_Barcode_Search_Filter,
+			Dfrapi_Any_Search_Filter::class,
+			Dfrapi_Name_Search_Filter::class,
+			Dfrapi_Id_Search_Filter::class,
+			Dfrapi_Barcode_Search_Filter::class,
 		];
 	}
 
@@ -32,74 +32,79 @@ class Dfrapi_Api_Search_Filters {
 	 * @return array
 	 */
 	public static function names(): array {
-		return array_keys( self::all() );
+		return array_map( static function ( $filter ) {
+			return $filter::name();
+		}, self::all() );
 	}
 
-	public static function get_filter_instance( string $key, string $param ): ?Dfrapi_Search_Filter_Interface {
-		$filters = self::all();
+	/**
+	 * Returns the class name from self::all() for the given $key or null if no class is found.
+	 *
+	 * @param string $key Example: any, name, brand, etc...
+	 *
+	 * @return string|null Example: 'Dfrapi_Name_Search_Filter'
+	 */
+	public static function get_filter_class_name_by_key( string $key ): ?string {
+		$key = strtolower( trim( $key ) );
 
-		return array_key_exists( $key, $filters ) ? new $filters[ $key ]( $param ) : null;
+		return array_values( array_filter( self::all(), static function ( $filter ) use ( $key ) {
+				return strtolower( $filter::name() ) === $key;
+			} ) )[0] ?? null;
 	}
 
-	public static function factory( $param ): ?Dfrapi_Search_Filter_Interface {
+	/**
+	 * Returns a fully initialized Dfrapi_Search_Filter_Abstract child class for the $param or null
+	 * if no class is found.
+	 *
+	 * @param mixed $param Expects a string or array.
+	 *
+	 * @return Dfrapi_Search_Filter_Abstract|null
+	 */
+	public static function factory( $param ): ?Dfrapi_Search_Filter_Abstract {
 
+		// Convert $param array to a string.
 		if ( is_array( $param ) ) {
-			$param = sprintf(
-				'%s %s %s',
-				$param['field'],
-				$param['operator'] ?? '',
-				$param['value'] ?? ''
+			$param = sprintf( '%s %s %s',
+				trim( $param['field'] ),
+				trim( $param['operator'] ?? '' ),
+				trim( $param['value'] ?? '' )
 			);
 		}
 
-		if ( is_string( $param ) ) {
-
-			$param = strtolower( trim( $param ) );
-
-			if ( empty( $param ) ) {
-				return null;
-			}
-
-			$key = dfrapi_str_before( $param, ' ' );
-
-			return self::get_filter_instance( $key, $param );
+		if ( ! is_string( $param ) ) {
+			return null;
 		}
 
-		return null;
+		$param = strtolower( trim( $param ) );
+
+		if ( empty( $param ) ) {
+			return null;
+		}
+
+		$key = dfrapi_str_before( $param, ' ' );
+
+		$class_name = self::get_filter_class_name_by_key( $key );
+
+		return $class_name ? new $class_name( $param ) : null;
 	}
 
+	/**
+	 * Parse an array of $params creating an array of Filters for all filters (but not options)
+	 * in the $params.
+	 *
+	 * @param array $params
+	 *
+	 * @return Dfrapi_Search_Filter_Abstract[]
+	 */
 	public static function parse( array $params ): array {
 
 		$filters = [];
 		$params  = array_filter( array_unique( array_map( 'trim', $params ) ) );
 
 		foreach ( $params as $param ) {
-
 			$filters[] = self::factory( $param );
-
-//			$filter = is_array( $param )
-//				? self::get_filter_instance_from_array( $param )
-//				: self::get_filter_instance_from_string( $param );
-
-//			$filters = array_filter( $filters );
-
-
-//			$param = strtolower( $param ); // Ex. name, brand, merchant_id
-//			if ( dfrapi_str_starts_with( $param, $names ) ) {
-//				$filter = self::get_filter_instance( $param );
-//				if ( $filter ) {
-//					$filters[] = $filter->format( $param );
-//				}
-//			}
 		}
 
-		return $filters;
-	}
-
-
-	public function get_field( string $field_name ) {
-		return array_values( array_filter( self::all(), static function ( Dfrapi_Search_Filter_Interface $k ) use ( $field_name ) {
-				return $k->name() === $field_name;
-			} ) )[0] ?? null;
+		return array_filter( $filters );
 	}
 }

@@ -8,7 +8,7 @@ class Dfrapi_Any_Search_Filter extends Dfrapi_Search_Filter_Abstract {
 		return __( 'Any Field', 'datafeedr-api' );
 	}
 
-	public function name(): string {
+	public static function name(): string {
 		return 'any';
 	}
 
@@ -16,12 +16,12 @@ class Dfrapi_Any_Search_Filter extends Dfrapi_Search_Filter_Abstract {
 		return 99;
 	}
 
-	public function format($query) {
+	public function format(): string {
 
-		if ( dfrapi_str_starts_with( strtolower( $param . ' ' ), $names ) ) {
-
-		}
-
+//		if ( dfrapi_str_starts_with( strtolower( $param . ' ' ), $names ) ) {
+//
+//		}
+		return '';
 	}
 
 	public function operators(): array {

@@ -8,7 +8,7 @@ class Dfrapi_Barcode_Search_Filter extends Dfrapi_Search_Filter_Abstract {
 		return __( 'Barcode', 'datafeedr-api' );
 	}
 
-	public function name(): string {
+	public static function name(): string {
 		return 'barcode';
 	}
 

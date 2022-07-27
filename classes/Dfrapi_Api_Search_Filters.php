@@ -14,6 +14,7 @@ class Dfrapi_Api_Search_Filters {
 			Dfrapi_Name_Search_Filter::class,
 			Dfrapi_Id_Search_Filter::class,
 			Dfrapi_Barcode_Search_Filter::class,
+			Dfrapi_Merchant_Id_Search_Filter::class,
 		];
 	}
 

@@ -16,18 +16,10 @@ class Dfrapi_Any_Search_Filter extends Dfrapi_Search_Filter_Abstract {
 		return 99;
 	}
 
-	public function format(): string {
-
-//		if ( dfrapi_str_starts_with( strtolower( $param . ' ' ), $names ) ) {
-//
-//		}
-		return '';
-	}
-
 	public function operators(): array {
 		return [
-			Dfrapi_Api_Search_Operators::LIKE,
-			Dfrapi_Api_Search_Operators::NOT_LIKE,
+			Dfrapi_Like_Operator::class,
+			Dfrapi_Not_Like_Operator::class,
 		];
 	}
 }

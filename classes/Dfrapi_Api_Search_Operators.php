@@ -12,6 +12,8 @@ class Dfrapi_Api_Search_Operators {
 		return [
 			Dfrapi_Like_Operator::class,
 			Dfrapi_Not_Like_Operator::class,
+			Dfrapi_In_Operator::class,
+			Dfrapi_Not_In_Operator::class,
 		];
 	}
 
@@ -36,10 +38,9 @@ class Dfrapi_Api_Search_Operators {
 	}
 
 	public static function factory( Dfrapi_Search_Filter_Abstract $filter ): ?Dfrapi_Search_Operator_Abstract {
-
-		$operator = self::extract_operator_from_param( $filter::name(), $filter->param );
-
-		$class_name = self::get_operator_class_name_by_operator( $operator );
+		$class_name = self::get_operator_class_name_by_operator(
+			self::extract_operator_from_param( $filter::name(), $filter->param )
+		);
 
 		return $class_name ? new $class_name() : null;
 	}

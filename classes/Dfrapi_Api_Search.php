@@ -25,13 +25,27 @@ class Dfrapi_Api_Search {
 	 */
 	private $context;
 
-	private array $filters;
-	private array $options;
+	/**
+	 * An array of Dfrapi_Search_Filter_Abstract objects.
+	 *
+	 * @var Dfrapi_Search_Filter_Abstract[] $filters
+	 */
+	private array $filters = [];
+
+
+	private array $options = [];
+
+	private array $meta = [];
 
 	public function __construct( array $params, $context = null ) {
 		$this->params  = $params;
 		$this->context = $context;
 		$this->parseParams();
+	}
+
+	private function parseParams(): void {
+		$this->set_filters();
+		$this->set_options();
 	}
 
 	public function get_params(): array {
@@ -50,13 +64,44 @@ class Dfrapi_Api_Search {
 		return $this->options;
 	}
 
-	private function parseParams(): void {
-		$this->set_filters();
-		$this->set_options();
+	private function set_filters(): void {
+
+		$filters = [];
+		$params  = array_filter( array_unique( array_map( 'trim', $this->get_params() ) ) );
+
+		foreach ( $params as $param ) {
+
+			$filter = Dfrapi_Api_Search_Filters::factory( $param, $this );
+
+			// If $filter is null, handle the next $param.
+			if ( ! $filter ) {
+				continue;
+			}
+
+			// Update filter usage count.
+			$this->increment_filter_usage_count( $filter::name() );
+
+			// If this $filter has exceeded its usage limit, ignore and handle next $param.
+			if ( $this->get_filter_usage_count( $filter::name() ) > $filter->limit() ) {
+				continue;
+			}
+
+			// If we made it this far, add $filter to our $filters array.
+			$filters[] = $filter;
+		}
+
+		// Remove any null values from array (if any made it this far).
+		$this->filters = array_filter( $filters );
 	}
 
-	private function set_filters(): void {
-		$this->filters = Dfrapi_Api_Search_Filters::parse( $this->params ); // @todo possibly add apply_filters
+	private function get_filter_usage_count( string $filter_name ): int {
+		return isset( $this->meta['filter_count'][ $filter_name ] )
+			? absint( $this->meta['filter_count'][ $filter_name ] )
+			: 0;
+	}
+
+	private function increment_filter_usage_count( string $filter_name ): void {
+		$this->meta['filter_count'][ $filter_name ] = ( $this->get_filter_usage_count( $filter_name ) + 1 );
 	}
 
 	// Sets limit, offset, sort and duplicate options

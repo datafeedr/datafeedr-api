@@ -17,6 +17,13 @@ abstract class Dfrapi_Search_Filter_Abstract implements Dfrapi_Search_Filter_Int
 	public string $param;
 
 	/**
+	 * An instance of the current Dfrapi_Api_Search object.
+	 *
+	 * @var Dfrapi_Api_Search
+	 */
+	public Dfrapi_Api_Search $search;
+
+	/**
 	 * Some queries don't require a value. If so, override in child class and set to false.
 	 *
 	 * @var bool $expects_value
@@ -45,8 +52,9 @@ abstract class Dfrapi_Search_Filter_Abstract implements Dfrapi_Search_Filter_Int
 	 */
 	public ?string $value = null;
 
-	public function __construct( string $param ) {
-		$this->param = strtolower( trim( $param ) );
+	public function __construct( string $param, Dfrapi_Api_Search $search ) {
+		$this->param  = strtolower( trim( $param ) );
+		$this->search = $search;
 		$this->set_field();
 		$this->set_operator();
 		$this->set_value();
@@ -132,5 +140,4 @@ abstract class Dfrapi_Search_Filter_Abstract implements Dfrapi_Search_Filter_Int
 
 		$this->value = trim( $this->format_value( $value ) );
 	}
-
 }

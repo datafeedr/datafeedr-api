@@ -58,10 +58,11 @@ class Dfrapi_Api_Search_Filters {
 	 * if no class is found.
 	 *
 	 * @param mixed $param Expects a string or array.
+	 * @param Dfrapi_Api_Search $search An instance of Dfrapi_Api_Search.
 	 *
 	 * @return Dfrapi_Search_Filter_Abstract|null
 	 */
-	public static function factory( $param ): ?Dfrapi_Search_Filter_Abstract {
+	public static function factory( $param, Dfrapi_Api_Search $search ): ?Dfrapi_Search_Filter_Abstract {
 
 		// Convert $param array to a string.
 		if ( is_array( $param ) ) {
@@ -86,26 +87,26 @@ class Dfrapi_Api_Search_Filters {
 
 		$class_name = self::get_filter_class_name_by_key( $key );
 
-		return $class_name ? new $class_name( $param ) : null;
+		return $class_name ? new $class_name( $param, $search ) : null;
 	}
 
-	/**
-	 * Parse an array of $params creating an array of Filters for all filters (but not options)
-	 * in the $params.
-	 *
-	 * @param array $params
-	 *
-	 * @return Dfrapi_Search_Filter_Abstract[]
-	 */
-	public static function parse( array $params ): array {
-
-		$filters = [];
-		$params  = array_filter( array_unique( array_map( 'trim', $params ) ) );
-
-		foreach ( $params as $param ) {
-			$filters[] = self::factory( $param );
-		}
-
-		return array_filter( $filters );
-	}
+//	/**
+//	 * Parse an array of $params creating an array of Filters for all filters (but not options)
+//	 * in the $params.
+//	 *
+//	 * @param Dfrapi_Api_Search $search
+//	 *
+//	 * @return Dfrapi_Search_Filter_Abstract[]
+//	 */
+//	public static function parse( Dfrapi_Api_Search $search ): array {
+//
+//		$filters = [];
+//		$params  = array_filter( array_unique( array_map( 'trim', $search->get_params() ) ) );
+//
+//		foreach ( $params as $param ) {
+//			$filters[] = self::factory( $param, $search->get_context() );
+//		}
+//
+//		return array_filter( $filters );
+//	}
 }

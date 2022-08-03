@@ -88,22 +88,37 @@ register_activation_hook( __FILE__, 'dfrapi_register_activation' );
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/global.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/upgrade.php';
 
+// API Search Interfaces
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/interfaces/Dfrapi_Search_Filter_Interface.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/interfaces/Dfrapi_Search_Option_Interface.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/interfaces/Dfrapi_Search_Operator_Interface.php';
+
+// API Search Abstracts
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/abstracts/Dfrapi_Search_Filter_Abstract.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/abstracts/Dfrapi_Search_Option_Abstract.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/abstracts/Dfrapi_Search_Operator_Abstract.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Operators/Dfrapi_Like_Operator.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Operators/Dfrapi_Not_Like_Operator.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Operators/Dfrapi_In_Operator.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Operators/Dfrapi_Not_In_Operator.php';
+
+// API Search Filters
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Any_Search_Filter.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Barcode_Search_Filter.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Name_Search_Filter.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Id_Search_Filter.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Merchant_Id_Search_Filter.php';
+
+// API Search Options
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Options/Dfrapi_Sort_Option.php';
+
+// API Search Operators
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Operators/Dfrapi_Like_Operator.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Operators/Dfrapi_Not_Like_Operator.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Operators/Dfrapi_In_Operator.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Operators/Dfrapi_Not_In_Operator.php';
+
+// Core API Search Classes
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Api_Search.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Api_Search_Operators.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Api_Search_Filters.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Api_Search_Options.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Api_Search_Operators.php';
 
 /**
  * Load Libraries

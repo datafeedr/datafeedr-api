@@ -35,10 +35,15 @@ class Dfrapi_Api_Search {
 
 	private array $options = [];
 
+	/**
+	 * Information stored about this search.
+	 *
+	 * @var array $meta
+	 */
 	private array $meta = [];
 
 	public function __construct( array $params, $context = null ) {
-		$this->params  = $params;
+		$this->params  = array_filter( array_unique( array_map( 'trim', $params ) ) );
 		$this->context = $context;
 		$this->parseParams();
 	}
@@ -64,12 +69,15 @@ class Dfrapi_Api_Search {
 		return $this->options;
 	}
 
+	public function get_meta(): array {
+		return $this->meta;
+	}
+
 	private function set_filters(): void {
 
 		$filters = [];
-		$params  = array_filter( array_unique( array_map( 'trim', $this->get_params() ) ) );
 
-		foreach ( $params as $param ) {
+		foreach ( $this->get_params() as $param ) {
 
 			$filter = Dfrapi_Api_Search_Filters::factory( $param, $this );
 
@@ -106,6 +114,9 @@ class Dfrapi_Api_Search {
 
 	// Sets limit, offset, sort and duplicate options
 	private function set_options(): void {
+
+		$options = Dfrapi_Api_Search_Filters::factory( $param, $this );
+
 		$this->options = []; // @todo
 	}
 }

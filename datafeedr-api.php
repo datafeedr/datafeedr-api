@@ -99,11 +99,11 @@ require_once dirname( DFRAPI_PLUGIN_FILE ) . '/abstracts/Dfrapi_Search_Option_Ab
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/abstracts/Dfrapi_Search_Operator_Abstract.php';
 
 // API Search Filters
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Any_Search_Filter.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Barcode_Search_Filter.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Name_Search_Filter.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Id_Search_Filter.php';
-require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Merchant_Id_Search_Filter.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Any_Filter.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Barcode_Filter.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Name_Filter.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Id_Filter.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Filters/Dfrapi_Merchant_Id_Filter.php';
 
 // API Search Options
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Api_Search_Options/Dfrapi_Sort_Option.php';

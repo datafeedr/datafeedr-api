@@ -2,14 +2,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
-class Dfrapi_Barcode_Search_Filter extends Dfrapi_Search_Filter_Abstract {
+class Dfrapi_Merchant_Id_Filter extends Dfrapi_Search_Filter_Abstract {
 
 	public function label(): string {
-		return __( 'Barcode', 'datafeedr-api' );
+		return __( 'Merchant ID', 'datafeedr-api' );
 	}
 
 	public static function name(): string {
-		return 'barcode';
+		return 'merchant_id';
 	}
 
 	public function limit(): int {
@@ -26,11 +26,6 @@ class Dfrapi_Barcode_Search_Filter extends Dfrapi_Search_Filter_Abstract {
 	public function format_value( string $value ): string {
 		$separator = ',';
 
-		$barcodes = explode( $separator, $value );
-		$barcodes = array_map( 'trim', $barcodes );
-		$barcodes = array_filter( $barcodes );
-		$barcodes = array_unique( $barcodes );
-
-		return implode( $separator, array_values( $barcodes ) );
+		return implode( $separator, dfrapi_parse_string_of_ids( $value, $separator ) );
 	}
 }

@@ -49,8 +49,62 @@ class Dfrapi_Api_Search {
 	}
 
 	private function parseParams(): void {
-		$this->set_filters();
-		$this->set_options();
+
+		foreach ( $this->get_params() as $param ) {
+
+			$param = new Dfrapi_Api_Search_Params( $param, $this );
+
+			if ( ! $param->is_valid() ) {
+				continue;
+			}
+
+			if ( $param->type === 'filter' ) {
+				$this->handle_filter( $param );
+			}
+
+			if ( $param->type === 'option' ) {
+				$this->handle_option( $param );
+			}
+
+		}
+	}
+
+	private function handle_filter( Dfrapi_Api_Search_Params $param ): void {
+
+		// Get an instance of a Dfrapi_Search_Filter_Abstract object.
+		if ( ! $filter = $param->filter_factory() ) {
+			return;
+		}
+
+		// Update filter usage count.
+		$this->increment_usage_count( $filter::name() );
+
+		// If this $filter has exceeded its usage limit, don't add to $this->filters array.
+		if ( $this->get_usage_count( $filter::name() ) > $filter->limit() ) {
+			return;
+		}
+
+		// If we made it this far, add $filter to our $filters array.
+		$this->filters[] = $filter;
+	}
+
+	private function handle_option( Dfrapi_Api_Search_Params $param ): void {
+
+		// Get an instance of a Dfrapi_Search_Option_Abstract object.
+		if ( ! $option = $param->option_factory() ) {
+			return;
+		}
+
+		// Update option usage count.
+		$this->increment_usage_count( $option::name() );
+
+		// If this $option has exceeded its usage limit, don't add to $this->options array.
+		if ( $this->get_usage_count( $option::name() ) > $option->limit() ) {
+			return;
+		}
+
+		// If we made it this far, add $option to our $this->options array.
+		$this->options[] = $option;
 	}
 
 	public function get_params(): array {
@@ -73,50 +127,13 @@ class Dfrapi_Api_Search {
 		return $this->meta;
 	}
 
-	private function set_filters(): void {
-
-		$filters = [];
-
-		foreach ( $this->get_params() as $param ) {
-
-			$filter = Dfrapi_Api_Search_Filters::factory( $param, $this );
-
-			// If $filter is null, handle the next $param.
-			if ( ! $filter ) {
-				continue;
-			}
-
-			// Update filter usage count.
-			$this->increment_filter_usage_count( $filter::name() );
-
-			// If this $filter has exceeded its usage limit, ignore and handle next $param.
-			if ( $this->get_filter_usage_count( $filter::name() ) > $filter->limit() ) {
-				continue;
-			}
-
-			// If we made it this far, add $filter to our $filters array.
-			$filters[] = $filter;
-		}
-
-		// Remove any null values from array (if any made it this far).
-		$this->filters = array_filter( $filters );
-	}
-
-	private function get_filter_usage_count( string $filter_name ): int {
-		return isset( $this->meta['filter_count'][ $filter_name ] )
-			? absint( $this->meta['filter_count'][ $filter_name ] )
+	private function get_usage_count( string $name ): int {
+		return isset( $this->meta['usage_count'][ $name ] )
+			? absint( $this->meta['usage_count'][ $name ] )
 			: 0;
 	}
 
-	private function increment_filter_usage_count( string $filter_name ): void {
-		$this->meta['filter_count'][ $filter_name ] = ( $this->get_filter_usage_count( $filter_name ) + 1 );
-	}
-
-	// Sets limit, offset, sort and duplicate options
-	private function set_options(): void {
-
-		$options = Dfrapi_Api_Search_Filters::factory( $param, $this );
-
-		$this->options = []; // @todo
+	private function increment_usage_count( string $name ): void {
+		$this->meta['usage_count'][ $name ] = ( $this->get_usage_count( $name ) + 1 );
 	}
 }

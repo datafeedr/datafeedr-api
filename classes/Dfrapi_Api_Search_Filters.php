@@ -10,11 +10,11 @@ class Dfrapi_Api_Search_Filters {
 	 */
 	public static function all(): array {
 		return [
-			Dfrapi_Any_Search_Filter::class,
-			Dfrapi_Name_Search_Filter::class,
-			Dfrapi_Id_Search_Filter::class,
-			Dfrapi_Barcode_Search_Filter::class,
-			Dfrapi_Merchant_Id_Search_Filter::class,
+			Dfrapi_Any_Filter::class,
+			Dfrapi_Name_Filter::class,
+			Dfrapi_Id_Filter::class,
+			Dfrapi_Barcode_Filter::class,
+			Dfrapi_Merchant_Id_Filter::class,
 		];
 	}
 

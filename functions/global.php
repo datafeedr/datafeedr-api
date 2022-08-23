@@ -2575,7 +2575,7 @@ function dfrapi_get_api_usage_as_percentage( int $precision = 2 ) {
  * @return int[]
  */
 function dfrapi_get_partnerize_network_ids(): array {
-	return [ 801, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820 ];
+	return [ 801, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822 ];
 }
 
 /**

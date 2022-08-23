@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
 Tested up to: 6.0.2-alpha
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,10 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.5 - 2022/08/23 =
+* Added support for Partnerize France.
+* Added support for Partnerize Denmark.
 
 = 1.3.4 - 2022/07/15 =
 * Added SKU (`sku`) as a searchable field in the Product Sets search form.

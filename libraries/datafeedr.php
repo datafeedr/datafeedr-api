@@ -40,6 +40,7 @@ class DatafeedrApi {
 	protected $_https;
 	protected $_url;
 	protected $_userAgent;
+	protected $_domain;
 
 	protected $_status;
 	protected $_errors;
@@ -406,6 +407,7 @@ class DatafeedrApi {
 
 		$request['aid']       = $this->_accessId;
 		$request['timestamp'] = gmdate( 'Y-m-d H:i:s' );
+		$request['domain']    = $this->_domain;
 
 		if ( $this->_https ) {
 			$request['akey'] = $this->_secretKey;
@@ -469,7 +471,8 @@ class DatafeedrApi {
 			'timeout'       => 30,
 			'returnObjects' => false,
 			'retry'         => 0,
-			'retryTimeout'  => 5
+			'retryTimeout'  => 5,
+			'domain'        => '',
 		);
 	}
 
@@ -503,10 +506,11 @@ class DatafeedrApi {
 		$this->_url           = $pt . '://' . $opts['host'];
 		$this->_https         = $opts['https'];
 		$this->_host          = $opts['host'];
-		$this->_timeout       = intval( $opts['timeout'] );
-		$this->_returnObjects = intval( $opts['returnObjects'] );
-		$this->_retry         = intval( $opts['retry'] );
-		$this->_retryTimeout  = intval( $opts['retryTimeout'] );
+		$this->_timeout       = (int) $opts['timeout'];
+		$this->_returnObjects = (int) $opts['returnObjects'];
+		$this->_retry         = (int) $opts['retry'];
+		$this->_retryTimeout  = (int) $opts['retryTimeout'];
+		$this->_domain        = (string) $opts['domain'];
 
 		switch ( $tr ) {
 			case 'curl':

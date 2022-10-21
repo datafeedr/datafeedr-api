@@ -1752,19 +1752,19 @@ function dfrapi_api( $transport = 'curl', $timeout = 0, $returnObjects = false )
 
 	if ( $access_id && $secret_key ) {
 
-		$options = array(
+		$options = [
 			'transport'     => 'wordpress',
 			'timeout'       => 60,
 			'returnObjects' => false,
 			'retry'         => 3, // The number of retries if an API request times-out.
 			'retryTimeout'  => 5, // The number of seconds to wait between retries.
-		);
+		];
 
 		$options = apply_filters( 'dfrapi_api_options', $options );
 
-		$api = new DatafeedrApi( $access_id, $secret_key, $options );
+		$options['domain'] = parse_url( get_site_url(), PHP_URL_HOST );
 
-		return $api;
+		return new DatafeedrApi( $access_id, $secret_key, $options );
 
 	} else {
 		return false;

@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 6.0.4-alpha
-Stable tag: 1.3.6
+Tested up to: 6.1
+Stable tag: 1.3.7
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.7 - 2022/10/28 =
+* Updated "tested up to" values.
 
 = 1.3.6 - 2022/10/21 =
 * Added PHP url host to options array in DatafeedrApi constructor to provide better usage analytics.

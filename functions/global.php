@@ -1869,7 +1869,9 @@ function dfrapi_api_get_all_networks( $nids = array() ) {
 	}
 	dfrapi_update_transient_whitelist( $option_name );
 
-	return $networks;
+	return array_filter( $networks, static function ( $network ) {
+		return ! in_array( absint( $network['_id'] ), dfrapi_inactive_networks(), true );
+	} );
 }
 
 /**
@@ -2575,7 +2577,7 @@ function dfrapi_get_api_usage_as_percentage( int $precision = 2 ) {
  * @return int[]
  */
 function dfrapi_get_partnerize_network_ids(): array {
-	return [ 801, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822 ];
+	return [ 801, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823 ];
 }
 
 /**
@@ -2806,4 +2808,20 @@ function dfrapi_parse_plugin_path( string $plugin, string $format = 'relative' )
 	}
 
 	return empty( $dirname ) ? $basename : trailingslashit( $dirname ) . $basename;
+}
+
+/**
+ * Returns an array of Network IDs which should be considered inactive.
+ *
+ * @since 1.3.8
+ *
+ * @return array
+ */
+function dfrapi_inactive_networks(): array {
+
+	$inactive_network_ids = [
+		14, // Prophetably
+	];
+
+	return array_map( 'absint', apply_filters( 'dfrapi_inactive_networks', $inactive_network_ids ) );
 }

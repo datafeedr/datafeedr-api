@@ -511,23 +511,40 @@ class Dfrapi_SearchForm
         ";
     }
 
-    function ajaxHandler() {
-        $command = $this->get($_POST, 'command');
-        $value = $this->ary($this->get($_POST, 'value'));
-        $this->useSelected = intval($this->get($_POST, 'useSelected', 1));
+	function ajaxHandler() {
+		$command           = $this->get( $_POST, 'command' );
+		$value             = $this->ary( $this->get( $_POST, 'value' ) );
+		$this->useSelected = (int) $this->get( $_POST, 'useSelected', 1 );
 
-        switch($command) {
-            case "choose_network":
-                return $this->networksMerchantsPopup('network', $value);
-            case "choose_merchant":
-                return $this->networksMerchantsPopup('merchant', $value);
-            case "names_network":
-                return $this->networksMerchantsNames('network', $value);
-            case "names_merchant":
-                return $this->networksMerchantsNames('merchant', $value);
-        }
-        return "";
-    }
+		if ( $command === 'choose_network' ) {
+			return $this->networksMerchantsPopup( 'network', $value );
+		}
+
+		if ( $command === 'choose_merchant' ) {
+			return $this->networksMerchantsPopup( 'merchant', $value );
+		}
+
+		if ( $command === 'names_network' ) {
+			return $this->networksMerchantsNames( 'network', $value );
+		}
+
+		if ( $command === 'names_merchant' && ! empty( $value ) ) {
+			return $this->networksMerchantsNames( 'merchant', $value );
+		}
+
+//	    switch ( $command ) {
+//		    case "choose_network":
+//			    return $this->networksMerchantsPopup( 'network', $value );
+//		    case "choose_merchant":
+//			    return $this->networksMerchantsPopup( 'merchant', $value );
+//		    case "names_network":
+//			    return $this->networksMerchantsNames( 'network', $value );
+//		    case "names_merchant":
+//			    return $this->networksMerchantsNames( 'merchant', $value );
+//	    }
+
+		return '';
+	}
 
     function renderField($field, $index, $params) {
         $pfx = $this->inputPrefix($index);

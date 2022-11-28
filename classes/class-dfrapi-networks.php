@@ -330,8 +330,8 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 			);
 		}
 
-		function map_link( $name ) {
-			$links = array(
+		function map_link( $name ): string {
+			$links = [
 				'2Performant'           => 'https://datafeedrapi.helpscoutdocs.com/article/240-how-to-find-your-2performant-affiliate-id',
 				'Admitad'               => 'https://datafeedrapi.helpscoutdocs.com/article/241-how-to-find-your-admitad-affiliate-id',
 				'ADCELL'                => 'https://datafeedrapi.helpscoutdocs.com/article/235-how-to-find-your-adcell-affiliate-id',
@@ -385,13 +385,14 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				'Snapdeal'              => 'https://datafeedrapi.helpscoutdocs.com/article/172-how-to-find-your-snapdeal-affiliate-id',
 				'SuperClix'             => 'https://datafeedrapi.helpscoutdocs.com/article/145-how-to-find-your-superclix-affiliate-id',
 				'The Affiliate Gateway' => 'https://datafeedrapi.helpscoutdocs.com/article/225-how-to-find-your-affiliate-gateway-affiliate-id',
+				'TimeOne'               => 'https://datafeedrapi.helpscoutdocs.com/article/262-how-to-find-your-timeone-affiliate-id',
 				'TradeDoubler'          => 'https://datafeedrapi.helpscoutdocs.com/article/146-how-to-find-your-tradedoubler-affiliate-id',
 				'TradeTracker'          => 'https://datafeedrapi.helpscoutdocs.com/article/148-how-to-find-your-tradetracker-affiliate-id',
 				'Webgains'              => 'https://datafeedrapi.helpscoutdocs.com/article/147-how-to-find-your-webgains-affiliate-id',
 				'Zanox'                 => 'https://datafeedrapi.helpscoutdocs.com/article/149-how-to-find-your-zanox-api-keys',
-			);
+			];
 
-			return isset( $links[ $name ] ) ? $links[ $name ] : DFRAPI_DOCS_URL;
+			return $links[ $name ] ?? ( DFRAPI_DOCS_SEARCH_URL . sanitize_title( $name ) );
 		}
 
 		function validate( $input ) {

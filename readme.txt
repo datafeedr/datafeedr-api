@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 6.1
-Stable tag: 1.3.7
+Tested up to: 6.1.2-alpha
+Stable tag: 1.3.8
 
 Connect to the Datafeedr API.
 
@@ -17,7 +17,7 @@ Connect to the Datafeedr API.
 
 > The *Datafeedr API* plugin requires that you have an active Datafeedr API Product subscription. [Purchase Subscription](https://datafeedr.me/pricing).
 
-The Datafeedr API provides access to our database of affiliate products. We have aggregated over 900,000,000 products from over [25,000+ merchants and 35+ affiliate networks](https://datafeedr.me/networks). We have indexed and normalized the product data making it easy for you to search for and find products you want to promote on your website.
+The Datafeedr API provides access to our database of affiliate products. We have aggregated over 950,000,000 products from over [27,000+ merchants and 35+ affiliate networks](https://datafeedr.me/networks). We have indexed and normalized the product data making it easy for you to search for and find products you want to promote on your website.
 
 The *Datafeedr API* plugin currently integrates with the following plugins:
 
@@ -73,6 +73,11 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.8 - 2022/11/28 =
+* Added support for TimeOne affiliate network.
+* Added support for Partnerize Sweden.
+* Fixed bug where `Dfrapi_SearchForm::ajaxHandler()` method was returning all merchants when `$value` was empty.
 
 = 1.3.7 - 2022/10/28 =
 * Updated "tested up to" values.

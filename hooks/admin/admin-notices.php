@@ -227,14 +227,6 @@ function dfrapi_unapproved_partnerize_merchants_selected() {
 		return;
 	}
 
-	$merchant_source = array_column( $merchants, 'source' );
-	$merchant_name   = array_column( $merchants, 'name' );
-	array_multisort(
-		$merchant_source, SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE,
-		$merchant_name, SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE,
-		$merchants
-	);
-
 	$list = '';
 	foreach ( $merchants as $merchant ) {
 		$list .= sprintf(
@@ -313,14 +305,6 @@ function dfrapi_unapproved_effiliation_merchants_selected() {
 	if ( empty( $merchants ) ) {
 		return;
 	}
-
-	$merchant_source = array_column( $merchants, 'source' );
-	$merchant_name   = array_column( $merchants, 'name' );
-	array_multisort(
-		$merchant_source, SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE,
-		$merchant_name, SORT_ASC, SORT_NATURAL | SORT_FLAG_CASE,
-		$merchants
-	);
 
 	$list = '';
 	foreach ( $merchants as $merchant ) {

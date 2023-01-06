@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
 Tested up to: 6.1.2-alpha
-Stable tag: 1.3.8
+Stable tag: 1.3.9
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.9 - 2023/01/06 =
+* Removed `array_multisort()` from Effiliation and Partnerize admin notices because of "inconsistent array sizes" errors.
 
 = 1.3.8 - 2022/11/28 =
 * Added support for TimeOne affiliate network.

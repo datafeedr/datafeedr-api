@@ -18,8 +18,8 @@ if ( ! class_exists( 'Dfrapi_Account' ) ) {
 			add_action( 'admin_menu', array( $this, 'admin_menu' ), 70 );
 			add_action( 'init', array( $this, 'load_settings' ) );
 		}
-		
-		function load_settings() {	
+
+		function load_settings() {
 			$this->options = (array) get_option( $this->key );
 			if ( isset( $this->options[0] ) && empty( $this->options[0] ) ) {
 				$this->options = $status = dfrapi_api_get_status();
@@ -28,15 +28,15 @@ if ( ! class_exists( 'Dfrapi_Account' ) ) {
 				}
 			}
 		}
-	
+
 		function admin_menu() {
 			add_submenu_page(
 				'dfrapi',
 				__( 'Account &#8212; Datafeedr API', 'datafeedr-api' ),
 				__( 'Account', 'datafeedr-api' ),
-				'manage_options', 
+				'manage_options',
 				$this->key,
-				array( $this, 'output' ) 
+				array( $this, 'output' )
 			);
 		}
 
@@ -49,25 +49,25 @@ if ( ! class_exists( 'Dfrapi_Account' ) ) {
 		}
 
 		function register_settings() {
-			
+
 			register_setting( $this->page, $this->key, array( $this, 'validate' ) );
-			
+
 			// Current Plan
 			add_settings_section( 'current_plan', __( 'Current Plan', 'datafeedr-api' ), array( &$this, 'section_current_plan_desc' ), $this->page );
-						
+
 			// Only show the following if there is no Error.
 			if ( !array_key_exists( 'dfrapi_api_error', $this->options ) ) {
-			
+
 				// Current Usage
 				add_settings_section( 'current_usage', __( 'Current Usage', 'datafeedr-api' ), array( &$this, 'section_current_usage_desc' ), $this->page );
 			}
-			
+
 			// Account Links
 			add_settings_section( 'account', __( 'Account Links', 'datafeedr-api' ), array( &$this, 'section_account_desc' ), $this->page );
 		}
-		
+
 		function section_current_plan_desc() {
-			
+
 			$plans = dfrapi_get_membership_plans();
 			$plan_name = '';
 			if ( $this->options['plan_id'] > 0 ) {
@@ -84,7 +84,7 @@ if ( ! class_exists( 'Dfrapi_Account' ) ) {
 				$plan_name .= '<a href="' . dfrapi_user_pages( 'signup' ) . '?utm_source=plugin&utm_medium=link&utm_campaign=dfrapiaccountpage" target="_blank" class="dfrapi_plan_link">' . __( 'Reactivate your subscription', 'datafeedr-api' ) . '</a>';
 				$plan_name .= ')';
 			}
-			
+
 			echo '
 			<table class="widefat account_table" cellspacing="0">
 				<tbody>
@@ -93,7 +93,7 @@ if ( ! class_exists( 'Dfrapi_Account' ) ) {
 						<td class="desc">' . $plan_name . '</td>
 					</tr>
 			';
-			
+
 			if ( !array_key_exists( 'dfrapi_api_error', $this->options ) ) {
 				echo '	
 					<tr>
@@ -106,29 +106,29 @@ if ( ! class_exists( 'Dfrapi_Account' ) ) {
 					</tr>
 				';
 			}
-			
+
 			echo '
 				</tbody>
 			</table>
 			';
 		}
-		
+
 		function section_current_usage_desc() {
 			echo '<p>';
 			_e( 'View your current API usage, number of API requests remaining and reset date', 'datafeedr-api' );
 			echo ' <a href="' . dfrapi_user_pages( 'api' ) . '?utm_source=plugin&utm_medium=link&utm_campaign=dfrapiaccountpage#api-usage" target="_blank">' . __( 'here', 'datafeedr-api' ) . '</a>.';
 			echo '<p>';
 		}
-	
+
 		function section_account_desc() {
 			echo '<p><a href="' . dfrapi_user_pages( 'summary' ) . '?utm_source=plugin&utm_medium=link&utm_campaign=dfrapiaccountpage" target="_blank">' . __( 'View your Datafeedr account', 'datafeedr-api' ) . '</a></p>';
 			echo '<p><a href="' . dfrapi_user_pages( 'change' ) . '?utm_source=plugin&utm_medium=link&utm_campaign=dfrapiaccountpage" target="_blank">' . __( 'Upgrade your plan', 'datafeedr-api' ) . '</a></p>';
 		}
-		
+
 		function validate( $input ) {
 			return $input;
 		}
-		
+
 	} // class Dfrapi_Account
 
 } // class_exists check

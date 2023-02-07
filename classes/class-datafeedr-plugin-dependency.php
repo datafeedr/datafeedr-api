@@ -259,7 +259,7 @@ class Dfrapi_Plugin_Dependency {
 	}
 
 	/**
-	 * Retuns the message to display to the user if the required plugins needs to
+	 * Returns the message to display to the user if the required plugins needs to
 	 * be installed, activated or updated.
 	 *
 	 * @since 1.0.0

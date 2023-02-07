@@ -349,7 +349,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
 			$new_input = array();
 
-			foreach( $input as $key => $value ) {
+			foreach ( $input as $key => $value ) {
 
 				// Validate "access_id"
 				if ( $key === 'access_id' ) {
@@ -435,7 +435,6 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				if ( $key === 'hs_beacon' ) {
 					$new_input['hs_beacon'] = ( 'on' === $value ) ? 'on' : 'off';
 				}
-
 			} // foreach
 
 			// Override setting so it's always enabled.

@@ -173,7 +173,7 @@ class Datafeedr_Image_Importer {
 			'alt_text'          => '',
 
 			/**
-			 * Whether this image should be set as the post's thumbail. If the post_id
+			 * Whether this image should be set as the post's thumbnail. If the post_id
 			 * is 0, this setting will be ignored.
 			 */
 			'is_post_thumbnail' => false,

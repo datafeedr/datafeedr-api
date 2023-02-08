@@ -71,7 +71,6 @@ function dfrapi_email_user_about_usage() {
 		wp_mail( $params['to'], $params['subject'], $params['message'] );
 		remove_filter( 'wp_mail_content_type', 'dfrapi_set_html_content_type' );
 
-
 	} elseif ( $percentage >= 90 && $percentage < 100 && empty( $tracker['90_percent'] ) ) {
 
 		$params['subject'] = get_bloginfo( 'name' ) . __( ': Datafeedr API Usage (Warning)', 'datafeedr-api' );

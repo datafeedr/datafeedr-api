@@ -1109,7 +1109,6 @@ class Dfrapi_SearchForm
         $help['duplicates'] .= '</p>';
         $help['duplicates'] .= $this->help_tip( __( 'By excluding duplicates, you will eliminate all but one item. For example, if 20 products have identical image URLs and you exclude duplicates matching the <strong>image</strong> field, <em>one</em> item will be returned and 19 items will be excluded.', 'datafeedr-api' ) );
 
-
         if (isset($help[$field])) {
             return $help[$field];
         } else {

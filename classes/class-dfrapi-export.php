@@ -17,7 +17,7 @@ if ( ! class_exists( 'Dfrapi_Export' ) ) {
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ), 50 );
 		}
-	
+
 		function admin_menu() {
 			add_submenu_page(
 				'dfrapi',
@@ -36,13 +36,13 @@ if ( ! class_exists( 'Dfrapi_Export' ) ) {
 			do_settings_sections( $this->page);
 			echo '</div>';
 		}
-	
+
 		function register_settings() {
 			register_setting( $this->page, $this->key, array( $this, 'validate' ) );
 			add_settings_section( 'export_network_data', __( 'Network Data', 'datafeedr-api' ), array( &$this, 'section_export_network_data' ), $this->page );
 			add_settings_section( 'export_merchant_data', __( 'Merchant Data', 'datafeedr-api' ), array( &$this, 'section_export_merchant_data' ), $this->page );
 		}
-		
+
 		function section_export_network_data() {
 			$network_settings = (array) get_option( 'dfrapi_networks' );
 			echo '<p>' . __( 'To use the same selection of networks on another website, export this store\'s network data by copying the code below. Paste the code into the Import page of your other site.' ) . '</p>';
@@ -51,7 +51,7 @@ if ( ! class_exists( 'Dfrapi_Export' ) ) {
 			echo '</textarea>';
 			echo '<p class="description">' . __( 'Click within the box to select all your networks and affiliate IDs.' ) . '</p>';
 		}
-		
+
 		function section_export_merchant_data() {
 			$merchant_settings = (array) get_option( 'dfrapi_merchants' );
 			echo '<p>' . __( 'To use the same selection of merchants on another website, export this store\'s merchant data by copying the code below. Paste the code into the Import page of your other site.' ) . '</p>';
@@ -60,11 +60,11 @@ if ( ! class_exists( 'Dfrapi_Export' ) ) {
 			echo '</textarea>';
 			echo '<p class="description">' . __( 'Click within the box to select all your merchant IDs.' ) . '</p>';
 		}
-		
+
 		function validate( $input ) {
 			return $input;
 		}
-		
+
 	} // class Dfrapi_Export
 
 } // class_exists check

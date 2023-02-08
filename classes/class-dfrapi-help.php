@@ -20,9 +20,9 @@ class Dfrapi_Admin_Help {
 	 * Add help tabs
 	 */
 	public function add_tabs() {
-		
+
 		$screen = get_current_screen();
-				
+
 		/*
 		[id] => toplevel_page_dfrapi
 		[id] => datafeedr-api_page_dfrapi_networks
@@ -43,8 +43,8 @@ class Dfrapi_Admin_Help {
 		);
 
 		if ( ! in_array( $screen->id, $possible_screens ) ) { return; }
-		
-		// The following tabs appear on ALL screens.		
+
+		// The following tabs appear on ALL screens.
 		dfrapi_help_tab( $screen );
 
 

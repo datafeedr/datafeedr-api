@@ -56,8 +56,6 @@ class Dfrapi_SearchForm
 		    '+salediscount' => __( 'Discount Ascending', 'datafeedr-api' ),
 		    '-salediscount' => __( 'Discount Descending', 'datafeedr-api' ),
 		    '+merchant'     => __( 'Merchant', 'datafeedr-api' ),
-		    '+time_created' => __( 'Date Created Ascending', 'datafeedr-api' ),
-		    '-time_created' => __( 'Date Created Descending', 'datafeedr-api' ),
 		    '+time_updated' => __( 'Last Updated Ascending', 'datafeedr-api' ),
 		    '-time_updated' => __( 'Last Updated Descending', 'datafeedr-api' ),
 		    '+_id'          => __( 'Product ID Ascending', 'datafeedr-api' ),

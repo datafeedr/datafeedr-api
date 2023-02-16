@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
 Tested up to: 6.1.2-alpha
-Stable tag: 1.3.10
+Stable tag: 1.3.11
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.11 - 2023/02/16 =
+* Removed outdated "Date Created" sort by options from search form.
 
 = 1.3.10 - 2023/02/08 =
 * White space and spelling fixes.

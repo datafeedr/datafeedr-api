@@ -1864,7 +1864,7 @@ function dfrapi_api_get_all_networks( $nids = array() ) {
 			return dfrapi_api_error( $err );
 		}
 		$use_cache = wp_using_ext_object_cache( false );
-		set_transient( $option_name, $networks, DAY_IN_SECONDS );
+		set_transient( $option_name, $networks, MONTH_IN_SECONDS );
 		wp_using_ext_object_cache( $use_cache );
 	}
 	dfrapi_update_transient_whitelist( $option_name );
@@ -2022,7 +2022,7 @@ function dfrapi_api_get_all_merchants( $nid ) {
 			return dfrapi_api_error( $err );
 		}
 		$use_cache = wp_using_ext_object_cache( false );
-		set_transient( $option_name, $merchants, DAY_IN_SECONDS );
+		set_transient( $option_name, $merchants, MONTH_IN_SECONDS );
 		wp_using_ext_object_cache( $use_cache );
 	}
 	dfrapi_update_transient_whitelist( $option_name );
@@ -2060,7 +2060,7 @@ function dfrapi_api_get_merchants_by_id( $ids, $includeEmpty = false ) {
 			return dfrapi_api_error( $err );
 		}
 		$use_cache = wp_using_ext_object_cache( false );
-		set_transient( $option_name, $merchants, DAY_IN_SECONDS );
+		set_transient( $option_name, $merchants, MONTH_IN_SECONDS );
 		wp_using_ext_object_cache( $use_cache );
 	}
 	dfrapi_update_transient_whitelist( $option_name );

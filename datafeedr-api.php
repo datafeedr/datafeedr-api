@@ -10,7 +10,7 @@ License: GPL v3
 Requires PHP: 7.4
 Requires at least: 3.8
 Tested up to: 6.1.2-alpha
-Version: 1.3.12
+Version: 1.3.13
 
 Datafeedr API Plugin
 Copyright (C) 2023, Datafeedr - help@datafeedr.com
@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Define constants.
  */
-define( 'DFRAPI_VERSION', '1.3.12' );
+define( 'DFRAPI_VERSION', '1.3.13' );
 define( 'DFRAPI_URL', plugin_dir_url( __FILE__ ) ); // https://example.com/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_PATH', plugin_dir_path( __FILE__ ) ); // /absolute/path/to/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_BASENAME', plugin_basename( __FILE__ ) ); // datafeedr-api/datafeedr-api.php

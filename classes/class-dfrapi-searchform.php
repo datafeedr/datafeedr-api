@@ -256,6 +256,13 @@ class Dfrapi_SearchForm
 			    'help'     => $this->help( 'instock' )
 		    ),
 		    array(
+			    'title'    => __( 'Stock Quantity', 'datafeedr-api' ),
+			    'name'     => 'stockquantity',
+			    'input'    => 'range',
+			    'operator' => $opRange,
+			    'help'     => $this->help( 'instock' )
+		    ),
+		    array(
 			    'title'    => __( 'Has Direct URL', 'datafeedr-api' ),
 			    'name'     => 'direct_url',
 			    'input'    => 'none',
@@ -340,6 +347,7 @@ class Dfrapi_SearchForm
 			'merchant_id'    => array( 'value' => array() ),
 			'onsale'         => array( 'value' => '1' ),
 			'instock'        => array( 'value' => 'yes_unknown' ),
+			'stockquantity'  => array( 'operator' => 'between', 'value' => '0', 'value2' => '100' ),
 			'direct_url'     => array( 'value' => '1' ),
 			'image'          => array( 'value' => '1' ),
 			'has_barcode'    => array( 'value' => '1' ),
@@ -781,7 +789,8 @@ class Dfrapi_SearchForm
                 case 'finalprice':
                 case 'saleprice':
                 case 'salediscount':
-                    $conv = $fname == 'salediscount' ? 'intval' : 'dfrapi_price_to_int';
+                case 'stockquantity':
+	                $conv = in_array( $fname, [ 'salediscount', 'stockquantity' ] ) ? 'intval' : 'dfrapi_price_to_int';
                     $value = $conv($value);
                     switch($operator) {
                         case 'between':
@@ -1039,6 +1048,12 @@ class Dfrapi_SearchForm
         $help['instock'] .= '<p>' . __( '<strong>yes</strong>: This will only return products which are explicitly set as "in-stock".', 'datafeedr-api' ) . '</p>';
         $help['instock'] .= '<p>' . __( '<strong>no</strong>: This will only return products which are explicitly set as NOT "in-stock".', 'datafeedr-api' ) . '</p>';
         $help['instock'] .= $this->help_tip( __( 'Not all products contain stock-related information. Therefore selecting "yes or unknown" is the recommended choice when you want to find products which are "in-stock".', 'datafeedr-api' ) );
+
+		// Stock Quantity
+        $help['instock'] = '<h3>' . __('Stock Quantity', 'datafeedr-api' ) . '</h3>';
+        $help['instock'] .= '<p>' . __( 'This allows you to filter products by the number of products in stock.', 'datafeedr-api' ) . '</p>';
+        $help['instock'] .= '<p>' . __( '<strong>NOTE</strong>: Not all products have a "Stock Quantity" value. Therefore, searching for a product with a stock quantity greater than or equal to "0" will eliminate all products which have an unknow "Stock Quantity".', 'datafeedr-api' ) . '</p>';
+        $help['instock'] .= '<p>' . __( 'To search for products which either have a stock quantity in a specific range AND also include products which do not have a stock quantity value, use the "between" search option and enter "-1" for the first option and enter the upper limit (ie. 100) for the second value.', 'datafeedr-api' ) . '</p>';
 
         // Has Direct URL
         $help['direct_url'] = '<h3>' . __('Has Direct URL', 'datafeedr-api' ) . '</h3>';

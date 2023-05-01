@@ -29,7 +29,9 @@ function dfrapi_admin_enqueue_scripts() {
 	wp_register_script( 'dfrapi_jquery_reveal_js', DFRAPI_URL . 'js/jquery.reveal.js', array( 'jquery' ), DFRAPI_VERSION );
 	wp_enqueue_script( 'dfrapi_general_js' );
 	wp_enqueue_script( 'dfrapi_searchfilter_js' );
-	wp_enqueue_script( 'dfrapi_merchants_js' );
+	if ( ! is_customize_preview() ) {
+		wp_enqueue_script( 'dfrapi_merchants_js' );
+	}
 	wp_enqueue_script( 'dfrapi_searchform_js' );
 	wp_enqueue_script( 'dfrapi_jquery_reveal_js' );
 }

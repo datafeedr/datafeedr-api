@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
 Tested up to: 6.1.2-alpha
-Stable tag: 1.3.14
+Stable tag: 1.3.15
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.15 - 2023/05/02 =
+* Added public property to `Dfrapi_Account` class.
 
 = 1.3.14 - 2023/05/01 =
 * Prevent merchants.js from loading in Customizer view.

@@ -12,6 +12,8 @@ if ( ! class_exists( 'Dfrapi_Account' ) ) {
 		private $page = 'dfrapi-account';
 		private $key;
 
+		public $options;
+
 		public function __construct() {
 			$this->key = 'dfrapi_account';
 			add_action( 'admin_init', array( $this, 'register_settings' ) );

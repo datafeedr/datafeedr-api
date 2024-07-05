@@ -1,13 +1,13 @@
 === Datafeedr API ===
 
 Contributors: datafeedr.com
-Tags: woocommerce, datafeedr, affiliate products, dfrapi, import csv, import datafeed, import data feed, data feed, datafeed, import affiliate products
+Tags: import csv, import datafeed, data feed, datafeed, import affiliate products
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 6.7-alpha-58674
-Stable tag: 1.3.18
+Tested up to: 6.6-RC2
+Stable tag: 1.3.19
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.19 - 2024/07/05 =
+* Fixed "tested up to" version
 
 = 1.3.18 - 2024/07/05 =
 * Updated "tested up to" value

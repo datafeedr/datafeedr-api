@@ -48,6 +48,44 @@ function dfrapi_get_datafeedr_secret_key() {
 }
 
 /**
+ * Returns the user's Datafeedr API Version or the default.
+ *
+ * @return string
+ */
+function dfrapi_get_datafeedr_api_version() {
+
+	$configuration = (array) get_option( 'dfrapi_configuration', [] );
+
+	if ( ! isset( $configuration['api_version'] ) ) {
+		return dfrapi_get_default_api_version();
+	}
+
+	$api_version = trim( $configuration['api_version'] );
+
+	return in_array( $api_version, dfrapi_get_valid_api_versions(), true )
+		? $api_version
+		: dfrapi_get_default_api_version();
+}
+
+/**
+ * Returns the valid API versions.
+ *
+ * @return array
+ */
+function dfrapi_get_valid_api_versions() {
+	return [ 'r5', 'r6' ];
+}
+
+/**
+ * Returns the default API version.
+ *
+ * @return string
+ */
+function dfrapi_get_default_api_version() {
+	return 'r5';
+}
+
+/**
  * Returns the user's API requests usage as a percentage of their total requests allowed.
  *
  * @return float|int
@@ -369,20 +407,20 @@ function dfrapi_output_api_error( $data ) {
 	$error  = @$data['dfrapi_api_error'];
 	$params = @$data['dfrapi_api_error']['params'];
 	?>
-    <div class="dfrapi_api_error">
-        <div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
-        <div class="dfrapi_msg">
-            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
-        </div>
-        <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
-        </div>
-        <div class="dfrapi_class">
-            <strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
+	<div class="dfrapi_api_error">
+		<div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
+		<div class="dfrapi_msg">
+			<strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
+		</div>
+		<div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
+		</div>
+		<div class="dfrapi_class">
+			<strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
 		<?php if ( is_array( $params ) ) : ?>
-            <div class="dfrps_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
-                <span><?php echo dfrapi_display_api_request( $params ); ?></span></div>
+			<div class="dfrps_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
+				<span><?php echo dfrapi_display_api_request( $params ); ?></span></div>
 		<?php endif; ?>
-    </div>
+	</div>
 	<?php
 }
 
@@ -564,20 +602,20 @@ function dfrapi_html_output_api_error( $data ) {
 	$error  = $data['dfrapi_api_error'];
 	$params = @$data['dfrapi_api_error']['params'];
 	?>
-    <div class="dfrapi_api_error">
-        <div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
-        <div class="dfrapi_msg">
-            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
-        </div>
-        <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
-        </div>
-        <div class="dfrapi_class">
-            <strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
+	<div class="dfrapi_api_error">
+		<div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
+		<div class="dfrapi_msg">
+			<strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
+		</div>
+		<div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
+		</div>
+		<div class="dfrapi_class">
+			<strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
 		<?php if ( is_array( $params ) ) : ?>
-            <div class="dfrapi_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
-                <span><?php echo dfrapi_helper_display_api_request( $params ); ?></span></div>
+			<div class="dfrapi_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
+				<span><?php echo dfrapi_helper_display_api_request( $params ); ?></span></div>
 		<?php endif; ?>
-    </div>
+	</div>
 	<?php
 }
 
@@ -1868,6 +1906,10 @@ function dfrapi_api_get_all_networks( $nids = array() ) {
 		wp_using_ext_object_cache( $use_cache );
 	}
 	dfrapi_update_transient_whitelist( $option_name );
+
+	usort( $networks, function ( $a, $b ) {
+		return strnatcasecmp( $a['name'], $b['name'] );
+	} );
 
 	return array_filter( $networks, static function ( $network ) {
 		return ! in_array( absint( $network['_id'] ), dfrapi_inactive_networks(), true );

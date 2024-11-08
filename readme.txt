@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 6.6-RC2
-Stable tag: 1.3.19
+Tested up to: 6.7-RC4
+Stable tag: 1.3.20
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,13 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.20 - 2024/11/08 =
+* Added support for API version r6 (beta)
+* Fixed dynamically calling class properties error message
+* Added support for new networks
+* Fixed sorting of networks on networks page
+* Updated "tested up to" version
 
 = 1.3.19 - 2024/07/05 =
 * Fixed "tested up to" version

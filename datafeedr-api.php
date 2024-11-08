@@ -9,8 +9,8 @@ Text Domain: datafeedr-api
 License: GPL v3
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 6.6-RC2
-Version: 1.3.19
+Tested up to: 6.7-RC4
+Version: 1.3.20
 
 Datafeedr API Plugin
 Copyright (C) 2024, Datafeedr - help@datafeedr.com
@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Define constants.
  */
-define( 'DFRAPI_VERSION', '1.3.19' );
+define( 'DFRAPI_VERSION', '1.3.20' );
 define( 'DFRAPI_URL', plugin_dir_url( __FILE__ ) ); // https://example.com/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_PATH', plugin_dir_path( __FILE__ ) ); // /absolute/path/to/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_BASENAME', plugin_basename( __FILE__ ) ); // datafeedr-api/datafeedr-api.php
@@ -49,6 +49,7 @@ define( 'DFRAPI_DOCS_SEARCH_URL', 'https://datafeedrapi.helpscoutdocs.com/search
 define( 'DFRAPI_REPORT_BUG_URL', 'https://datafeedr.me/contact' );
 define( 'DFRAPI_ASK_QUESTION_URL', 'https://datafeedr.me/contact' );
 define( 'DFRAPI_EMAIL_US_URL', 'https://datafeedr.me/contact' );
+define( 'DFRAPI_SUPPORT_EMAIL', 'help@datafeedr.com' );
 define( 'DFRAPI_COMPLEX_QUERY_SCORE', 10000 );
 define( 'DFRAPI_EXCESSIVE_MERCHANT_COUNT', 1000 );
 

@@ -15,6 +15,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 		private $page = 'dfrapi-networks';
 		private $key;
 		private $all_networks;
+		public $options;
 
 		public function __construct() {
 

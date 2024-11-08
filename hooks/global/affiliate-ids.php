@@ -3,6 +3,20 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Set the API Version "url" and "scheme".
+ */
+function dfrapi_update_api_version_params( $options ) {
+	if ( dfrapi_get_datafeedr_api_version() === 'r6' ) {
+		$options['host']  = 'api6.datafeedr.com';
+		$options['https'] = 'https';
+	}
+
+	return $options;
+}
+
+add_filter( 'dfrapi_api_options', 'dfrapi_update_api_version_params' );
+
+/**
  * Modify affiliate ID if product is a Zanox product.
  * Replaces $affiliate_id with "zmid".
  */
@@ -21,8 +35,8 @@ add_filter( 'dfrapi_affiliate_id', 'dfrapi_get_zanox_zmid', 10, 3 );
  * Modify affiliate ID if product is a Partnerize product.
  * Replaces $affiliate_id with "camref".
  *
- * @return string Affiliate ID.
  * @since 1.0.66
+ * @return string Affiliate ID.
  */
 function dfrapi_get_ph_camref( $affiliate_id, $product, $networks ) {
 	if ( isset( $product['source'] ) && preg_match( "/\bPartnerize\b/", $product['source'] ) ) {
@@ -39,8 +53,8 @@ add_filter( 'dfrapi_affiliate_id', 'dfrapi_get_ph_camref', 10, 3 );
  * Modify affiliate ID if product is a Effiliation product.
  * Replaces $affiliate_id with "affiliate ID".
  *
- * @return string Affiliate ID.
  * @since 1.0.81
+ * @return string Affiliate ID.
  */
 function dfrapi_get_effiliation_affiliate_id( $affiliate_id, $product, $networks ) {
 	if ( isset( $product['source'] ) && preg_match( "/\bEffiliation\b/", $product['source'] ) ) {
@@ -106,12 +120,14 @@ add_filter( 'dfrapi_after_tracking_id_insertion', 'dfrapi_insert_adservice_mid_i
 /**
  * Insert Adspace ID into Belboon affiliate links.
  *
- * @param string $url
+ * @since 1.0.124
+ *
  * @param array $product
  * @param string $affiliate_id
  *
+ * @param string $url
+ *
  * @return string
- * @since 1.0.124
  */
 function dfrapi_insert_belboon_adspace_id_into_affiliate_link( $url, $product, $affiliate_id ): string {
 

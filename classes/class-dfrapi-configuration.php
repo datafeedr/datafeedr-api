@@ -58,6 +58,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				array(
 					'access_id'                => '',
 					'secret_key'               => '',
+					'api_version'              => 'r5',
 					'transport_method'         => 'curl',
 					'disable_api'              => 'no',
 					'zanox_connection_key'     => '',
@@ -85,6 +86,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			add_settings_section( 'api_settings', __( 'Datafeedr API Settings', 'datafeedr-api' ), array( &$this, 'section_api_settings_desc' ), $this->page );
 			add_settings_field( 'access_id', __( 'API Access ID', 'datafeedr-api' ), array( &$this, 'field_access_id' ), $this->page, 'api_settings' );
 			add_settings_field( 'secret_key',  __( 'API Secret Key', 'datafeedr-api' ), array( &$this, 'field_secret_key' ), $this->page, 'api_settings' );
+			add_settings_field( 'api_version',  __( 'API Version', 'datafeedr-api' ), array( &$this, 'field_api_version' ), $this->page, 'api_settings' );
 			// add_settings_field( 'transport_method',  __( 'Transport Method', 'datafeedr-api' ), array( &$this, 'field_transport_method' ), $this->page, 'api_settings' );
 
 			/*
@@ -145,6 +147,21 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function field_secret_key() {
 			?>
             <input type="text" class="regular-text" name="<?php echo $this->key; ?>[secret_key]" value="<?php echo esc_attr( $this->options['secret_key'] ); ?>" />
+			<?php
+		}
+
+		function field_api_version() {
+			?>
+			<p>
+				<input type="radio" value="r5" name="<?php echo $this->key; ?>[api_version]" <?php checked( $this->options['api_version'], 'r5', true ); ?> /> <?php _e( 'r5', 'datafeedr-api' ); ?>
+			</p>
+			<p>
+				<input type="radio" value="r6" name="<?php echo $this->key; ?>[api_version]" <?php checked( $this->options['api_version'], 'r6', true ); ?> /> <?php _e( 'r6 (beta)', 'datafeedr-api' ); ?>
+			</p>
+			<p class="description">
+				<?php _e( 'Opt into the r6 version of the API. It is still in beta but it is much faster than r5. Problems?', 'datafeedr-api' ); ?>
+				<a href="mailto:<?php echo DFRAPI_SUPPORT_EMAIL; ?>"><?php _e( 'Email us', 'datafeedr-api' ); ?></a>.
+			</p>
 			<?php
 		}
 
@@ -359,6 +376,15 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				// Validate "secret_key"
 				if ( $key === 'secret_key' ) {
 					$new_input['secret_key'] = trim( $value );
+				}
+
+				// Validate "api_version"
+				if ( $key === 'api_version' ) {
+					$api_version = trim( $value );
+
+					$new_input['api_version'] = in_array( $api_version, dfrapi_get_valid_api_versions(), true )
+						? $api_version
+						: dfrapi_get_default_api_version();
 				}
 
 				// Validate "transport_method"

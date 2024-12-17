@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
 Tested up to: 6.7-RC4
-Stable tag: 1.3.20
+Stable tag: 1.3.21
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.21 - 2024/12/17 =
+* Added support for GiddyUp network
 
 = 1.3.20 - 2024/11/08 =
 * Added support for API version r6 (beta)

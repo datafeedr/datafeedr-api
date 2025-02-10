@@ -301,7 +301,7 @@ class Dfrapi_SearchForm
 			    'title'    => __( 'Merchant Limit', 'datafeedr-api' ),
 			    'name'     => 'merchant_limit',
 			    'input'    => 'select',
-			    'options'  => array_filter( range( 0, 50 ), function ( $num ) {
+			    'options'  => array_filter( range( 0, 10 ), function ( $num ) {
 				    return $num != 0;
 			    } ),
 			    'operator' => array( 'is' => 'is' ),
@@ -1088,7 +1088,7 @@ class Dfrapi_SearchForm
 
         // Merchant Limit
         $help['merchant_limit'] = '<h3>' . __('Merchant Limit', 'datafeedr-api' ) . '</h3>';
-        $help['merchant_limit'] .= '<p>' . __( 'Limit the number of items returned per merchant. The number must be between 1 and 50.', 'datafeedr-api' ) . '</p>';
+        $help['merchant_limit'] .= '<p>' . __( 'Limit the number of items returned per merchant. The number must be between 1 and 10.', 'datafeedr-api' ) . '</p>';
         $help['merchant_limit'] .= $this->help_tip( __( 'This is useful to use when you have one merchant which has many products that match your search but other merchants have fewer of those same products and you want equal distribution between all merchants.', 'datafeedr-api' ) );
 
         // Sort By

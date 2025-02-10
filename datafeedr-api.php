@@ -9,8 +9,8 @@ Text Domain: datafeedr-api
 License: GPL v3
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 6.7-RC4
-Version: 1.3.21
+Tested up to: 6.7
+Version: 1.3.23
 
 Datafeedr API Plugin
 Copyright (C) 2025, Datafeedr - help@datafeedr.com
@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Define constants.
  */
-define( 'DFRAPI_VERSION', '1.3.21' );
+define( 'DFRAPI_VERSION', '1.3.23' );
 define( 'DFRAPI_URL', plugin_dir_url( __FILE__ ) ); // https://example.com/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_PATH', plugin_dir_path( __FILE__ ) ); // /absolute/path/to/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_BASENAME', plugin_basename( __FILE__ ) ); // datafeedr-api/datafeedr-api.php
@@ -144,3 +144,4 @@ require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/debug-information.php
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/enqueue-scripts.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/interface.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/merchants.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/admin/networks.php';

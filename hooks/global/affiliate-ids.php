@@ -6,8 +6,8 @@ defined( 'ABSPATH' ) || exit;
  * Set the API Version "url" and "scheme".
  */
 function dfrapi_update_api_version_params( $options ) {
-	if ( dfrapi_get_datafeedr_api_version() === 'r6' ) {
-		$options['host']  = 'api6.datafeedr.com';
+	if ( dfrapi_get_datafeedr_api_version() === 'beta' ) {
+		$options['host']  = 'api.datafeedr.com'; // There currently is no "beta" version, so we will use "stable" instead.
 		$options['https'] = 'https';
 	}
 

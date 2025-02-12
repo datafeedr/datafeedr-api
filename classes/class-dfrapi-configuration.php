@@ -58,7 +58,7 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				array(
 					'access_id'                => '',
 					'secret_key'               => '',
-					'api_version'              => 'r5',
+					'api_version'              => 'stable',
 					'transport_method'         => 'curl',
 					'disable_api'              => 'no',
 					'zanox_connection_key'     => '',
@@ -153,14 +153,13 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 		function field_api_version() {
 			?>
 			<p>
-				<input type="radio" value="r5" name="<?php echo $this->key; ?>[api_version]" <?php checked( $this->options['api_version'], 'r5', true ); ?> /> <?php _e( 'r5', 'datafeedr-api' ); ?>
+				<input type="radio" value="stable" name="<?php echo $this->key; ?>[api_version]" <?php checked( $this->options['api_version'], 'stable', true ); ?> /> <?php _e( 'stable', 'datafeedr-api' ); ?>
 			</p>
 			<p>
-				<input type="radio" value="r6" name="<?php echo $this->key; ?>[api_version]" <?php checked( $this->options['api_version'], 'r6', true ); ?> /> <?php _e( 'r6 (beta)', 'datafeedr-api' ); ?>
+				<input type="radio" value="beta" disabled name="<?php echo $this->key; ?>[api_version]" <?php checked( $this->options['api_version'], 'beta', true ); ?> /> <?php _e( 'beta', 'datafeedr-api' ); ?>
 			</p>
 			<p class="description">
-				<?php _e( 'Opt into the r6 version of the API. It is still in beta but it is much faster than r5. Problems?', 'datafeedr-api' ); ?>
-				<a href="mailto:<?php echo DFRAPI_SUPPORT_EMAIL; ?>"><?php _e( 'Email us', 'datafeedr-api' ); ?></a>.
+				<?php _e( 'The only available version of the API at this time is the "stable" version.', 'datafeedr-api' ); ?>
 			</p>
 			<?php
 		}

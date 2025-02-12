@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
 Tested up to: 6.7
-Stable tag: 1.3.24
+Stable tag: 1.3.25
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.3.25 - 2025/02/12 =
+* Updated API Version selection to "stable" and "beta" and disabled the "beta" option as it's not currently available.
 
 = 1.3.24 - 2025/02/10 =
 * Fixed drop down for Merchant Limit search filter

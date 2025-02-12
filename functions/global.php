@@ -52,7 +52,7 @@ function dfrapi_get_datafeedr_secret_key() {
  *
  * @return string
  */
-function dfrapi_get_datafeedr_api_version() {
+function dfrapi_get_datafeedr_api_version(): string {
 
 	$configuration = (array) get_option( 'dfrapi_configuration', [] );
 
@@ -72,8 +72,8 @@ function dfrapi_get_datafeedr_api_version() {
  *
  * @return array
  */
-function dfrapi_get_valid_api_versions() {
-	return [ 'r5', 'r6' ];
+function dfrapi_get_valid_api_versions(): array {
+	return [ 'stable' ];
 }
 
 /**
@@ -81,8 +81,8 @@ function dfrapi_get_valid_api_versions() {
  *
  * @return string
  */
-function dfrapi_get_default_api_version() {
-	return 'r5';
+function dfrapi_get_default_api_version(): string {
+	return 'stable';
 }
 
 /**

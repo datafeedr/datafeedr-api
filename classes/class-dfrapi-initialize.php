@@ -132,6 +132,7 @@ if ( ! class_exists( 'Dfrapi_Initialize' ) ) {
 				new Dfrapi_Export();
 				new Dfrapi_Import();
 				new Dfrapi_Account();
+				new Dfrapi_Version_140_Upgrade();
 			}
 		}
 

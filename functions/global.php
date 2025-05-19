@@ -2205,6 +2205,17 @@ function dfrapi_api_get_products_by_id( $ids, $ppp = 20, $page = 1 ) {
 		$search->setLimit( $ppp );
 		$products = $search->execute();
 
+		/**
+		 * $id_range - This is the list of product IDs coming from "_dfrps_cpt_manually_added_ids". It could be
+		 * v5 or v6 values.  Currently, this is:
+		 *
+		 *      1024861658428260187
+		 *      10248600229508575
+		 *
+		 * $included_ids - This is the list of product IDs (ALL v6 values) which were returned from the API for the
+		 * above $id_range.
+		 */
+
 		// Keep track of IDs which were returned via the API to compare with $id_range (unreturned)
 		$included_ids = array();
 		if ( ! empty( $products ) ) {
@@ -2867,3 +2878,113 @@ function dfrapi_inactive_networks(): array {
 
 	return array_map( 'absint', apply_filters( 'dfrapi_inactive_networks', $inactive_network_ids ) );
 }
+
+/**
+ * This does NOT check whether a V5 ID being passed in is actually a V5 ID. That should be handled
+ * before sending the IDs to this function.
+ *
+ * @param array $v5_ids
+ *
+ * @return array
+ */
+function dfrapi_get_v7_ids_from_v5_ids( array $v5_ids ): array {
+
+	// Clean and dedupe V5 IDs.
+	$v5_ids = array_unique( array_filter( $v5_ids ) );
+
+	/**
+	 * Prepare the array which will get updated and returned. Set V5 ID to itself so we have a value to return
+	 * even if the value doesn't exist in the API any more.
+	 */
+	$ids = [];
+	foreach ( $v5_ids as $v5_id ) {
+		$ids[ (int) $v5_id ] = (string) $v5_id;
+	}
+
+	// API endpoint
+	$endpoint = 'https://api7.datafeedr.com/search';
+
+	// Request body
+	$body = [
+		'aid'    => dfrapi_get_datafeedr_access_id(),
+		'akey'   => dfrapi_get_datafeedr_secret_key(),
+		'query'  => [ 'id IN ' . implode( ',', $v5_ids ) ],
+		'fields' => [ 'v5_id' ],
+		'limit'  => 100,
+	];
+
+	// Prepare request arguments
+	$args = [
+		'headers' => [
+			'Content-Type' => 'application/json'
+		],
+		'body'    => wp_json_encode( $body ),
+		'timeout' => 30,
+	];
+
+	// Send the request
+	$response = wp_remote_post( $endpoint, $args );
+
+	// Handle the response
+	if ( is_wp_error( $response ) ) {
+		error_log( 'Datafeedr API error: ' . $response->get_error_message() );
+	} else {
+		$status_code = wp_remote_retrieve_response_code( $response );
+		$body        = wp_remote_retrieve_body( $response );
+
+		if ( $status_code === 200 ) {
+
+			$data     = json_decode( $body, true );
+			$products = $data['products'];
+
+			foreach ( $products as $product ) {
+				if ( isset( $product['v5_id'] ) ) {
+					$ids[ (int) $product['v5_id'] ] = (string) $product['id'];
+				}
+			}
+
+		} else {
+			error_log( "Datafeedr API returned status $status_code: $body" );
+		}
+	}
+
+	return $ids;
+}
+
+/**
+ * @param string $ids
+ * @param string $separator
+ *
+ * @return array
+ */
+function dfrapi_explode_and_uniquify( string $ids, string $separator = ',' ): array {
+	return array_unique( array_filter( array_map( 'trim', explode( $separator, $ids ) ) ) );
+}
+
+/**
+ * @param array $ids
+ *
+ * @return array
+ */
+function dfrapi_extract_v5_ids( array $ids ): array {
+	return array_filter( $ids, function ( $id ) {
+		$str = (string) $id;
+
+		return mb_strlen( $str ) < 19;
+	} );
+}
+
+/**
+ * @param array $ids
+ *
+ * @return array
+ */
+function dfrapi_extract_v7_ids( array $ids ): array {
+	return array_filter( $ids, function ( $id ) {
+		$str = (string) $id;
+
+		return mb_strlen( $str ) === 19;
+	} );
+}
+
+

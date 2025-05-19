@@ -85,6 +85,13 @@ function dfrapi_register_activation( bool $network_wide ) {
 register_activation_hook( __FILE__, 'dfrapi_register_activation' );
 
 /**
+ * Clear scheduled event on deactivation
+ */
+register_deactivation_hook( __FILE__, function () {
+	wp_clear_scheduled_hook( 'dfrapi_handle_version_140_upgrade_action' );
+} );
+
+/**
  * Load Functions
  */
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/functions/global.php';
@@ -128,10 +135,13 @@ require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-datafeedr-image-imp
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-image-data.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-image-uploader.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/class-dfrapi-searchform.php'; // Search Form.
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Version_140_Upgrade.php';
 
 /**
  * Global Hooks
  */
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/global/actions.php';
+require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/global/filters.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/global/emails.php';
 require_once dirname( DFRAPI_PLUGIN_FILE ) . '/hooks/global/affiliate-ids.php';
 

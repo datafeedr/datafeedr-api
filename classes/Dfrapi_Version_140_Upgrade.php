@@ -22,6 +22,8 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 		 */
 		public static function set_initial_status(): void {
 
+			// @todo only do this if `completed_at` is set to null
+
 			$status = [
 				'version_140' => [
 					'update_started_at'         => self::now(),
@@ -63,11 +65,11 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 		public static function get_update_stages(): array {
 			return [
 				'postmeta__dfrps_product_id'               => self::get_stage_status_array(),
+				'postmeta__dfrps_cpt_query'                => self::get_stage_status_array(),
 				'postmeta__dfrps_cpt_temp_query'           => self::get_stage_status_array(),
 				'postmeta__dfrps_cpt_manually_added_ids'   => self::get_stage_status_array(),
 				'postmeta__dfrps_cpt_manually_blocked_ids' => self::get_stage_status_array(),
-//				'postmeta__dfrps_cpt_previous_update_info' => self::get_stage_status_array(),
-				'postmeta__dfrps_cpt_query'                => self::get_stage_status_array(),
+//				'postmeta__dfrps_cpt_previous_update_info' => self::get_stage_status_array(), // Not doing this as it would represent an inaccurate state
 				'dfrcs_compsets'                           => self::get_stage_status_array(),
 				'dfrps_temp_product_data'                  => self::get_stage_status_array(),
 			];
@@ -189,6 +191,13 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			// Handle postmeta__dfrps_cpt_manually_blocked_ids stage
 			if ( is_null( $status['version_140']['update_stages']['postmeta__dfrps_cpt_manually_blocked_ids']['completed_at'] ) ) {
 				$this->handle_postmeta_dfrps_cpt_manually_blocked_ids( $status );
+
+				return;
+			}
+
+			// Handle dfrcs_compsets stage
+			if ( is_null( $status['version_140']['update_stages']['dfrcs_compsets']['completed_at'] ) ) {
+				$this->handle_dfrcs_compsets( $status );
 
 				return;
 			}
@@ -540,8 +549,6 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 				)
 			);
 
-			error_log( '$results' . ': ' . print_r( $results, true ) );
-
 			if ( empty( $results ) ) {
 
 				// No results returned from the query so mark this stage as compete.
@@ -589,6 +596,95 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			}
 
 			$this->update_status( $status );
+		}
+
+		private function handle_dfrcs_compsets( array $status ): void {
+
+			global $wpdb;
+
+			$field_key = 'dfrcs_compsets';
+
+			// Get current number of V5 IDs which have been updated.
+			$v5_ids_updated = (int) $status['version_140']['update_stages'][ $field_key ]['v5_ids_updated'];
+
+			// If this is the first iteration, set the "started_at" date.
+			if ( is_null( $status['version_140']['update_stages'][ $field_key ]['started_at'] ) ) {
+				$status['version_140']['update_stages'][ $field_key ]['started_at'] = self::now();
+			}
+
+			$table = $wpdb->prefix . DFRCS_TABLE;
+
+			// Query all "dfrcs_compsets" rows and limit it to 10 starting at last processed id.
+			$results = $wpdb->get_results(
+				$wpdb->prepare( "
+        			SELECT id, hash, added, removed
+        			FROM {$table}
+        			WHERE ( ( added IS NOT NULL AND added != '') OR (removed IS NOT NULL AND removed != '' ) )
+        			AND id > %d
+        			ORDER BY id ASC
+        			LIMIT 10",
+					$status['version_140']['update_stages'][ $field_key ]['last_processed_id']
+				)
+			);
+
+			if ( empty( $results ) ) {
+
+				// No results returned from the query so mark this stage as compete.
+				$status['version_140']['update_stages'][ $field_key ]['completed_at'] = self::now();
+				$this->update_status( $status );
+
+			} else {
+
+				foreach ( $results as $key => $row ) {
+
+					$compset_id   = (int) $row->id;
+					$compset_hash = $row->hash;
+					$added        = maybe_unserialize( $row->added );
+					$removed      = maybe_unserialize( $row->removed );
+
+					$added_v5_ids = dfrapi_extract_v5_ids( $added );
+					$added_v7_ids = dfrapi_extract_v7_ids( $added );
+
+					$removed_v5_ids = dfrapi_extract_v5_ids( $removed );
+					$removed_v7_ids = dfrapi_extract_v7_ids( $removed );
+
+					if ( count( $added_v5_ids ) === 0 && count( $removed_v5_ids ) === 0 ) {
+						$status['version_140']['update_stages'][ $field_key ]['last_processed_id'] = $compset_id;
+						$this->update_status( $status );
+						continue;
+					}
+
+					$new_added_ids   = $added;
+					$new_removed_ids = $removed;
+
+					// Handle 'added' ids
+					if ( count( $added_v5_ids ) > 0 ) {
+						$converted_added_v5_ids = dfrapi_get_v7_ids_from_v5_ids( $added_v5_ids );
+						$new_added_ids          = array_merge( $added_v7_ids, array_values( $converted_added_v5_ids ) );
+					}
+
+					// Handle 'removed' ids
+					if ( count( $removed_v5_ids ) > 0 ) {
+						$converted_removed_v5_ids = dfrapi_get_v7_ids_from_v5_ids( $removed_v5_ids );
+						$new_removed_ids          = array_merge( $removed_v7_ids, array_values( $converted_removed_v5_ids ) );
+					}
+
+					$wpdb->update(
+						$table,
+						[ 'added' => serialize( $new_added_ids ), 'removed' => serialize( $new_removed_ids ) ],
+						[ 'hash' => $compset_hash ],
+						[ '%s', '%s' ],
+						[ '%s' ]
+					);
+
+					$v5_ids_updated += count( $new_added_ids );
+					$v5_ids_updated += count( $new_removed_ids );
+
+					$status['version_140']['update_stages'][ $field_key ]['v5_ids_updated']    = $v5_ids_updated;
+					$status['version_140']['update_stages'][ $field_key ]['last_processed_id'] = $compset_id;
+					$this->update_status( $status );
+				}
+			}
 		}
 
 		private function update_status( array $status ) {
@@ -691,23 +787,24 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 							<?php endif; ?>
 						</td>
 					</tr>
-<!--					<tr>-->
-<!--						<th style="text-align: left">--><?php //_e( 'Updating _dfrps_cpt_previous_update_info:', 'datafeedr-api' ); ?><!--</th>-->
-<!--						<td>-->
-<!--							--><?php //if ( is_null( $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['started_at'] ) ) : ?>
-<!--								--><?php //_e( 'Not started yet', 'datafeedr-api' ); ?>
-<!--							--><?php //else : ?>
-<!--								--><?php //_e( 'Started at ', 'datafeedr-api' ); ?>
-<!--								--><?php //esc_html_e( $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['started_at'] ); ?>
-<!--								--><?php //if ( ! is_null( $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['completed_at'] ) ) : ?>
-<!--									— --><?php //_e( 'Completed at ', 'datafeedr-api' ); ?>
-<!--									--><?php //esc_html_e( $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['completed_at'] ); ?>
-<!--								--><?php //endif; ?>
-<!--								— --><?php //esc_html_e( $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['v5_ids_updated'] ); ?>
-<!--								--><?php //echo _n( 'ID updated', 'IDs updated', $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['v5_ids_updated'], 'datafeedr-api' ) ?>
-<!--							--><?php //endif; ?>
-<!--						</td>-->
-<!--					</tr>-->
+					<!--					<tr>-->
+					<!--						<th style="text-align: left">-->
+					<?php //_e( 'Updating _dfrps_cpt_previous_update_info:', 'datafeedr-api' ); ?><!--</th>-->
+					<!--						<td>-->
+					<!--							--><?php //if ( is_null( $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['started_at'] ) ) : ?>
+					<!--								--><?php //_e( 'Not started yet', 'datafeedr-api' ); ?>
+					<!--							--><?php //else : ?>
+					<!--								--><?php //_e( 'Started at ', 'datafeedr-api' ); ?>
+					<!--								--><?php //esc_html_e( $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['started_at'] ); ?>
+					<!--								--><?php //if ( ! is_null( $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['completed_at'] ) ) : ?>
+					<!--									— --><?php //_e( 'Completed at ', 'datafeedr-api' ); ?>
+					<!--									--><?php //esc_html_e( $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['completed_at'] ); ?>
+					<!--								--><?php //endif; ?>
+					<!--								— --><?php //esc_html_e( $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['v5_ids_updated'] ); ?>
+					<!--								--><?php //echo _n( 'ID updated', 'IDs updated', $status['version_140']['update_stages']['postmeta__dfrps_cpt_previous_update_info']['v5_ids_updated'], 'datafeedr-api' ) ?>
+					<!--							--><?php //endif; ?>
+					<!--						</td>-->
+					<!--					</tr>-->
 					<tr>
 						<th style="text-align: left"><?php _e( 'Updating dfrcs_compsets:', 'datafeedr-api' ); ?></th>
 						<td>

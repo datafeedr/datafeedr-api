@@ -2893,8 +2893,8 @@ function dfrapi_get_v7_ids_from_v5_ids( array $v5_ids ): array {
 	$v5_ids = array_unique( array_filter( $v5_ids ) );
 
 	/**
-	 * Prepare the array which will get updated and returned. Set V5 ID to itself so we have a value to return
-	 * even if the value doesn't exist in the API any more.
+	 * Prepare the array which will get updated and returned. Set V5 ID to itself, so we have a value to return
+	 * even if the value doesn't exist in the API anymore.
 	 */
 	$ids = [];
 	foreach ( $v5_ids as $v5_id ) {

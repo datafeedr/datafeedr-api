@@ -9,27 +9,34 @@ defined( 'ABSPATH' ) || exit;
  */
 $previous_version = get_option( 'dfrapi_version', false );
 
+/*
+|--------------------------------------------------------------------------
+| Upgrade functions go here...
+|--------------------------------------------------------------------------
+*/
 
 /**
- * Upgrade functions go here...
- */
-
-
-/**
- * Upgrade from any version < 1.4.0, excluding first install.
+ * Upgrade from any version less than 1.4.0, excluding if this is the plugin's first install.
  *
- * Here we will set up some option in the DB about this important upgrade which proceeds
- * to update all v5 IDs to v7 IDs.
+ * Here we kick off the upgrade process of v5 IDs to v6/v7 versions. This starts with
+ * setting the initial status in the options table.
  *
  * @since 1.4.0
  */
 if ( $previous_version && version_compare( $previous_version, '1.4.0', '<' ) ) {
 
-	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Version_140_Upgrade.php';
+	/**
+	 * @return void
+	 */
+	function dfrapi_initialize_140_upgrade(): void {
 
-	Dfrapi_Version_140_Upgrade::set_initial_status();
+		require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Version_140_Upgrade.php';
+
+		Dfrapi_Version_140_Upgrade::set_initial_status();
+	}
+
+	add_action( 'wp_loaded', 'dfrapi_initialize_140_upgrade' );
 }
-
 
 /**
  * END

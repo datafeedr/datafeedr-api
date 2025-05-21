@@ -72,3 +72,32 @@ function dfrapi_test_api_connection() {
 }
 
 add_action( 'wp_ajax_dfrapi_test_api_connection', 'dfrapi_test_api_connection' );
+
+/**
+ * Re-initializes the v5 ID migration added in version 1.4.0 of this plugin.
+ *
+ * @return void
+ */
+function dfrapi_migrate_v5_product_ids(): void {
+
+	check_ajax_referer( 'dfrapi_ajax_nonce', 'dfrapi_security' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		_e( 'You do not have permission to perform this action.', 'datafeedr-api' );
+		die;
+	}
+
+	require_once dirname( DFRAPI_PLUGIN_FILE ) . '/classes/Dfrapi_Version_140_Upgrade.php';
+
+	if ( Dfrapi_Version_140_Upgrade::migration_is_in_progress() ) {
+		_e( 'Migration is already in progress&hellip;', 'datafeedr-api' );
+	} else {
+		delete_option( 'dfrapi_plugin_upgrade_status' );
+		Dfrapi_Version_140_Upgrade::set_initial_status();
+		_e( 'Migration has been initialized. You may navigate away from this page.', 'datafeedr-api' );
+	}
+
+	die;
+}
+
+add_action( 'wp_ajax_dfrapi_migrate_v5_product_ids', 'dfrapi_migrate_v5_product_ids' );

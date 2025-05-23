@@ -26,6 +26,8 @@ $previous_version = get_option( 'dfrapi_version', false );
 if ( $previous_version && version_compare( $previous_version, '1.4.0', '<' ) ) {
 
 	/**
+	 * Initializes the upgrade process for version 1.4.0 of the Datafeedr API plugin.
+	 *
 	 * @return void
 	 */
 	function dfrapi_initialize_140_upgrade(): void {

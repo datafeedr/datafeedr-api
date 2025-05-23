@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Delete cached API data.
  *
- * We can only delete if user has API requests remaining.
+ * We can only delete it if the user has API requests remaining.
  * This is because we'll need to make 1 request to rebuild 'dfrapi_account'.
  */
 function dfrapi_delete_cached_api_data() {
@@ -33,7 +33,7 @@ function dfrapi_delete_cached_api_data() {
 		}
 
 		// Update account status immediately in case there are not enough API
-		// requests remaining in order to do so later.
+		// requests remaining to do so later.
 		$status = dfrapi_api_get_status();
 		update_option( 'dfrapi_account', $status );
 	}
@@ -56,7 +56,7 @@ function dfrapi_test_api_connection() {
 		die;
 	}
 
-	$url      = "https://api.datafeedr.com";
+	$url      = 'https://api.datafeedr.com';
 	$response = wp_remote_get( $url );
 	$code     = wp_remote_retrieve_response_code( $response );
 	$success  = $code === 200;
@@ -74,7 +74,7 @@ function dfrapi_test_api_connection() {
 add_action( 'wp_ajax_dfrapi_test_api_connection', 'dfrapi_test_api_connection' );
 
 /**
- * Re-initializes the v5 ID migration added in version 1.4.0 of this plugin.
+ * Re-initializes the v5 to v7 ID migration added in version 1.4.0 of this plugin.
  *
  * @return void
  */

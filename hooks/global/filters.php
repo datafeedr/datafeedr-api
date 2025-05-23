@@ -3,11 +3,11 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Add custom cron schedule (1 minute)
+ * Adds a custom cron schedule for running tasks every minute.
  *
- * @param $schedules
+ * @param array $schedules An array of existing cron schedules.
  *
- * @return mixed
+ * @return array Modified array of cron schedules including the new schedule.
  */
 function dfrapi_add_cron_schedules( $schedules ) {
 	$schedules['every_minute'] = [

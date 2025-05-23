@@ -62,7 +62,7 @@ define( 'DFRAPI_EXCESSIVE_MERCHANT_COUNT', 1000 );
  */
 function dfrapi_register_activation( bool $network_wide ) {
 
-	// Check that minimum WordPress requirement has been met.
+	// Check that the minimum WordPress requirement has been met.
 	$version = get_bloginfo( 'version' );
 	if ( version_compare( $version, '3.8', '<' ) ) {
 		deactivate_plugins( DFRAPI_BASENAME );
@@ -72,7 +72,7 @@ function dfrapi_register_activation( bool $network_wide ) {
 		) );
 	}
 
-	// Check that plugin is not being activated at the Network level on Multisite sites.
+	// Check that the plugin is not being activated at the Network level on Multisite sites.
 	if ( $network_wide && is_multisite() ) {
 		deactivate_plugins( DFRAPI_BASENAME );
 		wp_die( __(

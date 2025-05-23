@@ -56,6 +56,11 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			return current_time( 'mysql' );
 		}
 
+		/**
+		 * Schedules the upgrade action event if it is not already scheduled.
+		 *
+		 * @return void
+		 */
 		public static function schedule_upgrade_action_event() {
 			if ( ! wp_next_scheduled( 'dfrapi_handle_version_140_upgrade_action' ) ) {
 				wp_schedule_event(
@@ -76,29 +81,45 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 		}
 
 		/**
+		 * Retrieves the upgrade status configuration for the plugin.
+		 *
 		 * @return array
 		 */
 		public static function get_upgrade_status(): array {
 			return get_option( 'dfrapi_plugin_upgrade_status', [] );
 		}
 
+		/**
+		 * Return true if "update_started_at" is not null.
+		 *
+		 * @return bool
+		 */
 		public static function version_140_update_has_started(): bool {
 			return self::get_upgrade_status()['version_140']['update_started_at'] !== null;
 		}
 
 		/**
-		 * @return bool True if update is complete.
+		 * Return true if migration is complete.
+		 *
+		 * @return bool True if migration is complete.
 		 */
 		public static function version_140_update_is_complete(): bool {
 			return self::get_upgrade_status()['version_140']['update_completed_at'] !== null;
 		}
 
 		/**
-		 * Update stages.
+		 * Returns an array of update stages with their corresponding status arrays.
 		 *
-		 * @return array[]
+		 * @return array
 		 */
 		public static function get_update_stages(): array {
+
+			/**
+			 * We are not doing the following:
+			 *
+			 * 'postmeta__dfrps_cpt_previous_update_info' Not doing this as it would represent an inaccurate state
+			 * 'dfrps_temp_product_data' Not doing because this is already using r7 IDs.
+			 */
 			return [
 				'postmeta__dfrps_product_id'               => self::get_stage_status_array(),
 				'postmeta__dfrps_cpt_query'                => self::get_stage_status_array(),
@@ -107,8 +128,6 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 				'postmeta__dfrps_cpt_manually_blocked_ids' => self::get_stage_status_array(),
 				'dfrcs_compsets'                           => self::get_stage_status_array(),
 				'woocommerce_sku'                          => self::get_stage_status_array(),
-//				'postmeta__dfrps_cpt_previous_update_info' => self::get_stage_status_array(), // Not doing this as it would represent an inaccurate state
-//				'dfrps_temp_product_data'                  => self::get_stage_status_array(), // Not doing because this is already using r7 IDs.
 			];
 		}
 
@@ -255,6 +274,17 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			$this->mark_update_as_complete( $status );
 		}
 
+		/**
+		 * Handles the processing and updates of the `_dfrps_product_id` post meta during a specific stage of migration.
+		 *
+		 * This method retrieves a batch of postmeta records with specific criteria, converts their values to a new format,
+		 * updates the database, and tracks the progress of the updates in the provided status array.
+		 *
+		 * @param array $status An associative array that contains migration status details, including tracking information
+		 *                      for the `_dfrps_product_id` processing stage.
+		 *
+		 * @return void
+		 */
 		private function handle_postmeta_dfrps_product_id_stage( array $status ): void {
 
 			global $wpdb;
@@ -295,7 +325,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 				// Get converted IDs.
 				$ids = dfrapi_get_v7_ids_from_v5_ids( $v5_ids );
 
-				// Loop through IDs updating each one and then updating the `last_processed_id` param.
+				// Loop through IDs, updating each one and then updating the `last_processed_id` param.
 				foreach ( $results as $row ) {
 
 					$result = $wpdb->update(
@@ -317,13 +347,20 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			$this->update_status( $status );
 		}
 
+		/**
+		 * Handles the processing of postmeta rows with the meta_key `_dfrps_cpt_query`, updating associated IDs and statuses.
+		 *
+		 * @param array $status An associative array representing the process and update status for version 1.4.0, including stages and update counts.
+		 *
+		 * @return void
+		 */
 		private function handle_postmeta_dfrps_cpt_query( array $status ): void {
 
 			global $wpdb;
 
 			$field_key = 'postmeta__dfrps_cpt_query';
 
-			// Get current number of V5 IDs which have been updated.
+			// Get the current number of V5 IDs which have been updated.
 			$v5_ids_updated = (int) $status['version_140']['update_stages'][ $field_key ]['v5_ids_updated'];
 
 			// If this is the first iteration, set the "started_at" date.
@@ -331,7 +368,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 				$status['version_140']['update_stages'][ $field_key ]['started_at'] = self::now();
 			}
 
-			// Query all postmeta rows where meta_key = "_dfrps_cpt_temp_query" and limit it to 10 starting at last processed meta_id.
+			// Query all postmeta rows where meta_key = "_dfrps_cpt_temp_query" and limit it to 10 starting at the last processed meta_id.
 			$results = $wpdb->get_results(
 				$wpdb->prepare( "
         			SELECT meta_id, meta_value
@@ -347,7 +384,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 
 			if ( empty( $results ) ) {
 
-				// No results returned from the query so mark this stage as compete.
+				// No results returned from the query, so mark this stage as compete.
 				$status['version_140']['update_stages'][ $field_key ]['completed_at'] = self::now();
 
 			} else {
@@ -366,11 +403,11 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 							// IDs found, let's update!
 							if ( isset( $param['field'] ) && $param['field'] === 'id' ) {
 
-								// Get all IDs from query.
+								// Get all IDs from the query.
 								$all_ids          = dfrapi_explode_and_uniquify( $param['value'] );
 								$extracted_v5_ids = dfrapi_extract_v5_ids( $all_ids );
 
-								// If there are no V5 IDs, continue to next query param.
+								// If there are no V5 IDs, continue to the next query param.
 								if ( empty( $extracted_v5_ids ) ) {
 									continue;
 								}
@@ -407,13 +444,24 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			$this->update_status( $status );
 		}
 
+		/**
+		 * Handles processing of postmeta rows with meta_key `_dfrps_cpt_temp_query` for temporary query updates.
+		 *
+		 * This method processes a batch of postmeta rows, updates any identified V5 IDs to V7 IDs, and maintains progress
+		 * tracking for the operation. It also serializes and updates the respective postmeta entries in the database.
+		 *
+		 * @param array $status An associative array representing the current update status, including progress tracking
+		 *                      data such as `last_processed_id`, `v5_ids_updated`, and timestamps for the relevant update stage.
+		 *
+		 * @return void
+		 */
 		private function handle_postmeta_dfrps_cpt_temp_query( array $status ): void {
 
 			global $wpdb;
 
 			$field_key = 'postmeta__dfrps_cpt_temp_query';
 
-			// Get current number of V5 IDs which have been updated.
+			// Get the current number of V5 IDs which have been updated.
 			$v5_ids_updated = (int) $status['version_140']['update_stages'][ $field_key ]['v5_ids_updated'];
 
 			// If this is the first iteration, set the "started_at" date.
@@ -421,7 +469,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 				$status['version_140']['update_stages'][ $field_key ]['started_at'] = self::now();
 			}
 
-			// Query all postmeta rows where meta_key = "_dfrps_cpt_temp_query" and limit it to 10 starting at last processed meta_id.
+			// Query all postmeta rows where meta_key = "_dfrps_cpt_temp_query" and limit it to 10 starting at the last processed meta_id.
 			$results = $wpdb->get_results(
 				$wpdb->prepare( "
         			SELECT meta_id, meta_value
@@ -437,7 +485,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 
 			if ( empty( $results ) ) {
 
-				// No results returned from the query so mark this stage as compete.
+				// No results returned from the query, so mark this stage as compete.
 				$status['version_140']['update_stages'][ $field_key ]['completed_at'] = self::now();
 
 			} else {
@@ -456,11 +504,11 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 							// IDs found, let's update!
 							if ( isset( $param['field'] ) && $param['field'] === 'id' ) {
 
-								// Get all IDs from query.
+								// Get all IDs from the query.
 								$all_ids          = dfrapi_explode_and_uniquify( $param['value'] );
 								$extracted_v5_ids = dfrapi_extract_v5_ids( $all_ids );
 
-								// If there are no V5 IDs, continue to next query param.
+								// If there are no V5 IDs, continue to the next query param.
 								if ( empty( $extracted_v5_ids ) ) {
 									continue;
 								}
@@ -497,21 +545,33 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			$this->update_status( $status );
 		}
 
+		/**
+		 * Handles the processing and updating of postmeta entries with the meta_key "_dfrps_cpt_manually_added_ids".
+		 * The method processes batches of entries, extracts specific IDs, converts and updates them,
+		 * and maintains the processing status in the provided status array.
+		 *
+		 * @param array $status The current status array containing tracking data for the update process,
+		 *                      including information about stages, last processed ID, and update counts.
+		 *
+		 * @return void
+		 */
 		private function handle_postmeta_dfrps_cpt_manually_added_ids( array $status ): void {
 
 			global $wpdb;
 
 			$field_key = 'postmeta__dfrps_cpt_manually_added_ids';
 
-			// Get current number of V5 IDs which have been updated.
+			// Get the current number of V5 IDs which have been updated.
 			$v5_ids_updated = (int) $status['version_140']['update_stages'][ $field_key ]['v5_ids_updated'];
+
+			error_log( '$v5_ids_updated init' . ': ' . print_r( $v5_ids_updated, true ) );
 
 			// If this is the first iteration, set the "started_at" date.
 			if ( is_null( $status['version_140']['update_stages'][ $field_key ]['started_at'] ) ) {
 				$status['version_140']['update_stages'][ $field_key ]['started_at'] = self::now();
 			}
 
-			// Query all postmeta rows where meta_key = "_dfrps_cpt_manually_added_ids" and limit it to 10 starting at last processed meta_id.
+			// Query all postmeta rows where meta_key = "_dfrps_cpt_manually_added_ids" and limit it to 10 starting at the last processed meta_id.
 			$results = $wpdb->get_results(
 				$wpdb->prepare( "
         			SELECT meta_id, meta_value
@@ -527,7 +587,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 
 			if ( empty( $results ) ) {
 
-				// No results returned from the query so mark this stage as compete.
+				// No results returned from the query, so mark this stage as compete.
 				$status['version_140']['update_stages'][ $field_key ]['completed_at'] = self::now();
 
 			} else {
@@ -540,7 +600,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 
 					if ( is_array( $query ) ) {
 
-						// Get all IDs from query.
+						// Get all IDs from the query.
 						$all_ids          = $query;
 						$extracted_v5_ids = dfrapi_extract_v5_ids( $all_ids );
 
@@ -564,6 +624,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 							);
 
 							$v5_ids_updated += dfrapi_get_v5_v7_diff_count( $converted_v5_ids );
+							error_log( '$v5_ids_updated' . ': ' . print_r( $v5_ids_updated, true ) );
 						}
 					}
 
@@ -575,13 +636,21 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			$this->update_status( $status );
 		}
 
+		/**
+		 * Handles processing of postmeta rows for manually blocked IDs related to the "dfrps_cpt" functionality.
+		 * Updates the postmeta values in the database by converting V5 IDs to V7 IDs and tracks progress status.
+		 *
+		 * @param array $status Array containing versioning and update stage details for the current process.
+		 *
+		 * @return void
+		 */
 		private function handle_postmeta_dfrps_cpt_manually_blocked_ids( array $status ): void {
 
 			global $wpdb;
 
 			$field_key = 'postmeta__dfrps_cpt_manually_blocked_ids';
 
-			// Get current number of V5 IDs which have been updated.
+			// Get the current number of V5 IDs which have been updated.
 			$v5_ids_updated = (int) $status['version_140']['update_stages'][ $field_key ]['v5_ids_updated'];
 
 			// If this is the first iteration, set the "started_at" date.
@@ -589,7 +658,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 				$status['version_140']['update_stages'][ $field_key ]['started_at'] = self::now();
 			}
 
-			// Query all postmeta rows where meta_key = "_dfrps_cpt_manually_blocked_ids" and limit it to 10 starting at last processed meta_id.
+			// Query all postmeta rows where meta_key = "_dfrps_cpt_manually_blocked_ids" and limit it to 10 starting at the last processed meta_id.
 			$results = $wpdb->get_results(
 				$wpdb->prepare( "
         			SELECT meta_id, meta_value
@@ -605,7 +674,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 
 			if ( empty( $results ) ) {
 
-				// No results returned from the query so mark this stage as compete.
+				// No results returned from the query, so mark this stage as compete.
 				$status['version_140']['update_stages'][ $field_key ]['completed_at'] = self::now();
 
 			} else {
@@ -618,7 +687,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 
 					if ( is_array( $query ) ) {
 
-						// Get all IDs from query.
+						// Get all IDs from the query.
 						$all_ids          = $query;
 						$extracted_v5_ids = dfrapi_extract_v5_ids( $all_ids );
 
@@ -651,13 +720,24 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			$this->update_status( $status );
 		}
 
+		/**
+		 * Processes and updates the `dfrcs_compsets` component sets for database synchronization.
+		 *
+		 * This method iterates through database records, transforms data by converting V5 IDs to V7 IDs,
+		 * and updates the corresponding database entries. It also tracks the processing progress in the status array.
+		 *
+		 * @param array $status The current status of the update process, including metadata such as the last processed ID
+		 *                      and the number of IDs updated.
+		 *
+		 * @return void
+		 */
 		private function handle_dfrcs_compsets( array $status ): void {
 
 			global $wpdb;
 
 			$field_key = 'dfrcs_compsets';
 
-			// Get current number of V5 IDs which have been updated.
+			// Get the current number of V5 IDs which have been updated.
 			$v5_ids_updated = (int) $status['version_140']['update_stages'][ $field_key ]['v5_ids_updated'];
 
 			// If this is the first iteration, set the "started_at" date.
@@ -667,7 +747,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 
 			$table = $wpdb->prefix . DFRCS_TABLE;
 
-			// Query all "dfrcs_compsets" rows and limit it to 10 starting at last processed id.
+			// Query all "dfrcs_compsets" rows and limit it to 10 starting at the last processed id.
 			$results = $wpdb->get_results(
 				$wpdb->prepare( "
         			SELECT id, hash, added, removed
@@ -682,13 +762,13 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 
 			if ( empty( $results ) ) {
 
-				// No results returned from the query so mark this stage as compete.
+				// No results returned from the query, so mark this stage as compete.
 				$status['version_140']['update_stages'][ $field_key ]['completed_at'] = self::now();
 				$this->update_status( $status );
 
 			} else {
 
-				foreach ( $results as $key => $row ) {
+				foreach ( $results as $row ) {
 
 					$compset_id   = (int) $row->id;
 					$compset_hash = $row->hash;
@@ -739,6 +819,17 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			}
 		}
 
+		/**
+		 * Handles the processing and updating of WooCommerce product SKUs for a specific migration step.
+		 *
+		 * This method retrieves SKUs with certain conditions, converts them to a new format,
+		 * updates the database with the converted values, and tracks the processing status.
+		 *
+		 * @param array $status The current status of the migration process,
+		 *                      including tracking information for update stages and IDs processed.
+		 *
+		 * @return void
+		 */
 		private function handle_woocommerce_skus( array $status ): void {
 
 			global $wpdb;
@@ -784,7 +875,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			// Get converted IDs.
 			$ids = dfrapi_get_v7_ids_from_v5_ids( $v5_ids );
 
-			// Loop through IDs updating each one and then updating the `last_processed_id` param.
+			// Loop through IDs, updating each one and then updating the `last_processed_id` param.
 			foreach ( $results as $row ) {
 
 				$result = $wpdb->update(
@@ -795,16 +886,24 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 					[ '%d' ]    // format for meta_id
 				);
 
+				$status['version_140']['update_stages'][ $field_key ]['last_processed_id'] = $row->meta_id;
+
 				if ( $result ) {
 					$v5_ids_updated ++;
-					$status['version_140']['update_stages'][ $field_key ]['last_processed_id'] = $row->meta_id;
-					$status['version_140']['update_stages'][ $field_key ]['v5_ids_updated']    = $v5_ids_updated;
+					$status['version_140']['update_stages'][ $field_key ]['v5_ids_updated'] = $v5_ids_updated;
 				}
 			}
 
 			$this->update_status( $status );
 		}
 
+		/**
+		 * Marks the update process as complete for version 1.4.0.
+		 *
+		 * @param array $status The current status array containing update information.
+		 *
+		 * @return void
+		 */
 		private function mark_update_as_complete( array $status ): void {
 
 			// Update "update_completed_at" value with timestamp.
@@ -823,10 +922,26 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			);
 		}
 
+		/**
+		 * Updates the plugin upgrade status in the database.
+		 *
+		 * @param array $status The status to be saved.
+		 *
+		 * @return void
+		 */
 		private function update_status( array $status ) {
 			update_option( 'dfrapi_plugin_upgrade_status', $status );
 		}
 
+		/**
+		 * Displays an admin notice regarding the progress of the Datafeedr update process.
+		 *
+		 * This notice is shown if the update to version 1.4.0 is not yet complete. It notifies
+		 * the user that updates to product IDs in the database are in progress, disables
+		 * certain automated processes during the update, and ensures the update's scheduled event is set.
+		 *
+		 * @return void
+		 */
 		public function admin_notice() {
 
 			if ( self::version_140_update_is_complete() ) {
@@ -850,6 +965,14 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			<?php
 		}
 
+		/**
+		 * Generates and returns an HTML table summarizing the progress of an update process.
+		 *
+		 * @param array $status An associative array containing the progress details of the update,
+		 *                      including start and completion times, stages, and IDs updated.
+		 *
+		 * @return string An HTML string representing the progress table. Returns an empty string if no status is provided.
+		 */
 		public static function get_progress_table( array $status ): string {
 
 			if ( empty( $status ) ) {

@@ -2880,12 +2880,20 @@ function dfrapi_inactive_networks(): array {
 }
 
 /**
+ * Retrieve V7 IDs mapped to provided V5 IDs from the Datafeedr API.
+ *
+ * This function communicates with the Datafeedr API to fetch V7 IDs corresponding
+ * to the given array of V5 IDs. If a V5 ID is not found in the API response, it
+ * will retain the original V5 ID as its corresponding value.
+ *
  * This does NOT check whether a V5 ID being passed in is actually a V5 ID. That should be handled
  * before sending the IDs to this function.
  *
- * @param array $v5_ids
+ * @param array $v5_ids An array of V5 IDs to be transformed into corresponding V7 IDs.
  *
- * @return array
+ * @return array An associative array where the keys are the provided V5 IDs (as integers)
+ *               and the values are the corresponding V7 IDs (as strings). If a V5 ID
+ *               doesn't map to a V7 ID, its value will remain as the V5 ID itself.
  */
 function dfrapi_get_v7_ids_from_v5_ids( array $v5_ids ): array {
 
@@ -2952,19 +2960,23 @@ function dfrapi_get_v7_ids_from_v5_ids( array $v5_ids ): array {
 }
 
 /**
- * @param string $ids
- * @param string $separator
+ * Splits a string of IDs by a given separator, trims whitespace, removes duplicates and filters out empty values.
  *
- * @return array
+ * @param string $ids The string of IDs to be exploded and processed.
+ * @param string $separator The separator used to split the IDs. Defaults to a comma (,).
+ *
+ * @return array An array of unique, non-empty and trimmed IDs.
  */
 function dfrapi_explode_and_uniquify( string $ids, string $separator = ',' ): array {
 	return array_unique( array_filter( array_map( 'trim', explode( $separator, $ids ) ) ) );
 }
 
 /**
- * @param array $ids
+ * Filters and extracts IDs with fewer than 19 characters from the provided array.
  *
- * @return array
+ * @param array $ids An array of IDs to be filtered.
+ *
+ * @return array A filtered array containing only IDs with fewer than 19 characters.
  */
 function dfrapi_extract_v5_ids( array $ids ): array {
 	return array_filter( $ids, function ( $id ) {
@@ -2975,9 +2987,11 @@ function dfrapi_extract_v5_ids( array $ids ): array {
 }
 
 /**
- * @param array $ids
+ * Filters an array of IDs, returning only those with a string length of 19 characters.
  *
- * @return array
+ * @param array $ids Array of IDs to process.
+ *
+ * @return array Filtered array containing only IDs that are 19 characters long.
  */
 function dfrapi_extract_v7_ids( array $ids ): array {
 	return array_filter( $ids, function ( $id ) {
@@ -3011,4 +3025,3 @@ function dfrapi_get_v5_v7_diff_count( array $arr ): int {
 		return (string) $key !== (string) $value;
 	}, ARRAY_FILTER_USE_BOTH ) );
 }
-

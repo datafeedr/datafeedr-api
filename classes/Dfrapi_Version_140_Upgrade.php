@@ -563,9 +563,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 
 			// Get the current number of V5 IDs which have been updated.
 			$v5_ids_updated = (int) $status['version_140']['update_stages'][ $field_key ]['v5_ids_updated'];
-
-			error_log( '$v5_ids_updated init' . ': ' . print_r( $v5_ids_updated, true ) );
-
+            
 			// If this is the first iteration, set the "started_at" date.
 			if ( is_null( $status['version_140']['update_stages'][ $field_key ]['started_at'] ) ) {
 				$status['version_140']['update_stages'][ $field_key ]['started_at'] = self::now();
@@ -610,8 +608,6 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 							$extracted_v7_ids = dfrapi_extract_v7_ids( $all_ids );
 							$converted_v5_ids = dfrapi_get_v7_ids_from_v5_ids( $extracted_v5_ids );
 
-							error_log( '$converted_v5_ids' . ': ' . print_r( $converted_v5_ids, true ) );
-
 							// New set of product IDs.
 							$new_ids = array_merge( $extracted_v7_ids, array_values( $converted_v5_ids ) );
 
@@ -624,7 +620,6 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 							);
 
 							$v5_ids_updated += dfrapi_get_v5_v7_diff_count( $converted_v5_ids );
-							error_log( '$v5_ids_updated' . ': ' . print_r( $v5_ids_updated, true ) );
 						}
 					}
 

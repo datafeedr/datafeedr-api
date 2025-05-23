@@ -2910,7 +2910,7 @@ function dfrapi_get_v7_ids_from_v5_ids( array $v5_ids ): array {
 	}
 
 	// API endpoint
-	$endpoint = 'https://api7.datafeedr.com/search';
+	$endpoint = 'https://api.datafeedr.com/search';
 
 	// Request body
 	$body = [

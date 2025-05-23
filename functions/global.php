@@ -407,20 +407,20 @@ function dfrapi_output_api_error( $data ) {
 	$error  = @$data['dfrapi_api_error'];
 	$params = @$data['dfrapi_api_error']['params'];
 	?>
-	<div class="dfrapi_api_error">
-		<div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
-		<div class="dfrapi_msg">
-			<strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
-		</div>
-		<div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
-		</div>
-		<div class="dfrapi_class">
-			<strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
+    <div class="dfrapi_api_error">
+        <div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
+        <div class="dfrapi_msg">
+            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
+        </div>
+        <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
+        </div>
+        <div class="dfrapi_class">
+            <strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
 		<?php if ( is_array( $params ) ) : ?>
-			<div class="dfrps_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
-				<span><?php echo dfrapi_display_api_request( $params ); ?></span></div>
+            <div class="dfrps_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
+                <span><?php echo dfrapi_display_api_request( $params ); ?></span></div>
 		<?php endif; ?>
-	</div>
+    </div>
 	<?php
 }
 
@@ -602,20 +602,20 @@ function dfrapi_html_output_api_error( $data ) {
 	$error  = $data['dfrapi_api_error'];
 	$params = @$data['dfrapi_api_error']['params'];
 	?>
-	<div class="dfrapi_api_error">
-		<div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
-		<div class="dfrapi_msg">
-			<strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
-		</div>
-		<div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
-		</div>
-		<div class="dfrapi_class">
-			<strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
+    <div class="dfrapi_api_error">
+        <div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
+        <div class="dfrapi_msg">
+            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
+        </div>
+        <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
+        </div>
+        <div class="dfrapi_class">
+            <strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
 		<?php if ( is_array( $params ) ) : ?>
-			<div class="dfrapi_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
-				<span><?php echo dfrapi_helper_display_api_request( $params ); ?></span></div>
+            <div class="dfrapi_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
+                <span><?php echo dfrapi_helper_display_api_request( $params ); ?></span></div>
 		<?php endif; ?>
-	</div>
+    </div>
 	<?php
 }
 
@@ -2987,4 +2987,28 @@ function dfrapi_extract_v7_ids( array $ids ): array {
 	} );
 }
 
+/**
+ * Get the count of differing key-value pairs in an associative array where the key does not match the value as a string.
+ *
+ * Example, if the $arr looks like the following, this function would return the number 2:
+ *
+ * $arr = [
+ *      2173100878570667 => "8217311718413304753", // diff
+ *      3105600261131414 => "3105600261131414",
+ *      10248601546847262 => "10248601546847262",
+ *      6508500008308939 => "6508500008308939",
+ *      6508500738870829 => "6508500738870829",
+ *      999800249792598 => "8099984270172311020", // diff
+ *      88500630587679 => "88500630587679",
+ * ]
+ *
+ * @param array $arr The associative array to evaluate.
+ *
+ * @return int The count of key-value pairs where the key does not match the value when both are cast to strings.
+ */
+function dfrapi_get_v5_v7_diff_count( array $arr ): int {
+	return count( array_filter( $arr, function ( $value, $key ) {
+		return (string) $key !== (string) $value;
+	}, ARRAY_FILTER_USE_BOTH ) );
+}
 

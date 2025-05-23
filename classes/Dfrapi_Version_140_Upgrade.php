@@ -521,7 +521,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
         			ORDER BY meta_id ASC
         			LIMIT 10",
 					'_dfrps_cpt_manually_added_ids',
-					$status['version_140']['update_stages'][ $field_key ]['last_processed_id']
+					(int) $status['version_140']['update_stages'][ $field_key ]['last_processed_id']
 				)
 			);
 
@@ -550,6 +550,8 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 							$extracted_v7_ids = dfrapi_extract_v7_ids( $all_ids );
 							$converted_v5_ids = dfrapi_get_v7_ids_from_v5_ids( $extracted_v5_ids );
 
+							error_log( '$converted_v5_ids' . ': ' . print_r( $converted_v5_ids, true ) );
+
 							// New set of product IDs.
 							$new_ids = array_merge( $extracted_v7_ids, array_values( $converted_v5_ids ) );
 
@@ -561,7 +563,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 								[ '%d' ]    // format for meta_id
 							);
 
-							$v5_ids_updated += count( $converted_v5_ids );
+							$v5_ids_updated += dfrapi_get_v5_v7_diff_count( $converted_v5_ids );
 						}
 					}
 
@@ -597,7 +599,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
         			ORDER BY meta_id ASC
         			LIMIT 10",
 					'_dfrps_cpt_manually_blocked_ids',
-					$status['version_140']['update_stages'][ $field_key ]['last_processed_id']
+					(int) $status['version_140']['update_stages'][ $field_key ]['last_processed_id']
 				)
 			);
 
@@ -637,7 +639,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 								[ '%d' ]    // format for meta_id
 							);
 
-							$v5_ids_updated += count( $converted_v5_ids );
+							$v5_ids_updated += dfrapi_get_v5_v7_diff_count( $converted_v5_ids );
 						}
 					}
 
@@ -674,7 +676,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
         			AND id > %d
         			ORDER BY id ASC
         			LIMIT 10",
-					$status['version_140']['update_stages'][ $field_key ]['last_processed_id']
+					(int) $status['version_140']['update_stages'][ $field_key ]['last_processed_id']
 				)
 			);
 
@@ -711,12 +713,14 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 					// Handle 'added' ids
 					if ( count( $added_v5_ids ) > 0 ) {
 						$converted_added_v5_ids = dfrapi_get_v7_ids_from_v5_ids( $added_v5_ids );
+						$v5_ids_updated         += dfrapi_get_v5_v7_diff_count( $converted_added_v5_ids );
 						$new_added_ids          = array_merge( $added_v7_ids, array_values( $converted_added_v5_ids ) );
 					}
 
 					// Handle 'removed' ids
 					if ( count( $removed_v5_ids ) > 0 ) {
 						$converted_removed_v5_ids = dfrapi_get_v7_ids_from_v5_ids( $removed_v5_ids );
+						$v5_ids_updated           += dfrapi_get_v5_v7_diff_count( $converted_removed_v5_ids );
 						$new_removed_ids          = array_merge( $removed_v7_ids, array_values( $converted_removed_v5_ids ) );
 					}
 
@@ -727,9 +731,6 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 						[ '%s', '%s' ],
 						[ '%s' ]
 					);
-
-					$v5_ids_updated += count( $new_added_ids );
-					$v5_ids_updated += count( $new_removed_ids );
 
 					$status['version_140']['update_stages'][ $field_key ]['v5_ids_updated']    = $v5_ids_updated;
 					$status['version_140']['update_stages'][ $field_key ]['last_processed_id'] = $compset_id;
@@ -763,7 +764,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
         			LIMIT 100",
 					'_sku',
 					19,
-					$status['version_140']['update_stages'][ $field_key ]['last_processed_id']
+					(int) $status['version_140']['update_stages'][ $field_key ]['last_processed_id']
 				)
 			);
 
@@ -841,45 +842,56 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 			// Ensure that the Cron is scheduled! Sometimes it doesn't get scheduled.
 			self::schedule_upgrade_action_event();
 			?>
-			<div class="notice notice-info">
-				<p><strong><?php _e( 'Datafeedr Update in Progress&hellip;', 'datafeedr-api' ); ?></strong></p>
-				<p><?php _e( 'Datafeedr is currently performing updates to the product IDs stored in the database. This process could take an hour or longer. During this time, automated processes like Product Set updates have been disabled. They will be re-enabled once this process is complete. No action is required. This process is fully automated.', 'datafeedr-api' ); ?></p>
-				<table>
-					<tr>
-						<th style="text-align: left"><?php _e( 'Update Started:', 'datafeedr-api' ); ?></th>
-						<td><?php esc_html_e( $status['version_140']['update_started_at'] ); ?></td>
-					</tr>
-					<?php foreach ( array_keys( self::get_update_stages() ) as $stage ) : ?>
-						<tr>
-							<th style="text-align: left">
-								<?php _e( 'Updating', 'datafeedr-api' ); ?>
-								<?php esc_html_e( str_replace( 'postmeta__', '_', $stage ) ); ?>:
-							</th>
-							<td>
-								<?php if ( is_null( $status['version_140']['update_stages'][ $stage ]['started_at'] ) ) : ?>
-									<?php _e( 'Not started yet', 'datafeedr-api' ); ?>
-								<?php else : ?>
-									<?php _e( 'Started at ', 'datafeedr-api' ); ?>
-									<?php esc_html_e( $status['version_140']['update_stages'][ $stage ]['started_at'] ); ?>
-									<?php if ( ! is_null( $status['version_140']['update_stages'][ $stage ]['completed_at'] ) ) : ?>
-										— <?php _e( 'Completed at ', 'datafeedr-api' ); ?>
-										<?php esc_html_e( $status['version_140']['update_stages'][ $stage ]['completed_at'] ); ?>
-									<?php endif; ?>
-									— <?php esc_html_e( $status['version_140']['update_stages'][ $stage ]['v5_ids_updated'] ); ?>
-									<?php echo _n( 'ID updated', 'IDs updated', $status['version_140']['update_stages'][ $stage ]['v5_ids_updated'], 'datafeedr-api' ) ?>
-								<?php endif; ?>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-					<tr>
-						<th style="text-align: left"><?php _e( 'Update Completed:', 'datafeedr-api' ); ?></th>
-						<td><?php esc_html_e( $status['version_140']['update_completed_at'] ?? '—' ); ?></td>
-					</tr>
-				</table>
-			</div>
+            <div class="notice notice-info">
+                <p><strong><?php _e( 'Datafeedr Update in Progress&hellip;', 'datafeedr-api' ); ?></strong></p>
+                <p><?php _e( 'Datafeedr is currently performing updates to the product IDs stored in the database. This process could take an hour or longer. During this time, automated processes like Product Set updates have been disabled. They will be re-enabled once this process is complete. No action is required. This process is fully automated.', 'datafeedr-api' ); ?></p>
+				<?php echo self::get_progress_table( $status ); ?>
+            </div>
 			<?php
 		}
 
+		public static function get_progress_table( array $status ): string {
 
+			if ( empty( $status ) ) {
+				return '';
+			}
+
+			ob_start();
+			?>
+            <table>
+                <tr>
+                    <th style="text-align: left; white-space: nowrap; vertical-align: top;"><?php _e( 'Update Started:', 'datafeedr-api' ); ?></th>
+                    <td><?php esc_html_e( $status['version_140']['update_started_at'] ); ?></td>
+                </tr>
+				<?php foreach ( array_keys( self::get_update_stages() ) as $stage ): ?>
+                    <tr>
+                        <th style="text-align: left; white-space: nowrap; vertical-align: top;">
+							<?php _e( 'Updating', 'datafeedr-api' ); ?>
+							<?php esc_html_e( str_replace( 'postmeta__', '_', $stage ) ); ?>:
+                        </th>
+                        <td>
+							<?php if ( is_null( $status['version_140']['update_stages'][ $stage ]['started_at'] ) ): ?>
+								<?php _e( 'Not started yet', 'datafeedr-api' ); ?>
+							<?php else: ?>
+								<?php _e( 'Started at ', 'datafeedr-api' ); ?>
+								<?php esc_html_e( $status['version_140']['update_stages'][ $stage ]['started_at'] ); ?>
+								<?php if ( ! is_null( $status['version_140']['update_stages'][ $stage ]['completed_at'] ) ): ?>
+                                    — <?php _e( 'Completed at ', 'datafeedr-api' ); ?>
+									<?php esc_html_e( $status['version_140']['update_stages'][ $stage ]['completed_at'] ); ?>
+								<?php endif; ?>
+                                — <?php esc_html_e( $status['version_140']['update_stages'][ $stage ]['v5_ids_updated'] ); ?>
+								<?php echo _n( 'ID updated', 'IDs updated', $status['version_140']['update_stages'][ $stage ]['v5_ids_updated'], 'datafeedr-api' ) ?>
+							<?php endif; ?>
+                        </td>
+                    </tr>
+				<?php endforeach; ?>
+                <tr>
+                    <th style="text-align: left; white-space: nowrap; vertical-align: top;"><?php _e( 'Update Completed:', 'datafeedr-api' ); ?></th>
+                    <td><?php esc_html_e( $status['version_140']['update_completed_at'] ?? '—' ); ?></td>
+                </tr>
+            </table>
+			<?php
+			return ob_get_clean();
+		}
 	}
 }

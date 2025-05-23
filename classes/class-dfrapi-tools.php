@@ -160,6 +160,10 @@ if ( ! class_exists( 'Dfrapi_Tools' ) ) {
 						<?php _e( 'Last completed at', 'datafeedr-api' ); ?>
 						<?php esc_html_e( Dfrapi_Version_140_Upgrade::get_upgrade_status()['version_140']['update_completed_at'] ?? 'Never' ); ?>
 					</p>
+                <div style="font-family: monospace;background: white; padding: 1rem; border: 1px solid #999;">
+
+					<?php echo Dfrapi_Version_140_Upgrade::get_progress_table( Dfrapi_Version_140_Upgrade::get_upgrade_status() ); ?>
+                </div>
 				<?php endif; ?>
 			<?php endif; ?>
 			<?php if ( Dfrapi_Version_140_Upgrade::migration_is_in_progress() ) : ?>

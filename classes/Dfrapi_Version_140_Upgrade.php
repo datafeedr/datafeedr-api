@@ -563,7 +563,7 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 
 			// Get the current number of V5 IDs which have been updated.
 			$v5_ids_updated = (int) $status['version_140']['update_stages'][ $field_key ]['v5_ids_updated'];
-            
+
 			// If this is the first iteration, set the "started_at" date.
 			if ( is_null( $status['version_140']['update_stages'][ $field_key ]['started_at'] ) ) {
 				$status['version_140']['update_stages'][ $field_key ]['started_at'] = self::now();

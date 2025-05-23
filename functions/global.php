@@ -2945,9 +2945,22 @@ function dfrapi_get_v7_ids_from_v5_ids( array $v5_ids ): array {
 			$data     = json_decode( $body, true );
 			$products = $data['products'];
 
-			foreach ( $products as $product ) {
-				if ( isset( $product['v5_id'] ) ) {
-					$ids[ (int) $product['v5_id'] ] = (string) $product['id'];
+//			foreach ( $products as $product ) {
+//				if ( isset( $product['v5_id'] ) ) {
+//					$ids[ (int) $product['v5_id'] ] = (string) $product['id'];
+//				}
+//			}
+
+			foreach ( $v5_ids as $v5_id ) {
+
+				$matched_product = array_filter( $products, function ( $product ) use ( $v5_id ) {
+					return isset( $product['v5_id'] ) && (string) $product['v5_id'] === (string) $v5_id;
+				} );
+
+				// If we found a matching product, get the first (and should be only) result
+				if ( ! empty( $matched_product ) ) {
+					$product             = reset( $matched_product );
+					$ids[ (int) $v5_id ] = (string) $product['id'];
 				}
 			}
 

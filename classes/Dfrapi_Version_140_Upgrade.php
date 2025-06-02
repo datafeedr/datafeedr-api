@@ -338,9 +338,10 @@ if ( ! class_exists( 'Dfrapi_Version_140_Upgrade' ) ) {
 
 					if ( $result ) {
 						$v5_ids_updated ++;
-						$status['version_140']['update_stages']['postmeta__dfrps_product_id']['last_processed_id'] = $row->meta_id;
-						$status['version_140']['update_stages']['postmeta__dfrps_product_id']['v5_ids_updated']    = $v5_ids_updated;
 					}
+
+					$status['version_140']['update_stages']['postmeta__dfrps_product_id']['v5_ids_updated']    = $v5_ids_updated;
+					$status['version_140']['update_stages']['postmeta__dfrps_product_id']['last_processed_id'] = $row->meta_id;
 				}
 			}
 

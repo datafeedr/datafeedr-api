@@ -398,14 +398,14 @@ class DatafeedrApi {
 	}
 
 	/** CreatorAPI */
-	public function amazonCreatorApiSearchRequest( $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale = 'US' ) {
-		return new DatafeedrAmazonCreatorApiSearchRequest( $this, $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale );
+	public function amazonCreatorApiSearchRequest( $capiMarketplace = 'US' ) {
+		return new DatafeedrAmazonCreatorApiSearchRequest( $this, $capiMarketplace = 'US' );
 	}
 
 	/** CreatorAPI */
-	public function amazonCreatorApiLookupRequest( $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale = 'US' ) {
-		return new DatafeedrAmazonCreatorApiLookupRequest( $this, $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale );
-	}
+//	public function amazonCreatorApiLookupRequest( $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale = 'US' ) {
+//		return new DatafeedrAmazonCreatorApiLookupRequest( $this, $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale );
+//	}
 
 	/**
 	 * Perform the raw API call.
@@ -1656,55 +1656,37 @@ class DatafeedrAmazonCreatorApiRequest extends DatafeedrSearchRequestBase {
 
 	protected $_hosts;
 	protected $_params;
-	protected $_capiCredentialId;
-	protected $_capiCredentialSecret;
-	protected $_capiVersion;
+//	protected $_capiCredentialId;
+//	protected $_capiCredentialSecret;
+//	protected $_capiVersion;
 	protected $_capiPartnerTag;
 	protected $_capiMarketplace;
 
 	public const AWS_VERSION = "2026-01-05";
 
-	public function __construct( $api, $capiCredentialId, $capiCredentialSecret, $capiVersion, $capiPartnerTag, $capiMarketplace = 'US' ) {
+	public function __construct( $api, $capiMarketplace = 'US' ) {
 
 		parent::__construct( $api );
 
-		// @todo replace this with new dfrapi_get_capi_marketplaces() function
-		$this->_hosts = array(
-			'AU' => 'www.amazon.com.au',
-			'BE' => 'www.amazon.com.be',
-			'BR' => 'www.amazon.com.br',
-			'CA' => 'www.amazon.ca',
-			'EG' => 'www.amazon.eg',
-			'FR' => 'www.amazon.fr',
-			'DE' => 'www.amazon.de',
-			'IN' => 'www.amazon.in',
-			'IE' => 'www.amazon.ie',
-			'IT' => 'www.amazon.it',
-			'JP' => 'www.amazon.co.jp',
-			'MX' => 'www.amazon.com.mx',
-			'NL' => 'www.amazon.nl',
-			'PL' => 'www.amazon.pl',
-			'SG' => 'www.amazon.sg',
-			'SA' => 'www.amazon.sa',
-			'ES' => 'www.amazon.es',
-			'SE' => 'www.amazon.se',
-			'TR' => 'www.amazon.com.tr',
-			'AE' => 'www.amazon.ae',
-			'UK' => 'www.amazon.co.uk',
-			'US' => 'www.amazon.com',
-		);
+		$capiMarketplace = strtoupper( trim( $capiMarketplace ) );
 
-		$this->_params = array();
+		foreach ( dfrapi_get_capi_marketplaces() as $code => $marketplace ) {
+			$this->_hosts[ $code ] = $marketplace['domain'];
+		}
 
-		if ( ! isset( $this->_hosts[ strtoupper( $capiMarketplace ) ] ) ) {
+		if ( ! isset( $this->_hosts[ $capiMarketplace ] ) ) {
 			throw new DatafeedrError( 'Invalid Amazon CAPI locale' );
 		}
 
-		$this->_capiCredentialId     = $capiCredentialId;
-		$this->_capiCredentialSecret = $capiCredentialSecret;
-		$this->_capiVersion          = $capiVersion;
-		$this->_capiPartnerTag       = $capiPartnerTag;
-		$this->_capiMarketplace      = $capiMarketplace;
+		$this->_params = array();
+
+//		$capiVersion = dfrapi_get_capi_marketplace( $capiMarketplace )['region']['version'];
+
+//		$this->_capiCredentialId     = $capiCredentialId;
+//		$this->_capiCredentialSecret = $capiCredentialSecret;
+//		$this->_capiVersion          = $capiVersion;
+//		$this->_capiPartnerTag       = $capiPartnerTag;
+		$this->_capiMarketplace = $capiMarketplace;
 	}
 
 	/**
@@ -1729,17 +1711,17 @@ class DatafeedrAmazonCreatorApiRequest extends DatafeedrSearchRequestBase {
 	 *
 	 * @return array
 	 */
-	protected function _amazonRequest( $operation, $params ) {
-		return array(
-			'capi_credential_id'     => $this->_capiCredentialId,
-			'capi_credential_secret' => $this->_capiCredentialSecret,
-			'capi_version'           => $this->_capiVersion,
-			'capi_partner_tag'       => $this->_capiPartnerTag,
-			'capi_marketplace'       => $this->_capiMarketplace,
-			'operation'              => $operation,
-			'params'                 => $params,
-		);
-	}
+//	protected function _amazonRequest( $operation, $params ) {
+//		return array(
+//			'capi_credential_id'     => $this->_capiCredentialId,
+//			'capi_credential_secret' => $this->_capiCredentialSecret,
+//			'capi_version'           => $this->_capiVersion,
+//			'capi_partner_tag'       => $this->_capiPartnerTag,
+//			'capi_marketplace'       => $this->_capiMarketplace,
+//			'operation'              => $operation,
+//			'params'                 => $params,
+//		);
+//	}
 }
 
 /** CreatorAPI */
@@ -1777,11 +1759,54 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 	 */
 	public function execute() {
 
-		$params = array_filter( $this->_params );
-		$req    = $this->_amazonRequest( 'SearchItems', $params );
-		$this->_apiCall( 'amazon_find', $req );
+		$access_token = dfrapi_get_capi_access_token();
 
-		return $this->_responseItem( 'products', array() );
+		$body = array_merge( array_filter( $this->_params ), [] );
+
+		$credentials = dfrapi_get_capi_credentials();
+		$marketplace = dfrapi_get_capi_marketplace( $this->_capiMarketplace );
+
+		$domain              = $marketplace['domain'];
+		$credential_version  = $marketplace['region']['version'];
+		$body['partnerTag']  = $credentials['partner_tag'];
+		$body['marketplace'] = $domain;
+
+		$response = wp_remote_post(
+			'https://creatorsapi.amazon/catalog/v1/searchItems',
+			[
+				'headers'     => [
+					'Authorization' => sprintf(
+						'Bearer %s, Version %s',
+						$access_token,
+						$credential_version
+					),
+					'Content-Type'  => 'application/json',
+					'x-marketplace' => $domain,
+				],
+				'body'        => wp_json_encode( $body ),
+				'timeout'     => 20,
+				'httpversion' => '1.1', // important for Amazon APIs
+			]
+		);
+
+		if ( is_wp_error( $response ) ) {
+			error_log( $response->get_error_message() );
+
+			return $response;
+		}
+
+		$status = wp_remote_retrieve_response_code( $response );
+
+		// @todo check non 200 values.
+
+		$body   = wp_remote_retrieve_body( $response );
+		$data   = json_decode( $body, true );
+
+		return $data;
+
+// $data now contains the API response
+
+
 	}
 }
 

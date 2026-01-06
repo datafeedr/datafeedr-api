@@ -52,34 +52,39 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			echo '</div>';
 		}
 
-		function load_settings() {
-			$this->options = (array) get_option( $this->key );
-			$this->options = array_merge(
-				array(
-					'access_id'                => '',
-					'secret_key'               => '',
-					'api_version'              => 'stable',
-					'transport_method'         => 'curl',
-					'disable_api'              => 'no',
-					'zanox_connection_key'     => '',
-					'zanox_secret_key'         => '',
-					'amazon_access_key_id'     => '',
-					'amazon_secret_access_key' => '',
-					'amazon_tracking_id'       => '',
-					'amazon_locale'            => 'us',
-					'ph_application_key'       => '',
-					'ph_user_api_key'          => '',
-					'ph_publisher_id'          => '',
-					'effiliation_key'          => '',
-					'awin_access_token'        => '',
-					'affiliate_gateway_sid'    => '',
-					'belboon_aid'              => '',
-					'adservice_mid'            => '',
-					'hs_beacon'                => 'on',
-				),
-				$this->options
-			);
-		}
+        function load_settings() {
+
+            $this->options = (array) get_option( $this->key );
+
+            $this->options = array_merge( array(
+                    'access_id'                => '',
+                    'secret_key'               => '',
+                    'api_version'              => 'stable',
+                    'transport_method'         => 'curl',
+                    'disable_api'              => 'no',
+                    'zanox_connection_key'     => '',
+                    'zanox_secret_key'         => '',
+                    'amazon_access_key_id'     => '',
+                    'amazon_secret_access_key' => '',
+                    'amazon_tracking_id'       => '',
+                    'amazon_locale'            => 'us',
+                    'ph_application_key'       => '',
+                    'ph_user_api_key'          => '',
+                    'ph_publisher_id'          => '',
+                    'effiliation_key'          => '',
+                    'awin_access_token'        => '',
+                    'affiliate_gateway_sid'    => '',
+                    'belboon_aid'              => '',
+                    'adservice_mid'            => '',
+                    'hs_beacon'                => 'on',
+                    'amazon_api'               => 'paapi', // 'capi' or 'paapi'
+                    'capi_credential_id'       => '',
+                    'capi_credential_secret'   => '',
+                    'capi_partner_tag'         => '',
+                    'capi_marketplace'         => 'US',
+            ), $this->options );
+
+        }
 
 		function register_settings() {
 			register_setting( $this->page, $this->key, array( $this, 'validate' ) );
@@ -113,10 +118,15 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
 			if ( defined( 'DFRCS_VERSION' ) ) {
 				add_settings_section( 'amazon_api_settings', __( 'Amazon Settings', 'datafeedr-api' ), array( &$this, 'section_amazon_api_settings_desc' ), $this->page );
-				add_settings_field( 'amazon_access_key_id', __( 'Amazon Access Key ID', 'datafeedr-api' ), array( &$this, 'field_amazon_access_key_id' ), $this->page, 'amazon_api_settings' );
-				add_settings_field( 'amazon_secret_access_key', __( 'Amazon Secret Access Key', 'datafeedr-api' ), array( &$this, 'field_amazon_secret_access_key' ), $this->page, 'amazon_api_settings' );
-				add_settings_field( 'amazon_tracking_id', __( 'Amazon Tracking ID', 'datafeedr-api' ), array( &$this, 'field_amazon_tracking_id' ), $this->page, 'amazon_api_settings' );
-				add_settings_field( 'amazon_locale', __( 'Amazon Locale', 'datafeedr-api' ), array( &$this, 'field_amazon_locale' ), $this->page, 'amazon_api_settings' );
+                add_settings_field( 'amazon_api',  __( 'Amazon API', 'datafeedr-api' ), array( &$this, 'field_amazon_api' ), $this->page, 'amazon_api_settings' );
+				add_settings_field( 'amazon_access_key_id', __( 'Access Key ID', 'datafeedr-api' ), array( &$this, 'field_amazon_access_key_id' ), $this->page, 'amazon_api_settings', [ 'class'=>'paapi_settings' ] );
+				add_settings_field( 'amazon_secret_access_key', __( 'Secret Access Key', 'datafeedr-api' ), array( &$this, 'field_amazon_secret_access_key' ), $this->page, 'amazon_api_settings', [ 'class'=>'paapi_settings' ] );
+				add_settings_field( 'amazon_tracking_id', __( 'Tracking ID', 'datafeedr-api' ), array( &$this, 'field_amazon_tracking_id' ), $this->page, 'amazon_api_settings', [ 'class'=>'paapi_settings' ] );
+				add_settings_field( 'amazon_locale', __( 'Locale', 'datafeedr-api' ), array( &$this, 'field_amazon_locale' ), $this->page, 'amazon_api_settings', [ 'class'=>'paapi_settings' ] );
+				add_settings_field( 'capi_credential_id', __( 'Credential ID', 'datafeedr-api' ), array( &$this, 'field_capi_credential_id' ), $this->page, 'amazon_api_settings', [ 'class'=>'capi_settings' ] );
+				add_settings_field( 'capi_credential_secret', __( 'Credential Secret', 'datafeedr-api' ), array( &$this, 'field_capi_credential_secret' ), $this->page, 'amazon_api_settings', [ 'class'=>'capi_settings' ] );
+				add_settings_field( 'capi_partner_tag', __( 'Partner Tag', 'datafeedr-api' ), array( &$this, 'field_capi_partner_tag' ), $this->page, 'amazon_api_settings', [ 'class'=>'capi_settings' ] );
+				add_settings_field( 'capi_marketplace', __( 'Marketplace', 'datafeedr-api' ), array( &$this, 'field_capi_marketplace' ), $this->page, 'amazon_api_settings', [ 'class'=>'capi_settings' ] );
 			}
 
 			add_settings_section( 'ph_api_settings', __( 'Partnerize Settings', 'datafeedr-api' ), array( &$this, 'section_ph_api_settings_desc' ), $this->page );
@@ -277,6 +287,40 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			<?php
 		}
 
+        function field_amazon_api() {
+            ?>
+            <p>
+                <label>
+                    <input type="radio"
+                           value="paapi"
+                           name="<?php echo $this->key; ?>[amazon_api]"
+                            <?php checked( $this->options['amazon_api'], 'paapi' ); ?>
+                    />
+                    <?php _e( 'Product Advertising API', 'datafeedr-api' ); ?>
+                    <strong>
+                        <?php _e( '(deprecated)', 'datafeedr-api' ); ?>
+                    </strong>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="radio"
+                           value="capi"
+                           name="<?php echo $this->key; ?>[amazon_api]"
+                            <?php checked( $this->options['amazon_api'], 'capi' ); ?>
+                    />
+                    <?php _e( 'Creators API', 'datafeedr-api' ); ?>
+                    <strong>
+                        <?php _e( '(recommended)', 'datafeedr-api' ); ?>
+                    </strong>
+                </label>
+            </p>
+            <p class="description">
+                <?php _e( 'Which Amazon API would you like to connect to?', 'datafeedr-api' ); ?>
+            </p>
+            <?php
+        }
+
 		function section_amazon_api_settings_desc() {
 			echo __( 'Add your ', 'datafeedr-api' );
 			echo '<a href="https://affiliate-program.amazon.com/gp/advertising/api/detail/your-account.html" target="_blank">';
@@ -341,6 +385,37 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 			<?php
 		}
 
+        function field_capi_credential_id() {
+            ?>
+            <input type="text" class="regular-text" name="<?php echo $this->key; ?>[capi_credential_id]" value="<?php echo esc_attr( $this->options['capi_credential_id'] ); ?>" />
+            <?php
+        }
+
+        function field_capi_credential_secret() {
+            ?>
+            <input type="text" class="regular-text" name="<?php echo $this->key; ?>[capi_credential_secret]" value="<?php echo esc_attr( $this->options['capi_credential_secret'] ); ?>" />
+            <?php
+        }
+
+        function field_capi_partner_tag() {
+            ?>
+            <input type="text" class="regular-text" name="<?php echo $this->key; ?>[capi_partner_tag]" value="<?php echo esc_attr( $this->options['capi_partner_tag'] ); ?>" />
+            <?php
+        }
+
+        function field_capi_marketplace() {
+
+            ?>
+            <select name="<?php echo $this->key; ?>[capi_marketplace]">
+                <?php foreach ( dfrapi_get_capi_marketplaces() as $code => $marketplace ) : ?>
+                    <option value="<?php esc_attr_e( $code ); ?>" <?php selected( $this->options['capi_marketplace'], $code ); ?>>
+                        <?php esc_html_e( $marketplace['locale'] ); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <?php
+        }
+
 		function section_hs_beacon_settings_desc() {
 			echo __( 'Display the link to Datafeedr documentation and support on every Datafeedr-specific page in your WordPress Admin Area. ',
 				'datafeedr-api' );
@@ -396,6 +471,14 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 					$new_input['disable_api'] = trim( $value );
 				}
 
+				// Validate Amazon API
+                if ( $key === 'amazon_api' ) {
+                    $amazon_api              = strtolower( trim( $value ) );
+                    $new_input['amazon_api'] = in_array( $amazon_api, [ 'paapi', 'capi' ], true )
+                            ? $amazon_api
+                            : 'paapi';
+                }
+
 				// Validate Amazon Access Key ID
 				if ( $key === 'amazon_access_key_id' ) {
 					$new_input['amazon_access_key_id'] = trim( $value );
@@ -415,6 +498,32 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 				if ( $key === 'amazon_locale' ) {
 					$new_input['amazon_locale'] = trim( $value );
 				}
+
+				// Validate CAPI Credential ID
+				if ( $key === 'capi_credential_id' ) {
+					$new_input['capi_credential_id'] = trim( $value );
+				}
+
+				// Validate CAPI Credential Secret
+				if ( $key === 'capi_credential_secret' ) {
+					$new_input['capi_credential_secret'] = trim( $value );
+				}
+
+				// Validate CAPI Partner Tag
+				if ( $key === 'capi_partner_tag' ) {
+					$new_input['capi_partner_tag'] = trim( $value );
+				}
+
+				// Validate CAPI Marketplace
+                if ( $key === 'capi_marketplace' ) {
+
+                    $marketplace        = strtoupper( trim( $value ) );
+                    $valid_marketplaces = array_keys( dfrapi_get_capi_marketplaces() );
+
+                    $new_input['capi_marketplace'] = in_array( $marketplace, $valid_marketplaces, true )
+                            ? $marketplace
+                            : 'US';
+                }
 
 				// Validate PH Application Key
 				if ( $key === 'ph_application_key' ) {

@@ -2868,6 +2868,12 @@ function dfrapi_inactive_networks(): array {
     return array_map( 'absint', apply_filters( 'dfrapi_inactive_networks', $inactive_network_ids ) );
 }
 
+function dfrapi_get_amazon_api(): string {
+    $configuration = (array) get_option( 'dfrapi_configuration' );
+
+    return $configuration['amazon_api'] ?? '';
+}
+
 function dfrapi_get_capi_regions(): array {
 
     $regions = [];
@@ -2914,135 +2920,135 @@ function dfrapi_get_capi_marketplaces(): array {
 
     $marketplaces       = [];
     $marketplaces['AU'] = [
-            'locale'      => 'Australia',
-            'marketplace' => 'www.amazon.com.au',
-            'region'      => $regions['FE'],
+            'locale' => 'Australia',
+            'domain' => 'www.amazon.com.au',
+            'region' => $regions['FE'],
     ];
 
     $marketplaces['BE'] = [
-            'locale'      => 'Belgium',
-            'marketplace' => 'www.amazon.com.be',
-            'region'      => $regions['EU'],
+            'locale' => 'Belgium',
+            'domain' => 'www.amazon.com.be',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['BR'] = [
-            'locale'      => 'Brazil',
-            'marketplace' => 'www.amazon.com.br',
-            'region'      => $regions['NA'],
+            'locale' => 'Brazil',
+            'domain' => 'www.amazon.com.br',
+            'region' => $regions['NA'],
     ];
 
     $marketplaces['CA'] = [
-            'locale'      => 'Canada',
-            'marketplace' => 'www.amazon.ca',
-            'region'      => $regions['NA'],
+            'locale' => 'Canada',
+            'domain' => 'www.amazon.ca',
+            'region' => $regions['NA'],
     ];
 
     $marketplaces['EG'] = [
-            'locale'      => 'Egypt',
-            'marketplace' => 'www.amazon.eg',
-            'region'      => $regions['EU'],
+            'locale' => 'Egypt',
+            'domain' => 'www.amazon.eg',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['FR'] = [
-            'locale'      => 'France',
-            'marketplace' => 'www.amazon.fr',
-            'region'      => $regions['EU'],
+            'locale' => 'France',
+            'domain' => 'www.amazon.fr',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['DE'] = [
-            'locale'      => 'Germany',
-            'marketplace' => 'www.amazon.de',
-            'region'      => $regions['EU'],
+            'locale' => 'Germany',
+            'domain' => 'www.amazon.de',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['IN'] = [
-            'locale'      => 'India',
-            'marketplace' => 'www.amazon.in',
-            'region'      => $regions['EU'],
+            'locale' => 'India',
+            'domain' => 'www.amazon.in',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['IE'] = [
-            'locale'      => 'Ireland',
-            'marketplace' => 'www.amazon.ie',
-            'region'      => $regions['EU'],
+            'locale' => 'Ireland',
+            'domain' => 'www.amazon.ie',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['IT'] = [
-            'locale'      => 'Italy',
-            'marketplace' => 'www.amazon.it',
-            'region'      => $regions['EU'],
+            'locale' => 'Italy',
+            'domain' => 'www.amazon.it',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['JP'] = [
-            'locale'      => 'Japan',
-            'marketplace' => 'www.amazon.co.jp',
-            'region'      => $regions['FE'],
+            'locale' => 'Japan',
+            'domain' => 'www.amazon.co.jp',
+            'region' => $regions['FE'],
     ];
 
     $marketplaces['MX'] = [
-            'locale'      => 'Mexico',
-            'marketplace' => 'www.amazon.com.mx',
-            'region'      => $regions['NA'],
+            'locale' => 'Mexico',
+            'domain' => 'www.amazon.com.mx',
+            'region' => $regions['NA'],
     ];
 
     $marketplaces['NL'] = [
-            'locale'      => 'Netherlands',
-            'marketplace' => 'www.amazon.nl',
-            'region'      => $regions['EU'],
+            'locale' => 'Netherlands',
+            'domain' => 'www.amazon.nl',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['PL'] = [
-            'locale'      => 'Poland',
-            'marketplace' => 'www.amazon.pl',
-            'region'      => $regions['EU'],
+            'locale' => 'Poland',
+            'domain' => 'www.amazon.pl',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['SG'] = [
-            'locale'      => 'Singapore',
-            'marketplace' => 'www.amazon.sg',
-            'region'      => $regions['FE'],
+            'locale' => 'Singapore',
+            'domain' => 'www.amazon.sg',
+            'region' => $regions['FE'],
     ];
 
     $marketplaces['SA'] = [
-            'locale'      => 'Saudi Arabia',
-            'marketplace' => 'www.amazon.sa',
-            'region'      => $regions['EU'],
+            'locale' => 'Saudi Arabia',
+            'domain' => 'www.amazon.sa',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['ES'] = [
-            'locale'      => 'Spain',
-            'marketplace' => 'www.amazon.es',
-            'region'      => $regions['EU'],
+            'locale' => 'Spain',
+            'domain' => 'www.amazon.es',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['SE'] = [
-            'locale'      => 'Sweden',
-            'marketplace' => 'www.amazon.se',
-            'region'      => $regions['EU'],
+            'locale' => 'Sweden',
+            'domain' => 'www.amazon.se',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['TR'] = [
-            'locale'      => 'Turkey',
-            'marketplace' => 'www.amazon.com.tr',
-            'region'      => $regions['EU'],
+            'locale' => 'Turkey',
+            'domain' => 'www.amazon.com.tr',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['AE'] = [
-            'locale'      => 'United Arab Emirates',
-            'marketplace' => 'www.amazon.ae',
-            'region'      => $regions['EU'],
+            'locale' => 'United Arab Emirates',
+            'domain' => 'www.amazon.ae',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['UK'] = [
-            'locale'      => 'United Kingdom',
-            'marketplace' => 'www.amazon.co.uk',
-            'region'      => $regions['EU'],
+            'locale' => 'United Kingdom',
+            'domain' => 'www.amazon.co.uk',
+            'region' => $regions['EU'],
     ];
 
     $marketplaces['US'] = [
-            'locale'      => 'United States',
-            'marketplace' => 'www.amazon.com',
-            'region'      => $regions['NA'],
+            'locale' => 'United States',
+            'domain' => 'www.amazon.com',
+            'region' => $regions['NA'],
     ];
 
     return $marketplaces;
@@ -3076,8 +3082,8 @@ function dfrapi_get_capi_credentials(): array {
 
     $credentials['id']          = trim( $configuration['capi_credential_id'] ?? '' );
     $credentials['secret']      = trim( $configuration['capi_credential_secret'] ?? '' );
-    $credentials['marketplace'] = trim( $configuration['capi_marketplace'] ?? 'US' );
     $credentials['partner_tag'] = trim( $configuration['capi_partner_tag'] ?? '' );
+    $credentials['marketplace'] = trim( $configuration['capi_marketplace'] ?? 'US' );
 
     $marketplace = dfrapi_get_capi_marketplace( $credentials['marketplace'] );
 
@@ -3087,6 +3093,21 @@ function dfrapi_get_capi_credentials(): array {
     }
 
     return $credentials;
+}
+
+function dfrapi_capi_credentials_exist(): bool {
+
+    $credentials = dfrapi_get_capi_credentials();
+
+    $keys = [ 'id', 'secret', 'partner_tag', 'version', 'endpoint', 'marketplace' ];
+
+    foreach ( $keys as $key ) {
+        if ( empty( $credentials[ $key ] ) ) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 function dfrapi_get_capi_access_token() {
@@ -3099,11 +3120,11 @@ function dfrapi_get_capi_access_token() {
         return $capi_access_token;
     }
 
-    $credentials = dfrapi_get_capi_credentials();
-
-    if ( ! isset( $credentials['id'], $credentials['secret'], $credentials['endpoint'] ) ) {
-        return new WP_Error( 'missing_capi_credentials', 'Missing Creator API credentials' );
+    if ( ! dfrapi_capi_credentials_exist() ) {
+        return new WP_Error( 'missing_capi_credentials', 'Missing Amazon Creators API credentials' );
     }
+
+    $credentials = dfrapi_get_capi_credentials();
 
     $response = wp_remote_request(
             'https://' . $credentials['endpoint'],

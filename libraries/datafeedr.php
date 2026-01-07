@@ -1770,6 +1770,61 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 		$credential_version  = $marketplace['region']['version'];
 		$body['partnerTag']  = $credentials['partner_tag'];
 		$body['marketplace'] = $domain;
+//		$body['resources']   = [
+//			'images.primary.small',
+//			'images.primary.medium',
+//			'images.primary.large',
+//
+//			'itemInfo.byLineInfo',
+//			'itemInfo.title',
+//			'itemInfo.externalIds',
+//			'itemInfo.productInfo',
+//
+//			'offers.listings.price',               // current buying price
+//			'offers.listings.savingBasis',         // list price / strike-through price
+//			'offers.listings.condition',           // condition info
+//			'offers.summaries.highestPrice',       // highest price among offers
+//			'offers.summaries.lowestPrice'         // lowest price among offers
+//		];
+
+		// https://affiliate-program.amazon.com/creatorsapi/docs/en-us/api-reference/operations/search-items
+		$body['resources']   = [
+//			'browseNodeInfo.browseNodes',
+//			'browseNodeInfo.browseNodes.ancestor',
+//			'browseNodeInfo.browseNodes.salesRank',
+//			'browseNodeInfo.websiteSalesRank',
+			'customerReviews.count',
+			'customerReviews.starRating',
+			'images.primary.highRes',
+			'images.primary.large',
+			'images.primary.medium',
+			'images.primary.small',
+//			'images.variants.highRes',
+//			'images.variants.large',
+//			'images.variants.medium',
+//			'images.variants.small',
+			'itemInfo.byLineInfo',
+//			'itemInfo.classifications',
+//			'itemInfo.contentInfo',
+//			'itemInfo.contentRating',
+			'itemInfo.externalIds',
+//			'itemInfo.features',
+//			'itemInfo.manufactureInfo',
+			'itemInfo.productInfo',
+//			'itemInfo.technicalInfo',
+			'itemInfo.title',
+			'itemInfo.tradeInInfo',
+			'offersV2.listings.availability',
+			'offersV2.listings.condition',
+//			'offersV2.listings.dealDetails',
+//			'offersV2.listings.isBuyBoxWinner',
+//			'offersV2.listings.loyaltyPoints',
+//			'offersV2.listings.merchantInfo',
+			'offersV2.listings.price',
+			'offersV2.listings.type',
+			'parentASIN',
+//			'searchRefinements',
+		];
 
 		$response = wp_remote_post(
 			'https://creatorsapi.amazon/catalog/v1/searchItems',
@@ -1799,8 +1854,99 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 
 		// @todo check non 200 values.
 
-		$body   = wp_remote_retrieve_body( $response );
-		$data   = json_decode( $body, true );
+		$body = wp_remote_retrieve_body( $response );
+
+
+		/*
+
+		[
+		    "errors" => null,
+		    "searchResult" => [
+		      "items" => [
+		        [
+		          "asin" => "0545162076",
+		          "browseNodeInfo" => null,
+		          "customerReviews" => null,
+		          "detailPageURL" => "https://www.amazon.com/dp/0545162076?tag=learnpowerpoi-20&linkCode=osi&th=1&psc=1",
+		          "images" => null,
+		          "itemInfo" => [
+		            "byLineInfo" => null,
+		            "classifications" => null,
+		            "contentInfo" => null,
+		            "contentRating" => null,
+		            "externalIds" => null,
+		            "features" => null,
+		            "manufactureInfo" => null,
+		            "productInfo" => null,
+		            "technicalInfo" => null,
+		            "title" => [
+		              "displayValue" => "Harry Potter Paperback Box Set (Books 1-7)",
+		              "label" => "Title",
+		              "locale" => "en_US",
+		            ],
+		            "tradeInInfo" => null,
+		          ],
+		          "offersV2" => null,
+		          "parentASIN" => null,
+		          "score" => null,
+		          "variationAttributes" => null,
+		        ],
+		        [ ... ],
+		        [ ... ],
+		        [ ... ],
+		      ],
+		      "searchRefinements" => null,
+		      "searchURL" => "https://www.amazon.com/s?k=Harry+Potter&rh=p_n_availability%3A2661600011&tag=learnpowerpoi-20&linkCode=osi",
+		      "totalResultCount" => 306,
+		    ],
+		]
+
+
+		*/
+		/**
+		 *  [
+		 *      "errors" => null,
+		 *      "searchResult" => [
+		 *          "items" => [
+		 *              [
+		 *                  "asin" => "0545162076",
+		 *                  "browseNodeInfo" => null,
+		 *                  "customerReviews" => null,
+		 *                  "detailPageURL" => "https://www.amazon.com/dp/0545162076?tag=xyz-20&linkCode=osi&th=1&psc=1",
+		 *                  "images" => null,
+		 *                  "itemInfo" => [
+		 *                      "byLineInfo" => null,
+		 *                      "classifications" => null,
+		 *                      "contentInfo" => null,
+		 *                      "contentRating" => null,
+		 *                      "externalIds" => null,
+		 *                      "features" => null,
+		 *                      "manufactureInfo" => null,
+		 *                      "productInfo" => null,
+		 *                      "technicalInfo" => null,
+		 *                      "title" => [
+		 *                          "displayValue" => "Harry Potter Paperback Box Set (Books 1-7)",
+		 *                          "label" => "Title",
+		 *                          "locale" => "en_US",
+		 *                      ],
+		 *                      "tradeInInfo" => null,
+		 *                  ],
+		 *                  "offersV2" => null,
+		 *                  "parentASIN" => null,
+		 *                  "score" => null,
+		 *                  "variationAttributes" => null,
+		 *              ],
+		 *              [ ... ],
+		 *              [ ... ],
+		 *              [ ... ],
+		 *              ],
+		 *          "searchRefinements" => null,
+		 *          "searchURL" => "https://www.amazon.com/s?k=Harry+Potter&rh=p_n_availability%3A2661600011&tag=xyz-20&linkCode=osi",
+		 *          "totalResultCount" => 306,
+		 *      ],
+		 *  ]
+		 */
+		$data = json_decode( $body, true );
 
 		return $data;
 
@@ -1811,56 +1957,56 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 }
 
 /** CreatorAPI */
-class DatafeedrAmazonCreatorApiLookupRequest extends DatafeedrAmazonCreatorApiRequest {
-
-	/**
-	 * Add a parameter.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string|array $value Parameter value or an array of values (up to 10).
-	 *
-	 * @param string $name Parameter name - one of 'ASIN', 'SKU', 'UPC', 'EAN', 'ISBN'
-	 *
-	 * @return DatafeedrAmazonCreatorApiLookupRequest Returns $this.
-	 *
-	 * @see https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp
-	 */
-	public function addParam( $name, $value ) {
-		$this->_params[ $name ] = $value;
-
-		return $this;
-	}
-
-	/**
-	 * Run search and return an array of products.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array An array of products.
-	 */
-	public function execute() {
-
-		$params = array_filter( $this->_params );
-		$types  = array( 'ASIN', 'SKU', 'UPC', 'EAN', 'ISBN', 'asin', 'sku', 'upc', 'ean', 'isbn' );
-
-		foreach ( $types as $type ) {
-			if ( isset( $params[ $type ] ) ) {
-				$params['itemIdType'] = strtoupper( $type );
-				$params['itemIds']    = $params[ $type ];
-				if ( is_string( $params['itemIds'] ) ) {
-					$params['itemIds'] = explode( ',', $params['itemIds'] );
-				}
-				unset( $params[ $type ] );
-			}
-		}
-
-		$req = $this->_amazonRequest( 'GetItems', $params );
-		$this->_apiCall( 'amazon_find', $req );
-
-		return $this->_responseItem( 'products', array() );
-	}
-}
+//class DatafeedrAmazonCreatorApiLookupRequest extends DatafeedrAmazonCreatorApiRequest {
+//
+//	/**
+//	 * Add a parameter.
+//	 *
+//	 * @since 1.0.0
+//	 *
+//	 * @param string|array $value Parameter value or an array of values (up to 10).
+//	 *
+//	 * @param string $name Parameter name - one of 'ASIN', 'SKU', 'UPC', 'EAN', 'ISBN'
+//	 *
+//	 * @return DatafeedrAmazonCreatorApiLookupRequest Returns $this.
+//	 *
+//	 * @see https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp
+//	 */
+//	public function addParam( $name, $value ) {
+//		$this->_params[ $name ] = $value;
+//
+//		return $this;
+//	}
+//
+//	/**
+//	 * Run search and return an array of products.
+//	 *
+//	 * @since 1.0.0
+//	 *
+//	 * @return array An array of products.
+//	 */
+//	public function execute() {
+//
+//		$params = array_filter( $this->_params );
+//		$types  = array( 'ASIN', 'SKU', 'UPC', 'EAN', 'ISBN', 'asin', 'sku', 'upc', 'ean', 'isbn' );
+//
+//		foreach ( $types as $type ) {
+//			if ( isset( $params[ $type ] ) ) {
+//				$params['itemIdType'] = strtoupper( $type );
+//				$params['itemIds']    = $params[ $type ];
+//				if ( is_string( $params['itemIds'] ) ) {
+//					$params['itemIds'] = explode( ',', $params['itemIds'] );
+//				}
+//				unset( $params[ $type ] );
+//			}
+//		}
+//
+//		$req = $this->_amazonRequest( 'GetItems', $params );
+//		$this->_apiCall( 'amazon_find', $req );
+//
+//		return $this->_responseItem( 'products', array() );
+//	}
+//}
 
 /**
  * Class DatafeedrError.

@@ -3171,3 +3171,161 @@ function dfrapi_get_capi_access_token() {
 
     return $capi_access_token;
 }
+
+function dfrapi_array_get_dot( array $array, string $path, $default = null ) {
+
+    foreach ( explode( '.', $path ) as $key ) {
+
+        if ( ! is_array( $array ) || ! array_key_exists( $key, $array ) ) {
+            return $default;
+        }
+
+        $array = $array[ $key ];
+    }
+
+    return $array;
+}
+
+function dfrapi_get_capi_to_datafeedr_field_map(): array {
+
+    $fields = [
+//            'brand'            => 'itemInfo.byLineInfo.brand.displayValue',
+//            'color'            => 'itemInfo.productInfo.color.displayValue',
+//            'description'      => 'itemInfo.title.displayValue',
+//            'id'               => 7777 . 'asin',
+            'image' => 'images.primary.large.url',
+//            'iscommissionable' => 1,
+//            'manufacturer'     => 'itemInfo.byLineInfo.manufacturer.displayValue',
+//            'merchant'         => 'Amazon',
+//            'merchant_id'      => 7777,
+//            'name'             => 'itemInfo.title.displayValue',
+//            'network'          => 'Amazon',
+//            'network_id'       => 7777,
+//            'ref_url'          => 'detailPageURL',
+//            'source'           => 'Amazon',
+//            'source_id'        => 7777,
+//            'time_added'       => '2025-12-07 10:23:07',
+//            'time_updated'     => '2026-01-04 01:13:35',
+//            'url'              => 'detailPageURL',
+
+            'onsale'       => 1,
+            'condition'    => 'offersV2.listings[0].condition.value',
+            'currency'     => 'offersV2.listings[0].price.money.currency',
+            'finalprice'   => 'offersV2.listings[0].price.money.amount',
+            'instock'      => 'offersV2.listings[0].availability.type === "IN_STOCK"',
+            'price'        => 'offersV2.listings[0].price.savingBasis.money.amount',
+            'salediscount' => 'offersV2.listings[0].price.savings.percentage',
+            'saleprice'    => 'offersV2.listings[0].price.money.amount',
+            'usedprice'    => 'offersV2.listings[1].price.money.amount',
+
+//            'v5_id'            => 7777 . 'asin'
+    ];
+
+    return apply_filters( 'dfrapi_capi_to_datafeedr_field_map', $fields );
+}
+
+function dfrapi_transform_capi_item_into_datafeedr_product_array( array $item ): array {
+
+    $product = [];
+
+    // Hard-coded values.
+    $product['id']               = 7777 . dfrapi_array_get_dot( $item, 'asin' );
+    $product['v5_id']            = 7777 . dfrapi_array_get_dot( $item, 'asin' );
+    $product['network_id']       = 7777;
+    $product['source_id']        = 7777;
+    $product['merchant_id']      = 7777;
+    $product['asin']             = dfrapi_array_get_dot( $item, 'asin' );
+    $product['v5_suid']          = dfrapi_array_get_dot( $item, 'asin' );
+    $product['network']          = 'Amazon';
+    $product['source']           = 'Amazon';
+    $product['merchant']         = 'Amazon';
+    $product['time_added']       = date_i18n( 'Y-m-d H:i:s' );
+    $product['time_updated']     = date_i18n( 'Y-m-d H:i:s' );
+    $product['iscommissionable'] = 1;
+
+    // Specific item values.
+    $product['name']         = dfrapi_array_get_dot( $item, 'itemInfo.title.displayValue' );
+    $product['description']  = dfrapi_array_get_dot( $item, 'itemInfo.title.displayValue' );
+    $product['brand']        = dfrapi_array_get_dot( $item, 'itemInfo.byLineInfo.brand.displayValue' );
+    $product['color']        = dfrapi_array_get_dot( $item, 'itemInfo.productInfo.color.displayValue' );
+    $product['manufacturer'] = dfrapi_array_get_dot( $item, 'itemInfo.byLineInfo.manufacturer.displayValue' );
+    $product['url']          = dfrapi_array_get_dot( $item, 'detailPageURL' );
+    $product['ref_url']      = dfrapi_array_get_dot( $item, 'detailPageURL' );
+    $product['upc']          = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.upcs.displayValues.0' );
+    $product['ean']          = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.eans.displayValues.0' );
+    $product['isbn']         = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.isbns.displayValues.0' );
+    $product['gtin']         = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.gtins.displayValues.0' );
+
+    if ( ! empty( $product['upc'] ) ) {
+        $product['barcode'] = $product['upc'];
+    } elseif ( ! empty( $product['ean'] ) ) {
+        $product['barcode'] = $product['ean'];
+    } elseif ( ! empty( $product['isbn'] ) ) {
+        $product['barcode'] = $product['isbn'];
+    } elseif ( ! empty( $product['gtin'] ) ) {
+        $product['barcode'] = $product['gtin'];
+    }
+
+    $listings = dfrapi_array_get_dot( $item, 'offersV2.listings', [] );
+
+    $info = [];
+
+    foreach ( $listings as $listing ) {
+
+        // Valid Condition Values: New, Used, Refurbished, Unknown
+        $condition = strtolower( dfrapi_array_get_dot( $listing, 'condition.value' ) );
+
+        /**
+         * 'condition'    => 'offersV2.listings[0].condition.value',
+         *
+         * 'currency'     => 'offersV2.listings[0].price.money.currency',
+         * 'price'        => 'offersV2.listings[0].price.savingBasis.money.amount',
+         * 'saleprice'    => 'offersV2.listings[0].price.money.amount',
+         * 'finalprice'   => 'offersV2.listings[0].price.money.amount',
+         *
+         * 'salediscount' => 'offersV2.listings[0].price.savings.percentage',
+         * 'onsale'       => 1,
+         * 'instock'      => 'offersV2.listings[0].availability.type === "IN_STOCK"',
+         *
+         * 'usedprice'    => 'offersV2.listings[1].price.money.amount',
+         */
+
+        $info[ $condition ]['currency']     = dfrapi_array_get_dot( $listing, 'price.money.currency' );
+        $info[ $condition ]['price']        = dfrapi_array_get_dot( $listing, 'price.savingBasis.money.amount' );
+        $info[ $condition ]['saleprice']    = dfrapi_array_get_dot( $listing, 'price.money.amount' );
+        $info[ $condition ]['finalprice']   = dfrapi_array_get_dot( $listing, 'price.money.amount' );
+        $info[ $condition ]['salediscount'] = dfrapi_array_get_dot( $listing, 'price.savings.percentage' );
+
+        if ( in_array( $condition, [ 'used', 'refurbished' ], true ) ) {
+            $info[ $condition ]['usedprice'] = dfrapi_array_get_dot( $listing, 'price.money.amount' );
+        }
+
+        if ( (int) $info[ $condition ]['finalprice'] < (int) $info[ $condition ]['price'] ) {
+            $info[ $condition ]['onsale'] = 1;
+        } else {
+            $info[ $condition ]['onsale'] = 0;
+        }
+
+        $availability = dfrapi_array_get_dot( $listing, 'availability.value' );
+        if ( in_array( $availability, [ 'IN_STOCK', 'IN_STOCK_SCARCE' ], true ) ) {
+            $info[ $condition ]['instock'] = 1;
+        } elseif ( in_array( $availability, [ 'UNKNOWN' ], true ) ) {
+            $info[ $condition ]['instock'] = 9;
+        } else {
+            $info[ $condition ]['instock'] = 0;
+        }
+
+        $info[ $condition ] = array_filter( $info[ $condition ] );
+
+        foreach ( $info[ $condition ] as $key => $value ) {
+            if ( str_contains( 'price', $key ) ) {
+                $info[ $condition ][ $key ] = dfrapi_price_to_int( $value );
+            }
+        }
+
+    }
+
+    return $product;
+}
+
+

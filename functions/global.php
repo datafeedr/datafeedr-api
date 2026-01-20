@@ -3277,15 +3277,37 @@ function dfrapi_transform_capi_item_into_datafeedr_product_array( array $item ):
     // Specific item values.
     $product['name']         = dfrapi_array_get_dot( $item, 'itemInfo.title.displayValue' );
     $product['description']  = dfrapi_array_get_dot( $item, 'itemInfo.title.displayValue' );
+
+    $features = dfrapi_array_get_dot( $item, 'itemInfo.features.displayValues' );
+    if ( is_array( $features ) && ! empty( $features ) ) {
+        $product['description'] = implode( ' ', $features );
+    }
+
     $product['brand']        = dfrapi_array_get_dot( $item, 'itemInfo.byLineInfo.brand.displayValue' );
     $product['color']        = dfrapi_array_get_dot( $item, 'itemInfo.productInfo.color.displayValue' );
     $product['manufacturer'] = dfrapi_array_get_dot( $item, 'itemInfo.byLineInfo.manufacturer.displayValue' );
     $product['url']          = dfrapi_array_get_dot( $item, 'detailPageURL' );
     $product['ref_url']      = dfrapi_array_get_dot( $item, 'detailPageURL' );
-    $product['upc']          = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.upcs.displayValues.0' );
-    $product['ean']          = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.eans.displayValues.0' );
-    $product['isbn']         = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.isbns.displayValues.0' );
-    $product['gtin']         = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.gtins.displayValues.0' );
+    $product['image']        = dfrapi_array_get_dot( $item, 'images.primary.large.url' );
+    $product['thumbnail']    = dfrapi_array_get_dot( $item, 'images.primary.medium.url' );
+
+    $upc  = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.upcs.displayValues.0' );
+    $ean  = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.eans.displayValues.0' );
+    $isbn = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.isbns.displayValues.0' );
+    $gtin = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.gtins.displayValues.0' );
+
+    if ( $upc ) {
+        $product['upc'] = $upc;
+    }
+    if ( $ean ) {
+        $product['ean'] = $ean;
+    }
+    if ( $isbn ) {
+        $product['isbn'] = $isbn;
+    }
+    if ( $gtin ) {
+        $product['gtin'] = $gtin;
+    }
 
     if ( ! empty( $product['upc'] ) ) {
         $product['barcode'] = $product['upc'];
@@ -3314,9 +3336,14 @@ function dfrapi_transform_capi_item_into_datafeedr_product_array( array $item ):
         // Add pricing info for each $condition.
         $info[ $condition ]['currency']     = dfrapi_array_get_dot( $listing, 'price.money.currency', 'USD' );
         $info[ $condition ]['price']        = dfrapi_price_to_int( $regular_price );
-        $info[ $condition ]['saleprice']    = dfrapi_price_to_int( $price_amount );
+
+        $saleprice = dfrapi_price_to_int( $price_amount );
+        if ( $saleprice < $info[ $condition ]['price'] ) {
+            $info[ $condition ]['saleprice'] = $saleprice;
+        }
+
         $info[ $condition ]['finalprice']   = dfrapi_price_to_int( $price_amount );
-        $info[ $condition ]['salediscount'] = dfrapi_array_get_dot( $listing, 'price.savings.percentage' );
+        $info[ $condition ]['salediscount'] = dfrapi_array_get_dot( $listing, 'price.savings.percentage', 0 );
 
         // Set the usedprice if applicable.
         if ( in_array( $condition, [ 'used', 'refurbished' ], true ) ) {
@@ -3327,7 +3354,7 @@ function dfrapi_transform_capi_item_into_datafeedr_product_array( array $item ):
         $info[ $condition ]['onsale'] = ( $info[ $condition ]['finalprice'] < $info[ $condition ]['price'] ) ? 1 : 0;
 
         // Set availability
-        $availability = dfrapi_array_get_dot( $listing, 'availability.value' );
+        $availability = dfrapi_array_get_dot( $listing, 'availability.type' );
         if ( in_array( $availability, [ 'IN_STOCK', 'IN_STOCK_SCARCE' ], true ) ) {
             $info[ $condition ]['instock'] = 1;
         } elseif ( in_array( $availability, [ 'UNKNOWN' ], true ) ) {

@@ -1770,25 +1770,9 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 		$credential_version  = $marketplace['region']['version'];
 		$body['partnerTag']  = $credentials['partner_tag'];
 		$body['marketplace'] = $domain;
-//		$body['resources']   = [
-//			'images.primary.small',
-//			'images.primary.medium',
-//			'images.primary.large',
-//
-//			'itemInfo.byLineInfo',
-//			'itemInfo.title',
-//			'itemInfo.externalIds',
-//			'itemInfo.productInfo',
-//
-//			'offers.listings.price',               // current buying price
-//			'offers.listings.savingBasis',         // list price / strike-through price
-//			'offers.listings.condition',           // condition info
-//			'offers.summaries.highestPrice',       // highest price among offers
-//			'offers.summaries.lowestPrice'         // lowest price among offers
-//		];
 
 		// https://affiliate-program.amazon.com/creatorsapi/docs/en-us/api-reference/operations/search-items
-		$body['resources']   = [
+		$resources = [
 //			'browseNodeInfo.browseNodes',
 //			'browseNodeInfo.browseNodes.ancestor',
 //			'browseNodeInfo.browseNodes.salesRank',
@@ -1826,6 +1810,8 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 //			'searchRefinements',
 		];
 
+		$body['resources'] = $resources;
+
 		$response = wp_remote_post(
 			'https://creatorsapi.amazon/catalog/v1/searchItems',
 			[
@@ -1847,12 +1833,25 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 		if ( is_wp_error( $response ) ) {
 			error_log( $response->get_error_message() );
 
-			return $response;
+			throw new DatafeedrConnectionError( $response->get_error_message() );
 		}
 
 		$status = wp_remote_retrieve_response_code( $response );
 
-		// @todo check non 200 values.
+		if ( 404 === $status ) {
+			$body = wp_remote_retrieve_body( $response );
+			$data = json_decode( $body, true );
+			if ( isset( $data['type'] ) && 'ResourceNotFoundException' === $data['type'] ) {
+				return [];
+			}
+		}
+
+		if ( 200 !== $status ) {
+			$message = wp_remote_retrieve_response_message( $response );
+			error_log( $message );
+
+			throw new DatafeedrHTTPError( $message, $status );
+		}
 
 		$body = wp_remote_retrieve_body( $response );
 
@@ -1867,7 +1866,7 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 		          "asin" => "0545162076",
 		          "browseNodeInfo" => null,
 		          "customerReviews" => null,
-		          "detailPageURL" => "https://www.amazon.com/dp/0545162076?tag=learnpowerpoi-20&linkCode=osi&th=1&psc=1",
+		          "detailPageURL" => "https://www.amazon.com/dp/0545162076?tag=xyz-20&linkCode=osi&th=1&psc=1",
 		          "images" => null,
 		          "itemInfo" => [
 		            "byLineInfo" => null,
@@ -1896,7 +1895,7 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 		        [ ... ],
 		      ],
 		      "searchRefinements" => null,
-		      "searchURL" => "https://www.amazon.com/s?k=Harry+Potter&rh=p_n_availability%3A2661600011&tag=learnpowerpoi-20&linkCode=osi",
+		      "searchURL" => "https://www.amazon.com/s?k=Harry+Potter&rh=p_n_availability%3A2661600011&tag=xyz-20&linkCode=osi",
 		      "totalResultCount" => 306,
 		    ],
 		]
@@ -1948,7 +1947,21 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 		 */
 		$data = json_decode( $body, true );
 
-		return $data;
+		if ( ! empty( $data['errors'] ) ) {
+			$error = $data['errors'][0];
+			error_log( $error['message'] );
+
+			throw new DatafeedrExternalError( $error['message'] );
+		}
+
+		$items    = $data['searchResult']['items'] ?? [];
+		$products = [];
+
+		foreach ( $items as $item ) {
+			$products[] = dfrapi_transform_capi_item_into_datafeedr_product_array( $item );
+		}
+
+		return $products;
 
 // $data now contains the API response
 

@@ -2868,12 +2868,26 @@ function dfrapi_inactive_networks(): array {
     return array_map( 'absint', apply_filters( 'dfrapi_inactive_networks', $inactive_network_ids ) );
 }
 
+/**
+ * Returns the Amazon API to use.
+ *
+ * @since 1.4.0
+ *
+ * @return string The Amazon API to use.
+ */
 function dfrapi_get_amazon_api(): string {
     $configuration = (array) get_option( 'dfrapi_configuration' );
 
     return $configuration['amazon_api'] ?? '';
 }
 
+/**
+ * Returns an array of Amazon Creator API regions.
+ *
+ * @since 1.4.0
+ *
+ * @return array The Amazon Creator API regions.
+ */
 function dfrapi_get_capi_regions(): array {
 
     $regions = [];
@@ -2903,9 +2917,13 @@ function dfrapi_get_capi_regions(): array {
 }
 
 /**
- * @param string $code
+ * Returns an Amazon Creator API region by its code.
  *
- * @return array|WP_Error
+ * @since 1.4.0
+ *
+ * @param string $code The region code (Ex. NA, EU, FE).
+ *
+ * @return array|WP_Error The region data or WP_Error if the code is invalid.
  */
 function dfrapi_get_capi_region( string $code ) {
     $code    = strtoupper( trim( $code ) );
@@ -2914,6 +2932,13 @@ function dfrapi_get_capi_region( string $code ) {
     return $regions[ $code ] ?? new WP_Error( 'invalid_capi_region_code', 'Invalid Creator API region code.', [ 'code' => $code ] );
 }
 
+/**
+ * Returns an array of Amazon Creator API marketplaces.
+ *
+ * @since 1.4.0
+ *
+ * @return array The Amazon Creator API marketplaces.
+ */
 function dfrapi_get_capi_marketplaces(): array {
 
     $regions = dfrapi_get_capi_regions();
@@ -3054,6 +3079,15 @@ function dfrapi_get_capi_marketplaces(): array {
     return $marketplaces;
 }
 
+/**
+ * Returns an Amazon Creator API marketplace by its code.
+ *
+ * @since 1.4.0
+ *
+ * @param string $code The marketplace code (Ex. US, CA, UK, etc.).
+ *
+ * @return array|WP_Error The marketplace data or WP_Error if the code is invalid.
+ */
 function dfrapi_get_capi_marketplace( string $code ) {
     $code         = strtoupper( trim( $code ) );
     $marketplaces = dfrapi_get_capi_marketplaces();
@@ -3065,7 +3099,7 @@ function dfrapi_get_capi_marketplace( string $code ) {
  * Returns Creator API credentials.
  *
  * @return array {
- *     Creator API credentials.
+ *      Creator API credentials.
  *
  * @type string $id Creator API credential ID.
  * @type string $secret Creator API credential secret.
@@ -3073,7 +3107,7 @@ function dfrapi_get_capi_marketplace( string $code ) {
  * @type string $partner_tag Partner tag (Ex. xyz-20).
  * @type string $version Version (2.1, 2.2 or 2.3).
  * @type string $endpoint Access token generation endpoint URL.
- * }
+ *  }
  */
 function dfrapi_get_capi_credentials(): array {
 
@@ -3095,6 +3129,13 @@ function dfrapi_get_capi_credentials(): array {
     return $credentials;
 }
 
+/**
+ * Checks if Amazon Creator API credentials exist.
+ *
+ * @since 1.4.0
+ *
+ * @return bool True if credentials exist, false otherwise.
+ */
 function dfrapi_capi_credentials_exist(): bool {
 
     $credentials = dfrapi_get_capi_credentials();
@@ -3110,6 +3151,13 @@ function dfrapi_capi_credentials_exist(): bool {
     return true;
 }
 
+/**
+ * Returns an Amazon Creator API access token.
+ *
+ * @since 1.4.0
+ *
+ * @return string|WP_Error The access token or WP_Error on failure.
+ */
 function dfrapi_get_capi_access_token() {
 
     $transient_key = 'dfrapi_capi_access_token';
@@ -3172,6 +3220,17 @@ function dfrapi_get_capi_access_token() {
     return $capi_access_token;
 }
 
+/**
+ * Returns a value from a multi-dimensional array using dot notation.
+ *
+ * @since 1.4.0
+ *
+ * @param array $array The array to search.
+ * @param string $path The path to the value using dot notation.
+ * @param mixed $default The default value to return if the path is not found.
+ *
+ * @return mixed The value from the array or the default value.
+ */
 function dfrapi_array_get_dot( array $array, string $path, $default = null ) {
 
     foreach ( explode( '.', $path ) as $key ) {
@@ -3186,56 +3245,28 @@ function dfrapi_array_get_dot( array $array, string $path, $default = null ) {
     return $array;
 }
 
-function dfrapi_get_capi_to_datafeedr_field_map(): array {
-
-    $fields = [
-//            'brand'            => 'itemInfo.byLineInfo.brand.displayValue',
-//            'color'            => 'itemInfo.productInfo.color.displayValue',
-//            'description'      => 'itemInfo.title.displayValue',
-//            'id'               => 7777 . 'asin',
-            'image' => 'images.primary.large.url',
-//            'iscommissionable' => 1,
-//            'manufacturer'     => 'itemInfo.byLineInfo.manufacturer.displayValue',
-//            'merchant'         => 'Amazon',
-//            'merchant_id'      => 7777,
-//            'name'             => 'itemInfo.title.displayValue',
-//            'network'          => 'Amazon',
-//            'network_id'       => 7777,
-//            'ref_url'          => 'detailPageURL',
-//            'source'           => 'Amazon',
-//            'source_id'        => 7777,
-//            'time_added'       => '2025-12-07 10:23:07',
-//            'time_updated'     => '2026-01-04 01:13:35',
-//            'url'              => 'detailPageURL',
-
-            'onsale'       => 1,
-            'condition'    => 'offersV2.listings[0].condition.value',
-            'currency'     => 'offersV2.listings[0].price.money.currency',
-            'finalprice'   => 'offersV2.listings[0].price.money.amount',
-            'instock'      => 'offersV2.listings[0].availability.type === "IN_STOCK"',
-            'price'        => 'offersV2.listings[0].price.savingBasis.money.amount',
-            'salediscount' => 'offersV2.listings[0].price.savings.percentage',
-            'saleprice'    => 'offersV2.listings[0].price.money.amount',
-            'usedprice'    => 'offersV2.listings[1].price.money.amount',
-
-//            'v5_id'            => 7777 . 'asin'
-    ];
-
-    return apply_filters( 'dfrapi_capi_to_datafeedr_field_map', $fields );
-}
-
+/**
+ * Transforms a CAPI item array into a Datafeedr product array.
+ *
+ * @since 1.4.0
+ *
+ * @param array $item The CAPI item data.
+ *
+ * @return array The transformed Datafeedr product array.
+ */
 function dfrapi_transform_capi_item_into_datafeedr_product_array( array $item ): array {
 
     $product = [];
+    $asin    = dfrapi_array_get_dot( $item, 'asin', '' );
 
     // Hard-coded values.
-    $product['id']               = 7777 . dfrapi_array_get_dot( $item, 'asin' );
-    $product['v5_id']            = 7777 . dfrapi_array_get_dot( $item, 'asin' );
+    $product['id']               = 7777 . $asin;
+    $product['v5_id']            = 7777 . $asin;
     $product['network_id']       = 7777;
     $product['source_id']        = 7777;
     $product['merchant_id']      = 7777;
-    $product['asin']             = dfrapi_array_get_dot( $item, 'asin' );
-    $product['v5_suid']          = dfrapi_array_get_dot( $item, 'asin' );
+    $product['asin']             = $asin;
+    $product['v5_suid']          = $asin;
     $product['network']          = 'Amazon';
     $product['source']           = 'Amazon';
     $product['merchant']         = 'Amazon';
@@ -3275,37 +3306,27 @@ function dfrapi_transform_capi_item_into_datafeedr_product_array( array $item ):
         // Valid Condition Values: New, Used, Refurbished, Unknown
         $condition = strtolower( dfrapi_array_get_dot( $listing, 'condition.value' ) );
 
-        /**
-         * 'condition'    => 'offersV2.listings[0].condition.value',
-         *
-         * 'currency'     => 'offersV2.listings[0].price.money.currency',
-         * 'price'        => 'offersV2.listings[0].price.savingBasis.money.amount',
-         * 'saleprice'    => 'offersV2.listings[0].price.money.amount',
-         * 'finalprice'   => 'offersV2.listings[0].price.money.amount',
-         *
-         * 'salediscount' => 'offersV2.listings[0].price.savings.percentage',
-         * 'onsale'       => 1,
-         * 'instock'      => 'offersV2.listings[0].availability.type === "IN_STOCK"',
-         *
-         * 'usedprice'    => 'offersV2.listings[1].price.money.amount',
-         */
+        // If the list price is missing, use the current price as the base price
+        $price_amount      = dfrapi_array_get_dot( $listing, 'price.money.amount', 0 );
+        $list_price_amount = dfrapi_array_get_dot( $listing, 'price.savingBasis.money.amount' );
+        $regular_price     = $list_price_amount !== null ? $list_price_amount : $price_amount;
 
-        $info[ $condition ]['currency']     = dfrapi_array_get_dot( $listing, 'price.money.currency' );
-        $info[ $condition ]['price']        = dfrapi_array_get_dot( $listing, 'price.savingBasis.money.amount' );
-        $info[ $condition ]['saleprice']    = dfrapi_array_get_dot( $listing, 'price.money.amount' );
-        $info[ $condition ]['finalprice']   = dfrapi_array_get_dot( $listing, 'price.money.amount' );
+        // Add pricing info for each $condition.
+        $info[ $condition ]['currency']     = dfrapi_array_get_dot( $listing, 'price.money.currency', 'USD' );
+        $info[ $condition ]['price']        = dfrapi_price_to_int( $regular_price );
+        $info[ $condition ]['saleprice']    = dfrapi_price_to_int( $price_amount );
+        $info[ $condition ]['finalprice']   = dfrapi_price_to_int( $price_amount );
         $info[ $condition ]['salediscount'] = dfrapi_array_get_dot( $listing, 'price.savings.percentage' );
 
+        // Set the usedprice if applicable.
         if ( in_array( $condition, [ 'used', 'refurbished' ], true ) ) {
-            $info[ $condition ]['usedprice'] = dfrapi_array_get_dot( $listing, 'price.money.amount' );
+            $info[ $condition ]['usedprice'] = dfrapi_price_to_int( $price_amount );
         }
 
-        if ( (int) $info[ $condition ]['finalprice'] < (int) $info[ $condition ]['price'] ) {
-            $info[ $condition ]['onsale'] = 1;
-        } else {
-            $info[ $condition ]['onsale'] = 0;
-        }
+        // Set `onsale`
+        $info[ $condition ]['onsale'] = ( $info[ $condition ]['finalprice'] < $info[ $condition ]['price'] ) ? 1 : 0;
 
+        // Set availability
         $availability = dfrapi_array_get_dot( $listing, 'availability.value' );
         if ( in_array( $availability, [ 'IN_STOCK', 'IN_STOCK_SCARCE' ], true ) ) {
             $info[ $condition ]['instock'] = 1;
@@ -3314,18 +3335,30 @@ function dfrapi_transform_capi_item_into_datafeedr_product_array( array $item ):
         } else {
             $info[ $condition ]['instock'] = 0;
         }
-
-        $info[ $condition ] = array_filter( $info[ $condition ] );
-
-        foreach ( $info[ $condition ] as $key => $value ) {
-            if ( str_contains( 'price', $key ) ) {
-                $info[ $condition ][ $key ] = dfrapi_price_to_int( $value );
-            }
-        }
-
     }
 
-    return $product;
+    // Set the `usedprice` key if a used or refurbished listing exists.
+    if ( isset( $info['used']['finalprice'] ) ) {
+        $product['usedprice'] = $info['used']['finalprice'];
+    } elseif ( isset( $info['refurbished']['finalprice'] ) ) {
+        $product['usedprice'] = $info['refurbished']['finalprice'];
+    }
+
+    // Set defaults from priority condition
+    foreach ( [ 'new', 'unknown', 'used', 'refurbished' ] as $cond ) {
+        if ( isset( $info[ $cond ] ) ) {
+            $product = array_merge( $product, $info[ $cond ] );
+            break;
+        }
+    }
+
+    /**
+     * Filters the transformed Datafeedr product array.
+     *
+     * @since 1.0.0
+     *
+     * @param array $product The transformed Datafeedr product array.
+     * @param array $item The original CAPI item data.
+     */
+    return apply_filters( 'dfrapi_transform_capi_item_into_datafeedr_product_array', $product, $item );
 }
-
-

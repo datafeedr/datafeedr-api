@@ -1761,6 +1761,10 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 
 		$access_token = dfrapi_get_capi_access_token();
 
+		if ( is_wp_error( $access_token ) ) {
+			throw new DatafeedrError( $access_token->get_error_message() );
+		}
+
 		$body = array_merge( array_filter( $this->_params ), [] );
 
 		$credentials = dfrapi_get_capi_credentials();
@@ -1769,7 +1773,6 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 		$domain              = $marketplace['domain'];
 		$credential_version  = $marketplace['region']['version'];
 		$body['partnerTag']  = $credentials['partner_tag'];
-		$body['marketplace'] = $domain;
 
 		// https://affiliate-program.amazon.com/creatorsapi/docs/en-us/api-reference/operations/search-items
 		$resources = [
@@ -1847,8 +1850,19 @@ class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRe
 		}
 
 		if ( 200 !== $status ) {
-			$message = wp_remote_retrieve_response_message( $response );
-			error_log( $message );
+			$error_body    = wp_remote_retrieve_body( $response );
+			$error_data    = json_decode( $error_body, true );
+			$status_message = wp_remote_retrieve_response_message( $response );
+
+			if ( ! empty( $error_data['message'] ) ) {
+				$message = $error_data['message'];
+			} elseif ( ! empty( $error_data['reason'] ) ) {
+				$message = $error_data['reason'];
+			} else {
+				$message = $status_message;
+			}
+
+			error_log( sprintf( '[Datafeedr CAPI] SearchItems error (%d): %s | Response: %s', $status, $message, $error_body ) );
 
 			throw new DatafeedrHTTPError( $message, $status );
 		}

@@ -3197,7 +3197,8 @@ function dfrapi_get_capi_access_token() {
         return $response;
     }
 
-    $body = wp_remote_retrieve_body( $response );
+    $status = wp_remote_retrieve_response_code( $response );
+    $body   = wp_remote_retrieve_body( $response );
 
     /**
      * [
@@ -3207,6 +3208,13 @@ function dfrapi_get_capi_access_token() {
      * ]
      */
     $data = json_decode( $body, true );
+
+    if ( 200 !== $status || empty( $data['access_token'] ) ) {
+        $error_message = isset( $data['error'] ) ? $data['error'] : 'Failed to retrieve CAPI access token (HTTP ' . $status . ')';
+        error_log( '[Datafeedr CAPI] Token error: ' . $error_message );
+
+        return new WP_Error( 'capi_token_error', $error_message );
+    }
 
     $capi_access_token = $data['access_token'];
     $capi_expires_in   = (int) $data['expires_in'];

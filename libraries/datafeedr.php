@@ -57,7 +57,8 @@ class DatafeedrApi {
 	/**
 	 * DatafeedrApi constructor.
 	 *
-	 * @param string $accessId Datafeedr API Access ID.
+	 * @since 1.0.0
+	 *
 	 * @param string $secretKey Datafeedr API Secret Key.
 	 * @param array $options Options.
 	 *
@@ -77,9 +78,9 @@ class DatafeedrApi {
 	 * should return an array [int http response status, string response body].
 	 *
 	 *
-	 * @throws DatafeedrError Throws error if any option is invalid.
-	 * @since 1.0.0
+	 * @param string $accessId Datafeedr API Access ID.
 	 *
+	 * @throws DatafeedrError Throws error if any option is invalid.
 	 */
 	public function __construct( $accessId, $secretKey, $options = null ) {
 
@@ -101,9 +102,9 @@ class DatafeedrApi {
 	/**
 	 * Returns API status information.
 	 *
-	 * @return array An array of API Status information.
 	 * @since 1.0.0
 	 *
+	 * @return array An array of API Status information.
 	 */
 	public function getStatus() {
 		$this->apiCall( 'status' );
@@ -116,9 +117,9 @@ class DatafeedrApi {
 	 *
 	 * If no API request has been made, return NULL
 	 *
-	 * @return array|null Status information or NULL.
 	 * @since 1.0.0
 	 *
+	 * @return array|null Status information or NULL.
 	 */
 	public function lastStatus() {
 		return $this->_status;
@@ -127,13 +128,14 @@ class DatafeedrApi {
 	/**
 	 * Return the list of networks.
 	 *
-	 * @param integer|array $networkId Optional. Network ID or an array of network IDs.
+	 * @since 1.0.0
+	 *
 	 * @param boolean $includeEmpty Optional. If FALSE, omit networks with 0 products.
 	 * @param array $fields Optional. An array of fields to retrieve.
 	 *
-	 * @return array An array of Networks.
-	 * @since 1.0.0
+	 * @param integer|array $networkId Optional. Network ID or an array of network IDs.
 	 *
+	 * @return array An array of Networks.
 	 */
 	public function getNetworks( $networkId = null, $includeEmpty = false, $fields = null ) {
 
@@ -157,13 +159,14 @@ class DatafeedrApi {
 	/**
 	 * Return the list of merchants.
 	 *
-	 * @param integer|array $networkId Optional. Network ID or array of Network IDs.
+	 * @since 1.0.0
+	 *
 	 * @param bool $includeEmpty Optional. If FALSE, omit merchants with 0 products.
 	 * @param array $fields Optional. An array of fields to retrieve.
 	 *
-	 * @return array An array of merchants.
-	 * @since 1.0.0
+	 * @param integer|array $networkId Optional. Network ID or array of Network IDs.
 	 *
+	 * @return array An array of merchants.
 	 */
 	public function getMerchants( $networkId = null, $includeEmpty = false, $fields = null ) {
 
@@ -187,13 +190,14 @@ class DatafeedrApi {
 	/**
 	 * Return a list of merchants by their IDs.
 	 *
-	 * @param integer|array $merchantId Merchant ID or array of Merchant IDs.
+	 * @since 1.0.0
+	 *
 	 * @param boolean $includeEmpty Optional. If FALSE, omit merchants with 0 products.
 	 * @param array $fields Optional. An array of fields to retrieve.
 	 *
-	 * @return array An array of merchants.
-	 * @since 1.0.0
+	 * @param integer|array $merchantId Merchant ID or array of Merchant IDs.
 	 *
+	 * @return array An array of merchants.
 	 */
 	public function getMerchantsById( $merchantId, $includeEmpty = false, $fields = null ) {
 
@@ -213,12 +217,12 @@ class DatafeedrApi {
 	/**
 	 * Return a list of searchable fields.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param integer|array $networkId Optional. Network ID or array of network IDs.
 	 *
 	 * @return array An array of searchable fields.
 	 * @todo - Does this return a list of all fields for a specific network or only indexed/searchable fields? Update docs accordingly.
-	 *
-	 * @since 1.0.0
 	 *
 	 */
 	public function getFields( $networkId = null ) {
@@ -237,12 +241,13 @@ class DatafeedrApi {
 	/**
 	 * Return a list of products by their IDs.
 	 *
-	 * @param integer|array $productId Product ID or an array of products IDs.
-	 * @param array $fields Optional. An array of fields to retrieve.
-	 *
-	 * @return array An array of Products.
 	 * @since 1.0.0
 	 *
+	 * @param array $fields Optional. An array of fields to retrieve.
+	 *
+	 * @param integer|array $productId Product ID or an array of products IDs.
+	 *
+	 * @return array An array of Products.
 	 */
 	public function getProducts( $productId, $fields = null ) {
 
@@ -262,13 +267,14 @@ class DatafeedrApi {
 	/**
 	 * Return a list of Zanox merchant IDs ("zmids").
 	 *
-	 * @param integer|array $merchantId Merchant ID or an array of merchant IDs.
+	 * @since 1.0.0
+	 *
 	 * @param integer $adspaceId Zanox Adspace ID.
 	 * @param string $connectId Zanox Connection ID.
 	 *
-	 * @return array An array of arrays (adspace_id, merchant_id, program_id, zmid).
-	 * @since 1.0.0
+	 * @param integer|array $merchantId Merchant ID or an array of merchant IDs.
 	 *
+	 * @return array An array of arrays (adspace_id, merchant_id, program_id, zmid).
 	 */
 	public function getZanoxMerchantIds( $merchantId, $adspaceId, $connectId ) {
 
@@ -286,14 +292,15 @@ class DatafeedrApi {
 	/**
 	 * Return a list of PerformanceHorizon campaign references ("camrefs").
 	 *
-	 * @param integer|array $merchantId Merchant ID or an array of merchant IDs.
+	 * @since 2.0.0
+	 *
 	 * @param string $applicationKey PerformanceHorizon application_key.
 	 * @param string $userApiKey PerformanceHorizon user_api_key.
 	 * @param string $publisherId PerformanceHorizon publisher_id.
 	 *
-	 * @return array An array of arrays (campaign_id, camref, merchant_id).
-	 * @since 2.0.0
+	 * @param integer|array $merchantId Merchant ID or an array of merchant IDs.
 	 *
+	 * @return array An array of arrays (campaign_id, camref, merchant_id).
 	 */
 
 	public function getPerformanceHorizonCamrefs( $merchantId, $applicationKey, $userApiKey, $publisherId ) {
@@ -313,12 +320,13 @@ class DatafeedrApi {
 	/**
 	 * Return a list of Effiliation affiliate ids.
 	 *
-	 * @param integer|array $merchantId Merchant ID or an array of merchant IDs.
-	 * @param string $apiKey Effiliation api_key.
-	 *
-	 * @return array An array of arrays (affiliate_id, merchant_id).
 	 * @since 2.0.2
 	 *
+	 * @param string $apiKey Effiliation api_key.
+	 *
+	 * @param integer|array $merchantId Merchant ID or an array of merchant IDs.
+	 *
+	 * @return array An array of arrays (affiliate_id, merchant_id).
 	 */
 
 	public function getEffiliationAffiliateIds( $merchantId, $apiKey ) {
@@ -336,9 +344,9 @@ class DatafeedrApi {
 	/**
 	 * Create a new DatafeedrSearchRequest object.
 	 *
-	 * @return DatafeedrSearchRequest
 	 * @since 1.0.0
 	 *
+	 * @return DatafeedrSearchRequest
 	 */
 	public function searchRequest() {
 		return new DatafeedrSearchRequest( $this );
@@ -347,9 +355,9 @@ class DatafeedrApi {
 	/**
 	 * Create a new DatafeedrMerchantSearchRequest object.
 	 *
-	 * @return DatafeedrMerchantSearchRequest
 	 * @since 1.0.0
 	 *
+	 * @return DatafeedrMerchantSearchRequest
 	 */
 	public function merchantSearchRequest() {
 		return new DatafeedrMerchantSearchRequest( $this );
@@ -358,14 +366,15 @@ class DatafeedrApi {
 	/**
 	 * Create a new DatafeedrAmazonSearchRequest object.
 	 *
-	 * @param string $awsAccessKeyId Amazon Access Key.
+	 * @since 1.0.0
+	 *
 	 * @param string $awsSecretKey Amazon Secret Key.
 	 * @param string $awsAssociateTag Amazon Associates tag.
 	 * @param string $locale The country locale code.
 	 *
-	 * @return DatafeedrAmazonSearchRequest
-	 * @since 1.0.0
+	 * @param string $awsAccessKeyId Amazon Access Key.
 	 *
+	 * @return DatafeedrAmazonSearchRequest
 	 */
 	public function amazonSearchRequest( $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale = 'US' ) {
 		return new DatafeedrAmazonSearchRequest( $this, $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale );
@@ -374,29 +383,41 @@ class DatafeedrApi {
 	/**
 	 * Create a new DatafeedrAmazonLookupRequest object.
 	 *
-	 * @param string $awsAccessKeyId Amazon Access Key.
+	 * @since 1.0.0
+	 *
 	 * @param string $awsSecretKey Amazon Secret Key.
 	 * @param string $awsAssociateTag Amazon Associates tag.
 	 * @param string $locale The country locale code.
 	 *
-	 * @return DatafeedrAmazonLookupRequest
-	 * @since 1.0.0
+	 * @param string $awsAccessKeyId Amazon Access Key.
 	 *
+	 * @return DatafeedrAmazonLookupRequest
 	 */
 	public function amazonLookupRequest( $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale = 'US' ) {
 		return new DatafeedrAmazonLookupRequest( $this, $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale );
 	}
 
+	/** CreatorAPI */
+	public function amazonCreatorApiSearchRequest( $capiMarketplace = 'US' ) {
+		return new DatafeedrAmazonCreatorApiSearchRequest( $this, $capiMarketplace = 'US' );
+	}
+
+	/** CreatorAPI */
+//	public function amazonCreatorApiLookupRequest( $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale = 'US' ) {
+//		return new DatafeedrAmazonCreatorApiLookupRequest( $this, $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale );
+//	}
+
 	/**
 	 * Perform the raw API call.
 	 *
-	 * @param string $action API Action. (Examples: status, merchants, networks, search, etc...)
+	 * @since 1.0.0
+	 *
 	 * @param array $request Optional. Request data.
+	 *
+	 * @param string $action API Action. (Examples: status, merchants, networks, search, etc...)
 	 *
 	 * @return array Returns $response array.
 	 * @throws DatafeedrHTTPError Throws error if request status is not 200.
-	 *
-	 * @since 1.0.0
 	 *
 	 */
 	public function apiCall( $action, $request = null ) {
@@ -479,11 +500,11 @@ class DatafeedrApi {
 	/**
 	 * Parse constructor options.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param array $options .
 	 *
 	 * @throws DatafeedrError Throws error if any option is invalid.
-	 * @since 2.0.0
-	 *
 	 */
 	protected function _parseOptions( $options ) {
 		$opts = $this->_defaultOptions();
@@ -551,14 +572,15 @@ class DatafeedrApi {
 	/**
 	 * Perform an HTTP request.
 	 *
-	 * @param string $url
+	 * @since 2.0.0
+	 *
 	 * @param array $headers
 	 * @param string $postdata
 	 *
+	 * @param string $url
+	 *
 	 * @return array An array of (status, responseBody)
 	 * @throws DatafeedrConnectionError
-	 *
-	 * @since 2.0.0
 	 *
 	 */
 	protected function _performRequest( $url, $headers, $postdata ) {
@@ -582,11 +604,11 @@ class DatafeedrApi {
 	/**
 	 * Convert an ID or an array of IDs to a simple array of IDs.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param integer|string|array $id_or_ids An ID or an array of IDs.
 	 *
 	 * @return array An array of IDs.
-	 * @since 1.0.0
-	 *
 	 */
 	protected function _intarray( $id_or_ids ) {
 
@@ -605,13 +627,14 @@ class DatafeedrApi {
 	 * Returns a specific value from an array or object for a given key or property. If key or
 	 * property does not exist, returns $default.
 	 *
-	 * @param array|object $obj An array or object to extract value from.
+	 * @since 1.0.0
+	 *
 	 * @param string $prop The array key or object property to get the value for.
 	 * @param null $default Optional. The value to return if $obj or $prop does not exist.
 	 *
-	 * @return mixed|null The returned value.
-	 * @since 1.0.0
+	 * @param array|object $obj An array or object to extract value from.
 	 *
+	 * @return mixed|null The returned value.
 	 */
 	protected function _get( $obj, $prop, $default = null ) {
 
@@ -629,14 +652,15 @@ class DatafeedrApi {
 	/**
 	 * Perform an HTTP POST request using the CURL library.
 	 *
-	 * @param string $url Request url.
+	 * @since 1.0.0
+	 *
 	 * @param array $headers Array of headers.
 	 * @param string $postdata Post data.
 	 *
+	 * @param string $url Request url.
+	 *
 	 * @return array (int http status, string response body)
 	 * @throws DatafeedrConnectionError Throws error if curl_errno() returns an error.
-	 *
-	 * @since 1.0.0
 	 *
 	 */
 	protected function _transportCurl( $url, $headers, $postdata ) {
@@ -666,14 +690,15 @@ class DatafeedrApi {
 	/**
 	 * Perform a HTTP post request using file functions.
 	 *
-	 * @param string $url Request url.
+	 * @since 1.0.0
+	 *
 	 * @param array $headers Array of headers.
 	 * @param string $postdata Post data.
 	 *
+	 * @param string $url Request url.
+	 *
 	 * @return array (int http status, string response body)
 	 * @throws DatafeedrConnectionError Throws error if $response is false.
-	 *
-	 * @since 1.0.0
 	 *
 	 */
 	protected function _transportFile( $url, $headers, $postdata ) {
@@ -705,15 +730,16 @@ class DatafeedrApi {
 	/**
 	 * Perform a HTTP post request using Wordpress functions.
 	 *
-	 * @param string $url Request url.
+	 * @since 1.0.0
+	 *
 	 * @param array $headers Array of headers.
 	 * @param string $postdata Post data.
 	 *
-	 * @return array (int http status, string response body)
-	 * @throws DatafeedrHTTPError Throws error if $response is WP_Error.
+	 * @param string $url Request url.
 	 *
+	 * @return array (int http status, string response body)
 	 * @throws DatafeedrConnectionError Throws error if $response is WP_Error and the error code is 'http_request_failed'.
-	 * @since 1.0.0
+	 * @throws DatafeedrHTTPError Throws error if $response is WP_Error.
 	 *
 	 */
 	protected function _transportWordpress( $url, $headers, $postdata ) {
@@ -777,9 +803,9 @@ class DatafeedrSearchRequestBase {
 	/**
 	 * DatafeedrSearchRequestBase constructor.
 	 *
-	 * @param DatafeedrApi $api
-	 *
 	 * @since 1.0.0
+	 *
+	 * @param DatafeedrApi $api
 	 *
 	 */
 	public function __construct( $api ) {
@@ -789,9 +815,9 @@ class DatafeedrSearchRequestBase {
 	/**
 	 * Get the number of found products.
 	 *
-	 * @return integer
 	 * @since 1.0.0
 	 *
+	 * @return integer
 	 */
 	public function getFoundCount() {
 		return $this->_responseItem( 'found_count', 0 );
@@ -800,9 +826,9 @@ class DatafeedrSearchRequestBase {
 	/**
 	 * Get the number of products that can be retrieved from the server.
 	 *
-	 * @return integer
 	 * @since 1.0.0
 	 *
+	 * @return integer
 	 */
 	public function getResultCount() {
 		return $this->_responseItem( 'result_count', 0 );
@@ -811,9 +837,9 @@ class DatafeedrSearchRequestBase {
 	/**
 	 * Get the complexity score of the current query.
 	 *
+	 * @since 1.2.12
 	 * @return int
 	 * @throws DatafeedrError
-	 * @since 1.2.12
 	 */
 	public function getQueryScore() {
 		return abs( (int) $this->_responseItem( 'score', 0 ) );
@@ -837,9 +863,9 @@ class DatafeedrSearchRequestBase {
 	 *          'version'      => string,
 	 *      )
 	 *
-	 * @return array An array of the full response.
 	 * @since 1.0.0
 	 *
+	 * @return array An array of the full response.
 	 */
 	public function getResponse() {
 		return $this->_lastResponse;
@@ -848,13 +874,14 @@ class DatafeedrSearchRequestBase {
 	/**
 	 * Returns a specific item or property from the response data.
 	 *
-	 * @param string $prop The item or property to get from the response array or object.
+	 * @since 1.0.0
+	 *
 	 * @param mixed $default Return if $prop is not found in the array or object.
+	 *
+	 * @param string $prop The item or property to get from the response array or object.
 	 *
 	 * @return mixed Specific item or property from response data.
 	 * @throws DatafeedrError Throws error if $this->_lastResponse is NULL.
-	 *
-	 * @since 1.0.0
 	 *
 	 */
 	protected function _responseItem( $prop, $default ) {
@@ -877,11 +904,11 @@ class DatafeedrSearchRequestBase {
 	/**
 	 * Sets the $_lastResponse property to the the full response from the last API request.
 	 *
-	 * @param string $action The request action (ex. status, search, merchants, networks, etc...)
-	 * @param array $request The current API request.
-	 *
 	 * @since 1.0.0
 	 *
+	 * @param array $request The current API request.
+	 *
+	 * @param string $action The request action (ex. status, search, merchants, networks, etc...)
 	 */
 	function _apiCall( $action, $request = null ) {
 		$this->_lastResponse = $this->_api->apiCall( $action, $request );
@@ -907,9 +934,9 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * DatafeedrSearchRequest constructor.
 	 *
-	 * @param DatafeedrApi $api
-	 *
 	 * @since 1.0.0
+	 *
+	 * @param DatafeedrApi $api
 	 *
 	 */
 	public function __construct( $api ) {
@@ -929,11 +956,11 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Add a query filter.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param string $filter Query filter.
 	 *
 	 * @return DatafeedrSearchRequest Returns $this.
-	 * @since 1.0.0
-	 *
 	 */
 	public function addFilter( $filter ) {
 		$this->_query[] = $filter;
@@ -944,13 +971,14 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Adds a sort field.
 	 *
-	 * @param string $field Field name.
+	 * @since 1.0.0
+	 *
 	 * @param integer $order One of DatafeedrApi::SORT_ASCENDING or DatafeedrApi::SORT_DESCENDING
+	 *
+	 * @param string $field Field name.
 	 *
 	 * @return DatafeedrSearchRequest Returns $this.
 	 * @throws DatafeedrError Throws error if sort order is invalid.
-	 *
-	 * @since 1.0.0
 	 *
 	 */
 	public function addSort( $field, $order = DatafeedrApi::SORT_ASCENDING ) {
@@ -971,6 +999,8 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Set which fields to retrieve.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param array $fields An array of fields to return for each requested item.
 	 *
 	 * Example:
@@ -983,8 +1013,6 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	 *      )
 	 *
 	 * @return DatafeedrSearchRequest Returns $this.
-	 * @since 1.0.0
-	 *
 	 */
 	public function setFields( $fields ) {
 		$this->_fields = $fields;
@@ -995,11 +1023,11 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Exclude duplicate filter.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param string $filter Equality filter in form "field1 field2 | field3".
 	 *
 	 * @return DatafeedrSearchRequest Returns $this.
-	 * @since 1.0.0
-	 *
 	 */
 	public function excludeDuplicates( $filter ) {
 
@@ -1015,11 +1043,11 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Set a limit of number of records to return.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param integer $limit The maximum number of records to return.
 	 *
 	 * @return DatafeedrSearchRequest Returns $this.
-	 * @since 1.0.0
-	 *
 	 */
 	public function setLimit( $limit ) {
 		$this->_limit = $limit;
@@ -1030,11 +1058,11 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Set an offset for the search.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param integer $offset The offset.
 	 *
 	 * @return DatafeedrSearchRequest Returns $this.
-	 * @since 1.0.0
-	 *
 	 */
 	public function setOffset( $offset ) {
 		$this->_offset = $offset;
@@ -1045,11 +1073,11 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Set a limit of results by merchant.
 	 *
+	 * @since 2.0.3
+	 *
 	 * @param integer $limit The limit.
 	 *
 	 * @return DatafeedrSearchRequest Returns $this.
-	 * @since 2.0.3
-	 *
 	 */
 	public function setMerchantLimit( $limit ) {
 		$this->_merchantLimit = $limit;
@@ -1082,11 +1110,11 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	 *            )
 	 *    )
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param integer $groups Number of price groups to create.
 	 *
 	 * @return DatafeedrSearchRequest Returns $this.
-	 * @since 1.0.0
-	 *
 	 */
 	public function setPriceGroups( $groups ) {
 		$this->_priceGroups = $groups;
@@ -1097,9 +1125,9 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Get networks found in this request.
 	 *
-	 * @return array
 	 * @since 1.0.0
 	 *
+	 * @return array
 	 */
 	public function getNetworks() {
 		return $this->_responseItem( 'networks', array() );
@@ -1108,9 +1136,9 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Get merchants found in this request.
 	 *
-	 * @return array
 	 * @since 1.0.0
 	 *
+	 * @return array
 	 */
 	public function getMerchants() {
 		return $this->_responseItem( 'merchants', array() );
@@ -1141,9 +1169,9 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	 *            )
 	 *    )
 	 *
-	 * @return array An array of price groups and the product count, min and max prices in each group.
 	 * @since 1.0.0
 	 *
+	 * @return array An array of price groups and the product count, min and max prices in each group.
 	 */
 	public function getPriceGroups() {
 		return $this->_responseItem( 'price_groups', array() );
@@ -1152,9 +1180,9 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Create a request array to use for querying the API.
 	 *
-	 * @return array The $request array().
 	 * @since 1.0.0
 	 *
+	 * @return array The $request array().
 	 */
 	public function getParams() {
 
@@ -1200,10 +1228,10 @@ class DatafeedrSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Run search and return a list of products.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return array An array of products.
 	 * @throws DatafeedrError Throw error if query is empty.
-	 *
-	 * @since 1.0.0
 	 *
 	 */
 	public function execute() {
@@ -1234,9 +1262,9 @@ class DatafeedrMerchantSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * DatafeedrMerchantSearchRequest constructor.
 	 *
-	 * @param DatafeedrApi $api
-	 *
 	 * @since 1.0.0
+	 *
+	 * @param DatafeedrApi $api
 	 *
 	 */
 	public function __construct( $api ) {
@@ -1253,11 +1281,11 @@ class DatafeedrMerchantSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Add a query filter.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param string $filter Query filter.
 	 *
 	 * @return DatafeedrMerchantSearchRequest Returns $this.
-	 * @since 1.0.0
-	 *
 	 */
 	public function addFilter( $filter ) {
 		$this->_query [] = $filter;
@@ -1268,13 +1296,14 @@ class DatafeedrMerchantSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Add a sort field.
 	 *
-	 * @param string $field Field name.
+	 * @since 1.0.0
+	 *
 	 * @param integer $order One of DatafeedrApi::SORT_ASCENDING or DatafeedrApi::SORT_DESCENDING
+	 *
+	 * @param string $field Field name.
 	 *
 	 * @return DatafeedrMerchantSearchRequest Returns $this.
 	 * @throws DatafeedrError Throw error if invalid sort order.
-	 *
-	 * @since 1.0.0
 	 *
 	 */
 	public function addSort( $field, $order = DatafeedrApi::SORT_ASCENDING ) {
@@ -1295,11 +1324,11 @@ class DatafeedrMerchantSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Set which fields to retrieve.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param array $fields An array of field names.
 	 *
 	 * @return DatafeedrMerchantSearchRequest Returns $this.
-	 * @since 1.0.0
-	 *
 	 */
 	public function setFields( $fields ) {
 		$this->_fields = $fields;
@@ -1310,11 +1339,11 @@ class DatafeedrMerchantSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Set a limit.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param integer $limit Number of items to return.
 	 *
 	 * @return DatafeedrMerchantSearchRequest Returns $this.
-	 * @since 1.0.0
-	 *
 	 */
 	public function setLimit( $limit ) {
 		$this->_limit = $limit;
@@ -1325,11 +1354,11 @@ class DatafeedrMerchantSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Set an offset.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param integer $offset The offset.
 	 *
 	 * @return DatafeedrMerchantSearchRequest Returns $this.
-	 * @since 1.0.0
-	 *
 	 */
 	public function setOffset( $offset ) {
 		$this->_offset = $offset;
@@ -1340,9 +1369,9 @@ class DatafeedrMerchantSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Get networks found in this request.
 	 *
-	 * @return array
 	 * @since 1.0.0
 	 *
+	 * @return array
 	 */
 	public function getNetworks() {
 		return $this->_responseItem( 'networks', array() );
@@ -1351,9 +1380,9 @@ class DatafeedrMerchantSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Get merchants found in this request.
 	 *
-	 * @return array
 	 * @since 1.0.0
 	 *
+	 * @return array
 	 */
 	public function getMerchants() {
 		return $this->_responseItem( 'merchants', array() );
@@ -1362,10 +1391,10 @@ class DatafeedrMerchantSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Run search and return an array of merchants.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return array Array of merchants
 	 * @throws DatafeedrError Throws error if query is empty.
-	 *
-	 * @since 1.0.0
 	 *
 	 */
 	public function execute() {
@@ -1384,9 +1413,9 @@ class DatafeedrMerchantSearchRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Create a request array to use for querying the API.
 	 *
-	 * @return array The $request array().
 	 * @since 1.0.0
 	 *
+	 * @return array The $request array().
 	 */
 	public function getParams() {
 
@@ -1435,15 +1464,16 @@ class DatafeedrAmazonRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * DatafeedrAmazonRequest constructor
 	 *
-	 * @param DatafeedrApi $api
+	 * @since 1.0.0
+	 *
 	 * @param string $awsAccessKeyId Amazon Access Key.
 	 * @param string $awsSecretKey Amazon Secret Key.
 	 * @param string $awsAssociateTag Amazon Associate tag.
 	 * @param string $locale Optional. Amazon locale (two-letter code).
 	 *
-	 * @throws DatafeedrError Throws error if Amazon Locale is invalid.
-	 * @since 1.0.0
+	 * @param DatafeedrApi $api
 	 *
+	 * @throws DatafeedrError Throws error if Amazon Locale is invalid.
 	 */
 	public function __construct( $api, $awsAccessKeyId, $awsSecretKey, $awsAssociateTag, $locale = 'US' ) {
 
@@ -1485,9 +1515,9 @@ class DatafeedrAmazonRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Returns all parameters.
 	 *
-	 * @return array
 	 * @since 1.0.0
 	 *
+	 * @return array
 	 */
 	public function getParams() {
 		return $this->_params;
@@ -1496,12 +1526,13 @@ class DatafeedrAmazonRequest extends DatafeedrSearchRequestBase {
 	/**
 	 * Prepare am API request for Amazon.
 	 *
-	 * @param string $operation
-	 * @param array $params
-	 *
-	 * @return array
 	 * @since 3.0.0
 	 *
+	 * @param array $params
+	 *
+	 * @param string $operation
+	 *
+	 * @return array
 	 */
 	protected function _amazonRequest( $operation, $params ) {
 		return array(
@@ -1525,12 +1556,13 @@ class DatafeedrAmazonSearchRequest extends DatafeedrAmazonRequest {
 	/**
 	 * Add a parameter.
 	 *
-	 * @param string $name Parameter name.
+	 * @since 1.0.0
+	 *
 	 * @param string $value Parameter value.
 	 *
-	 * @return DatafeedrAmazonSearchRequest Returns $this.
+	 * @param string $name Parameter name.
 	 *
-	 * @since 1.0.0
+	 * @return DatafeedrAmazonSearchRequest Returns $this.
 	 *
 	 * @see https://webservices.amazon.com/paapi5/documentation/search-items.html#ItemLookup-rp
 	 */
@@ -1546,10 +1578,10 @@ class DatafeedrAmazonSearchRequest extends DatafeedrAmazonRequest {
 	 * IMPORTANT - The Amazon API returns a MAXIMUM of 10 products per API request and a maximum of
 	 * 50 products per search query.
 	 *
-	 * @return array An array of products.
-	 * @throws DatafeedrError
 	 * @since 1.0.0
 	 *
+	 * @return array An array of products.
+	 * @throws DatafeedrError
 	 */
 	public function execute() {
 
@@ -1571,12 +1603,13 @@ class DatafeedrAmazonLookupRequest extends DatafeedrAmazonRequest {
 	/**
 	 * Add a parameter.
 	 *
-	 * @param string $name Parameter name - one of 'ASIN', 'SKU', 'UPC', 'EAN', 'ISBN'
+	 * @since 1.0.0
+	 *
 	 * @param string|array $value Parameter value or an array of values (up to 10).
 	 *
-	 * @return DatafeedrAmazonLookupRequest Returns $this.
+	 * @param string $name Parameter name - one of 'ASIN', 'SKU', 'UPC', 'EAN', 'ISBN'
 	 *
-	 * @since 1.0.0
+	 * @return DatafeedrAmazonLookupRequest Returns $this.
 	 *
 	 * @see https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp
 	 */
@@ -1589,9 +1622,9 @@ class DatafeedrAmazonLookupRequest extends DatafeedrAmazonRequest {
 	/**
 	 * Run search and return an array of products.
 	 *
-	 * @return array An array of products.
 	 * @since 1.0.0
 	 *
+	 * @return array An array of products.
 	 */
 	public function execute() {
 
@@ -1615,6 +1648,392 @@ class DatafeedrAmazonLookupRequest extends DatafeedrAmazonRequest {
 		return $this->_responseItem( 'products', array() );
 	}
 }
+
+/** CreatorAPI */
+class DatafeedrAmazonCreatorApiRequest extends DatafeedrSearchRequestBase {
+
+	protected $_found = - 1;
+
+	protected $_hosts;
+	protected $_params;
+//	protected $_capiCredentialId;
+//	protected $_capiCredentialSecret;
+//	protected $_capiVersion;
+	protected $_capiPartnerTag;
+	protected $_capiMarketplace;
+
+	public const AWS_VERSION = "2026-01-05";
+
+	public function __construct( $api, $capiMarketplace = 'US' ) {
+
+		parent::__construct( $api );
+
+		$capiMarketplace = strtoupper( trim( $capiMarketplace ) );
+
+		foreach ( dfrapi_get_capi_marketplaces() as $code => $marketplace ) {
+			$this->_hosts[ $code ] = $marketplace['domain'];
+		}
+
+		if ( ! isset( $this->_hosts[ $capiMarketplace ] ) ) {
+			throw new DatafeedrError( 'Invalid Amazon CAPI locale' );
+		}
+
+		$this->_params = array();
+
+//		$capiVersion = dfrapi_get_capi_marketplace( $capiMarketplace )['region']['version'];
+
+//		$this->_capiCredentialId     = $capiCredentialId;
+//		$this->_capiCredentialSecret = $capiCredentialSecret;
+//		$this->_capiVersion          = $capiVersion;
+//		$this->_capiPartnerTag       = $capiPartnerTag;
+		$this->_capiMarketplace = $capiMarketplace;
+	}
+
+	/**
+	 * Returns all parameters.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
+	public function getParams() {
+		return $this->_params;
+	}
+
+	/**
+	 * Prepare am API request for Amazon.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $params
+	 *
+	 * @param string $operation
+	 *
+	 * @return array
+	 */
+//	protected function _amazonRequest( $operation, $params ) {
+//		return array(
+//			'capi_credential_id'     => $this->_capiCredentialId,
+//			'capi_credential_secret' => $this->_capiCredentialSecret,
+//			'capi_version'           => $this->_capiVersion,
+//			'capi_partner_tag'       => $this->_capiPartnerTag,
+//			'capi_marketplace'       => $this->_capiMarketplace,
+//			'operation'              => $operation,
+//			'params'                 => $params,
+//		);
+//	}
+}
+
+/** CreatorAPI */
+class DatafeedrAmazonCreatorApiSearchRequest extends DatafeedrAmazonCreatorApiRequest {
+
+	/**
+	 * Add a parameter.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $value Parameter value.
+	 *
+	 * @param string $name Parameter name.
+	 *
+	 * @return DatafeedrAmazonCreatorApiSearchRequest Returns $this.
+	 *
+	 * @see https://webservices.amazon.com/paapi5/documentation/search-items.html#ItemLookup-rp
+	 */
+	public function addParam( $name, $value ) {
+		$this->_params[ $name ] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Run search and return an array of products.
+	 *
+	 * IMPORTANT - The Amazon API returns a MAXIMUM of 10 products per API request and a maximum of
+	 * 50 products per search query.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array An array of products.
+	 * @throws DatafeedrError
+	 */
+	public function execute() {
+
+		$access_token = dfrapi_get_capi_access_token();
+
+		if ( is_wp_error( $access_token ) ) {
+			throw new DatafeedrError( $access_token->get_error_message() );
+		}
+
+		$body = array_merge( array_filter( $this->_params ), [] );
+
+		$credentials = dfrapi_get_capi_credentials();
+		$marketplace = dfrapi_get_capi_marketplace( $this->_capiMarketplace );
+
+		$domain              = $marketplace['domain'];
+		$credential_version  = $marketplace['region']['version'];
+		$body['partnerTag']  = $credentials['partner_tag'];
+
+		// https://affiliate-program.amazon.com/creatorsapi/docs/en-us/api-reference/operations/search-items
+		$resources = [
+//			'browseNodeInfo.browseNodes',
+//			'browseNodeInfo.browseNodes.ancestor',
+//			'browseNodeInfo.browseNodes.salesRank',
+//			'browseNodeInfo.websiteSalesRank',
+			'customerReviews.count',
+			'customerReviews.starRating',
+			'images.primary.highRes',
+			'images.primary.large',
+			'images.primary.medium',
+			'images.primary.small',
+//			'images.variants.highRes',
+//			'images.variants.large',
+//			'images.variants.medium',
+//			'images.variants.small',
+			'itemInfo.byLineInfo',
+//			'itemInfo.classifications',
+//			'itemInfo.contentInfo',
+//			'itemInfo.contentRating',
+			'itemInfo.externalIds',
+//			'itemInfo.features',
+//			'itemInfo.manufactureInfo',
+			'itemInfo.productInfo',
+//			'itemInfo.technicalInfo',
+			'itemInfo.title',
+			'itemInfo.tradeInInfo',
+			'offersV2.listings.availability',
+			'offersV2.listings.condition',
+//			'offersV2.listings.dealDetails',
+//			'offersV2.listings.isBuyBoxWinner',
+//			'offersV2.listings.loyaltyPoints',
+//			'offersV2.listings.merchantInfo',
+			'offersV2.listings.price',
+			'offersV2.listings.type',
+			'parentASIN',
+//			'searchRefinements',
+		];
+
+		$body['resources'] = $resources;
+
+		$response = wp_remote_post(
+			'https://creatorsapi.amazon/catalog/v1/searchItems',
+			[
+				'headers'     => [
+					'Authorization' => sprintf(
+						'Bearer %s, Version %s',
+						$access_token,
+						$credential_version
+					),
+					'Content-Type'  => 'application/json',
+					'x-marketplace' => $domain,
+				],
+				'body'        => wp_json_encode( $body ),
+				'timeout'     => 20,
+				'httpversion' => '1.1', // important for Amazon APIs
+			]
+		);
+
+		if ( is_wp_error( $response ) ) {
+			error_log( $response->get_error_message() );
+
+			throw new DatafeedrConnectionError( $response->get_error_message() );
+		}
+
+		$status = wp_remote_retrieve_response_code( $response );
+
+		if ( 404 === $status ) {
+			$body = wp_remote_retrieve_body( $response );
+			$data = json_decode( $body, true );
+			if ( isset( $data['type'] ) && 'ResourceNotFoundException' === $data['type'] ) {
+				return [];
+			}
+		}
+
+		if ( 200 !== $status ) {
+			$error_body    = wp_remote_retrieve_body( $response );
+			$error_data    = json_decode( $error_body, true );
+			$status_message = wp_remote_retrieve_response_message( $response );
+
+			if ( ! empty( $error_data['message'] ) ) {
+				$message = $error_data['message'];
+			} elseif ( ! empty( $error_data['reason'] ) ) {
+				$message = $error_data['reason'];
+			} else {
+				$message = $status_message;
+			}
+
+			error_log( sprintf( '[Datafeedr CAPI] SearchItems error (%d): %s | Response: %s', $status, $message, $error_body ) );
+
+			throw new DatafeedrHTTPError( $message, $status );
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+
+
+		/*
+
+		[
+		    "errors" => null,
+		    "searchResult" => [
+		      "items" => [
+		        [
+		          "asin" => "0545162076",
+		          "browseNodeInfo" => null,
+		          "customerReviews" => null,
+		          "detailPageURL" => "https://www.amazon.com/dp/0545162076?tag=xyz-20&linkCode=osi&th=1&psc=1",
+		          "images" => null,
+		          "itemInfo" => [
+		            "byLineInfo" => null,
+		            "classifications" => null,
+		            "contentInfo" => null,
+		            "contentRating" => null,
+		            "externalIds" => null,
+		            "features" => null,
+		            "manufactureInfo" => null,
+		            "productInfo" => null,
+		            "technicalInfo" => null,
+		            "title" => [
+		              "displayValue" => "Harry Potter Paperback Box Set (Books 1-7)",
+		              "label" => "Title",
+		              "locale" => "en_US",
+		            ],
+		            "tradeInInfo" => null,
+		          ],
+		          "offersV2" => null,
+		          "parentASIN" => null,
+		          "score" => null,
+		          "variationAttributes" => null,
+		        ],
+		        [ ... ],
+		        [ ... ],
+		        [ ... ],
+		      ],
+		      "searchRefinements" => null,
+		      "searchURL" => "https://www.amazon.com/s?k=Harry+Potter&rh=p_n_availability%3A2661600011&tag=xyz-20&linkCode=osi",
+		      "totalResultCount" => 306,
+		    ],
+		]
+
+
+		*/
+		/**
+		 *  [
+		 *      "errors" => null,
+		 *      "searchResult" => [
+		 *          "items" => [
+		 *              [
+		 *                  "asin" => "0545162076",
+		 *                  "browseNodeInfo" => null,
+		 *                  "customerReviews" => null,
+		 *                  "detailPageURL" => "https://www.amazon.com/dp/0545162076?tag=xyz-20&linkCode=osi&th=1&psc=1",
+		 *                  "images" => null,
+		 *                  "itemInfo" => [
+		 *                      "byLineInfo" => null,
+		 *                      "classifications" => null,
+		 *                      "contentInfo" => null,
+		 *                      "contentRating" => null,
+		 *                      "externalIds" => null,
+		 *                      "features" => null,
+		 *                      "manufactureInfo" => null,
+		 *                      "productInfo" => null,
+		 *                      "technicalInfo" => null,
+		 *                      "title" => [
+		 *                          "displayValue" => "Harry Potter Paperback Box Set (Books 1-7)",
+		 *                          "label" => "Title",
+		 *                          "locale" => "en_US",
+		 *                      ],
+		 *                      "tradeInInfo" => null,
+		 *                  ],
+		 *                  "offersV2" => null,
+		 *                  "parentASIN" => null,
+		 *                  "score" => null,
+		 *                  "variationAttributes" => null,
+		 *              ],
+		 *              [ ... ],
+		 *              [ ... ],
+		 *              [ ... ],
+		 *              ],
+		 *          "searchRefinements" => null,
+		 *          "searchURL" => "https://www.amazon.com/s?k=Harry+Potter&rh=p_n_availability%3A2661600011&tag=xyz-20&linkCode=osi",
+		 *          "totalResultCount" => 306,
+		 *      ],
+		 *  ]
+		 */
+		$data = json_decode( $body, true );
+
+		if ( ! empty( $data['errors'] ) ) {
+			$error = $data['errors'][0];
+			error_log( $error['message'] );
+
+			throw new DatafeedrExternalError( $error['message'] );
+		}
+
+		$items    = $data['searchResult']['items'] ?? [];
+		$products = [];
+
+		foreach ( $items as $item ) {
+			$products[] = dfrapi_transform_capi_item_into_datafeedr_product_array( $item );
+		}
+
+		return $products;
+
+// $data now contains the API response
+
+
+	}
+}
+
+/** CreatorAPI */
+//class DatafeedrAmazonCreatorApiLookupRequest extends DatafeedrAmazonCreatorApiRequest {
+//
+//	/**
+//	 * Add a parameter.
+//	 *
+//	 * @since 1.0.0
+//	 *
+//	 * @param string|array $value Parameter value or an array of values (up to 10).
+//	 *
+//	 * @param string $name Parameter name - one of 'ASIN', 'SKU', 'UPC', 'EAN', 'ISBN'
+//	 *
+//	 * @return DatafeedrAmazonCreatorApiLookupRequest Returns $this.
+//	 *
+//	 * @see https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp
+//	 */
+//	public function addParam( $name, $value ) {
+//		$this->_params[ $name ] = $value;
+//
+//		return $this;
+//	}
+//
+//	/**
+//	 * Run search and return an array of products.
+//	 *
+//	 * @since 1.0.0
+//	 *
+//	 * @return array An array of products.
+//	 */
+//	public function execute() {
+//
+//		$params = array_filter( $this->_params );
+//		$types  = array( 'ASIN', 'SKU', 'UPC', 'EAN', 'ISBN', 'asin', 'sku', 'upc', 'ean', 'isbn' );
+//
+//		foreach ( $types as $type ) {
+//			if ( isset( $params[ $type ] ) ) {
+//				$params['itemIdType'] = strtoupper( $type );
+//				$params['itemIds']    = $params[ $type ];
+//				if ( is_string( $params['itemIds'] ) ) {
+//					$params['itemIds'] = explode( ',', $params['itemIds'] );
+//				}
+//				unset( $params[ $type ] );
+//			}
+//		}
+//
+//		$req = $this->_amazonRequest( 'GetItems', $params );
+//		$this->_apiCall( 'amazon_find', $req );
+//
+//		return $this->_responseItem( 'products', array() );
+//	}
+//}
 
 /**
  * Class DatafeedrError.

@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function dfrapi_datafeedr_api_keys_exist(): bool {
-	return dfrapi_get_datafeedr_access_id() && dfrapi_get_datafeedr_secret_key();
+    return dfrapi_get_datafeedr_access_id() && dfrapi_get_datafeedr_secret_key();
 }
 
 /**
@@ -18,15 +18,15 @@ function dfrapi_datafeedr_api_keys_exist(): bool {
  */
 function dfrapi_get_datafeedr_access_id() {
 
-	$configuration = (array) get_option( 'dfrapi_configuration', [] );
+    $configuration = (array) get_option( 'dfrapi_configuration', [] );
 
-	if ( ! isset( $configuration['access_id'] ) ) {
-		return false;
-	}
+    if ( ! isset( $configuration['access_id'] ) ) {
+        return false;
+    }
 
-	$access_id = trim( $configuration['access_id'] );
+    $access_id = trim( $configuration['access_id'] );
 
-	return ! empty( $access_id ) ? $access_id : false;
+    return ! empty( $access_id ) ? $access_id : false;
 }
 
 /**
@@ -36,15 +36,15 @@ function dfrapi_get_datafeedr_access_id() {
  */
 function dfrapi_get_datafeedr_secret_key() {
 
-	$configuration = (array) get_option( 'dfrapi_configuration', [] );
+    $configuration = (array) get_option( 'dfrapi_configuration', [] );
 
-	if ( ! isset( $configuration['secret_key'] ) ) {
-		return false;
-	}
+    if ( ! isset( $configuration['secret_key'] ) ) {
+        return false;
+    }
 
-	$secret_key = trim( $configuration['secret_key'] );
+    $secret_key = trim( $configuration['secret_key'] );
 
-	return ! empty( $secret_key ) ? $secret_key : false;
+    return ! empty( $secret_key ) ? $secret_key : false;
 }
 
 /**
@@ -54,17 +54,17 @@ function dfrapi_get_datafeedr_secret_key() {
  */
 function dfrapi_get_datafeedr_api_version(): string {
 
-	$configuration = (array) get_option( 'dfrapi_configuration', [] );
+    $configuration = (array) get_option( 'dfrapi_configuration', [] );
 
-	if ( ! isset( $configuration['api_version'] ) ) {
-		return dfrapi_get_default_api_version();
-	}
+    if ( ! isset( $configuration['api_version'] ) ) {
+        return dfrapi_get_default_api_version();
+    }
 
-	$api_version = trim( $configuration['api_version'] );
+    $api_version = trim( $configuration['api_version'] );
 
-	return in_array( $api_version, dfrapi_get_valid_api_versions(), true )
-		? $api_version
-		: dfrapi_get_default_api_version();
+    return in_array( $api_version, dfrapi_get_valid_api_versions(), true )
+            ? $api_version
+            : dfrapi_get_default_api_version();
 }
 
 /**
@@ -73,7 +73,7 @@ function dfrapi_get_datafeedr_api_version(): string {
  * @return array
  */
 function dfrapi_get_valid_api_versions(): array {
-	return [ 'stable' ];
+    return [ 'stable' ];
 }
 
 /**
@@ -82,7 +82,7 @@ function dfrapi_get_valid_api_versions(): array {
  * @return string
  */
 function dfrapi_get_default_api_version(): string {
-	return 'stable';
+    return 'stable';
 }
 
 /**
@@ -91,9 +91,9 @@ function dfrapi_get_default_api_version(): string {
  * @return float|int
  */
 function dfrapi_get_api_usage_percentage() {
-	_deprecated_function( __FUNCTION__, '1.3.0', 'dfrapi_get_api_usage_as_percentage()' );
+    _deprecated_function( __FUNCTION__, '1.3.0', 'dfrapi_get_api_usage_as_percentage()' );
 
-	return dfrapi_get_api_usage_as_percentage();
+    return dfrapi_get_api_usage_as_percentage();
 }
 
 /**
@@ -102,7 +102,7 @@ function dfrapi_get_api_usage_percentage() {
  * @return bool
  */
 function dfrapi_api_usage_over_90_percent(): bool {
-	return dfrapi_get_api_usage_as_percentage() >= 90;
+    return dfrapi_get_api_usage_as_percentage() >= 90;
 }
 
 /**
@@ -111,7 +111,7 @@ function dfrapi_api_usage_over_90_percent(): bool {
  * @return string
  */
 function dfrapi_set_html_content_type(): string {
-	return 'text/html';
+    return 'text/html';
 }
 
 /**
@@ -121,27 +121,27 @@ function dfrapi_set_html_content_type(): string {
  */
 function dfrapi_get_zanox_keys() {
 
-	$configuration = (array) get_option( 'dfrapi_configuration' );
+    $configuration = (array) get_option( 'dfrapi_configuration' );
 
-	$zanox_connection_key = false;
-	$zanox_secret_key     = false;
+    $zanox_connection_key = false;
+    $zanox_secret_key     = false;
 
-	if ( isset( $configuration['zanox_connection_key'] ) && ( $configuration['zanox_connection_key'] != '' ) ) {
-		$zanox_connection_key = $configuration['zanox_connection_key'];
-	}
+    if ( isset( $configuration['zanox_connection_key'] ) && ( $configuration['zanox_connection_key'] != '' ) ) {
+        $zanox_connection_key = $configuration['zanox_connection_key'];
+    }
 
-	if ( isset( $configuration['zanox_secret_key'] ) && ( $configuration['zanox_secret_key'] != '' ) ) {
-		$zanox_secret_key = $configuration['zanox_secret_key'];
-	}
+    if ( isset( $configuration['zanox_secret_key'] ) && ( $configuration['zanox_secret_key'] != '' ) ) {
+        $zanox_secret_key = $configuration['zanox_secret_key'];
+    }
 
-	if ( $zanox_connection_key && $zanox_secret_key ) {
-		return array(
-			'connection_key' => $zanox_connection_key,
-			'secret_key'     => $zanox_secret_key,
-		);
-	}
+    if ( $zanox_connection_key && $zanox_secret_key ) {
+        return array(
+                'connection_key' => $zanox_connection_key,
+                'secret_key'     => $zanox_secret_key,
+        );
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -153,33 +153,33 @@ function dfrapi_get_zanox_keys() {
  */
 function dfrapi_get_ph_keys() {
 
-	$configuration = (array) get_option( 'dfrapi_configuration' );
+    $configuration = (array) get_option( 'dfrapi_configuration' );
 
-	$ph_application_key = false;
-	$ph_user_api_key    = false;
-	$ph_publisher_id    = false;
+    $ph_application_key = false;
+    $ph_user_api_key    = false;
+    $ph_publisher_id    = false;
 
-	if ( isset( $configuration['ph_application_key'] ) && ( $configuration['ph_application_key'] != '' ) ) {
-		$ph_application_key = $configuration['ph_application_key'];
-	}
+    if ( isset( $configuration['ph_application_key'] ) && ( $configuration['ph_application_key'] != '' ) ) {
+        $ph_application_key = $configuration['ph_application_key'];
+    }
 
-	if ( isset( $configuration['ph_user_api_key'] ) && ( $configuration['ph_user_api_key'] != '' ) ) {
-		$ph_user_api_key = $configuration['ph_user_api_key'];
-	}
+    if ( isset( $configuration['ph_user_api_key'] ) && ( $configuration['ph_user_api_key'] != '' ) ) {
+        $ph_user_api_key = $configuration['ph_user_api_key'];
+    }
 
-	if ( isset( $configuration['ph_publisher_id'] ) && ( $configuration['ph_publisher_id'] != '' ) ) {
-		$ph_publisher_id = $configuration['ph_publisher_id'];
-	}
+    if ( isset( $configuration['ph_publisher_id'] ) && ( $configuration['ph_publisher_id'] != '' ) ) {
+        $ph_publisher_id = $configuration['ph_publisher_id'];
+    }
 
-	if ( $ph_application_key && $ph_user_api_key && $ph_publisher_id ) {
-		return array(
-			'application_key' => $ph_application_key,
-			'user_api_key'    => $ph_user_api_key,
-			'publisher_id'    => $ph_publisher_id,
-		);
-	}
+    if ( $ph_application_key && $ph_user_api_key && $ph_publisher_id ) {
+        return array(
+                'application_key' => $ph_application_key,
+                'user_api_key'    => $ph_user_api_key,
+                'publisher_id'    => $ph_publisher_id,
+        );
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -191,21 +191,21 @@ function dfrapi_get_ph_keys() {
  */
 function dfrapi_get_effiliation_keys() {
 
-	$configuration = (array) get_option( 'dfrapi_configuration' );
+    $configuration = (array) get_option( 'dfrapi_configuration' );
 
-	$effiliation_key = false;
+    $effiliation_key = false;
 
-	if ( isset( $configuration['effiliation_key'] ) && ( $configuration['effiliation_key'] != '' ) ) {
-		$effiliation_key = $configuration['effiliation_key'];
-	}
+    if ( isset( $configuration['effiliation_key'] ) && ( $configuration['effiliation_key'] != '' ) ) {
+        $effiliation_key = $configuration['effiliation_key'];
+    }
 
-	if ( $effiliation_key ) {
-		return array(
-			'effiliation_key' => $effiliation_key,
-		);
-	}
+    if ( $effiliation_key ) {
+        return array(
+                'effiliation_key' => $effiliation_key,
+        );
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -220,39 +220,39 @@ function dfrapi_get_effiliation_keys() {
  */
 function dfrapi_get_amazon_keys() {
 
-	$configuration = (array) get_option( 'dfrapi_configuration' );
+    $configuration = (array) get_option( 'dfrapi_configuration' );
 
-	$amazon_access_key_id     = false;
-	$amazon_secret_access_key = false;
-	$amazon_tracking_id       = false;
-	$amazon_locale            = false;
+    $amazon_access_key_id     = false;
+    $amazon_secret_access_key = false;
+    $amazon_tracking_id       = false;
+    $amazon_locale            = false;
 
-	if ( isset( $configuration['amazon_access_key_id'] ) && ( $configuration['amazon_access_key_id'] != '' ) ) {
-		$amazon_access_key_id = $configuration['amazon_access_key_id'];
-	}
+    if ( isset( $configuration['amazon_access_key_id'] ) && ( $configuration['amazon_access_key_id'] != '' ) ) {
+        $amazon_access_key_id = $configuration['amazon_access_key_id'];
+    }
 
-	if ( isset( $configuration['amazon_secret_access_key'] ) && ( $configuration['amazon_secret_access_key'] != '' ) ) {
-		$amazon_secret_access_key = $configuration['amazon_secret_access_key'];
-	}
+    if ( isset( $configuration['amazon_secret_access_key'] ) && ( $configuration['amazon_secret_access_key'] != '' ) ) {
+        $amazon_secret_access_key = $configuration['amazon_secret_access_key'];
+    }
 
-	if ( isset( $configuration['amazon_tracking_id'] ) && ( $configuration['amazon_tracking_id'] != '' ) ) {
-		$amazon_tracking_id = $configuration['amazon_tracking_id'];
-	}
+    if ( isset( $configuration['amazon_tracking_id'] ) && ( $configuration['amazon_tracking_id'] != '' ) ) {
+        $amazon_tracking_id = $configuration['amazon_tracking_id'];
+    }
 
-	if ( isset( $configuration['amazon_locale'] ) && ( $configuration['amazon_locale'] != '' ) ) {
-		$amazon_locale = $configuration['amazon_locale'];
-	}
+    if ( isset( $configuration['amazon_locale'] ) && ( $configuration['amazon_locale'] != '' ) ) {
+        $amazon_locale = $configuration['amazon_locale'];
+    }
 
-	if ( $amazon_access_key_id && $amazon_secret_access_key && $amazon_tracking_id && $amazon_locale ) {
-		return array(
-			'amazon_access_key_id'     => $amazon_access_key_id,
-			'amazon_secret_access_key' => $amazon_secret_access_key,
-			'amazon_tracking_id'       => $amazon_tracking_id,
-			'amazon_locale'            => $amazon_locale,
-		);
-	}
+    if ( $amazon_access_key_id && $amazon_secret_access_key && $amazon_tracking_id && $amazon_locale ) {
+        return array(
+                'amazon_access_key_id'     => $amazon_access_key_id,
+                'amazon_secret_access_key' => $amazon_secret_access_key,
+                'amazon_tracking_id'       => $amazon_tracking_id,
+                'amazon_locale'            => $amazon_locale,
+        );
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -260,19 +260,19 @@ function dfrapi_get_amazon_keys() {
  */
 function dfrapi_user_pages( $page ) {
 
-	$pages = array(
-		'edit'     => 'https://datafeedr.me/dashboard',
-		'invoices' => 'https://datafeedr.me/dashboard',
-		'billing'  => 'https://datafeedr.me/dashboard',
-		'cancel'   => 'https://datafeedr.me/dashboard',
-		'change'   => 'https://datafeedr.me/dashboard',
-		'signup'   => 'https://datafeedr.me/dashboard',
-		'summary'  => 'https://datafeedr.me/dashboard',
-		'api'      => 'https://datafeedr.me/dashboard',
-		'factory'  => 'https://datafeedr.me/dashboard',
-	);
+    $pages = array(
+            'edit'     => 'https://datafeedr.me/dashboard',
+            'invoices' => 'https://datafeedr.me/dashboard',
+            'billing'  => 'https://datafeedr.me/dashboard',
+            'cancel'   => 'https://datafeedr.me/dashboard',
+            'change'   => 'https://datafeedr.me/dashboard',
+            'signup'   => 'https://datafeedr.me/dashboard',
+            'summary'  => 'https://datafeedr.me/dashboard',
+            'api'      => 'https://datafeedr.me/dashboard',
+            'factory'  => 'https://datafeedr.me/dashboard',
+    );
 
-	return $pages[ $page ];
+    return $pages[ $page ];
 }
 
 /**
@@ -281,9 +281,9 @@ function dfrapi_user_pages( $page ) {
  * API cache on Tools page.
  */
 function dfrapi_update_transient_whitelist( $option_name ) {
-	$whitelist   = (array) get_option( 'dfrapi_transient_whitelist', [] );
-	$whitelist[] = $option_name;
-	update_option( 'dfrapi_transient_whitelist', array_unique( $whitelist ) );
+    $whitelist   = (array) get_option( 'dfrapi_transient_whitelist', [] );
+    $whitelist[] = $option_name;
+    update_option( 'dfrapi_transient_whitelist', array_unique( $whitelist ) );
 }
 
 /**
@@ -295,51 +295,51 @@ function dfrapi_update_transient_whitelist( $option_name ) {
  */
 function dfrapi_url( $product ) {
 
-	// Get all the user's selected networks.
-	$networks = (array) get_option( 'dfrapi_networks' );
+    // Get all the user's selected networks.
+    $networks = (array) get_option( 'dfrapi_networks' );
 
-	// Support added for Amazon in version 1.0.60 (2017-10-18) Ticket #15201
-	if ( substr( $product['source'], 0, 6 ) === "Amazon" ) {
-		// Get the user's Amazon Associate Tag
-		$affiliate_id = dfrapi_get_amazon_associate_tag();
-	} else {
-		// Extract the affiliate ID from the $networks array.
-		$affiliate_id = isset( $networks['ids'][ $product['source_id'] ]['aid'] ) ? $networks['ids'][ $product['source_id'] ]['aid'] : '';
-	}
+    // Support added for Amazon in version 1.0.60 (2017-10-18) Ticket #15201
+    if ( substr( $product['source'], 0, 6 ) === "Amazon" ) {
+        // Get the user's Amazon Associate Tag
+        $affiliate_id = dfrapi_get_amazon_associate_tag();
+    } else {
+        // Extract the affiliate ID from the $networks array.
+        $affiliate_id = isset( $networks['ids'][ $product['source_id'] ]['aid'] ) ? $networks['ids'][ $product['source_id'] ]['aid'] : '';
+    }
 
-	$affiliate_id = apply_filters( 'dfrapi_affiliate_id', $affiliate_id, $product, $networks );
-	$affiliate_id = trim( $affiliate_id );
+    $affiliate_id = apply_filters( 'dfrapi_affiliate_id', $affiliate_id, $product, $networks );
+    $affiliate_id = trim( $affiliate_id );
 
-	// Extract the Tracking ID from the $networks array.
-	$tracking_id = ( isset( $networks['ids'][ $product['source_id'] ]['tid'] ) ) ? $networks['ids'][ $product['source_id'] ]['tid'] : '';
-	$tracking_id = apply_filters( 'dfrapi_tracking_id', $tracking_id, $product, $networks );
-	$tracking_id = trim( $tracking_id );
+    // Extract the Tracking ID from the $networks array.
+    $tracking_id = ( isset( $networks['ids'][ $product['source_id'] ]['tid'] ) ) ? $networks['ids'][ $product['source_id'] ]['tid'] : '';
+    $tracking_id = apply_filters( 'dfrapi_tracking_id', $tracking_id, $product, $networks );
+    $tracking_id = trim( $tracking_id );
 
-	// Affiliate ID is missing.  Do action and return empty string.
-	if ( $affiliate_id == '' ) {
-		do_action( 'dfrapi_affiliate_id_is_missing', $product );
+    // Affiliate ID is missing.  Do action and return empty string.
+    if ( $affiliate_id == '' ) {
+        do_action( 'dfrapi_affiliate_id_is_missing', $product );
 
-		return '';
-	}
+        return '';
+    }
 
-	// Determine which URL field to get: 'url' OR 'ref_url'. Return 'url' if $tracking_id is empty, otherwise, use 'ref_url'.
-	$url = ( $tracking_id !== '' && isset( $product['ref_url'] ) ) ? $product['ref_url'] : $product['url'];
+    // Determine which URL field to get: 'url' OR 'ref_url'. Return 'url' if $tracking_id is empty, otherwise, use 'ref_url'.
+    $url = ( $tracking_id !== '' && isset( $product['ref_url'] ) ) ? $product['ref_url'] : $product['url'];
 
-	// Apply filters to URL before affiliate & tracking ID insertion.
-	$url = apply_filters( 'dfrapi_before_affiliate_id_insertion', $url, $product, $affiliate_id );
-	$url = apply_filters( 'dfrapi_before_tracking_id_insertion', $url, $product, $tracking_id );
+    // Apply filters to URL before affiliate & tracking ID insertion.
+    $url = apply_filters( 'dfrapi_before_affiliate_id_insertion', $url, $product, $affiliate_id );
+    $url = apply_filters( 'dfrapi_before_tracking_id_insertion', $url, $product, $tracking_id );
 
-	// Replace placeholders in URL.
-	$placeholders = array( "@@@", "###" );
-	$replacements = array( $affiliate_id, $tracking_id );
-	$url          = str_replace( $placeholders, $replacements, $url );
+    // Replace placeholders in URL.
+    $placeholders = array( "@@@", "###" );
+    $replacements = array( $affiliate_id, $tracking_id );
+    $url          = str_replace( $placeholders, $replacements, $url );
 
-	// Apply filters to URL after affiliate & tracking ID insertion.
-	$url = apply_filters( 'dfrapi_after_affiliate_id_insertion', $url, $product, $affiliate_id );
-	$url = apply_filters( 'dfrapi_after_tracking_id_insertion', $url, $product, $tracking_id );
+    // Apply filters to URL after affiliate & tracking ID insertion.
+    $url = apply_filters( 'dfrapi_after_affiliate_id_insertion', $url, $product, $affiliate_id );
+    $url = apply_filters( 'dfrapi_after_tracking_id_insertion', $url, $product, $tracking_id );
 
-	// Return URL
-	return $url;
+    // Return URL
+    return $url;
 }
 
 /**
@@ -350,9 +350,9 @@ function dfrapi_url( $product ) {
  * @return string Associate Tag or empty string if it does not exist.
  */
 function dfrapi_get_amazon_associate_tag() {
-	$config = get_option( 'dfrapi_configuration' );
+    $config = get_option( 'dfrapi_configuration' );
 
-	return ( isset( $config['amazon_tracking_id'] ) ) ? $config['amazon_tracking_id'] : '';
+    return ( isset( $config['amazon_tracking_id'] ) ) ? $config['amazon_tracking_id'] : '';
 }
 
 /**
@@ -364,64 +364,64 @@ function dfrapi_get_amazon_associate_tag() {
  */
 function dfrapi_impression_url( $product ) {
 
-	$impression_url = ( isset( $product['impressionurl'] ) ) ? trim( $product['impressionurl'] ) : false;
+    $impression_url = ( isset( $product['impressionurl'] ) ) ? trim( $product['impressionurl'] ) : false;
 
-	if ( ! $impression_url ) {
-		return '';
-	}
+    if ( ! $impression_url ) {
+        return '';
+    }
 
-	// Get all the user's selected networks.
-	$networks = (array) get_option( 'dfrapi_networks' );
+    // Get all the user's selected networks.
+    $networks = (array) get_option( 'dfrapi_networks' );
 
-	// Extract the affiliate ID from the $networks array.
-	$affiliate_id = $networks['ids'][ $product['source_id'] ]['aid'];
-	$affiliate_id = apply_filters( 'dfrapi_affiliate_id', $affiliate_id, $product, $networks );
-	$affiliate_id = trim( $affiliate_id );
+    // Extract the affiliate ID from the $networks array.
+    $affiliate_id = $networks['ids'][ $product['source_id'] ]['aid'];
+    $affiliate_id = apply_filters( 'dfrapi_affiliate_id', $affiliate_id, $product, $networks );
+    $affiliate_id = trim( $affiliate_id );
 
-	// Affiliate ID is missing.  Do action and return empty string.
-	if ( $affiliate_id == '' ) {
-		do_action( 'dfrapi_affiliate_id_is_missing_impression', $product );
+    // Affiliate ID is missing.  Do action and return empty string.
+    if ( $affiliate_id == '' ) {
+        do_action( 'dfrapi_affiliate_id_is_missing_impression', $product );
 
-		return '';
-	}
+        return '';
+    }
 
-	// Apply filters to URL before affiliate & tracking ID insertion.
-	$impression_url = apply_filters( 'dfrapi_before_affiliate_id_insertion_impression', $impression_url, $product, $affiliate_id );
+    // Apply filters to URL before affiliate & tracking ID insertion.
+    $impression_url = apply_filters( 'dfrapi_before_affiliate_id_insertion_impression', $impression_url, $product, $affiliate_id );
 
-	// Replace placeholders in URL.
-	$placeholders   = array( "@@@" );
-	$replacements   = array( $affiliate_id );
-	$impression_url = str_replace( $placeholders, $replacements, $impression_url );
+    // Replace placeholders in URL.
+    $placeholders   = array( "@@@" );
+    $replacements   = array( $affiliate_id );
+    $impression_url = str_replace( $placeholders, $replacements, $impression_url );
 
-	// Apply filters to URL after affiliate & tracking ID insertion.
-	$impression_url = apply_filters( 'dfrapi_after_affiliate_id_insertion_impression', $impression_url, $product, $affiliate_id );
+    // Apply filters to URL after affiliate & tracking ID insertion.
+    $impression_url = apply_filters( 'dfrapi_after_affiliate_id_insertion_impression', $impression_url, $product, $affiliate_id );
 
-	// Return URL
-	return $impression_url;
+    // Return URL
+    return $impression_url;
 }
 
 /**
  * Output an error message generated by the API.
  */
 function dfrapi_output_api_error( $data ) {
-	$error  = @$data['dfrapi_api_error'];
-	$params = @$data['dfrapi_api_error']['params'];
-	?>
-	<div class="dfrapi_api_error">
-		<div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
-		<div class="dfrapi_msg">
-			<strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
-		</div>
-		<div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
-		</div>
-		<div class="dfrapi_class">
-			<strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
-		<?php if ( is_array( $params ) ) : ?>
-			<div class="dfrps_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
-				<span><?php echo dfrapi_display_api_request( $params ); ?></span></div>
-		<?php endif; ?>
-	</div>
-	<?php
+    $error  = @$data['dfrapi_api_error'];
+    $params = @$data['dfrapi_api_error']['params'];
+    ?>
+    <div class="dfrapi_api_error">
+        <div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
+        <div class="dfrapi_msg">
+            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
+        </div>
+        <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
+        </div>
+        <div class="dfrapi_class">
+            <strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
+        <?php if ( is_array( $params ) ) : ?>
+            <div class="dfrps_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
+                <span><?php echo dfrapi_display_api_request( $params ); ?></span></div>
+        <?php endif; ?>
+    </div>
+    <?php
 }
 
 /**
@@ -463,7 +463,7 @@ function dfrapi_output_api_error( $data ) {
  * @return mixed|string
  */
 function dfrapi_currency_code_to_sign( $code ) {
-	return dfrapi_currency( $code )->get_currency_symbol();
+    return dfrapi_currency( $code )->get_currency_symbol();
 }
 
 /**
@@ -471,73 +471,73 @@ function dfrapi_currency_code_to_sign( $code ) {
  */
 function dfrapi_display_api_request( $params = array() ) {
 
-	$html = '';
+    $html = '';
 
-	if ( empty( $params ) ) {
-		return $html;
-	}
+    if ( empty( $params ) ) {
+        return $html;
+    }
 
-	$html .= '$search = $api->searchRequest();<br />';
-	foreach ( $params as $k => $v ) {
+    $html .= '$search = $api->searchRequest();<br />';
+    foreach ( $params as $k => $v ) {
 
-		// Handle query.
-		if ( $k === 'query' ) {
-			foreach ( $v as $query ) {
-				if ( substr( $query, 0, 9 ) !== 'source_id' || substr( $query, 0, 11 ) !== 'merchant_id' ) {
-					$query = str_replace( ",", ", ", $query );
-				}
-				$html .= '$search->addFilter( \'' . ( $query ) . '\' );<br />';
-			}
-		}
+        // Handle query.
+        if ( $k === 'query' ) {
+            foreach ( $v as $query ) {
+                if ( substr( $query, 0, 9 ) !== 'source_id' || substr( $query, 0, 11 ) !== 'merchant_id' ) {
+                    $query = str_replace( ",", ", ", $query );
+                }
+                $html .= '$search->addFilter( \'' . ( $query ) . '\' );<br />';
+            }
+        }
 
-		// Handle sort.
-		if ( $k === 'sort' ) {
-			foreach ( $v as $sort ) {
-				$html .= '$search->addSort( \'' . stripslashes( $sort ) . '\' );<br />';
-			}
-		}
+        // Handle sort.
+        if ( $k === 'sort' ) {
+            foreach ( $v as $sort ) {
+                $html .= '$search->addSort( \'' . stripslashes( $sort ) . '\' );<br />';
+            }
+        }
 
-		// Handle limit.
-		if ( $k === 'limit' ) {
-			$html .= '$search->setLimit( \'' . stripslashes( $v ) . '\' );<br />';
-		}
+        // Handle limit.
+        if ( $k === 'limit' ) {
+            $html .= '$search->setLimit( \'' . stripslashes( $v ) . '\' );<br />';
+        }
 
-		// Handle merchant_limit.
-		if ( $k === 'merchant_limit' ) {
-			$html .= '$search->setMerchantLimit( \'' . stripslashes( absint( $v ) ) . '\' );<br />';
-		}
+        // Handle merchant_limit.
+        if ( $k === 'merchant_limit' ) {
+            $html .= '$search->setMerchantLimit( \'' . stripslashes( absint( $v ) ) . '\' );<br />';
+        }
 
-		// Handle Offset.
-		if ( $k === 'offset' ) {
-			$html .= '$search->setOffset( \'' . stripslashes( $v ) . '\' );<br />';
-		}
+        // Handle Offset.
+        if ( $k === 'offset' ) {
+            $html .= '$search->setOffset( \'' . stripslashes( $v ) . '\' );<br />';
+        }
 
-		// Handle Exclude duplicates.
-		if ( $k === 'exclude_duplicates' ) {
-			$html .= '$search->excludeDuplicates( \'' . $v . '\' );<br />';
-		}
-	}
+        // Handle Exclude duplicates.
+        if ( $k === 'exclude_duplicates' ) {
+            $html .= '$search->excludeDuplicates( \'' . $v . '\' );<br />';
+        }
+    }
 
-	$html .= '$products = $search->execute();';
+    $html .= '$products = $search->execute();';
 
-	return $html;
+    return $html;
 
 }
 
 function dfrapi_get_query_param( $query, $param ) {
-	if ( is_array( $query ) && ! empty( $query ) ) {
-		foreach ( $query as $k => $v ) {
-			if ( $v['field'] == $param ) {
-				return array(
-					'field'    => @$v['field'],
-					'operator' => @$v['operator'],
-					'value'    => @$v['value'],
-				);
-			}
-		}
-	}
+    if ( is_array( $query ) && ! empty( $query ) ) {
+        foreach ( $query as $k => $v ) {
+            if ( $v['field'] == $param ) {
+                return array(
+                        'field'    => @$v['field'],
+                        'operator' => @$v['operator'],
+                        'value'    => @$v['value'],
+                );
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -547,7 +547,7 @@ function dfrapi_get_query_param( $query, $param ) {
  * Example: 14999 => 149.99
  */
 function dfrapi_int_to_price( $price ) {
-	return number_format( ( $price / 100 ), 2 );
+    return number_format( ( $price / 100 ), 2 );
 }
 
 /**
@@ -567,56 +567,56 @@ function dfrapi_int_to_price( $price ) {
  * assert(dfrapi_price_to_int('FOO 123 BAR')   ==12300);
  */
 function dfrapi_price_to_int( $price ) {
-	$d = $price;
-	$d = preg_replace( '~^[^\d.,]+~', '', $d );
-	$d = preg_replace( '~[^\d.,]+$~', '', $d );
+    $d = $price;
+    $d = preg_replace( '~^[^\d.,]+~', '', $d );
+    $d = preg_replace( '~[^\d.,]+$~', '', $d );
 
-	// 123 => 12300
-	if ( preg_match( '~^(\d+)$~', $d, $m ) ) {
-		return intval( $m[1] . '00' );
-	}
+    // 123 => 12300
+    if ( preg_match( '~^(\d+)$~', $d, $m ) ) {
+        return intval( $m[1] . '00' );
+    }
 
-	// 123.4 => 12340, 123,45 => 12345
-	if ( preg_match( '~^(\d+)[.,](\d{1,2})$~', $d, $m ) ) {
-		return intval( $m[1] . substr( $m[2] . '0000', 0, 2 ) );
-	}
+    // 123.4 => 12340, 123,45 => 12345
+    if ( preg_match( '~^(\d+)[.,](\d{1,2})$~', $d, $m ) ) {
+        return intval( $m[1] . substr( $m[2] . '0000', 0, 2 ) );
+    }
 
-	// 1,234,567.89 => 123456789
-	if ( preg_match( '~^((?:\d{1,3})(?:,\d{3})*)(\.\d{1,2})?$~', $d, $m ) ) {
-		$f = isset( $m[2] ) ? $m[2] : '.';
+    // 1,234,567.89 => 123456789
+    if ( preg_match( '~^((?:\d{1,3})(?:,\d{3})*)(\.\d{1,2})?$~', $d, $m ) ) {
+        $f = isset( $m[2] ) ? $m[2] : '.';
 
-		return intval( str_replace( ',', '', $m[1] ) . substr( $f . '0000', 1, 2 ) );
-	}
+        return intval( str_replace( ',', '', $m[1] ) . substr( $f . '0000', 1, 2 ) );
+    }
 
-	// 1.234.567,89 => 123456789
-	if ( preg_match( '~^((?:\d{1,3})(?:\.\d{3})*)(,\d{1,2})?$~', $d, $m ) ) {
-		$f = isset( $m[2] ) ? $m[2] : '.';
+    // 1.234.567,89 => 123456789
+    if ( preg_match( '~^((?:\d{1,3})(?:\.\d{3})*)(,\d{1,2})?$~', $d, $m ) ) {
+        $f = isset( $m[2] ) ? $m[2] : '.';
 
-		return intval( str_replace( '.', '', $m[1] ) . substr( $f . '0000', 1, 2 ) );
-	}
+        return intval( str_replace( '.', '', $m[1] ) . substr( $f . '0000', 1, 2 ) );
+    }
 
-	return null;
+    return null;
 }
 
 function dfrapi_html_output_api_error( $data ) {
-	$error  = $data['dfrapi_api_error'];
-	$params = @$data['dfrapi_api_error']['params'];
-	?>
-	<div class="dfrapi_api_error">
-		<div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
-		<div class="dfrapi_msg">
-			<strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
-		</div>
-		<div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
-		</div>
-		<div class="dfrapi_class">
-			<strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
-		<?php if ( is_array( $params ) ) : ?>
-			<div class="dfrapi_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
-				<span><?php echo dfrapi_helper_display_api_request( $params ); ?></span></div>
-		<?php endif; ?>
-	</div>
-	<?php
+    $error  = $data['dfrapi_api_error'];
+    $params = @$data['dfrapi_api_error']['params'];
+    ?>
+    <div class="dfrapi_api_error">
+        <div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
+        <div class="dfrapi_msg">
+            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
+        </div>
+        <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
+        </div>
+        <div class="dfrapi_class">
+            <strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
+        <?php if ( is_array( $params ) ) : ?>
+            <div class="dfrapi_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
+                <span><?php echo dfrapi_helper_display_api_request( $params ); ?></span></div>
+        <?php endif; ?>
+    </div>
+    <?php
 }
 
 /**
@@ -628,10 +628,10 @@ function dfrapi_html_output_api_error( $data ) {
  * @return int|string
  */
 function dfrapi_get_total_products_in_db( $formatted = true, $default = 0 ) {
-	$account = (array) get_option( 'dfrapi_account', [] );
-	$count   = absint( $account['product_count'] ?? $default );
+    $account = (array) get_option( 'dfrapi_account', [] );
+    $count   = absint( $account['product_count'] ?? $default );
 
-	return $formatted ? number_format_i18n( $count ) : $count;
+    return $formatted ? number_format_i18n( $count ) : $count;
 }
 
 /**
@@ -683,51 +683,51 @@ function dfrapi_get_total_products_in_db( $formatted = true, $default = 0 ) {
  */
 function datafeedr_import_image( $url, $args = [] ) {
 
-	if ( dfrapi_use_legacy_image_importer() ) {
-		return ( new Datafeedr_Image_Importer( $url, $args ) )->import();
-	}
+    if ( dfrapi_use_legacy_image_importer() ) {
+        return ( new Datafeedr_Image_Importer( $url, $args ) )->import();
+    }
 
-	$default_args = [
-		'title'             => '',
-		'file_name'         => '',
-		'description'       => '',
-		'caption'           => '',
-		'alt_text'          => '',
-		'user_id'           => 0,
-		'post_id'           => 0,
-		'is_post_thumbnail' => true,
-		'timeout'           => 5,
-		'_source_plugin'    => 'dfrapi',
-	];
+    $default_args = [
+            'title'             => '',
+            'file_name'         => '',
+            'description'       => '',
+            'caption'           => '',
+            'alt_text'          => '',
+            'user_id'           => 0,
+            'post_id'           => 0,
+            'is_post_thumbnail' => true,
+            'timeout'           => 5,
+            '_source_plugin'    => 'dfrapi',
+    ];
 
-	$args = array_merge( $default_args, $args );
+    $args = array_merge( $default_args, $args );
 
-	$image_data = dfrapi_image_data( $url );
+    $image_data = dfrapi_image_data( $url );
 
-	$image_data->set_title( $args['title'] );
-	$image_data->set_filename( $args['file_name'] );
-	$image_data->set_description( $args['description'] );
-	$image_data->set_caption( $args['caption'] );
-	$image_data->set_alternative_text( $args['alt_text'] );
-	$image_data->set_author_id( absint( $args['user_id'] ) );
-	$image_data->set_post_parent_id( absint( $args['post_id'] ) );
-	$image_data->set_post_thumbnail( (bool) $args['is_post_thumbnail'] );
+    $image_data->set_title( $args['title'] );
+    $image_data->set_filename( $args['file_name'] );
+    $image_data->set_description( $args['description'] );
+    $image_data->set_caption( $args['caption'] );
+    $image_data->set_alternative_text( $args['alt_text'] );
+    $image_data->set_author_id( absint( $args['user_id'] ) );
+    $image_data->set_post_parent_id( absint( $args['post_id'] ) );
+    $image_data->set_post_thumbnail( (bool) $args['is_post_thumbnail'] );
 
-	$image_data = apply_filters( 'datafeedr_import_image_image_data', $image_data, $url, $args );
+    $image_data = apply_filters( 'datafeedr_import_image_image_data', $image_data, $url, $args );
 
-	$uploader = dfrapi_image_uploader( $image_data );
+    $uploader = dfrapi_image_uploader( $image_data );
 
-	$uploader->set_timeout( absint( $args['timeout'] ) );
+    $uploader->set_timeout( absint( $args['timeout'] ) );
 
-	$attachment_id = $uploader->upload();
+    $attachment_id = $uploader->upload();
 
-	if ( ! is_wp_error( $attachment_id ) ) {
-		update_post_meta( $attachment_id, '_owner_datafeedr', sanitize_text_field( $args['_source_plugin'] ) );
-	}
+    if ( ! is_wp_error( $attachment_id ) ) {
+        update_post_meta( $attachment_id, '_owner_datafeedr', sanitize_text_field( $args['_source_plugin'] ) );
+    }
 
-	do_action( 'datafeedr_import_image_attachment_id', $attachment_id, $image_data, $url, $args );
+    do_action( 'datafeedr_import_image_attachment_id', $attachment_id, $image_data, $url, $args );
 
-	return $attachment_id;
+    return $attachment_id;
 }
 
 /**
@@ -742,15 +742,15 @@ function datafeedr_import_image( $url, $args = [] ) {
  * @return bool True if string starts with the pattern(s) else returns false.
  */
 function dfrapi_string_starts_with( $string, $patterns ) {
-	$patterns = ( is_string( $patterns ) ) ? array( $patterns ) : $patterns;
-	foreach ( $patterns as $pattern ) {
-		$length = mb_strlen( $pattern );
-		if ( mb_substr( $string, 0, $length ) === $pattern ) {
-			return true;
-		}
-	}
+    $patterns = ( is_string( $patterns ) ) ? array( $patterns ) : $patterns;
+    foreach ( $patterns as $pattern ) {
+        $length = mb_strlen( $pattern );
+        if ( mb_substr( $string, 0, $length ) === $pattern ) {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -764,48 +764,48 @@ function dfrapi_string_starts_with( $string, $patterns ) {
  */
 function dfrapi_is_datafeedr_admin_page() {
 
-	/**
-	 * For post edit pages (ie. post.php?post=1&action=edit).
-	 */
-	$post_types = [
-		'datafeedr-productset',
-	];
+    /**
+     * For post edit pages (ie. post.php?post=1&action=edit).
+     */
+    $post_types = [
+            'datafeedr-productset',
+    ];
 
-	/**
-	 * For $_GET params (ie. admin.php?page=dfrps_configuration).
-	 */
-	$params = [
-		'page'      => [
-			'dfrapi',
-			'dfrapi_networks',
-			'dfrapi_merchants',
-			'dfrapi_tools',
-			'dfrapi_export',
-			'dfrapi_import',
-			'dfrapi_account',
-			'dfrcs_options',
-			'dfrps_configuration',
-			'dfrps_tools',
-			'dfrpswc_options',
-		],
-		'post_type' => [
-			'datafeedr-productset'
-		]
-	];
+    /**
+     * For $_GET params (ie. admin.php?page=dfrps_configuration).
+     */
+    $params = [
+            'page'      => [
+                    'dfrapi',
+                    'dfrapi_networks',
+                    'dfrapi_merchants',
+                    'dfrapi_tools',
+                    'dfrapi_export',
+                    'dfrapi_import',
+                    'dfrapi_account',
+                    'dfrcs_options',
+                    'dfrps_configuration',
+                    'dfrps_tools',
+                    'dfrpswc_options',
+            ],
+            'post_type' => [
+                    'datafeedr-productset'
+            ]
+    ];
 
-	foreach ( $params as $k => $v ) {
-		if ( isset( $_GET[ $k ] ) && in_array( $_GET[ $k ], $v ) ) {
-			return true;
-		}
-	}
+    foreach ( $params as $k => $v ) {
+        if ( isset( $_GET[ $k ] ) && in_array( $_GET[ $k ], $v ) ) {
+            return true;
+        }
+    }
 
-	global $pagenow;
+    global $pagenow;
 
-	if ( 'post.php' === $pagenow && in_array( get_post_type(), $post_types ) ) {
-		return true;
-	}
+    if ( 'post.php' === $pagenow && in_array( get_post_type(), $post_types ) ) {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -816,44 +816,44 @@ function dfrapi_is_datafeedr_admin_page() {
  */
 function dfrapi_get_affiliate_and_tracking_id( $network_id, $id_type = 'aid' ) {
 
-	static $networks = null;
+    static $networks = null;
 
-	$key  = 'ids';
-	$type = ( 'tid' === $id_type ) ? 'tid' : 'aid';
+    $key  = 'ids';
+    $type = ( 'tid' === $id_type ) ? 'tid' : 'aid';
 
-	if ( null === $networks ) {
-		$networks = get_option( 'dfrapi_networks', [] );
-	}
+    if ( null === $networks ) {
+        $networks = get_option( 'dfrapi_networks', [] );
+    }
 
-	if ( empty( $networks ) ) {
-		return new WP_Error(
-			'dfrapi_get_affiliate_id_no_networks',
-			__( 'No networks selected.', 'datafeedr-api' )
-		);
-	}
+    if ( empty( $networks ) ) {
+        return new WP_Error(
+                'dfrapi_get_affiliate_id_no_networks',
+                __( 'No networks selected.', 'datafeedr-api' )
+        );
+    }
 
-	if ( ! isset( $networks[ $key ] ) ) {
-		return new WP_Error(
-			'dfrapi_get_affiliate_id_no_network_ids',
-			__( 'No network IDs selected.', 'datafeedr-api' )
-		);
-	}
+    if ( ! isset( $networks[ $key ] ) ) {
+        return new WP_Error(
+                'dfrapi_get_affiliate_id_no_network_ids',
+                __( 'No network IDs selected.', 'datafeedr-api' )
+        );
+    }
 
-	if ( ! isset( $networks[ $key ][ $network_id ] ) ) {
-		return new WP_Error(
-			'dfrapi_get_affiliate_id_no_network_ids',
-			__( 'No data for network with ID of ' . intval( $network_id ), 'datafeedr-api' )
-		);
-	}
+    if ( ! isset( $networks[ $key ][ $network_id ] ) ) {
+        return new WP_Error(
+                'dfrapi_get_affiliate_id_no_network_ids',
+                __( 'No data for network with ID of ' . intval( $network_id ), 'datafeedr-api' )
+        );
+    }
 
-	if ( ! isset( $networks[ $key ][ $network_id ][ $type ] ) || empty( $networks[ $key ][ $network_id ][ $type ] ) ) {
-		return new WP_Error(
-			'dfrapi_get_affiliate_id_empty_type',
-			__( 'No affiliate or tracking ID entered for network with ID of ' . intval( $network_id ), 'datafeedr-api' )
-		);
-	}
+    if ( ! isset( $networks[ $key ][ $network_id ][ $type ] ) || empty( $networks[ $key ][ $network_id ][ $type ] ) ) {
+        return new WP_Error(
+                'dfrapi_get_affiliate_id_empty_type',
+                __( 'No affiliate or tracking ID entered for network with ID of ' . intval( $network_id ), 'datafeedr-api' )
+        );
+    }
 
-	return $networks[ $key ][ $network_id ][ $type ];
+    return $networks[ $key ][ $network_id ][ $type ];
 }
 
 /**
@@ -864,21 +864,21 @@ function dfrapi_get_affiliate_and_tracking_id( $network_id, $id_type = 'aid' ) {
  */
 function dfrapi_get_affiliate_gateway_sid() {
 
-	static $sid = null;
+    static $sid = null;
 
-	if ( null === $sid ) {
+    if ( null === $sid ) {
 
-		$config = get_option( 'dfrapi_configuration', [] );
+        $config = get_option( 'dfrapi_configuration', [] );
 
-		$sid = ( isset( $config['affiliate_gateway_sid'] ) && ! empty( $config['affiliate_gateway_sid'] ) ) ?
-			trim( $config['affiliate_gateway_sid'] ) :
-			new WP_Error(
-				'missing_affiliate_gateway_sid',
-				'Please enter your The Affiliate Gateway SID <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
-			);
-	}
+        $sid = ( isset( $config['affiliate_gateway_sid'] ) && ! empty( $config['affiliate_gateway_sid'] ) ) ?
+                trim( $config['affiliate_gateway_sid'] ) :
+                new WP_Error(
+                        'missing_affiliate_gateway_sid',
+                        'Please enter your The Affiliate Gateway SID <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
+                );
+    }
 
-	return $sid;
+    return $sid;
 }
 
 /**
@@ -889,21 +889,21 @@ function dfrapi_get_affiliate_gateway_sid() {
  */
 function dfrapi_get_adservice_mid() {
 
-	static $sid = null;
+    static $sid = null;
 
-	if ( null === $sid ) {
+    if ( null === $sid ) {
 
-		$config = get_option( 'dfrapi_configuration', [] );
+        $config = get_option( 'dfrapi_configuration', [] );
 
-		$sid = ( isset( $config['adservice_mid'] ) && ! empty( $config['adservice_mid'] ) ) ?
-			trim( $config['adservice_mid'] ) :
-			new WP_Error(
-				'missing_adservice_mid',
-				'Please enter your Adservice Media ID <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
-			);
-	}
+        $sid = ( isset( $config['adservice_mid'] ) && ! empty( $config['adservice_mid'] ) ) ?
+                trim( $config['adservice_mid'] ) :
+                new WP_Error(
+                        'missing_adservice_mid',
+                        'Please enter your Adservice Media ID <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
+                );
+    }
 
-	return $sid;
+    return $sid;
 }
 
 /**
@@ -914,21 +914,21 @@ function dfrapi_get_adservice_mid() {
  */
 function dfrapi_get_belboon_adspace_id() {
 
-	static $aid = null;
+    static $aid = null;
 
-	if ( null === $aid ) {
+    if ( null === $aid ) {
 
-		$config = get_option( 'dfrapi_configuration', [] );
+        $config = get_option( 'dfrapi_configuration', [] );
 
-		$aid = ( isset( $config['belboon_aid'] ) && ! empty( $config['belboon_aid'] ) ) ?
-			trim( $config['belboon_aid'] ) :
-			new WP_Error(
-				'missing_belboon_aid',
-				'Please enter your Belboon Adspace ID <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
-			);
-	}
+        $aid = ( isset( $config['belboon_aid'] ) && ! empty( $config['belboon_aid'] ) ) ?
+                trim( $config['belboon_aid'] ) :
+                new WP_Error(
+                        'missing_belboon_aid',
+                        'Please enter your Belboon Adspace ID <a href="' . admin_url( 'admin.php?page=dfrapi' ) . '" target="_blank">here</a>.'
+                );
+    }
 
-	return $aid;
+    return $aid;
 }
 
 /**
@@ -940,30 +940,30 @@ function dfrapi_get_belboon_adspace_id() {
  */
 function dfrapi_get_xml_response( $url, $method = 'GET', array $args = [] ) {
 
-	$response = $method === 'GET' ? wp_remote_get( $url, $args ) : wp_remote_post( $url, $args );
+    $response = $method === 'GET' ? wp_remote_get( $url, $args ) : wp_remote_post( $url, $args );
 
-	if ( is_wp_error( $response ) ) {
-		return $response;
-	}
+    if ( is_wp_error( $response ) ) {
+        return $response;
+    }
 
-	$code = wp_remote_retrieve_response_code( $response );
-	$body = wp_remote_retrieve_body( $response );
+    $code = wp_remote_retrieve_response_code( $response );
+    $body = wp_remote_retrieve_body( $response );
 
-	if ( $code < 200 || $code >= 300 ) {
-		return new WP_Error( $code, strip_tags( $body ) );
-	}
+    if ( $code < 200 || $code >= 300 ) {
+        return new WP_Error( $code, strip_tags( $body ) );
+    }
 
-	if ( ! strlen( $body ) ) {
-		return new WP_Error( 'connection_error', esc_html__( 'Empty response', 'datafeedr' ) );
-	}
+    if ( ! strlen( $body ) ) {
+        return new WP_Error( 'connection_error', esc_html__( 'Empty response', 'datafeedr' ) );
+    }
 
-	$xml = simplexml_load_string( $body, null, LIBXML_NOCDATA );
+    $xml = simplexml_load_string( $body, null, LIBXML_NOCDATA );
 
-	if ( $xml->getName() === 'error' ) {
-		return new WP_Error( $code, esc_html( strval( $xml->message ) ) );
-	}
+    if ( $xml->getName() === 'error' ) {
+        return new WP_Error( $code, esc_html( strval( $xml->message ) ) );
+    }
 
-	return $xml;
+    return $xml;
 }
 
 /**
@@ -977,13 +977,13 @@ function dfrapi_get_xml_response( $url, $method = 'GET', array $args = [] ) {
  * @return bool
  */
 function dfrapi_ends_with( $haystack, $needles ) {
-	foreach ( (array) $needles as $needle ) {
-		if ( $needle !== '' && substr( $haystack, - strlen( $needle ) ) === (string) $needle ) {
-			return true;
-		}
-	}
+    foreach ( (array) $needles as $needle ) {
+        if ( $needle !== '' && substr( $haystack, - strlen( $needle ) ) === (string) $needle ) {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -997,13 +997,13 @@ function dfrapi_ends_with( $haystack, $needles ) {
  * @return bool
  */
 function dfrapi_starts_with( $haystack, $needles ) {
-	foreach ( (array) $needles as $needle ) {
-		if ( (string) $needle !== '' && strncmp( $haystack, $needle, strlen( $needle ) ) === 0 ) {
-			return true;
-		}
-	}
+    foreach ( (array) $needles as $needle ) {
+        if ( (string) $needle !== '' && strncmp( $haystack, $needle, strlen( $needle ) ) === 0 ) {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -1018,7 +1018,7 @@ function dfrapi_starts_with( $haystack, $needles ) {
  * @return string
  */
 function dfrapi_substr( $string, $start, $length = null ) {
-	return mb_substr( $string, $start, $length, 'UTF-8' );
+    return mb_substr( $string, $start, $length, 'UTF-8' );
 }
 
 /**
@@ -1032,7 +1032,7 @@ function dfrapi_substr( $string, $start, $length = null ) {
  * @return string
  */
 function dfrapi_str_before( $subject, $search ) {
-	return $search === '' ? $subject : explode( $search, $subject )[0];
+    return $search === '' ? $subject : explode( $search, $subject )[0];
 }
 
 /**
@@ -1047,17 +1047,17 @@ function dfrapi_str_before( $subject, $search ) {
  */
 function dfrapi_str_before_last( $subject, $search ) {
 
-	if ( $search === '' ) {
-		return $subject;
-	}
+    if ( $search === '' ) {
+        return $subject;
+    }
 
-	$pos = mb_strrpos( $subject, $search );
+    $pos = mb_strrpos( $subject, $search );
 
-	if ( $pos === false ) {
-		return $subject;
-	}
+    if ( $pos === false ) {
+        return $subject;
+    }
 
-	return dfrapi_substr( $subject, 0, $pos );
+    return dfrapi_substr( $subject, 0, $pos );
 }
 
 /**
@@ -1072,11 +1072,11 @@ function dfrapi_str_before_last( $subject, $search ) {
  * @return string
  */
 function dfrapi_str_between( $subject, $from, $to ) {
-	if ( $from === '' || $to === '' ) {
-		return $subject;
-	}
+    if ( $from === '' || $to === '' ) {
+        return $subject;
+    }
 
-	return dfrapi_str_before_last( dfrapi_str_after( $subject, $from ), $to );
+    return dfrapi_str_before_last( dfrapi_str_after( $subject, $from ), $to );
 }
 
 /**
@@ -1090,7 +1090,7 @@ function dfrapi_str_between( $subject, $from, $to ) {
  * @return string
  */
 function dfrapi_str_after( $subject, $search ): string {
-	return $search === '' ? $subject : array_reverse( explode( $search, $subject, 2 ) )[0];
+    return $search === '' ? $subject : array_reverse( explode( $search, $subject, 2 ) )[0];
 }
 
 /**
@@ -1105,17 +1105,17 @@ function dfrapi_str_after( $subject, $search ): string {
  */
 function dfrapi_str_after_last( $subject, $search ) {
 
-	if ( $search === '' ) {
-		return $subject;
-	}
+    if ( $search === '' ) {
+        return $subject;
+    }
 
-	$position = strrpos( $subject, (string) $search );
+    $position = strrpos( $subject, (string) $search );
 
-	if ( $position === false ) {
-		return $subject;
-	}
+    if ( $position === false ) {
+        return $subject;
+    }
 
-	return substr( $subject, $position + strlen( $search ) );
+    return substr( $subject, $position + strlen( $search ) );
 }
 
 /**
@@ -1129,13 +1129,13 @@ function dfrapi_str_after_last( $subject, $search ) {
  * @return bool
  */
 function dfrapi_str_contains( $haystack, $needles ) {
-	foreach ( (array) $needles as $needle ) {
-		if ( $needle !== '' && mb_strpos( $haystack, $needle ) !== false ) {
-			return true;
-		}
-	}
+    foreach ( (array) $needles as $needle ) {
+        if ( $needle !== '' && mb_strpos( $haystack, $needle ) !== false ) {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -1149,13 +1149,13 @@ function dfrapi_str_contains( $haystack, $needles ) {
  * @return bool
  */
 function dfrapi_str_contains_all( $haystack, array $needles ) {
-	foreach ( $needles as $needle ) {
-		if ( ! dfrapi_str_contains( $haystack, $needle ) ) {
-			return false;
-		}
-	}
+    foreach ( $needles as $needle ) {
+        if ( ! dfrapi_str_contains( $haystack, $needle ) ) {
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }
 
 /**
@@ -1183,7 +1183,7 @@ function dfrapi_str_contains_all( $haystack, array $needles ) {
  * @return int
  */
 function dfrapi_intify( $int ): int {
-	return (int) preg_replace( '/[^0-9-]/', '', $int );
+    return (int) preg_replace( '/[^0-9-]/', '', $int );
 }
 
 /**
@@ -1196,7 +1196,7 @@ function dfrapi_intify( $int ): int {
  * @return Dfrapi_Price
  */
 function dfrapi_price( $value, $currency_code, $context = null ): Dfrapi_Price {
-	return new Dfrapi_Price( $value, dfrapi_currency( $currency_code, $context ), $context );
+    return new Dfrapi_Price( $value, dfrapi_currency( $currency_code, $context ), $context );
 }
 
 /**
@@ -1208,7 +1208,7 @@ function dfrapi_price( $value, $currency_code, $context = null ): Dfrapi_Price {
  * @return Dfrapi_Currency
  */
 function dfrapi_currency( $currency_code, $context = null ): Dfrapi_Currency {
-	return new Dfrapi_Currency( $currency_code, $context );
+    return new Dfrapi_Currency( $currency_code, $context );
 }
 
 /**
@@ -1221,7 +1221,7 @@ function dfrapi_currency( $currency_code, $context = null ): Dfrapi_Currency {
  * @return string
  */
 function dfrapi_get_price( $value, $currency_code, $context = null ): string {
-	return dfrapi_price( $value, $currency_code, $context )->get_price();
+    return dfrapi_price( $value, $currency_code, $context )->get_price();
 }
 
 /**
@@ -1232,7 +1232,7 @@ function dfrapi_get_price( $value, $currency_code, $context = null ): string {
  * @return Dfrapi_Image_Data
  */
 function dfrapi_image_data( string $url ): Dfrapi_Image_Data {
-	return new Dfrapi_Image_Data( $url );
+    return new Dfrapi_Image_Data( $url );
 }
 
 /**
@@ -1243,7 +1243,7 @@ function dfrapi_image_data( string $url ): Dfrapi_Image_Data {
  * @return Dfrapi_Image_Uploader
  */
 function dfrapi_image_uploader( Dfrapi_Image_Data $image_data ): Dfrapi_Image_Uploader {
-	return new Dfrapi_Image_Uploader( $image_data );
+    return new Dfrapi_Image_Uploader( $image_data );
 }
 
 /**
@@ -1252,7 +1252,7 @@ function dfrapi_image_uploader( Dfrapi_Image_Data $image_data ): Dfrapi_Image_Up
  * @return string
  */
 function dfrapi_as_hook_prefix(): string {
-	return 'dfrapi_as_';
+    return 'dfrapi_as_';
 }
 
 /**
@@ -1263,7 +1263,7 @@ function dfrapi_as_hook_prefix(): string {
  * @return string
  */
 function dfrapi_as_hook_name( string $hook ): string {
-	return dfrapi_as_hook_prefix() . trim( $hook );
+    return dfrapi_as_hook_prefix() . trim( $hook );
 }
 
 /**
@@ -1275,9 +1275,9 @@ function dfrapi_as_hook_name( string $hook ): string {
  * @return true|WP_Error
  */
 function dfrapi_action_scheduler_exists() {
-	return function_exists( 'as_schedule_recurring_action' )
-		? true
-		: new WP_Error( 'dfrapi_action_scheduler_does_not_exist.', __( 'The ActionScheduler library does not exist.', 'datafeedr-api' ) );
+    return function_exists( 'as_schedule_recurring_action' )
+            ? true
+            : new WP_Error( 'dfrapi_action_scheduler_does_not_exist.', __( 'The ActionScheduler library does not exist.', 'datafeedr-api' ) );
 }
 
 /**
@@ -1290,9 +1290,9 @@ function dfrapi_action_scheduler_exists() {
  * @return string The action ID.
  */
 function dfrapi_schedule_async_action( string $hook, array $args = [], string $group = 'datafeedr' ) {
-	return ( dfrapi_action_scheduler_exists() === true )
-		? as_enqueue_async_action( dfrapi_as_hook_name( $hook ), $args, $group )
-		: dfrapi_action_scheduler_exists();
+    return ( dfrapi_action_scheduler_exists() === true )
+            ? as_enqueue_async_action( dfrapi_as_hook_name( $hook ), $args, $group )
+            : dfrapi_action_scheduler_exists();
 }
 
 /**
@@ -1306,9 +1306,9 @@ function dfrapi_schedule_async_action( string $hook, array $args = [], string $g
  * @return string The action ID
  */
 function dfrapi_schedule_single_action( int $timestamp, string $hook, array $args = [], string $group = 'datafeedr' ) {
-	return ( dfrapi_action_scheduler_exists() === true )
-		? as_schedule_single_action( $timestamp, dfrapi_as_hook_name( $hook ), $args, $group )
-		: dfrapi_action_scheduler_exists();
+    return ( dfrapi_action_scheduler_exists() === true )
+            ? as_schedule_single_action( $timestamp, dfrapi_as_hook_name( $hook ), $args, $group )
+            : dfrapi_action_scheduler_exists();
 }
 
 /**
@@ -1323,9 +1323,9 @@ function dfrapi_schedule_single_action( int $timestamp, string $hook, array $arg
  * @return int|WP_Error The action ID or WP_Error if as_schedule_recurring_action() function does not exist.
  */
 function dfrapi_schedule_recurring_action( int $timestamp, int $interval_in_seconds, string $hook, array $args = [], string $group = 'datafeedr' ) {
-	return ( dfrapi_action_scheduler_exists() === true )
-		? as_schedule_recurring_action( $timestamp, $interval_in_seconds, dfrapi_as_hook_name( $hook ), $args, $group )
-		: dfrapi_action_scheduler_exists();
+    return ( dfrapi_action_scheduler_exists() === true )
+            ? as_schedule_recurring_action( $timestamp, $interval_in_seconds, dfrapi_as_hook_name( $hook ), $args, $group )
+            : dfrapi_action_scheduler_exists();
 }
 
 /**
@@ -1349,9 +1349,9 @@ function dfrapi_schedule_recurring_action( int $timestamp, int $interval_in_seco
  * @return int|WP_Error The action ID or WP_Error if as_schedule_cron_action() function does not exist.
  */
 function dfrapi_schedule_cron_action( int $timestamp, string $schedule, string $hook, array $args = [], string $group = 'datafeedr' ) {
-	return ( dfrapi_action_scheduler_exists() === true )
-		? as_schedule_cron_action( $timestamp, $schedule, dfrapi_as_hook_name( $hook ), $args, $group )
-		: dfrapi_action_scheduler_exists();
+    return ( dfrapi_action_scheduler_exists() === true )
+            ? as_schedule_cron_action( $timestamp, $schedule, dfrapi_as_hook_name( $hook ), $args, $group )
+            : dfrapi_action_scheduler_exists();
 }
 
 /**
@@ -1364,9 +1364,9 @@ function dfrapi_schedule_cron_action( int $timestamp, string $schedule, string $
  * @return string|null|WP_Error The scheduled action ID if a scheduled action was found, or null if no matching action found. WP_Error if as_ function doesn't exist.
  */
 function dfrapi_unschedule_action( string $hook, array $args = [], string $group = 'datafeedr' ) {
-	return ( dfrapi_action_scheduler_exists() === true )
-		? as_unschedule_action( dfrapi_as_hook_name( $hook ), $args, $group )
-		: dfrapi_action_scheduler_exists();
+    return ( dfrapi_action_scheduler_exists() === true )
+            ? as_unschedule_action( dfrapi_as_hook_name( $hook ), $args, $group )
+            : dfrapi_action_scheduler_exists();
 }
 
 /**
@@ -1380,9 +1380,9 @@ function dfrapi_unschedule_action( string $hook, array $args = [], string $group
  * @return int|bool|WP_Error The timestamp for the next occurrence of a pending scheduled action, true for an async or in-progress action or false if there is no matching action. WP_Error if as_ function doesn't exist.
  */
 function dfrapi_next_scheduled_action( string $hook, array $args = [], string $group = 'datafeedr' ) {
-	return ( dfrapi_action_scheduler_exists() === true )
-		? as_next_scheduled_action( dfrapi_as_hook_name( $hook ), $args, $group )
-		: dfrapi_action_scheduler_exists();
+    return ( dfrapi_action_scheduler_exists() === true )
+            ? as_next_scheduled_action( dfrapi_as_hook_name( $hook ), $args, $group )
+            : dfrapi_action_scheduler_exists();
 }
 
 /**
@@ -1391,7 +1391,7 @@ function dfrapi_next_scheduled_action( string $hook, array $args = [], string $g
  * @return bool
  */
 function dfrapi_jetpack_exists(): bool {
-	return class_exists( Jetpack::class, false );
+    return class_exists( Jetpack::class, false );
 }
 
 /**
@@ -1400,7 +1400,7 @@ function dfrapi_jetpack_exists(): bool {
  * @return bool
  */
 function dfrapi_jetpack_is_active(): bool {
-	return dfrapi_jetpack_exists() ? Jetpack::is_active() : false;
+    return dfrapi_jetpack_exists() ? Jetpack::is_active() : false;
 }
 
 /**
@@ -1409,7 +1409,7 @@ function dfrapi_jetpack_is_active(): bool {
  * @return bool
  */
 function dfrapi_jetpack_is_in_dev_mode(): bool {
-	return dfrapi_jetpack_exists() ? defined( 'JETPACK_DEV_DEBUG' ) && JETPACK_DEV_DEBUG === true : false;
+    return dfrapi_jetpack_exists() ? defined( 'JETPACK_DEV_DEBUG' ) && JETPACK_DEV_DEBUG === true : false;
 }
 
 /**
@@ -1419,7 +1419,7 @@ function dfrapi_jetpack_is_in_dev_mode(): bool {
  * @return bool
  */
 function dfrapi_jetpack_photon_module_is_active(): bool {
-	return dfrapi_jetpack_exists() ? in_array( 'photon', Jetpack::get_active_modules() ) : false;
+    return dfrapi_jetpack_exists() ? in_array( 'photon', Jetpack::get_active_modules() ) : false;
 }
 
 /**
@@ -1429,7 +1429,7 @@ function dfrapi_jetpack_photon_module_is_active(): bool {
  * @return bool
  */
 function dfrapi_jetpack_photon_cdn_module_is_active(): bool {
-	return dfrapi_jetpack_exists() ? in_array( 'photon-cdn', Jetpack::get_active_modules() ) : false;
+    return dfrapi_jetpack_exists() ? in_array( 'photon-cdn', Jetpack::get_active_modules() ) : false;
 }
 
 /**
@@ -1441,11 +1441,11 @@ function dfrapi_jetpack_photon_cdn_module_is_active(): bool {
  */
 function dfrapi_jetpack_photon_url( $image_url, $args = [], $scheme = null ) {
 
-	if ( ! dfrapi_jetpack_is_active() && ! dfrapi_jetpack_is_in_dev_mode() ) {
-		return $image_url;
-	}
+    if ( ! dfrapi_jetpack_is_active() && ! dfrapi_jetpack_is_in_dev_mode() ) {
+        return $image_url;
+    }
 
-	return jetpack_photon_url( $image_url, $args, $scheme );
+    return jetpack_photon_url( $image_url, $args, $scheme );
 }
 
 /**
@@ -1454,7 +1454,7 @@ function dfrapi_jetpack_photon_url( $image_url, $args = [], $scheme = null ) {
  * @return bool
  */
 function dfrapi_use_legacy_image_importer(): bool {
-	return (bool) apply_filters( 'dfrapi_use_legacy_image_importer', false );
+    return (bool) apply_filters( 'dfrapi_use_legacy_image_importer', false );
 }
 
 /**
@@ -1474,15 +1474,15 @@ function dfrapi_use_legacy_image_importer(): bool {
  * @return void
  */
 function dfrapi_admin_notice( string $message, string $status, string $heading = null, string $plugin = null ) {
-	$plugin    = $plugin ? esc_html( trim( $plugin ) ) : '';
-	$heading   = $heading ? esc_html( trim( $heading ) ) : '';
-	$separator = $plugin && $heading ? ' &mdash; ' : '';
-	$label     = $plugin || $heading ? sprintf( '<strong>%1$s%2$s%3$s</strong><br>', $plugin, $separator, $heading ) : '';
+    $plugin    = $plugin ? esc_html( trim( $plugin ) ) : '';
+    $heading   = $heading ? esc_html( trim( $heading ) ) : '';
+    $separator = $plugin && $heading ? ' &mdash; ' : '';
+    $label     = $plugin || $heading ? sprintf( '<strong>%1$s%2$s%3$s</strong><br>', $plugin, $separator, $heading ) : '';
 
-	$status = in_array( $status, [ 'error', 'warning', 'success', 'info' ] ) ? $status : 'info';
-	$class  = esc_attr( 'notice notice-' . $status );
+    $status = in_array( $status, [ 'error', 'warning', 'success', 'info' ] ) ? $status : 'info';
+    $class  = esc_attr( 'notice notice-' . $status );
 
-	printf( '<div class="%1$s"><p>%2$s%3$s</p></div>', $class, $label, $message );
+    printf( '<div class="%1$s"><p>%2$s%3$s</p></div>', $class, $label, $message );
 }
 
 /**
@@ -1511,7 +1511,7 @@ function dfrapi_admin_notice( string $message, string $status, string $heading =
  * @return array
  */
 function dfrapi_get_selected_networks(): array {
-	return (array) get_option( 'dfrapi_networks', [] );
+    return (array) get_option( 'dfrapi_networks', [] );
 }
 
 /**
@@ -1521,36 +1521,36 @@ function dfrapi_get_selected_networks(): array {
  */
 function dfrapi_get_selected_network_ids(): array {
 
-	static $ids = null;
+    static $ids = null;
 
-	if ( $ids === null ) {
+    if ( $ids === null ) {
 
-		$ids      = [];
-		$networks = dfrapi_get_selected_networks();
+        $ids      = [];
+        $networks = dfrapi_get_selected_networks();
 
-		if ( ! isset( $networks['ids'] ) ) {
-			return $ids;
-		}
+        if ( ! isset( $networks['ids'] ) ) {
+            return $ids;
+        }
 
-		if ( empty( $networks['ids'] ) ) {
-			return $ids;
-		}
+        if ( empty( $networks['ids'] ) ) {
+            return $ids;
+        }
 
-		if ( ! is_array( $networks['ids'] ) ) {
-			return $ids;
-		}
+        if ( ! is_array( $networks['ids'] ) ) {
+            return $ids;
+        }
 
-		foreach ( $networks['ids'] as $k => $v ) {
-			$nid = absint( $v['nid'] ?? 0 );
-			if ( $nid > 0 ) {
-				$ids[] = absint( $nid );
-			}
-		}
+        foreach ( $networks['ids'] as $k => $v ) {
+            $nid = absint( $v['nid'] ?? 0 );
+            if ( $nid > 0 ) {
+                $ids[] = absint( $nid );
+            }
+        }
 
-		$ids = array_filter( array_unique( $ids ) );
-	}
+        $ids = array_filter( array_unique( $ids ) );
+    }
 
-	return $ids;
+    return $ids;
 }
 
 /**
@@ -1559,7 +1559,7 @@ function dfrapi_get_selected_network_ids(): array {
  * @return int
  */
 function dfrapi_selected_network_count(): int {
-	return count( dfrapi_get_selected_network_ids() );
+    return count( dfrapi_get_selected_network_ids() );
 }
 
 /**
@@ -1568,7 +1568,7 @@ function dfrapi_selected_network_count(): int {
  * @return bool
  */
 function dfrapi_user_has_selected_networks(): bool {
-	return dfrapi_selected_network_count() > 0;
+    return dfrapi_selected_network_count() > 0;
 }
 
 /**
@@ -1586,7 +1586,7 @@ function dfrapi_user_has_selected_networks(): bool {
  * @return array
  */
 function dfrapi_get_selected_merchants(): array {
-	return (array) get_option( 'dfrapi_merchants', [] );
+    return (array) get_option( 'dfrapi_merchants', [] );
 }
 
 /**
@@ -1596,33 +1596,33 @@ function dfrapi_get_selected_merchants(): array {
  */
 function dfrapi_get_selected_merchant_ids(): array {
 
-	static $ids = null;
+    static $ids = null;
 
-	if ( $ids === null ) {
+    if ( $ids === null ) {
 
-		$ids       = [];
-		$merchants = dfrapi_get_selected_merchants();
+        $ids       = [];
+        $merchants = dfrapi_get_selected_merchants();
 
-		if ( ! isset( $merchants['ids'] ) ) {
-			return $ids;
-		}
+        if ( ! isset( $merchants['ids'] ) ) {
+            return $ids;
+        }
 
-		if ( empty( $merchants['ids'] ) ) {
-			return $ids;
-		}
+        if ( empty( $merchants['ids'] ) ) {
+            return $ids;
+        }
 
-		if ( ! is_array( $merchants['ids'] ) ) {
-			return $ids;
-		}
+        if ( ! is_array( $merchants['ids'] ) ) {
+            return $ids;
+        }
 
-		foreach ( $merchants['ids'] as $id ) {
-			$ids[] = absint( $id );
-		}
+        foreach ( $merchants['ids'] as $id ) {
+            $ids[] = absint( $id );
+        }
 
-		$ids = array_filter( array_unique( $ids ) );
-	}
+        $ids = array_filter( array_unique( $ids ) );
+    }
 
-	return $ids;
+    return $ids;
 }
 
 /**
@@ -1631,7 +1631,7 @@ function dfrapi_get_selected_merchant_ids(): array {
  * @return int
  */
 function dfrapi_selected_merchant_count(): int {
-	return count( dfrapi_get_selected_merchant_ids() );
+    return count( dfrapi_get_selected_merchant_ids() );
 }
 
 /**
@@ -1640,7 +1640,7 @@ function dfrapi_selected_merchant_count(): int {
  * @return bool
  */
 function dfrapi_user_has_selected_merchants(): bool {
-	return dfrapi_selected_merchant_count() > 0;
+    return dfrapi_selected_merchant_count() > 0;
 }
 
 /**
@@ -1649,7 +1649,7 @@ function dfrapi_user_has_selected_merchants(): bool {
  * @return string
  */
 function dfrapi_networks_page_url(): string {
-	return add_query_arg( [ 'page' => 'dfrapi_networks' ], admin_url( 'admin.php' ) );
+    return add_query_arg( [ 'page' => 'dfrapi_networks' ], admin_url( 'admin.php' ) );
 }
 
 /**
@@ -1658,7 +1658,7 @@ function dfrapi_networks_page_url(): string {
  * @return string
  */
 function dfrapi_merchants_page_url(): string {
-	return add_query_arg( [ 'page' => 'dfrapi_merchants' ], admin_url( 'admin.php' ) );
+    return add_query_arg( [ 'page' => 'dfrapi_merchants' ], admin_url( 'admin.php' ) );
 }
 
 /**
@@ -1667,7 +1667,7 @@ function dfrapi_merchants_page_url(): string {
  * @return string
  */
 function dfrapi_configuration_page_url(): string {
-	return add_query_arg( [ 'page' => 'dfrapi' ], admin_url( 'admin.php' ) );
+    return add_query_arg( [ 'page' => 'dfrapi' ], admin_url( 'admin.php' ) );
 }
 
 /**
@@ -1676,7 +1676,7 @@ function dfrapi_configuration_page_url(): string {
  * @return string
  */
 function dfrapi_tools_page_url(): string {
-	return add_query_arg( [ 'page' => 'dfrapi_tools' ], admin_url( 'admin.php' ) );
+    return add_query_arg( [ 'page' => 'dfrapi_tools' ], admin_url( 'admin.php' ) );
 }
 
 /**
@@ -1687,40 +1687,40 @@ function dfrapi_tools_page_url(): string {
  */
 function dfrapi_get_network_ids_missing_affiliate_id(): array {
 
-	static $ids = null;
+    static $ids = null;
 
-	if ( $ids === null ) {
+    if ( $ids === null ) {
 
-		$ids      = [];
-		$networks = dfrapi_get_selected_networks();
+        $ids      = [];
+        $networks = dfrapi_get_selected_networks();
 
-		if ( ! isset( $networks['ids'] ) ) {
-			return $ids;
-		}
+        if ( ! isset( $networks['ids'] ) ) {
+            return $ids;
+        }
 
-		if ( ! is_array( $networks['ids'] ) ) {
-			return $ids;
-		}
+        if ( ! is_array( $networks['ids'] ) ) {
+            return $ids;
+        }
 
-		$no_affiliate_id_required = dfrapi_get_ids_of_networks_which_dont_require_affiliate_ids();
+        $no_affiliate_id_required = dfrapi_get_ids_of_networks_which_dont_require_affiliate_ids();
 
-		foreach ( $networks['ids'] as $k => $v ) {
+        foreach ( $networks['ids'] as $k => $v ) {
 
-			$nid = absint( $v['nid'] ?? 0 );
+            $nid = absint( $v['nid'] ?? 0 );
 
-			if ( in_array( $nid, $no_affiliate_id_required, true ) ) {
-				continue;
-			}
+            if ( in_array( $nid, $no_affiliate_id_required, true ) ) {
+                continue;
+            }
 
-			$aid = trim( $v['aid'] ?? '' );
+            $aid = trim( $v['aid'] ?? '' );
 
-			if ( $nid > 0 && empty( $aid ) ) {
-				$ids[] = $nid;
-			}
-		}
-	}
+            if ( $nid > 0 && empty( $aid ) ) {
+                $ids[] = $nid;
+            }
+        }
+    }
 
-	return array_filter( array_unique( $ids ) );
+    return array_filter( array_unique( $ids ) );
 }
 
 /**
@@ -1729,10 +1729,10 @@ function dfrapi_get_network_ids_missing_affiliate_id(): array {
  * @return array
  */
 function dfrapi_get_ids_of_networks_which_dont_require_affiliate_ids(): array {
-	return array_merge(
-		dfrapi_get_partnerize_network_ids(),
-		dfrapi_get_effiliation_network_ids()
-	);
+    return array_merge(
+            dfrapi_get_partnerize_network_ids(),
+            dfrapi_get_effiliation_network_ids()
+    );
 }
 
 /**
@@ -1741,27 +1741,27 @@ function dfrapi_get_ids_of_networks_which_dont_require_affiliate_ids(): array {
  * @return bool
  */
 function dfrapi_user_is_missing_affiliate_ids(): bool {
-	return count( dfrapi_get_network_ids_missing_affiliate_id() ) > 0;
+    return count( dfrapi_get_network_ids_missing_affiliate_id() ) > 0;
 }
 
 // Functions from functions/api.php 2022-02-14 14:02:41 from here to effiliation_ids function
 function dfrapi_api_get_status() {
-	$api = dfrapi_api( dfrapi_get_transport_method() );
-	try {
-		$status = $api->getStatus();
-		dfrapi_api_update_status( $api );
+    $api = dfrapi_api( dfrapi_get_transport_method() );
+    try {
+        $status = $api->getStatus();
+        dfrapi_api_update_status( $api );
 
-		return $status;
-	} catch ( Exception $err ) {
-		return dfrapi_api_error( $err );
-	}
+        return $status;
+    } catch ( Exception $err ) {
+        return dfrapi_api_error( $err );
+    }
 }
 
 /**
  * Removed configuration. Always returns 'wordpress'. 2017-02-21 10:23:10
  */
 function dfrapi_get_transport_method(): string {
-	return 'wordpress';
+    return 'wordpress';
 }
 
 /**
@@ -1769,44 +1769,44 @@ function dfrapi_get_transport_method(): string {
  */
 function dfrapi_api( $transport = 'curl', $timeout = 0, $returnObjects = false ) {
 
-	$configuration = (array) get_option( 'dfrapi_configuration' );
+    $configuration = (array) get_option( 'dfrapi_configuration' );
 
-	if ( isset( $configuration['disable_api'] ) && ( $configuration['disable_api'] === 'yes' ) ) {
-		$configuration['disable_api'] = 'no';
-		update_option( 'dfrapi_configuration', $configuration );
-	}
+    if ( isset( $configuration['disable_api'] ) && ( $configuration['disable_api'] === 'yes' ) ) {
+        $configuration['disable_api'] = 'no';
+        update_option( 'dfrapi_configuration', $configuration );
+    }
 
-	$access_id  = false;
-	$secret_key = false;
-	$transport  = dfrapi_get_transport_method();
+    $access_id  = false;
+    $secret_key = false;
+    $transport  = dfrapi_get_transport_method();
 
-	if ( isset( $configuration['access_id'] ) && ( $configuration['access_id'] != '' ) ) {
-		$access_id = $configuration['access_id'];
-	}
+    if ( isset( $configuration['access_id'] ) && ( $configuration['access_id'] != '' ) ) {
+        $access_id = $configuration['access_id'];
+    }
 
-	if ( isset( $configuration['secret_key'] ) && ( $configuration['secret_key'] != '' ) ) {
-		$secret_key = $configuration['secret_key'];
-	}
+    if ( isset( $configuration['secret_key'] ) && ( $configuration['secret_key'] != '' ) ) {
+        $secret_key = $configuration['secret_key'];
+    }
 
-	if ( $access_id && $secret_key ) {
+    if ( $access_id && $secret_key ) {
 
-		$options = [
-			'transport'     => 'wordpress',
-			'timeout'       => 60,
-			'returnObjects' => false,
-			'retry'         => 3, // The number of retries if an API request times-out.
-			'retryTimeout'  => 5, // The number of seconds to wait between retries.
-		];
+        $options = [
+                'transport'     => 'wordpress',
+                'timeout'       => 60,
+                'returnObjects' => false,
+                'retry'         => 3, // The number of retries if an API request times-out.
+                'retryTimeout'  => 5, // The number of seconds to wait between retries.
+        ];
 
-		$options = apply_filters( 'dfrapi_api_options', $options );
+        $options = apply_filters( 'dfrapi_api_options', $options );
 
-		$options['domain'] = parse_url( get_site_url(), PHP_URL_HOST );
+        $options['domain'] = parse_url( get_site_url(), PHP_URL_HOST );
 
-		return new DatafeedrApi( $access_id, $secret_key, $options );
+        return new DatafeedrApi( $access_id, $secret_key, $options );
 
-	} else {
-		return false;
-	}
+    } else {
+        return false;
+    }
 }
 
 /**
@@ -1814,51 +1814,51 @@ function dfrapi_api( $transport = 'curl', $timeout = 0, $returnObjects = false )
  */
 function dfrapi_api_error( $error, $params = false ) {
 
-	// Change "request_count" to "max_requests" because sometimes there's
-	// not even enough API requests left to update the Account info with
-	// the most update to date information.
-	if ( $error->getCode() == 301 ) {
-		$account                  = get_option( 'dfrapi_account', array() );
-		$account['request_count'] = $account['max_requests'];
-		update_option( 'dfrapi_account', $account );
-	}
+    // Change "request_count" to "max_requests" because sometimes there's
+    // not even enough API requests left to update the Account info with
+    // the most update to date information.
+    if ( $error->getCode() == 301 ) {
+        $account                  = get_option( 'dfrapi_account', array() );
+        $account['request_count'] = $account['max_requests'];
+        update_option( 'dfrapi_account', $account );
+    }
 
-	return array(
-		'dfrapi_api_error' => array(
-			'class'  => get_class( $error ),
-			'code'   => $error->getCode(),
-			'msg'    => $error->getMessage(),
-			'params' => $params,
-		)
-	);
+    return array(
+            'dfrapi_api_error' => array(
+                    'class'  => get_class( $error ),
+                    'code'   => $error->getCode(),
+                    'msg'    => $error->getMessage(),
+                    'params' => $params,
+            )
+    );
 }
 
 /**
  * Creates the proper API request from the $query.
  */
 function dfrapi_api_query_to_filters( $query, $useSelected = true ) {
-	$sform = new Dfrapi_SearchForm();
+    $sform = new Dfrapi_SearchForm();
 
-	return $sform->makeFilters( $query, $useSelected );
+    return $sform->makeFilters( $query, $useSelected );
 }
 
 /**
  * Returns a parameter value from the $query array.
  */
 function dfrapi_api_get_query_param( $query, $param ) {
-	if ( is_array( $query ) && ! empty( $query ) ) {
-		foreach ( $query as $k => $v ) {
-			if ( $v['field'] == $param ) {
-				return array(
-					'field'    => $v['field'] ?? '',
-					'operator' => $v['operator'] ?? '',
-					'value'    => $v['value'] ?? '',
-				);
-			}
-		}
-	}
+    if ( is_array( $query ) && ! empty( $query ) ) {
+        foreach ( $query as $k => $v ) {
+            if ( $v['field'] == $param ) {
+                return array(
+                        'field'    => $v['field'] ?? '',
+                        'operator' => $v['operator'] ?? '',
+                        'value'    => $v['value'] ?? '',
+                );
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 /**
@@ -1866,20 +1866,20 @@ function dfrapi_api_get_query_param( $query, $param ) {
  * API status information for this user.
  */
 function dfrapi_api_update_status( &$api ) {
-	if ( $status = $api->lastStatus() ) {
-		$account                   = get_option( 'dfrapi_account', array() );
-		$account['user_id']        = $status['user_id'];
-		$account['plan_id']        = $status['plan_id'];
-		$account['bill_day']       = $status['bill_day'];
-		$account['max_total']      = $status['max_total'];
-		$account['max_length']     = $status['max_length'];
-		$account['max_requests']   = $status['max_requests'];
-		$account['request_count']  = $status['request_count'];
-		$account['network_count']  = $status['network_count'];
-		$account['product_count']  = $status['product_count'];
-		$account['merchant_count'] = $status['merchant_count'];
-		update_option( 'dfrapi_account', $account );
-	}
+    if ( $status = $api->lastStatus() ) {
+        $account                   = get_option( 'dfrapi_account', array() );
+        $account['user_id']        = $status['user_id'];
+        $account['plan_id']        = $status['plan_id'];
+        $account['bill_day']       = $status['bill_day'];
+        $account['max_total']      = $status['max_total'];
+        $account['max_length']     = $status['max_length'];
+        $account['max_requests']   = $status['max_requests'];
+        $account['request_count']  = $status['request_count'];
+        $account['network_count']  = $status['network_count'];
+        $account['product_count']  = $status['product_count'];
+        $account['merchant_count'] = $status['merchant_count'];
+        update_option( 'dfrapi_account', $account );
+    }
 }
 
 /**
@@ -1888,32 +1888,32 @@ function dfrapi_api_update_status( &$api ) {
  * to return a subset of networks.
  */
 function dfrapi_api_get_all_networks( $nids = array() ) {
-	$option_name = 'dfrapi_all_networks';
-	$use_cache   = wp_using_ext_object_cache( false );
-	$networks    = get_transient( $option_name );
-	wp_using_ext_object_cache( $use_cache );
-	if ( false === $networks || empty ( $networks ) ) {
-		$api = dfrapi_api( dfrapi_get_transport_method() );
-		try {
-			$networks = $api->getNetworks( $nids, true );
-			dfrapi_api_set_network_types( $networks );
-			dfrapi_api_update_status( $api );
-		} catch ( Exception $err ) {
-			return dfrapi_api_error( $err );
-		}
-		$use_cache = wp_using_ext_object_cache( false );
-		set_transient( $option_name, $networks, MONTH_IN_SECONDS );
-		wp_using_ext_object_cache( $use_cache );
-	}
-	dfrapi_update_transient_whitelist( $option_name );
+    $option_name = 'dfrapi_all_networks';
+    $use_cache   = wp_using_ext_object_cache( false );
+    $networks    = get_transient( $option_name );
+    wp_using_ext_object_cache( $use_cache );
+    if ( false === $networks || empty ( $networks ) ) {
+        $api = dfrapi_api( dfrapi_get_transport_method() );
+        try {
+            $networks = $api->getNetworks( $nids, true );
+            dfrapi_api_set_network_types( $networks );
+            dfrapi_api_update_status( $api );
+        } catch ( Exception $err ) {
+            return dfrapi_api_error( $err );
+        }
+        $use_cache = wp_using_ext_object_cache( false );
+        set_transient( $option_name, $networks, MONTH_IN_SECONDS );
+        wp_using_ext_object_cache( $use_cache );
+    }
+    dfrapi_update_transient_whitelist( $option_name );
 
-	usort( $networks, function ( $a, $b ) {
-		return strnatcasecmp( $a['name'], $b['name'] );
-	} );
+    usort( $networks, function ( $a, $b ) {
+        return strnatcasecmp( $a['name'], $b['name'] );
+    } );
 
-	return array_filter( $networks, static function ( $network ) {
-		return ! in_array( absint( $network['_id'] ), dfrapi_inactive_networks(), true );
-	} );
+    return array_filter( $networks, static function ( $network ) {
+        return ! in_array( absint( $network['_id'] ), dfrapi_inactive_networks(), true );
+    } );
 }
 
 /**
@@ -1921,35 +1921,35 @@ function dfrapi_api_get_all_networks( $nids = array() ) {
  */
 function dfrapi_api_get_zanox_zmid( $merchant_id, $adspace_id ) {
 
-	$option_name = 'zmid_' . $merchant_id . '_' . $adspace_id;
-	$use_cache   = wp_using_ext_object_cache( false );
-	$zmid        = get_transient( $option_name );
-	wp_using_ext_object_cache( $use_cache );
+    $option_name = 'zmid_' . $merchant_id . '_' . $adspace_id;
+    $use_cache   = wp_using_ext_object_cache( false );
+    $zmid        = get_transient( $option_name );
+    wp_using_ext_object_cache( $use_cache );
 
-	if ( $zmid ) {
-		return $zmid;
-	}
+    if ( $zmid ) {
+        return $zmid;
+    }
 
-	$keys = dfrapi_get_zanox_keys();
-	$api  = dfrapi_api();
+    $keys = dfrapi_get_zanox_keys();
+    $api  = dfrapi_api();
 
-	try {
-		$zmid = $api->getZanoxMerchantIds(
-			$merchant_id,
-			$adspace_id,
-			$keys['connection_key']
-		);
-	} catch ( Exception $err ) {
-		$zmid = 'dfrapi_unapproved_zanox_merchant';
-	}
+    try {
+        $zmid = $api->getZanoxMerchantIds(
+                $merchant_id,
+                $adspace_id,
+                $keys['connection_key']
+        );
+    } catch ( Exception $err ) {
+        $zmid = 'dfrapi_unapproved_zanox_merchant';
+    }
 
-	$use_cache = wp_using_ext_object_cache( false );
-	set_transient( $option_name, $zmid, WEEK_IN_SECONDS );
-	wp_using_ext_object_cache( $use_cache );
+    $use_cache = wp_using_ext_object_cache( false );
+    set_transient( $option_name, $zmid, WEEK_IN_SECONDS );
+    wp_using_ext_object_cache( $use_cache );
 
-	dfrapi_update_transient_whitelist( $option_name );
+    dfrapi_update_transient_whitelist( $option_name );
 
-	return $zmid;
+    return $zmid;
 }
 
 /**
@@ -1957,36 +1957,36 @@ function dfrapi_api_get_zanox_zmid( $merchant_id, $adspace_id ) {
  */
 function dfrapi_api_get_ph_camref( $merchant_id ) {
 
-	$option_name = 'camref_' . $merchant_id;
-	$use_cache   = wp_using_ext_object_cache( false );
-	$camref      = get_transient( $option_name );
-	wp_using_ext_object_cache( $use_cache );
+    $option_name = 'camref_' . $merchant_id;
+    $use_cache   = wp_using_ext_object_cache( false );
+    $camref      = get_transient( $option_name );
+    wp_using_ext_object_cache( $use_cache );
 
-	if ( $camref ) {
-		return $camref;
-	}
+    if ( $camref ) {
+        return $camref;
+    }
 
-	$keys = dfrapi_get_ph_keys();
-	$api  = dfrapi_api();
+    $keys = dfrapi_get_ph_keys();
+    $api  = dfrapi_api();
 
-	try {
-		$camref = $api->getPerformanceHorizonCamrefs(
-			$merchant_id,
-			$keys['application_key'],
-			$keys['user_api_key'],
-			$keys['publisher_id']
-		);
-	} catch ( Exception $err ) {
-		$camref = 'dfrapi_unapproved_ph_merchant';
-	}
+    try {
+        $camref = $api->getPerformanceHorizonCamrefs(
+                $merchant_id,
+                $keys['application_key'],
+                $keys['user_api_key'],
+                $keys['publisher_id']
+        );
+    } catch ( Exception $err ) {
+        $camref = 'dfrapi_unapproved_ph_merchant';
+    }
 
-	$use_cache = wp_using_ext_object_cache( false );
-	set_transient( $option_name, $camref, WEEK_IN_SECONDS );
-	wp_using_ext_object_cache( $use_cache );
+    $use_cache = wp_using_ext_object_cache( false );
+    set_transient( $option_name, $camref, WEEK_IN_SECONDS );
+    wp_using_ext_object_cache( $use_cache );
 
-	dfrapi_update_transient_whitelist( $option_name );
+    dfrapi_update_transient_whitelist( $option_name );
 
-	return $camref;
+    return $camref;
 }
 
 /**
@@ -1996,28 +1996,28 @@ function dfrapi_api_get_ph_camref( $merchant_id ) {
  */
 function dfrapi_api_get_effiliation_affiliate_id( $merchant_id ) {
 
-	$option_name  = 'effiliation_' . $merchant_id;
-	$use_cache    = wp_using_ext_object_cache( false );
-	$affiliate_id = get_transient( $option_name );
-	wp_using_ext_object_cache( $use_cache );
+    $option_name  = 'effiliation_' . $merchant_id;
+    $use_cache    = wp_using_ext_object_cache( false );
+    $affiliate_id = get_transient( $option_name );
+    wp_using_ext_object_cache( $use_cache );
 
-	if ( $affiliate_id ) {
-		return $affiliate_id;
-	}
+    if ( $affiliate_id ) {
+        return $affiliate_id;
+    }
 
-	try {
-		$affiliate_id = dfrapi_get_affiliate_id_for_effiliation_merchant( $merchant_id );
-	} catch ( Exception $err ) {
-		$affiliate_id = 'dfrapi_unapproved_effiliation_merchant';
-	}
+    try {
+        $affiliate_id = dfrapi_get_affiliate_id_for_effiliation_merchant( $merchant_id );
+    } catch ( Exception $err ) {
+        $affiliate_id = 'dfrapi_unapproved_effiliation_merchant';
+    }
 
-	$use_cache = wp_using_ext_object_cache( false );
-	set_transient( $option_name, $affiliate_id, WEEK_IN_SECONDS );
-	wp_using_ext_object_cache( $use_cache );
+    $use_cache = wp_using_ext_object_cache( false );
+    set_transient( $option_name, $affiliate_id, WEEK_IN_SECONDS );
+    wp_using_ext_object_cache( $use_cache );
 
-	dfrapi_update_transient_whitelist( $option_name );
+    dfrapi_update_transient_whitelist( $option_name );
 
-	return $affiliate_id;
+    return $affiliate_id;
 }
 
 /**
@@ -2031,17 +2031,17 @@ function dfrapi_api_get_effiliation_affiliate_id( $merchant_id ) {
  * network or a "coupon" network.
  */
 function dfrapi_api_set_network_types( $networks ) {
-	$product_networks = array();
-	$coupon_networks  = array();
-	foreach ( $networks as $network ) {
-		if ( $network['type'] === 'products' ) {
-			$product_networks[ $network['_id'] ] = $network;
-		} elseif ( $network['type'] === 'coupons' ) {
-			$coupon_networks[ $network['_id'] ] = $network;
-		}
-	}
-	update_option( 'dfrapi_product_networks', $product_networks );
-	update_option( 'dfrapi_coupon_networks', $coupon_networks );
+    $product_networks = array();
+    $coupon_networks  = array();
+    foreach ( $networks as $network ) {
+        if ( $network['type'] === 'products' ) {
+            $product_networks[ $network['_id'] ] = $network;
+        } elseif ( $network['type'] === 'coupons' ) {
+            $coupon_networks[ $network['_id'] ] = $network;
+        }
+    }
+    update_option( 'dfrapi_product_networks', $product_networks );
+    update_option( 'dfrapi_coupon_networks', $coupon_networks );
 }
 
 /**
@@ -2051,25 +2051,25 @@ function dfrapi_api_set_network_types( $networks ) {
  * memory_limit errors when memory is set to less than 64MB.
  */
 function dfrapi_api_get_all_merchants( $nid ) {
-	$option_name = 'dfrapi_all_merchants_for_nid_' . $nid;
-	$use_cache   = wp_using_ext_object_cache( false );
-	$merchants   = get_transient( $option_name );
-	wp_using_ext_object_cache( $use_cache );
-	if ( false === $merchants || empty ( $merchants ) ) {
-		$api = dfrapi_api( dfrapi_get_transport_method() );
-		try {
-			$merchants = $api->getMerchants( array( intval( $nid ) ), true );
-			dfrapi_api_update_status( $api );
-		} catch ( Exception $err ) {
-			return dfrapi_api_error( $err );
-		}
-		$use_cache = wp_using_ext_object_cache( false );
-		set_transient( $option_name, $merchants, MONTH_IN_SECONDS );
-		wp_using_ext_object_cache( $use_cache );
-	}
-	dfrapi_update_transient_whitelist( $option_name );
+    $option_name = 'dfrapi_all_merchants_for_nid_' . $nid;
+    $use_cache   = wp_using_ext_object_cache( false );
+    $merchants   = get_transient( $option_name );
+    wp_using_ext_object_cache( $use_cache );
+    if ( false === $merchants || empty ( $merchants ) ) {
+        $api = dfrapi_api( dfrapi_get_transport_method() );
+        try {
+            $merchants = $api->getMerchants( array( intval( $nid ) ), true );
+            dfrapi_api_update_status( $api );
+        } catch ( Exception $err ) {
+            return dfrapi_api_error( $err );
+        }
+        $use_cache = wp_using_ext_object_cache( false );
+        set_transient( $option_name, $merchants, MONTH_IN_SECONDS );
+        wp_using_ext_object_cache( $use_cache );
+    }
+    dfrapi_update_transient_whitelist( $option_name );
 
-	return $merchants;
+    return $merchants;
 }
 
 /**
@@ -2077,37 +2077,37 @@ function dfrapi_api_get_all_merchants( $nid ) {
  * an array of merchant IDs.
  */
 function dfrapi_api_get_merchants_by_id( $ids, $includeEmpty = false ) {
-	$name = false;
-	if ( is_array( $ids ) ) {
-		sort( $ids, SORT_NUMERIC );
-		$id_string = implode( ",", $ids );
-		$name      = md5( $id_string );
-	} elseif ( $ids != '' ) {
-		$name = trim( $ids );
-	}
-	if ( ! $name ) {
-		return;
-	}
-	$name        = substr( $name, 0, 20 );
-	$option_name = 'dfrapi_merchants_byid_' . $name;
-	$use_cache   = wp_using_ext_object_cache( false );
-	$merchants   = get_transient( $option_name );
-	wp_using_ext_object_cache( $use_cache );
-	if ( false === $merchants || empty ( $merchants ) ) {
-		$api = dfrapi_api( dfrapi_get_transport_method() );
-		try {
-			$merchants = $api->getMerchantsById( $ids, $includeEmpty );
-			dfrapi_api_update_status( $api );
-		} catch ( Exception $err ) {
-			return dfrapi_api_error( $err );
-		}
-		$use_cache = wp_using_ext_object_cache( false );
-		set_transient( $option_name, $merchants, MONTH_IN_SECONDS );
-		wp_using_ext_object_cache( $use_cache );
-	}
-	dfrapi_update_transient_whitelist( $option_name );
+    $name = false;
+    if ( is_array( $ids ) ) {
+        sort( $ids, SORT_NUMERIC );
+        $id_string = implode( ",", $ids );
+        $name      = md5( $id_string );
+    } elseif ( $ids != '' ) {
+        $name = trim( $ids );
+    }
+    if ( ! $name ) {
+        return;
+    }
+    $name        = substr( $name, 0, 20 );
+    $option_name = 'dfrapi_merchants_byid_' . $name;
+    $use_cache   = wp_using_ext_object_cache( false );
+    $merchants   = get_transient( $option_name );
+    wp_using_ext_object_cache( $use_cache );
+    if ( false === $merchants || empty ( $merchants ) ) {
+        $api = dfrapi_api( dfrapi_get_transport_method() );
+        try {
+            $merchants = $api->getMerchantsById( $ids, $includeEmpty );
+            dfrapi_api_update_status( $api );
+        } catch ( Exception $err ) {
+            return dfrapi_api_error( $err );
+        }
+        $use_cache = wp_using_ext_object_cache( false );
+        set_transient( $option_name, $merchants, MONTH_IN_SECONDS );
+        wp_using_ext_object_cache( $use_cache );
+    }
+    dfrapi_update_transient_whitelist( $option_name );
 
-	return $merchants;
+    return $merchants;
 }
 
 /**
@@ -2125,144 +2125,144 @@ function dfrapi_api_get_merchants_by_id( $ids, $includeEmpty = false ) {
  */
 function dfrapi_api_get_products_by_id( $ids, $ppp = 20, $page = 1 ) {
 
-	$response = array();
+    $response = array();
 
-	// Return false if no $ids or no $postid
-	if ( empty( $ids ) ) {
-		return $response;
-	}
+    // Return false if no $ids or no $postid
+    if ( empty( $ids ) ) {
+        return $response;
+    }
 
-	// Make sure $page is a positive integer.
-	$page = absint( $page );
+    // Make sure $page is a positive integer.
+    $page = absint( $page );
 
-	// Make sure $ppp is a positive integer.
-	$ppp = absint( $ppp );
+    // Make sure $ppp is a positive integer.
+    $ppp = absint( $ppp );
 
-	// Make sure $ppp is not greater than "max_length".
-	$account = (array) get_option( 'dfrapi_account' );
-	if ( $ppp > $account['max_length'] ) {
-		$ppp = $account['max_length'];
-	}
+    // Make sure $ppp is not greater than "max_length".
+    $account = (array) get_option( 'dfrapi_account' );
+    if ( $ppp > $account['max_length'] ) {
+        $ppp = $account['max_length'];
+    }
 
-	// The maximum number of results a request to the API can return.
-	// Changing this will only break your site. It's not overridable.
-	$max_total = $account['max_total'];
+    // The maximum number of results a request to the API can return.
+    // Changing this will only break your site. It's not overridable.
+    $max_total = $account['max_total'];
 
-	// Determine offset.
-	$offset = ( ( $page - 1 ) * $ppp );
+    // Determine offset.
+    $offset = ( ( $page - 1 ) * $ppp );
 
-	// Make sure $limit doesn't go over 10,000.
-	if ( ( $offset + $ppp ) > $max_total ) {
-		$ppp = ( $max_total - $offset );
-	}
+    // Make sure $limit doesn't go over 10,000.
+    if ( ( $offset + $ppp ) > $max_total ) {
+        $ppp = ( $max_total - $offset );
+    }
 
-	// If $ppp is negative, return empty array();
-	if ( $ppp < 1 ) {
-		return array();
-	}
+    // If $ppp is negative, return empty array();
+    if ( $ppp < 1 ) {
+        return array();
+    }
 
-	// If offset is greater than 10,000 return empty array();
-	if ( $offset >= ( $max_total - $ppp ) ) {
-		return array();
-	}
+    // If offset is greater than 10,000 return empty array();
+    if ( $offset >= ( $max_total - $ppp ) ) {
+        return array();
+    }
 
-	try {
+    try {
 
-		// Initialize API.
-		$api = dfrapi_api( dfrapi_get_transport_method() );
-		if ( ! $api ) {
-			return $response;
-		}
+        // Initialize API.
+        $api = dfrapi_api( dfrapi_get_transport_method() );
+        if ( ! $api ) {
+            return $response;
+        }
 
-		// Get a range of product IDs to query.
-		$id_range = array_slice( $ids, $offset, $ppp );
+        // Get a range of product IDs to query.
+        $id_range = array_slice( $ids, $offset, $ppp );
 
-		// Return immediately if $id_range is empty.
-		if ( empty( $id_range ) ) {
-			$response['ids']         = array();
-			$response['products']    = array();
-			$response['last_status'] = $api->lastStatus();
-			$response['found_count'] = 0;
+        // Return immediately if $id_range is empty.
+        if ( empty( $id_range ) ) {
+            $response['ids']         = array();
+            $response['products']    = array();
+            $response['last_status'] = $api->lastStatus();
+            $response['found_count'] = 0;
 
-			return $response;
-		}
+            return $response;
+        }
 
-		// Begin query
-		$search = $api->searchRequest();
+        // Begin query
+        $search = $api->searchRequest();
 
-		// Get filters
-		$filters = dfrapi_api_query_to_filters( array() );
-		if ( isset( $filters['error'] ) ) {
-			throw new DatafeedrError( $filters['error'], 0 );
-		}
+        // Get filters
+        $filters = dfrapi_api_query_to_filters( array() );
+        if ( isset( $filters['error'] ) ) {
+            throw new DatafeedrError( $filters['error'], 0 );
+        }
 
-		// Loop thru filters.
-		foreach ( $filters as $filter ) {
-			$search->addFilter( $filter );
-		}
+        // Loop thru filters.
+        foreach ( $filters as $filter ) {
+            $search->addFilter( $filter );
+        }
 
-		$search->addFilter( 'id IN ' . implode( ",", $id_range ) );
-		$search->setLimit( $ppp );
-		$products = $search->execute();
+        $search->addFilter( 'id IN ' . implode( ",", $id_range ) );
+        $search->setLimit( $ppp );
+        $products = $search->execute();
 
-		// Keep track of IDs which were returned via the API to compare with $id_range (unreturned)
-		$included_ids = array();
-		if ( ! empty( $products ) ) {
-			foreach ( $products as $product ) {
-				$included_ids[] = $product['_id'];
-			}
-		}
+        // Keep track of IDs which were returned via the API to compare with $id_range (unreturned)
+        $included_ids = array();
+        if ( ! empty( $products ) ) {
+            foreach ( $products as $product ) {
+                $included_ids[] = $product['_id'];
+            }
+        }
 
-		// Excluded product IDs.
-		$excluded_ids = array_diff( $id_range, $included_ids );
+        // Excluded product IDs.
+        $excluded_ids = array_diff( $id_range, $included_ids );
 
-		// Add "message" values to excluded IDs if there are some.
-		$excluded_products = array();
-		if ( ! empty( $included_ids ) && ! empty( $excluded_ids ) ) {
-			foreach ( $excluded_ids as $excluded_id ) {
+        // Add "message" values to excluded IDs if there are some.
+        $excluded_products = array();
+        if ( ! empty( $included_ids ) && ! empty( $excluded_ids ) ) {
+            foreach ( $excluded_ids as $excluded_id ) {
 
-				$wc_url = add_query_arg(
-					array(
-						's'           => $excluded_id,
-						'post_status' => 'trash',
-						'post_type'   => 'product',
-					),
-					admin_url( 'edit.php' )
-				);
+                $wc_url = add_query_arg(
+                        array(
+                                's'           => $excluded_id,
+                                'post_status' => 'trash',
+                                'post_type'   => 'product',
+                        ),
+                        admin_url( 'edit.php' )
+                );
 
-				// Do not add a 'url' field to this array or the unavailable product WILL be imported.
-				// See /datafeedr-product-sets/classes/class-dfrps-update.php:73
-				$excluded_products[] = array(
-					'_id'         => $excluded_id,
-					'_wc_url'     => $wc_url,
-					'name'        => $excluded_id . ' - ' . __( 'Unavailable', 'datafeedr-api' ),
-					'price'       => 0,
-					'finalprice'  => 0,
-					'description' => __( 'This product is either temporarily or permanently unavailable.', 'datafeedr-api' ),
-					'image'       => DFRAPI_URL . 'images/icons/noimage.png',
-					'merchant'    => 'n/a',
-					'source'      => 'n/a',
-				);
-			}
-		}
+                // Do not add a 'url' field to this array or the unavailable product WILL be imported.
+                // See /datafeedr-product-sets/classes/class-dfrps-update.php:73
+                $excluded_products[] = array(
+                        '_id'         => $excluded_id,
+                        '_wc_url'     => $wc_url,
+                        'name'        => $excluded_id . ' - ' . __( 'Unavailable', 'datafeedr-api' ),
+                        'price'       => 0,
+                        'finalprice'  => 0,
+                        'description' => __( 'This product is either temporarily or permanently unavailable.', 'datafeedr-api' ),
+                        'image'       => DFRAPI_URL . 'images/icons/noimage.png',
+                        'merchant'    => 'n/a',
+                        'source'      => 'n/a',
+                );
+            }
+        }
 
-		// Update API status
-		dfrapi_api_update_status( $api );
+        // Update API status
+        dfrapi_api_update_status( $api );
 
-		// Build $response array().
-		$response['ids']         = $ids;
-		$response['products']    = array_merge( $products, $excluded_products );
-		$response['last_status'] = $api->lastStatus();
-		$response['found_count'] = count( $ids );
-		$response['params']      = $search->getParams();
-		$response['score']       = $search->getQueryScore();
+        // Build $response array().
+        $response['ids']         = $ids;
+        $response['products']    = array_merge( $products, $excluded_products );
+        $response['last_status'] = $api->lastStatus();
+        $response['found_count'] = count( $ids );
+        $response['params']      = $search->getParams();
+        $response['score']       = $search->getQueryScore();
 
-		// Return it!
-		return $response;
+        // Return it!
+        return $response;
 
-	} catch ( Exception $err ) {
-		return dfrapi_api_error( $err );
-	}
+    } catch ( Exception $err ) {
+        return dfrapi_api_error( $err );
+    }
 }
 
 /**
@@ -2304,142 +2304,142 @@ function dfrapi_api_get_products_by_id( $ids, $ppp = 20, $page = 1 ) {
  */
 function dfrapi_api_get_products_by_query( $query, $ppp = 20, $page = 1, $excluded = array() ) {
 
-	$response = array();
+    $response = array();
 
-	// Return false if no $query.
-	if ( empty( $query ) ) {
-		return $response;
-	}
+    // Return false if no $query.
+    if ( empty( $query ) ) {
+        return $response;
+    }
 
-	// Make sure $page is a positive integer.
-	$page = absint( $page );
+    // Make sure $page is a positive integer.
+    $page = absint( $page );
 
-	// Make sure $ppp is a positive integer.
-	$ppp = absint( $ppp );
+    // Make sure $ppp is a positive integer.
+    $ppp = absint( $ppp );
 
-	// Make sure $ppp is not greater than "max_length".
-	$account = (array) get_option( 'dfrapi_account' );
-	if ( $ppp > $account['max_length'] ) {
-		$ppp = $account['max_length'];
-	}
+    // Make sure $ppp is not greater than "max_length".
+    $account = (array) get_option( 'dfrapi_account' );
+    if ( $ppp > $account['max_length'] ) {
+        $ppp = $account['max_length'];
+    }
 
-	// The maximum number of results a request to the API can return.
-	// Changing this will only break your site. It's not overridable.
-	$max_total = $account['max_total'];
+    // The maximum number of results a request to the API can return.
+    // Changing this will only break your site. It's not overridable.
+    $max_total = $account['max_total'];
 
-	// Determine query limit (if exists).
-	$query_limit = dfrapi_api_get_query_param( $query, 'limit' );
-	$query_limit = ( $query_limit )
-		? $query_limit['value']
-		: false;
+    // Determine query limit (if exists).
+    $query_limit = dfrapi_api_get_query_param( $query, 'limit' );
+    $query_limit = ( $query_limit )
+            ? $query_limit['value']
+            : false;
 
-	// No query shall try to return more than 10,000 products.
-	if ( $query_limit && ( $query_limit > $max_total ) ) {
-		$query_limit = $max_total;
-	}
+    // No query shall try to return more than 10,000 products.
+    if ( $query_limit && ( $query_limit > $max_total ) ) {
+        $query_limit = $max_total;
+    }
 
-	// Determine merchant limit (if exists).
-	$merchant_limit = dfrapi_api_get_query_param( $query, 'merchant_limit' );
-	$merchant_limit = ( $merchant_limit )
-		? absint( $merchant_limit['value'] )
-		: 0;
+    // Determine merchant limit (if exists).
+    $merchant_limit = dfrapi_api_get_query_param( $query, 'merchant_limit' );
+    $merchant_limit = ( $merchant_limit )
+            ? absint( $merchant_limit['value'] )
+            : 0;
 
-	// Determine offset.
-	$offset = ( ( $page - 1 ) * $ppp );
+    // Determine offset.
+    $offset = ( ( $page - 1 ) * $ppp );
 
-	// If offset is greater than 10,000 return empty array();
-	if ( $offset >= $max_total ) {
-		return array();
-	}
+    // If offset is greater than 10,000 return empty array();
+    if ( $offset >= $max_total ) {
+        return array();
+    }
 
-	// Factor in query limit
-	if ( $query_limit ) {
-		if ( ( $ppp + $offset ) > $query_limit ) {
-			$ppp = ( $query_limit - $offset );
-		}
-	}
+    // Factor in query limit
+    if ( $query_limit ) {
+        if ( ( $ppp + $offset ) > $query_limit ) {
+            $ppp = ( $query_limit - $offset );
+        }
+    }
 
-	// Make sure $limit doesn't go over 10,000.
-	if ( ( $offset + $ppp ) > $max_total ) {
-		$ppp = ( $max_total - $offset );
-	}
+    // Make sure $limit doesn't go over 10,000.
+    if ( ( $offset + $ppp ) > $max_total ) {
+        $ppp = ( $max_total - $offset );
+    }
 
-	// If $ppp is negative, return empty array();
-	if ( $ppp < 1 ) {
-		return $response;
-	}
+    // If $ppp is negative, return empty array();
+    if ( $ppp < 1 ) {
+        return $response;
+    }
 
-	try {
+    try {
 
-		// Initialize API.
-		$api = dfrapi_api( dfrapi_get_transport_method() );
-		if ( ! $api ) {
-			return $response;
-		}
+        // Initialize API.
+        $api = dfrapi_api( dfrapi_get_transport_method() );
+        if ( ! $api ) {
+            return $response;
+        }
 
-		$search = $api->searchRequest();
+        $search = $api->searchRequest();
 
-		// Get filters
-		$filters = dfrapi_api_query_to_filters( $query );
-		if ( isset( $filters['error'] ) ) {
-			throw new DatafeedrError( $filters['error'], 0 );
-		}
+        // Get filters
+        $filters = dfrapi_api_query_to_filters( $query );
+        if ( isset( $filters['error'] ) ) {
+            throw new DatafeedrError( $filters['error'], 0 );
+        }
 
-		// Loop thru filters.
-		foreach ( $filters as $filter ) {
-			$search->addFilter( $filter );
-		}
+        // Loop thru filters.
+        foreach ( $filters as $filter ) {
+            $search->addFilter( $filter );
+        }
 
-		// Exclude duplicates.
-		$duplicates = dfrapi_api_get_query_param( $query, 'duplicates' );
-		if ( $duplicates ) {
-			$excludes = $duplicates['value'];
-			$search->excludeDuplicates( $excludes );
-		}
+        // Exclude duplicates.
+        $duplicates = dfrapi_api_get_query_param( $query, 'duplicates' );
+        if ( $duplicates ) {
+            $excludes = $duplicates['value'];
+            $search->excludeDuplicates( $excludes );
+        }
 
-		// Exclude blocked products.
-		$excluded = (array) $excluded;
-		if ( ! empty( $excluded ) ) {
-			$search->addFilter( 'id !IN ' . implode( ",", $excluded ) );
-		}
+        // Exclude blocked products.
+        $excluded = (array) $excluded;
+        if ( ! empty( $excluded ) ) {
+            $search->addFilter( 'id !IN ' . implode( ",", $excluded ) );
+        }
 
-		// Sort products.
-		$sort = dfrapi_api_get_query_param( $query, 'sort' );
-		if ( $sort && strlen( $sort['operator'] ) ) {
-			$search->addSort( $sort['operator'] );
-		}
+        // Sort products.
+        $sort = dfrapi_api_get_query_param( $query, 'sort' );
+        if ( $sort && strlen( $sort['operator'] ) ) {
+            $search->addSort( $sort['operator'] );
+        }
 
-		// Set Merchant Limit
-		$search->setMerchantLimit( $merchant_limit );
+        // Set Merchant Limit
+        $search->setMerchantLimit( $merchant_limit );
 
-		// Set limits and offset.
-		$search->setLimit( $ppp );
-		$search->setOffset( $offset );
+        // Set limits and offset.
+        $search->setLimit( $ppp );
+        $search->setOffset( $offset );
 
-		// Execute query.
-		$products = $search->execute();
+        // Execute query.
+        $products = $search->execute();
 
-		// Update API status
-		dfrapi_api_update_status( $api );
+        // Update API status
+        dfrapi_api_update_status( $api );
 
-		// Build $response array().
-		$response['query']       = $query;
-		$response['excluded']    = $excluded;
-		$response['products']    = $products;
-		$response['last_status'] = $api->lastStatus();
-		$response['found_count'] = $search->getResultCount();
-		$response['params']      = $search->getParams();
-		$response['score']       = $search->getQueryScore();
+        // Build $response array().
+        $response['query']       = $query;
+        $response['excluded']    = $excluded;
+        $response['products']    = $products;
+        $response['last_status'] = $api->lastStatus();
+        $response['found_count'] = $search->getResultCount();
+        $response['params']      = $search->getParams();
+        $response['score']       = $search->getQueryScore();
 
-		// Return it!
-		return $response;
+        // Return it!
+        return $response;
 
-	} catch ( Exception $err ) {
-		$params = $search->getParams();
+    } catch ( Exception $err ) {
+        $params = $search->getParams();
 
-		return dfrapi_api_error( $err, $params );
+        return dfrapi_api_error( $err, $params );
 
-	}
+    }
 }
 
 /**
@@ -2450,7 +2450,7 @@ function dfrapi_api_get_products_by_query( $query, $ppp = 20, $page = 1, $exclud
  * @return string
  */
 function dfrapi_get_effiliation_product_feeds_url( string $api_key ): string {
-	return sprintf( 'http://apiv2.effiliation.com/apiv2/productfeeds.xml?key=%s&filter=mines&type=33&fields=0001010000110001', $api_key );
+    return sprintf( 'http://apiv2.effiliation.com/apiv2/productfeeds.xml?key=%s&filter=mines&type=33&fields=0001010000110001', $api_key );
 }
 
 /**
@@ -2462,42 +2462,42 @@ function dfrapi_get_effiliation_product_feeds_url( string $api_key ): string {
  */
 function dfrapi_request_effiliation_affiliate_ids( $api_key = null ) {
 
-	$option_name   = 'effiliation_affiliate_ids';
-	$use_cache     = wp_using_ext_object_cache( false );
-	$affiliate_ids = get_transient( $option_name );
-	wp_using_ext_object_cache( $use_cache );
+    $option_name   = 'effiliation_affiliate_ids';
+    $use_cache     = wp_using_ext_object_cache( false );
+    $affiliate_ids = get_transient( $option_name );
+    wp_using_ext_object_cache( $use_cache );
 
-	if ( $affiliate_ids ) {
-		return $affiliate_ids;
-	}
+    if ( $affiliate_ids ) {
+        return $affiliate_ids;
+    }
 
-	$keys    = dfrapi_get_effiliation_keys();
-	$api_key = $api_key ?: $keys['effiliation_key'];
-	$method  = 'GET';
-	$url     = dfrapi_get_effiliation_product_feeds_url( $api_key );
+    $keys    = dfrapi_get_effiliation_keys();
+    $api_key = $api_key ?: $keys['effiliation_key'];
+    $method  = 'GET';
+    $url     = dfrapi_get_effiliation_product_feeds_url( $api_key );
 
-	$xml = dfrapi_get_xml_response( $url, $method, [ 'timeout' => 30 ] );
+    $xml = dfrapi_get_xml_response( $url, $method, [ 'timeout' => 30 ] );
 
-	if ( is_wp_error( $xml ) ) {
-		return $xml;
-	}
+    if ( is_wp_error( $xml ) ) {
+        return $xml;
+    }
 
-	$affiliate_ids = [];
+    $affiliate_ids = [];
 
-	foreach ( $xml->feed as $e ) {
-		$item = json_decode( json_encode( $e ), true );
-		$suid = sanitize_text_field( $item['id_affilieur'] );
+    foreach ( $xml->feed as $e ) {
+        $item = json_decode( json_encode( $e ), true );
+        $suid = sanitize_text_field( $item['id_affilieur'] );
 
-		$affiliate_ids[ $suid ]['suid']         = ( $suid );
-		$affiliate_ids[ $suid ]['affiliate_id'] = sanitize_text_field( $item['id_compteur'] );
-	}
+        $affiliate_ids[ $suid ]['suid']         = ( $suid );
+        $affiliate_ids[ $suid ]['affiliate_id'] = sanitize_text_field( $item['id_compteur'] );
+    }
 
-	$use_cache = wp_using_ext_object_cache( false );
-	set_transient( $option_name, $affiliate_ids, ( MINUTE_IN_SECONDS * 20 ) );
-	wp_using_ext_object_cache( $use_cache );
-	dfrapi_update_transient_whitelist( $option_name );
+    $use_cache = wp_using_ext_object_cache( false );
+    set_transient( $option_name, $affiliate_ids, ( MINUTE_IN_SECONDS * 20 ) );
+    wp_using_ext_object_cache( $use_cache );
+    dfrapi_update_transient_whitelist( $option_name );
 
-	return $affiliate_ids;
+    return $affiliate_ids;
 }
 
 /**
@@ -2507,19 +2507,19 @@ function dfrapi_request_effiliation_affiliate_ids( $api_key = null ) {
  * @throws Exception
  */
 function dfrapi_get_affiliate_id_for_effiliation_merchant( $merchant_id ) {
-	$merchants     = dfrapi_api_get_merchants_by_id( $merchant_id );
-	$merchant      = $merchants[0] ?? [ 'suids' => '' ];
-	$affiliate_ids = dfrapi_request_effiliation_affiliate_ids();
+    $merchants     = dfrapi_api_get_merchants_by_id( $merchant_id );
+    $merchant      = $merchants[0] ?? [ 'suids' => '' ];
+    $affiliate_ids = dfrapi_request_effiliation_affiliate_ids();
 
-	if ( is_wp_error( $affiliate_ids ) ) {
-		throw new Exception( 'Unable to query Effiliation at this time. Please try again in 15 minutes.' );
-	}
+    if ( is_wp_error( $affiliate_ids ) ) {
+        throw new Exception( 'Unable to query Effiliation at this time. Please try again in 15 minutes.' );
+    }
 
-	if ( ! isset( $affiliate_ids[ $merchant['suids'] ]['affiliate_id'] ) ) {
-		throw new Exception( 'Suid does not exist for affiliate ID.' );
-	}
+    if ( ! isset( $affiliate_ids[ $merchant['suids'] ]['affiliate_id'] ) ) {
+        throw new Exception( 'Suid does not exist for affiliate ID.' );
+    }
 
-	return $affiliate_ids[ $merchant['suids'] ]['affiliate_id'];
+    return $affiliate_ids[ $merchant['suids'] ]['affiliate_id'];
 }
 
 /**
@@ -2541,7 +2541,7 @@ function dfrapi_get_affiliate_id_for_effiliation_merchant( $merchant_id ) {
  * @return array
  */
 function dfrapi_get_user_account_data(): array {
-	return (array) get_option( 'dfrapi_account', [] );
+    return (array) get_option( 'dfrapi_account', [] );
 }
 
 /**
@@ -2550,9 +2550,9 @@ function dfrapi_get_user_account_data(): array {
  * @return int
  */
 function dfrapi_get_network_count(): int {
-	$data = dfrapi_get_user_account_data();
+    $data = dfrapi_get_user_account_data();
 
-	return absint( $data['network_count'] ?? 0 );
+    return absint( $data['network_count'] ?? 0 );
 }
 
 /**
@@ -2561,9 +2561,9 @@ function dfrapi_get_network_count(): int {
  * @return int
  */
 function dfrapi_get_merchant_count(): int {
-	$data = dfrapi_get_user_account_data();
+    $data = dfrapi_get_user_account_data();
 
-	return absint( $data['merchant_count'] ?? 0 );
+    return absint( $data['merchant_count'] ?? 0 );
 }
 
 /**
@@ -2572,9 +2572,9 @@ function dfrapi_get_merchant_count(): int {
  * @return int
  */
 function dfrapi_get_product_count(): int {
-	$data = dfrapi_get_user_account_data();
+    $data = dfrapi_get_user_account_data();
 
-	return absint( $data['product_count'] ?? 0 );
+    return absint( $data['product_count'] ?? 0 );
 }
 
 /**
@@ -2583,9 +2583,9 @@ function dfrapi_get_product_count(): int {
  * @return int
  */
 function dfrapi_get_max_requests(): int {
-	$data = dfrapi_get_user_account_data();
+    $data = dfrapi_get_user_account_data();
 
-	return absint( $data['max_requests'] ?? 0 );
+    return absint( $data['max_requests'] ?? 0 );
 }
 
 /**
@@ -2594,9 +2594,9 @@ function dfrapi_get_max_requests(): int {
  * @return int
  */
 function dfrapi_get_request_count(): int {
-	$data = dfrapi_get_user_account_data();
+    $data = dfrapi_get_user_account_data();
 
-	return absint( $data['request_count'] ?? 0 );
+    return absint( $data['request_count'] ?? 0 );
 }
 
 /**
@@ -2607,10 +2607,10 @@ function dfrapi_get_request_count(): int {
  * @return float|int
  */
 function dfrapi_get_api_usage_as_percentage( int $precision = 2 ) {
-	$max_requests  = dfrapi_get_max_requests();
-	$request_count = dfrapi_get_request_count();
+    $max_requests  = dfrapi_get_max_requests();
+    $request_count = dfrapi_get_request_count();
 
-	return $max_requests > 0 ? round( ( $request_count / $max_requests * 100 ), $precision ) : 0;
+    return $max_requests > 0 ? round( ( $request_count / $max_requests * 100 ), $precision ) : 0;
 }
 
 /**
@@ -2619,7 +2619,7 @@ function dfrapi_get_api_usage_as_percentage( int $precision = 2 ) {
  * @return int[]
  */
 function dfrapi_get_partnerize_network_ids(): array {
-	return [ 801, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823 ];
+    return [ 801, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823 ];
 }
 
 /**
@@ -2628,7 +2628,7 @@ function dfrapi_get_partnerize_network_ids(): array {
  * @return int
  */
 function dfrapi_get_partnerize_group_id(): int {
-	return 10027;
+    return 10027;
 }
 
 /**
@@ -2637,7 +2637,7 @@ function dfrapi_get_partnerize_group_id(): int {
  * @return int[]
  */
 function dfrapi_get_effiliation_network_ids(): array {
-	return [ 805, 806, 807 ];
+    return [ 805, 806, 807 ];
 }
 
 /**
@@ -2646,7 +2646,7 @@ function dfrapi_get_effiliation_network_ids(): array {
  * @return int
  */
 function dfrapi_get_effiliation_group_id(): int {
-	return 10017;
+    return 10017;
 }
 
 /**
@@ -2655,7 +2655,7 @@ function dfrapi_get_effiliation_group_id(): int {
  * @return int
  */
 function dfrapi_get_belboon_group_id(): int {
-	return 10007;
+    return 10007;
 }
 
 /**
@@ -2668,29 +2668,29 @@ function dfrapi_get_belboon_group_id(): int {
  */
 function dfrapi_get_affiliate_id_by_network_id( int $network_id, $default = false ) {
 
-	static $network_ids = null;
+    static $network_ids = null;
 
-	if ( $network_ids === null ) {
+    if ( $network_ids === null ) {
 
-		$network_ids = [];
+        $network_ids = [];
 
-		$networks = dfrapi_get_selected_networks();
+        $networks = dfrapi_get_selected_networks();
 
-		if ( isset( $networks['ids'] ) && is_array( $networks['ids'] ) && ! empty( $networks['ids'] ) ) {
-			$network_ids = $networks['ids'];
-		}
-	}
+        if ( isset( $networks['ids'] ) && is_array( $networks['ids'] ) && ! empty( $networks['ids'] ) ) {
+            $network_ids = $networks['ids'];
+        }
+    }
 
-	foreach ( $network_ids as $k => $v ) {
-		$nid = absint( $v['nid'] ?? 0 );
-		if ( $nid === $network_id ) {
-			$aid = trim( $v['aid'] ?? '' );
+    foreach ( $network_ids as $k => $v ) {
+        $nid = absint( $v['nid'] ?? 0 );
+        if ( $nid === $network_id ) {
+            $aid = trim( $v['aid'] ?? '' );
 
-			return ! empty( $aid ) ? $aid : $default;
-		}
-	}
+            return ! empty( $aid ) ? $aid : $default;
+        }
+    }
 
-	return $default;
+    return $default;
 }
 
 /**
@@ -2710,37 +2710,37 @@ function dfrapi_get_affiliate_id_by_network_id( int $network_id, $default = fals
  */
 function dfrapi_get_fields_from_product( array $product, $fields, $default = null, $concatenate = false ) {
 
-	if ( ! is_string( $fields ) && ! is_array( $fields ) ) {
-		return $default;
-	}
+    if ( ! is_string( $fields ) && ! is_array( $fields ) ) {
+        return $default;
+    }
 
-	if ( is_string( $fields ) ) {
-		$fields = [ (string) $fields ];
-	}
+    if ( is_string( $fields ) ) {
+        $fields = [ (string) $fields ];
+    }
 
-	$fields = array_filter( $fields );
+    $fields = array_filter( $fields );
 
-	if ( empty( $fields ) ) {
-		return $default;
-	}
+    if ( empty( $fields ) ) {
+        return $default;
+    }
 
-	if ( count( $fields ) === 1 ) {
-		return $product[ $fields[0] ] ?? $default;
-	}
+    if ( count( $fields ) === 1 ) {
+        return $product[ $fields[0] ] ?? $default;
+    }
 
-	$values = [];
+    $values = [];
 
-	foreach ( $fields as $field ) {
-		if ( isset( $product[ $field ] ) ) {
-			$values[] = $product[ $field ];
-		}
-	}
+    foreach ( $fields as $field ) {
+        if ( isset( $product[ $field ] ) ) {
+            $values[] = $product[ $field ];
+        }
+    }
 
-	if ( empty( $values ) ) {
-		return $default;
-	}
+    if ( empty( $values ) ) {
+        return $default;
+    }
 
-	return is_string( $concatenate ) ? implode( $concatenate, $values ) : $values[0];
+    return is_string( $concatenate ) ? implode( $concatenate, $values ) : $values[0];
 }
 
 /**
@@ -2754,14 +2754,14 @@ function dfrapi_get_fields_from_product( array $product, $fields, $default = nul
  */
 function dfrapi_get_install_plugin_url( string $plugin ): string {
 
-	if ( ! current_user_can( 'install_plugins' ) ) {
-		return admin_url( 'plugins.php' );
-	}
+    if ( ! current_user_can( 'install_plugins' ) ) {
+        return admin_url( 'plugins.php' );
+    }
 
-	return add_query_arg(
-		[ 'action' => 'install-plugin', 'plugin' => dfrapi_parse_plugin_path( $plugin, 'dirname' ) ],
-		wp_nonce_url( admin_url( 'update.php' ), 'install-plugin_' . dfrapi_parse_plugin_path( $plugin, 'dirname' ) )
-	);
+    return add_query_arg(
+            [ 'action' => 'install-plugin', 'plugin' => dfrapi_parse_plugin_path( $plugin, 'dirname' ) ],
+            wp_nonce_url( admin_url( 'update.php' ), 'install-plugin_' . dfrapi_parse_plugin_path( $plugin, 'dirname' ) )
+    );
 }
 
 /**
@@ -2775,14 +2775,14 @@ function dfrapi_get_install_plugin_url( string $plugin ): string {
  */
 function dfrapi_get_activate_plugin_url( string $plugin ): string {
 
-	if ( ! current_user_can( 'activate_plugins' ) ) {
-		return admin_url( 'plugins.php' );
-	}
+    if ( ! current_user_can( 'activate_plugins' ) ) {
+        return admin_url( 'plugins.php' );
+    }
 
-	return add_query_arg(
-		[ 'action' => 'activate', 'plugin' => dfrapi_parse_plugin_path( $plugin ), 'paged' => '1', 's' => '' ],
-		wp_nonce_url( network_admin_url( 'plugins.php' ), 'activate-plugin_' . dfrapi_parse_plugin_path( $plugin ) )
-	);
+    return add_query_arg(
+            [ 'action' => 'activate', 'plugin' => dfrapi_parse_plugin_path( $plugin ), 'paged' => '1', 's' => '' ],
+            wp_nonce_url( network_admin_url( 'plugins.php' ), 'activate-plugin_' . dfrapi_parse_plugin_path( $plugin ) )
+    );
 }
 
 /**
@@ -2795,7 +2795,7 @@ function dfrapi_get_activate_plugin_url( string $plugin ): string {
  * @return bool
  */
 function dfrapi_plugin_is_installed( string $plugin ): bool {
-	return file_exists( dfrapi_parse_plugin_path( $plugin, 'absolute' ) );
+    return file_exists( dfrapi_parse_plugin_path( $plugin, 'absolute' ) );
 }
 
 /**
@@ -2810,46 +2810,46 @@ function dfrapi_plugin_is_installed( string $plugin ): bool {
  */
 function dfrapi_parse_plugin_path( string $plugin, string $format = 'relative' ): string {
 
-	// For examples below, if $plugin equals = "hello-dolly/hello.php"...
-	$valid_formats = [
-		'absolute',  // /home/public_html/user/wp-content/plugins/hello-dolly/hello.php
-		'relative',  // hello-dolly/hello.php
-		'dirname',   // hello-dolly
-		'basename',  // hello.php
-		'filename',  // hello
-		'extension', // php
-	];
+    // For examples below, if $plugin equals = "hello-dolly/hello.php"...
+    $valid_formats = [
+            'absolute',  // /home/public_html/user/wp-content/plugins/hello-dolly/hello.php
+            'relative',  // hello-dolly/hello.php
+            'dirname',   // hello-dolly
+            'basename',  // hello.php
+            'filename',  // hello
+            'extension', // php
+    ];
 
-	$path = pathinfo( $plugin );
+    $path = pathinfo( $plugin );
 
-	$dirname   = sanitize_file_name( $path['dirname'] ?? '' );
-	$basename  = sanitize_file_name( $path['basename'] ?? '' );
-	$extension = sanitize_file_name( $path['extension'] ?? '' );
-	$filename  = sanitize_file_name( $path['filename'] ?? '' );
+    $dirname   = sanitize_file_name( $path['dirname'] ?? '' );
+    $basename  = sanitize_file_name( $path['basename'] ?? '' );
+    $extension = sanitize_file_name( $path['extension'] ?? '' );
+    $filename  = sanitize_file_name( $path['filename'] ?? '' );
 
-	$format = in_array( $format, $valid_formats, true ) ? $format : 'relative';
+    $format = in_array( $format, $valid_formats, true ) ? $format : 'relative';
 
-	if ( $format === 'absolute' ) {
-		return trailingslashit( WP_PLUGIN_DIR ) . trailingslashit( $dirname ) . $basename;
-	}
+    if ( $format === 'absolute' ) {
+        return trailingslashit( WP_PLUGIN_DIR ) . trailingslashit( $dirname ) . $basename;
+    }
 
-	if ( $format === 'dirname' ) {
-		return $dirname;
-	}
+    if ( $format === 'dirname' ) {
+        return $dirname;
+    }
 
-	if ( $format === 'basename' ) {
-		return $basename;
-	}
+    if ( $format === 'basename' ) {
+        return $basename;
+    }
 
-	if ( $format === 'filename' ) {
-		return $filename;
-	}
+    if ( $format === 'filename' ) {
+        return $filename;
+    }
 
-	if ( $format === 'extension' ) {
-		return $extension;
-	}
+    if ( $format === 'extension' ) {
+        return $extension;
+    }
 
-	return empty( $dirname ) ? $basename : trailingslashit( $dirname ) . $basename;
+    return empty( $dirname ) ? $basename : trailingslashit( $dirname ) . $basename;
 }
 
 /**
@@ -2861,9 +2861,539 @@ function dfrapi_parse_plugin_path( string $plugin, string $format = 'relative' )
  */
 function dfrapi_inactive_networks(): array {
 
-	$inactive_network_ids = [
-		14, // Prophetably
-	];
+    $inactive_network_ids = [
+            14, // Prophetably
+    ];
 
-	return array_map( 'absint', apply_filters( 'dfrapi_inactive_networks', $inactive_network_ids ) );
+    return array_map( 'absint', apply_filters( 'dfrapi_inactive_networks', $inactive_network_ids ) );
+}
+
+/**
+ * Returns the Amazon API to use.
+ *
+ * @since 1.4.0
+ *
+ * @return string The Amazon API to use.
+ */
+function dfrapi_get_amazon_api(): string {
+    $configuration = (array) get_option( 'dfrapi_configuration' );
+
+    return $configuration['amazon_api'] ?? '';
+}
+
+/**
+ * Returns an array of Amazon Creator API regions.
+ *
+ * @since 1.4.0
+ *
+ * @return array The Amazon Creator API regions.
+ */
+function dfrapi_get_capi_regions(): array {
+
+    $regions = [];
+
+    $regions['NA'] = [
+            'code'           => 'NA',
+            'name'           => 'North America',
+            'version'        => '2.1',
+            'token_endpoint' => 'creatorsapi.auth.us-east-1.amazoncognito.com/oauth2/token',
+    ];
+
+    $regions['EU'] = [
+            'code'           => 'EU',
+            'name'           => 'Europe',
+            'version'        => '2.2',
+            'token_endpoint' => 'creatorsapi.auth.eu-south-2.amazoncognito.com/oauth2/token',
+    ];
+
+    $regions['FE'] = [
+            'code'           => 'FE',
+            'name'           => 'Far East',
+            'version'        => '2.3',
+            'token_endpoint' => 'creatorsapi.auth.us-west-2.amazoncognito.com/oauth2/token',
+    ];
+
+    return $regions;
+}
+
+/**
+ * Returns an Amazon Creator API region by its code.
+ *
+ * @since 1.4.0
+ *
+ * @param string $code The region code (Ex. NA, EU, FE).
+ *
+ * @return array|WP_Error The region data or WP_Error if the code is invalid.
+ */
+function dfrapi_get_capi_region( string $code ) {
+    $code    = strtoupper( trim( $code ) );
+    $regions = dfrapi_get_capi_regions();
+
+    return $regions[ $code ] ?? new WP_Error( 'invalid_capi_region_code', 'Invalid Creator API region code.', [ 'code' => $code ] );
+}
+
+/**
+ * Returns an array of Amazon Creator API marketplaces.
+ *
+ * @since 1.4.0
+ *
+ * @return array The Amazon Creator API marketplaces.
+ */
+function dfrapi_get_capi_marketplaces(): array {
+
+    $regions = dfrapi_get_capi_regions();
+
+    $marketplaces       = [];
+    $marketplaces['AU'] = [
+            'locale' => 'Australia',
+            'domain' => 'www.amazon.com.au',
+            'region' => $regions['FE'],
+    ];
+
+    $marketplaces['BE'] = [
+            'locale' => 'Belgium',
+            'domain' => 'www.amazon.com.be',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['BR'] = [
+            'locale' => 'Brazil',
+            'domain' => 'www.amazon.com.br',
+            'region' => $regions['NA'],
+    ];
+
+    $marketplaces['CA'] = [
+            'locale' => 'Canada',
+            'domain' => 'www.amazon.ca',
+            'region' => $regions['NA'],
+    ];
+
+    $marketplaces['EG'] = [
+            'locale' => 'Egypt',
+            'domain' => 'www.amazon.eg',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['FR'] = [
+            'locale' => 'France',
+            'domain' => 'www.amazon.fr',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['DE'] = [
+            'locale' => 'Germany',
+            'domain' => 'www.amazon.de',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['IN'] = [
+            'locale' => 'India',
+            'domain' => 'www.amazon.in',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['IE'] = [
+            'locale' => 'Ireland',
+            'domain' => 'www.amazon.ie',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['IT'] = [
+            'locale' => 'Italy',
+            'domain' => 'www.amazon.it',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['JP'] = [
+            'locale' => 'Japan',
+            'domain' => 'www.amazon.co.jp',
+            'region' => $regions['FE'],
+    ];
+
+    $marketplaces['MX'] = [
+            'locale' => 'Mexico',
+            'domain' => 'www.amazon.com.mx',
+            'region' => $regions['NA'],
+    ];
+
+    $marketplaces['NL'] = [
+            'locale' => 'Netherlands',
+            'domain' => 'www.amazon.nl',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['PL'] = [
+            'locale' => 'Poland',
+            'domain' => 'www.amazon.pl',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['SG'] = [
+            'locale' => 'Singapore',
+            'domain' => 'www.amazon.sg',
+            'region' => $regions['FE'],
+    ];
+
+    $marketplaces['SA'] = [
+            'locale' => 'Saudi Arabia',
+            'domain' => 'www.amazon.sa',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['ES'] = [
+            'locale' => 'Spain',
+            'domain' => 'www.amazon.es',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['SE'] = [
+            'locale' => 'Sweden',
+            'domain' => 'www.amazon.se',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['TR'] = [
+            'locale' => 'Turkey',
+            'domain' => 'www.amazon.com.tr',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['AE'] = [
+            'locale' => 'United Arab Emirates',
+            'domain' => 'www.amazon.ae',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['UK'] = [
+            'locale' => 'United Kingdom',
+            'domain' => 'www.amazon.co.uk',
+            'region' => $regions['EU'],
+    ];
+
+    $marketplaces['US'] = [
+            'locale' => 'United States',
+            'domain' => 'www.amazon.com',
+            'region' => $regions['NA'],
+    ];
+
+    return $marketplaces;
+}
+
+/**
+ * Returns an Amazon Creator API marketplace by its code.
+ *
+ * @since 1.4.0
+ *
+ * @param string $code The marketplace code (Ex. US, CA, UK, etc.).
+ *
+ * @return array|WP_Error The marketplace data or WP_Error if the code is invalid.
+ */
+function dfrapi_get_capi_marketplace( string $code ) {
+    $code         = strtoupper( trim( $code ) );
+    $marketplaces = dfrapi_get_capi_marketplaces();
+
+    return $marketplaces[ $code ] ?? new WP_Error( 'invalid_capi_marketplace_code', 'Invalid Creator API marketplace code.', [ 'code' => $code ] );
+}
+
+/**
+ * Returns Creator API credentials.
+ *
+ * @return array {
+ *      Creator API credentials.
+ *
+ * @type string $id Creator API credential ID.
+ * @type string $secret Creator API credential secret.
+ * @type string $marketplace Marketplace code (Ex. US, CA, UK, DE, etc...)
+ * @type string $partner_tag Partner tag (Ex. xyz-20).
+ * @type string $version Version (2.1, 2.2 or 2.3).
+ * @type string $endpoint Access token generation endpoint URL.
+ *  }
+ */
+function dfrapi_get_capi_credentials(): array {
+
+    $credentials   = [];
+    $configuration = (array) get_option( 'dfrapi_configuration' );
+
+    $credentials['id']          = trim( $configuration['capi_credential_id'] ?? '' );
+    $credentials['secret']      = trim( $configuration['capi_credential_secret'] ?? '' );
+    $credentials['partner_tag'] = trim( $configuration['capi_partner_tag'] ?? '' );
+    $credentials['marketplace'] = trim( $configuration['capi_marketplace'] ?? 'US' );
+
+    $marketplace = dfrapi_get_capi_marketplace( $credentials['marketplace'] );
+
+    if ( ! is_wp_error( $marketplace ) ) {
+        $credentials['version']  = $marketplace['region']['version'];
+        $credentials['endpoint'] = $marketplace['region']['token_endpoint'];
+    }
+
+    return $credentials;
+}
+
+/**
+ * Checks if Amazon Creator API credentials exist.
+ *
+ * @since 1.4.0
+ *
+ * @return bool True if credentials exist, false otherwise.
+ */
+function dfrapi_capi_credentials_exist(): bool {
+
+    $credentials = dfrapi_get_capi_credentials();
+
+    $keys = [ 'id', 'secret', 'partner_tag', 'version', 'endpoint', 'marketplace' ];
+
+    foreach ( $keys as $key ) {
+        if ( empty( $credentials[ $key ] ) ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Returns an Amazon Creator API access token.
+ *
+ * @since 1.4.0
+ *
+ * @return string|WP_Error The access token or WP_Error on failure.
+ */
+function dfrapi_get_capi_access_token() {
+
+    $transient_key = 'dfrapi_capi_access_token';
+
+    $capi_access_token = get_transient( $transient_key );
+
+    if ( is_string( $capi_access_token ) && $capi_access_token !== '' ) {
+        return $capi_access_token;
+    }
+
+    if ( ! dfrapi_capi_credentials_exist() ) {
+        return new WP_Error( 'missing_capi_credentials', 'Missing Amazon Creators API credentials' );
+    }
+
+    $credentials = dfrapi_get_capi_credentials();
+
+    $response = wp_remote_request(
+            'https://' . $credentials['endpoint'],
+            [
+                    'method'  => 'POST',
+                    'headers' => [
+                            'Content-Type' => 'application/x-www-form-urlencoded',
+                    ],
+                    'body'    => [
+                            'grant_type'    => 'client_credentials',
+                            'client_id'     => $credentials['id'],
+                            'client_secret' => $credentials['secret'],
+                            'scope'         => 'creatorsapi/default',
+                    ],
+                    'timeout' => 15,
+            ]
+    );
+
+    if ( is_wp_error( $response ) ) {
+        error_log( $response->get_error_message() );
+
+        return $response;
+    }
+
+    $status = wp_remote_retrieve_response_code( $response );
+    $body   = wp_remote_retrieve_body( $response );
+
+    /**
+     * [
+     *      "access_token" => "eyJra.....YXE3A",
+     *      "expires_in" => 3600,
+     *      "token_type" => "Bearer",
+     * ]
+     */
+    $data = json_decode( $body, true );
+
+    if ( 200 !== $status || empty( $data['access_token'] ) ) {
+        $error_message = isset( $data['error'] ) ? $data['error'] : 'Failed to retrieve CAPI access token (HTTP ' . $status . ')';
+        error_log( '[Datafeedr CAPI] Token error: ' . $error_message );
+
+        return new WP_Error( 'capi_token_error', $error_message );
+    }
+
+    $capi_access_token = $data['access_token'];
+    $capi_expires_in   = (int) $data['expires_in'];
+
+    set_transient(
+            $transient_key,
+            $capi_access_token,
+            max( 60, $capi_expires_in - 60 ) // refresh 1 minute early
+    );
+
+    return $capi_access_token;
+}
+
+/**
+ * Returns a value from a multi-dimensional array using dot notation.
+ *
+ * @since 1.4.0
+ *
+ * @param array $array The array to search.
+ * @param string $path The path to the value using dot notation.
+ * @param mixed $default The default value to return if the path is not found.
+ *
+ * @return mixed The value from the array or the default value.
+ */
+function dfrapi_array_get_dot( array $array, string $path, $default = null ) {
+
+    foreach ( explode( '.', $path ) as $key ) {
+
+        if ( ! is_array( $array ) || ! array_key_exists( $key, $array ) ) {
+            return $default;
+        }
+
+        $array = $array[ $key ];
+    }
+
+    return $array;
+}
+
+/**
+ * Transforms a CAPI item array into a Datafeedr product array.
+ *
+ * @since 1.4.0
+ *
+ * @param array $item The CAPI item data.
+ *
+ * @return array The transformed Datafeedr product array.
+ */
+function dfrapi_transform_capi_item_into_datafeedr_product_array( array $item ): array {
+
+    $product = [];
+    $asin    = dfrapi_array_get_dot( $item, 'asin', '' );
+
+    // Hard-coded values.
+    $product['id']               = 7777 . $asin;
+    $product['v5_id']            = 7777 . $asin;
+    $product['network_id']       = 7777;
+    $product['source_id']        = 7777;
+    $product['merchant_id']      = 7777;
+    $product['asin']             = $asin;
+    $product['v5_suid']          = $asin;
+    $product['network']          = 'Amazon';
+    $product['source']           = 'Amazon';
+    $product['merchant']         = 'Amazon';
+    $product['time_added']       = date_i18n( 'Y-m-d H:i:s' );
+    $product['time_updated']     = date_i18n( 'Y-m-d H:i:s' );
+    $product['iscommissionable'] = 1;
+
+    // Specific item values.
+    $product['name']         = dfrapi_array_get_dot( $item, 'itemInfo.title.displayValue' );
+    $product['description']  = dfrapi_array_get_dot( $item, 'itemInfo.title.displayValue' );
+
+    $features = dfrapi_array_get_dot( $item, 'itemInfo.features.displayValues' );
+    if ( is_array( $features ) && ! empty( $features ) ) {
+        $product['description'] = implode( ' ', $features );
+    }
+
+    $product['brand']        = dfrapi_array_get_dot( $item, 'itemInfo.byLineInfo.brand.displayValue' );
+    $product['color']        = dfrapi_array_get_dot( $item, 'itemInfo.productInfo.color.displayValue' );
+    $product['manufacturer'] = dfrapi_array_get_dot( $item, 'itemInfo.byLineInfo.manufacturer.displayValue' );
+    $product['url']          = dfrapi_array_get_dot( $item, 'detailPageURL' );
+    $product['ref_url']      = dfrapi_array_get_dot( $item, 'detailPageURL' );
+    $product['image']        = dfrapi_array_get_dot( $item, 'images.primary.large.url' );
+    $product['thumbnail']    = dfrapi_array_get_dot( $item, 'images.primary.medium.url' );
+
+    $upc  = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.upcs.displayValues.0' );
+    $ean  = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.eans.displayValues.0' );
+    $isbn = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.isbns.displayValues.0' );
+    $gtin = dfrapi_array_get_dot( $item, 'itemInfo.externalIds.gtins.displayValues.0' );
+
+    if ( $upc ) {
+        $product['upc'] = $upc;
+    }
+    if ( $ean ) {
+        $product['ean'] = $ean;
+    }
+    if ( $isbn ) {
+        $product['isbn'] = $isbn;
+    }
+    if ( $gtin ) {
+        $product['gtin'] = $gtin;
+    }
+
+    if ( ! empty( $product['upc'] ) ) {
+        $product['barcode'] = $product['upc'];
+    } elseif ( ! empty( $product['ean'] ) ) {
+        $product['barcode'] = $product['ean'];
+    } elseif ( ! empty( $product['isbn'] ) ) {
+        $product['barcode'] = $product['isbn'];
+    } elseif ( ! empty( $product['gtin'] ) ) {
+        $product['barcode'] = $product['gtin'];
+    }
+
+    $listings = dfrapi_array_get_dot( $item, 'offersV2.listings', [] );
+
+    $info = [];
+
+    foreach ( $listings as $listing ) {
+
+        // Valid Condition Values: New, Used, Refurbished, Unknown
+        $condition = strtolower( dfrapi_array_get_dot( $listing, 'condition.value' ) );
+
+        // If the list price is missing, use the current price as the base price
+        $price_amount      = dfrapi_array_get_dot( $listing, 'price.money.amount', 0 );
+        $list_price_amount = dfrapi_array_get_dot( $listing, 'price.savingBasis.money.amount' );
+        $regular_price     = $list_price_amount !== null ? $list_price_amount : $price_amount;
+
+        // Add pricing info for each $condition.
+        $info[ $condition ]['currency']     = dfrapi_array_get_dot( $listing, 'price.money.currency', 'USD' );
+        $info[ $condition ]['price']        = dfrapi_price_to_int( $regular_price );
+
+        $saleprice = dfrapi_price_to_int( $price_amount );
+        if ( $saleprice < $info[ $condition ]['price'] ) {
+            $info[ $condition ]['saleprice'] = $saleprice;
+        }
+
+        $info[ $condition ]['finalprice']   = dfrapi_price_to_int( $price_amount );
+        $info[ $condition ]['salediscount'] = dfrapi_array_get_dot( $listing, 'price.savings.percentage', 0 );
+
+        // Set the usedprice if applicable.
+        if ( in_array( $condition, [ 'used', 'refurbished' ], true ) ) {
+            $info[ $condition ]['usedprice'] = dfrapi_price_to_int( $price_amount );
+        }
+
+        // Set `onsale`
+        $info[ $condition ]['onsale'] = ( $info[ $condition ]['finalprice'] < $info[ $condition ]['price'] ) ? 1 : 0;
+
+        // Set availability
+        $availability = dfrapi_array_get_dot( $listing, 'availability.type' );
+        if ( in_array( $availability, [ 'IN_STOCK', 'IN_STOCK_SCARCE' ], true ) ) {
+            $info[ $condition ]['instock'] = 1;
+        } elseif ( in_array( $availability, [ 'UNKNOWN' ], true ) ) {
+            $info[ $condition ]['instock'] = 9;
+        } else {
+            $info[ $condition ]['instock'] = 0;
+        }
+    }
+
+    // Set the `usedprice` key if a used or refurbished listing exists.
+    if ( isset( $info['used']['finalprice'] ) ) {
+        $product['usedprice'] = $info['used']['finalprice'];
+    } elseif ( isset( $info['refurbished']['finalprice'] ) ) {
+        $product['usedprice'] = $info['refurbished']['finalprice'];
+    }
+
+    // Set defaults from priority condition
+    foreach ( [ 'new', 'unknown', 'used', 'refurbished' ] as $cond ) {
+        if ( isset( $info[ $cond ] ) ) {
+            $product = array_merge( $product, $info[ $cond ] );
+            break;
+        }
+    }
+
+    /**
+     * Filters the transformed Datafeedr product array.
+     *
+     * @since 1.0.0
+     *
+     * @param array $product The transformed Datafeedr product array.
+     * @param array $item The original CAPI item data.
+     */
+    return apply_filters( 'dfrapi_transform_capi_item_into_datafeedr_product_array', $product, $item );
 }

@@ -1473,7 +1473,7 @@ function dfrapi_use_legacy_image_importer(): bool {
  *
  * @return void
  */
-function dfrapi_admin_notice( string $message, string $status, string $heading = null, string $plugin = null ) {
+function dfrapi_admin_notice( string $message, string $status, ?string $heading = null, ?string $plugin = null ) {
     $plugin    = $plugin ? esc_html( trim( $plugin ) ) : '';
     $heading   = $heading ? esc_html( trim( $heading ) ) : '';
     $separator = $plugin && $heading ? ' &mdash; ' : '';

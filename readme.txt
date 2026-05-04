@@ -7,7 +7,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
 Tested up to: 7.0-beta
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,9 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.4.1 - 2026/05/04 =
+* Fixed Deprecated notice for dfrapi_admin_notice() function.
 
 = 1.4.0 - 2026/03/23 =
 * Added support for Amazon's Creators API program.

@@ -289,11 +289,14 @@ function dfrapi_update_transient_whitelist( $option_name ) {
 /**
  * Add affiliate ID and tracking ID to an affiliate link.
  *
- * @param array $product An array of a single Datafeedr $product.
+ * @param array|Dfrapi_Product $product A single Datafeedr $product.
  *
  * @return string A URL with affiliate ID inserted or an empty string if the affiliate ID is missing.
  */
 function dfrapi_url( $product ) {
+
+    // Normalize the product array (and accept Dfrapi_Product objects).
+    $product = dfrapi_product( $product )->to_array();
 
     // Get all the user's selected networks.
     $networks = (array) get_option( 'dfrapi_networks' );
@@ -360,9 +363,12 @@ function dfrapi_get_amazon_associate_tag() {
  *
  * Since 1.0.39
  *
- * @param $product - An array of a single's product's information.
+ * @param array|Dfrapi_Product $product A single Datafeedr $product.
  */
 function dfrapi_impression_url( $product ) {
+
+    // Normalize the product array (and accept Dfrapi_Product objects).
+    $product = dfrapi_product( $product )->to_array();
 
     $impression_url = ( isset( $product['impressionurl'] ) ) ? trim( $product['impressionurl'] ) : false;
 
@@ -374,7 +380,7 @@ function dfrapi_impression_url( $product ) {
     $networks = (array) get_option( 'dfrapi_networks' );
 
     // Extract the affiliate ID from the $networks array.
-    $affiliate_id = $networks['ids'][ $product['source_id'] ]['aid'];
+    $affiliate_id = $networks['ids'][ $product['source_id'] ]['aid'] ?? '';
     $affiliate_id = apply_filters( 'dfrapi_affiliate_id', $affiliate_id, $product, $networks );
     $affiliate_id = trim( $affiliate_id );
 
@@ -1225,6 +1231,54 @@ function dfrapi_get_price( $value, $currency_code, $context = null ): string {
 }
 
 /**
+ * Returns an instance of the Dfrapi_Product class.
+ *
+ * Idempotent: accepts a product array (in raw API or canonical form) or an
+ * existing Dfrapi_Product object and always returns a Dfrapi_Product.
+ *
+ * @since 1.4.2
+ *
+ * @param array|Dfrapi_Product $product A single Datafeedr product.
+ *
+ * @return Dfrapi_Product
+ */
+function dfrapi_product( $product ): Dfrapi_Product {
+    return $product instanceof Dfrapi_Product ? $product : new Dfrapi_Product( (array) $product );
+}
+
+/**
+ * Returns an instance of the Dfrapi_Merchant class.
+ *
+ * Idempotent: accepts a merchant array (in raw API or canonical form) or an
+ * existing Dfrapi_Merchant object and always returns a Dfrapi_Merchant.
+ *
+ * @since 1.4.2
+ *
+ * @param array|Dfrapi_Merchant $merchant A single Datafeedr merchant.
+ *
+ * @return Dfrapi_Merchant
+ */
+function dfrapi_merchant( $merchant ): Dfrapi_Merchant {
+    return $merchant instanceof Dfrapi_Merchant ? $merchant : new Dfrapi_Merchant( (array) $merchant );
+}
+
+/**
+ * Returns an instance of the Dfrapi_Network class.
+ *
+ * Idempotent: accepts a network array (in raw API or canonical form) or an
+ * existing Dfrapi_Network object and always returns a Dfrapi_Network.
+ *
+ * @since 1.4.2
+ *
+ * @param array|Dfrapi_Network $network A single Datafeedr network.
+ *
+ * @return Dfrapi_Network
+ */
+function dfrapi_network( $network ): Dfrapi_Network {
+    return $network instanceof Dfrapi_Network ? $network : new Dfrapi_Network( (array) $network );
+}
+
+/**
  * Returns an instance of the Dfrapi_Image_Data class.
  *
  * @param string $url The URL of the image we will be uploading.
@@ -1895,7 +1949,7 @@ function dfrapi_api_get_all_networks( $nids = array() ) {
     if ( false === $networks || empty ( $networks ) ) {
         $api = dfrapi_api( dfrapi_get_transport_method() );
         try {
-            $networks = $api->getNetworks( $nids, true );
+            $networks = array_map( [ 'Dfrapi_Network', 'normalize' ], $api->getNetworks( $nids, true ) );
             dfrapi_api_set_network_types( $networks );
             dfrapi_api_update_status( $api );
         } catch ( Exception $err ) {
@@ -2058,7 +2112,7 @@ function dfrapi_api_get_all_merchants( $nid ) {
     if ( false === $merchants || empty ( $merchants ) ) {
         $api = dfrapi_api( dfrapi_get_transport_method() );
         try {
-            $merchants = $api->getMerchants( array( intval( $nid ) ), true );
+            $merchants = array_map( [ 'Dfrapi_Merchant', 'normalize' ], $api->getMerchants( array( intval( $nid ) ), true ) );
             dfrapi_api_update_status( $api );
         } catch ( Exception $err ) {
             return dfrapi_api_error( $err );
@@ -2096,7 +2150,7 @@ function dfrapi_api_get_merchants_by_id( $ids, $includeEmpty = false ) {
     if ( false === $merchants || empty ( $merchants ) ) {
         $api = dfrapi_api( dfrapi_get_transport_method() );
         try {
-            $merchants = $api->getMerchantsById( $ids, $includeEmpty );
+            $merchants = array_map( [ 'Dfrapi_Merchant', 'normalize' ], $api->getMerchantsById( $ids, $includeEmpty ) );
             dfrapi_api_update_status( $api );
         } catch ( Exception $err ) {
             return dfrapi_api_error( $err );
@@ -2203,7 +2257,7 @@ function dfrapi_api_get_products_by_id( $ids, $ppp = 20, $page = 1 ) {
 
         $search->addFilter( 'id IN ' . implode( ",", $id_range ) );
         $search->setLimit( $ppp );
-        $products = $search->execute();
+        $products = array_map( [ 'Dfrapi_Product', 'normalize' ], $search->execute() );
 
         // Keep track of IDs which were returned via the API to compare with $id_range (unreturned)
         $included_ids = array();
@@ -2417,7 +2471,7 @@ function dfrapi_api_get_products_by_query( $query, $ppp = 20, $page = 1, $exclud
         $search->setOffset( $offset );
 
         // Execute query.
-        $products = $search->execute();
+        $products = array_map( [ 'Dfrapi_Product', 'normalize' ], $search->execute() );
 
         // Update API status
         dfrapi_api_update_status( $api );
@@ -2698,7 +2752,7 @@ function dfrapi_get_affiliate_id_by_network_id( int $network_id, $default = fals
  *
  * @since 1.3.1
  *
- * @param array $product A Datafeedr Product array (as returned from Datafeedr API).
+ * @param array|Dfrapi_Product $product A Datafeedr Product array (as returned from Datafeedr API) or a Dfrapi_Product object.
  * @param string|array $fields A single field or an array of fields to return. Examples:
  *      - 'barcode'
  *      - ['barcode']
@@ -2708,7 +2762,10 @@ function dfrapi_get_affiliate_id_by_network_id( int $network_id, $default = fals
  *
  * @return mixed
  */
-function dfrapi_get_fields_from_product( array $product, $fields, $default = null, $concatenate = false ) {
+function dfrapi_get_fields_from_product( $product, $fields, $default = null, $concatenate = false ) {
+
+    // Normalize the product array (and accept Dfrapi_Product objects).
+    $product = dfrapi_product( $product )->to_array();
 
     if ( ! is_string( $fields ) && ! is_array( $fields ) ) {
         return $default;

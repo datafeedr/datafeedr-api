@@ -74,6 +74,13 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 
 == Changelog ==
 
+= 1.4.2 - unreleased =
+* Added Dfrapi_Product, Dfrapi_Merchant and Dfrapi_Network data object classes with named getters (e.g. $product->get_name(), $product->get_list_price()) and generic get()/has() access for custom fields. Create via new dfrapi_product(), dfrapi_merchant() and dfrapi_network() functions. Existing functions still return arrays; nothing changes for existing code.
+* Added a normalization layer that maps new API field names (id, network, network_id) back to their legacy names (_id, source, source_id) so future API changes won't affect existing sites.
+* Added dfrapi_normalize_product_array, dfrapi_normalize_merchant_array and dfrapi_normalize_network_array filters.
+* dfrapi_url(), dfrapi_impression_url() and dfrapi_get_fields_from_product() now also accept a Dfrapi_Product object.
+* Fixed an undefined index notice in dfrapi_impression_url() when a product's network is not among the user's selected networks.
+
 = 1.4.1 - 2026/05/04 =
 * Fixed Deprecated notice for dfrapi_admin_notice() function.
 

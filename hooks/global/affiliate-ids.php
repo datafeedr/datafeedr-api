@@ -21,8 +21,10 @@ add_filter( 'dfrapi_api_options', 'dfrapi_update_api_version_params' );
  * Replaces $affiliate_id with "zmid".
  */
 function dfrapi_get_zanox_zmid( $affiliate_id, $product, $networks ) {
-	if ( isset( $product['source'] ) && preg_match( "/\bZanox\b/", $product['source'] ) ) {
-		$zanox        = dfrapi_api_get_zanox_zmid( $product['merchant_id'], $affiliate_id );
+	$product = dfrapi_product( $product );
+
+	if ( preg_match( "/\bZanox\b/", $product->get_source() ) ) {
+		$zanox        = dfrapi_api_get_zanox_zmid( $product->get_merchant_id(), $affiliate_id );
 		$affiliate_id = ( ! isset( $zanox[0]['zmid'] ) ) ? '___MISSING___' : $zanox[0]['zmid'];
 	}
 
@@ -39,8 +41,10 @@ add_filter( 'dfrapi_affiliate_id', 'dfrapi_get_zanox_zmid', 10, 3 );
  * @return string Affiliate ID.
  */
 function dfrapi_get_ph_camref( $affiliate_id, $product, $networks ) {
-	if ( isset( $product['source'] ) && preg_match( "/\bPartnerize\b/", $product['source'] ) ) {
-		$ph           = dfrapi_api_get_ph_camref( $product['merchant_id'] );
+	$product = dfrapi_product( $product );
+
+	if ( preg_match( "/\bPartnerize\b/", $product->get_source() ) ) {
+		$ph           = dfrapi_api_get_ph_camref( $product->get_merchant_id() );
 		$affiliate_id = ( ! isset( $ph[0]['camref'] ) ) ? '___MISSING___' : $ph[0]['camref'];
 	}
 
@@ -57,8 +61,10 @@ add_filter( 'dfrapi_affiliate_id', 'dfrapi_get_ph_camref', 10, 3 );
  * @return string Affiliate ID.
  */
 function dfrapi_get_effiliation_affiliate_id( $affiliate_id, $product, $networks ) {
-	if ( isset( $product['source'] ) && preg_match( "/\bEffiliation\b/", $product['source'] ) ) {
-		$effiliation  = dfrapi_api_get_effiliation_affiliate_id( $product['merchant_id'] );
+	$product = dfrapi_product( $product );
+
+	if ( preg_match( "/\bEffiliation\b/", $product->get_source() ) ) {
+		$effiliation  = dfrapi_api_get_effiliation_affiliate_id( $product->get_merchant_id() );
 		$affiliate_id = $effiliation === 'dfrapi_unapproved_effiliation_merchant' ? '___MISSING___' : $effiliation;
 	}
 
@@ -78,7 +84,7 @@ add_filter( 'dfrapi_affiliate_id', 'dfrapi_get_effiliation_affiliate_id', 10, 3 
  */
 function dfrapi_insert_affiliate_gateway_sid_into_affiliate_link( $url, $product, $tracking_id ) {
 
-	if ( $product['source'] !== 'The Affiliate Gateway' ) {
+	if ( dfrapi_product( $product )->get_source() !== 'The Affiliate Gateway' ) {
 		return $url;
 	}
 
@@ -106,7 +112,7 @@ add_filter( 'dfrapi_after_tracking_id_insertion', 'dfrapi_insert_affiliate_gatew
  */
 function dfrapi_insert_adservice_mid_into_affiliate_link( $url, $product, $tracking_id ) {
 
-	if ( ! dfrapi_str_contains( $product['source'], 'Adservice' ) ) {
+	if ( ! dfrapi_str_contains( dfrapi_product( $product )->get_source(), 'Adservice' ) ) {
 		return $url;
 	}
 
@@ -131,7 +137,7 @@ add_filter( 'dfrapi_after_tracking_id_insertion', 'dfrapi_insert_adservice_mid_i
  */
 function dfrapi_insert_belboon_adspace_id_into_affiliate_link( $url, $product, $affiliate_id ): string {
 
-	if ( strpos( $product['source'], 'Belboon' ) === false ) {
+	if ( strpos( dfrapi_product( $product )->get_source(), 'Belboon' ) === false ) {
 		return $url;
 	}
 

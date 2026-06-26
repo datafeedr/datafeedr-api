@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 7.0-beta
-Stable tag: 1.4.1
+Tested up to: 7.0
+Stable tag: 1.4.2
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,10 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.4.2 - 2026/06/26 =
+* Fixed Awin merchant list failing with a misleading credentials error when Awin's API rate limit (20 requests/minute) was hit. The joined-programs list is now cached, and a 429 response triggers a short back-off instead of re-calling Awin on every page load.
+* Added the Awin joined-programs cache and rate-limit back-off transients to the "Delete Cached API Data" tool so they can be purged.
 
 = 1.4.1 - 2026/05/04 =
 * Fixed Deprecated notice for dfrapi_admin_notice() function.

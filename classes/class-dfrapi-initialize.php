@@ -20,6 +20,22 @@ if ( ! class_exists( 'Dfrapi_Initialize' ) ) {
 		}
 
 		function ajax_search_form() {
+
+			check_ajax_referer( 'dfrapi_search_form', 'dfrapi_security' );
+
+			/**
+			 * Filters the capability required to use the search form's AJAX handler.
+			 *
+			 * @since 1.4.3
+			 *
+			 * @param string $capability Default 'edit_posts'.
+			 */
+			$capability = apply_filters( 'dfrapi_search_form_capability', 'edit_posts' );
+
+			if ( ! current_user_can( $capability ) ) {
+				wp_die( -1, 403 );
+			}
+
 			$sform = new Dfrapi_SearchForm();
 			echo $sform->ajaxHandler();
 			die;

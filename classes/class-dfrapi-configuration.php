@@ -444,17 +444,17 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
 				// Validate "access_id"
 				if ( $key === 'access_id' ) {
-					$new_input['access_id'] = trim( $value );
+					$new_input['access_id'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate "secret_key"
 				if ( $key === 'secret_key' ) {
-					$new_input['secret_key'] = trim( $value );
+					$new_input['secret_key'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate "api_version"
 				if ( $key === 'api_version' ) {
-					$api_version = trim( $value );
+					$api_version = dfrapi_sanitize_setting_text( $value );
 
 					$new_input['api_version'] = in_array( $api_version, dfrapi_get_valid_api_versions(), true )
 						? $api_version
@@ -463,17 +463,20 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
 				// Validate "transport_method"
 				if ( $key === 'transport_method' ) {
-					$new_input['transport_method'] = trim( $value );
+					$transport_method              = dfrapi_sanitize_setting_text( $value );
+					$new_input['transport_method'] = in_array( $transport_method, [ 'curl', 'file', 'socket' ], true )
+						? $transport_method
+						: 'curl';
 				}
 
 				// Validate "disable_api"
 				if ( $key === 'disable_api' ) {
-					$new_input['disable_api'] = trim( $value );
+					$new_input['disable_api'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate Amazon API
                 if ( $key === 'amazon_api' ) {
-                    $amazon_api              = strtolower( trim( $value ) );
+                    $amazon_api              = strtolower( dfrapi_sanitize_setting_text( $value ) );
                     $new_input['amazon_api'] = in_array( $amazon_api, [ 'paapi', 'capi' ], true )
                             ? $amazon_api
                             : 'paapi';
@@ -481,43 +484,47 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
 				// Validate Amazon Access Key ID
 				if ( $key === 'amazon_access_key_id' ) {
-					$new_input['amazon_access_key_id'] = trim( $value );
+					$new_input['amazon_access_key_id'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate Amazon Secret Access Key
 				if ( $key === 'amazon_secret_access_key' ) {
-					$new_input['amazon_secret_access_key'] = trim( $value );
+					$new_input['amazon_secret_access_key'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate Amazon Tracking ID
 				if ( $key === 'amazon_tracking_id' ) {
-					$new_input['amazon_tracking_id'] = trim( $value );
+					$new_input['amazon_tracking_id'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate Amazon Locale
 				if ( $key === 'amazon_locale' ) {
-					$new_input['amazon_locale'] = trim( $value );
+					$amazon_locale              = strtolower( dfrapi_sanitize_setting_text( $value ) );
+					$valid_amazon_locales       = [ 'au', 'br', 'ca', 'fr', 'de', 'in', 'it', 'jp', 'mx', 'nl', 'sg', 'sa', 'es', 'se', 'tr', 'ae', 'uk', 'us' ];
+					$new_input['amazon_locale'] = in_array( $amazon_locale, $valid_amazon_locales, true )
+						? $amazon_locale
+						: 'us';
 				}
 
 				// Validate CAPI Credential ID
 				if ( $key === 'capi_credential_id' ) {
-					$new_input['capi_credential_id'] = trim( $value );
+					$new_input['capi_credential_id'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate CAPI Credential Secret
 				if ( $key === 'capi_credential_secret' ) {
-					$new_input['capi_credential_secret'] = trim( $value );
+					$new_input['capi_credential_secret'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate CAPI Partner Tag
 				if ( $key === 'capi_partner_tag' ) {
-					$new_input['capi_partner_tag'] = trim( $value );
+					$new_input['capi_partner_tag'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate CAPI Marketplace
                 if ( $key === 'capi_marketplace' ) {
 
-                    $marketplace        = strtoupper( trim( $value ) );
+                    $marketplace        = strtoupper( dfrapi_sanitize_setting_text( $value ) );
                     $valid_marketplaces = array_keys( dfrapi_get_capi_marketplaces() );
 
                     $new_input['capi_marketplace'] = in_array( $marketplace, $valid_marketplaces, true )
@@ -527,42 +534,42 @@ if ( ! class_exists( 'Dfrapi_Configuration' ) ) {
 
 				// Validate PH Application Key
 				if ( $key === 'ph_application_key' ) {
-					$new_input['ph_application_key'] = trim( $value );
+					$new_input['ph_application_key'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate PH User API Key
 				if ( $key === 'ph_user_api_key' ) {
-					$new_input['ph_user_api_key'] = trim( $value );
+					$new_input['ph_user_api_key'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate PH Publisher Key
 				if ( $key === 'ph_publisher_id' ) {
-					$new_input['ph_publisher_id'] = trim( $value );
+					$new_input['ph_publisher_id'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate Effiliation Key
 				if ( $key === 'effiliation_key' ) {
-					$new_input['effiliation_key'] = trim( $value );
+					$new_input['effiliation_key'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate Awin Acceess Token
 				if ( $key === 'awin_access_token' ) {
-					$new_input['awin_access_token'] = trim( $value );
+					$new_input['awin_access_token'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate The Affiliate Gateway SID
 				if ( $key === 'affiliate_gateway_sid' ) {
-					$new_input['affiliate_gateway_sid'] = trim( $value );
+					$new_input['affiliate_gateway_sid'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate Adservice MID
 				if ( $key === 'adservice_mid' ) {
-					$new_input['adservice_mid'] = trim( $value );
+					$new_input['adservice_mid'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Validate Belboon AID
 				if ( $key === 'belboon_aid' ) {
-					$new_input['belboon_aid'] = trim( $value );
+					$new_input['belboon_aid'] = dfrapi_sanitize_setting_text( $value );
 				}
 
 				// Enable HelpScout Beacon

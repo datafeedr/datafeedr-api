@@ -60,11 +60,15 @@ function dfrapi_remove_unapproved_awin_merchants( $merchants, $network ) {
 		}
 
 		$url = sprintf(
-			'https://api.awin.com/publishers/%1$s/programmes?relationship=joined&accessToken=%2$s',
-			$affiliate_id, $awin_access_token
+			'https://api.awin.com/publishers/%1$s/programmes?relationship=joined',
+			rawurlencode( $affiliate_id )
 		);
 
-		$response = wp_remote_get( $url, [ 'timeout' => 15 ] );
+		// Send the token in a header so it isn't written to proxy and server access logs.
+		$response = wp_remote_get( $url, [
+			'timeout' => 15,
+			'headers' => [ 'Authorization' => 'Bearer ' . $awin_access_token ],
+		] );
 		$code     = (int) wp_remote_retrieve_response_code( $response );
 
 		if ( ! is_wp_error( $response ) && 200 === $code ) {

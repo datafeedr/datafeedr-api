@@ -19,6 +19,11 @@ function dfrapi_include_helpscout_beacon() {
 		return;
 	}
 
+	// Only load the third-party Beacon script for users who manage the plugin.
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
 	include_once DFRAPI_PATH . 'js/helpscout-beacon.php';
 }
 

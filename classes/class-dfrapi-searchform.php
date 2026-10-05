@@ -1,5 +1,8 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
+
 class Dfrapi_SearchForm
 {
     function fields() {
@@ -454,11 +457,11 @@ class Dfrapi_SearchForm
             $this->selectedMerchants();
 
         foreach($all as $obj) {
-            $id = $obj['_id'];
-            $nid = ($kind == 'network') ? $obj['_id'] : $obj['source_id'];
-            $group_class = $this->groupClass($nid);
+            $id = absint($obj['_id']);
+            $nid = absint(($kind == 'network') ? $obj['_id'] : $obj['source_id']);
+            $group_class = esc_attr($this->groupClass($nid));
 
-            $name = $obj['name'];
+            $name = esc_html($obj['name']);
             $checked = in_array($id, $value) ? "checked='checked'" : "";
 
             $cells .= "
@@ -492,7 +495,7 @@ class Dfrapi_SearchForm
         $names = array();
         foreach($all as $obj) {
             if(in_array($obj['_id'], $value)) {
-                $names []= "<span>{$obj['name']}</span>";
+                $names []= '<span>' . esc_html($obj['name']) . '</span>';
                 if(count($names) >= $maxNames)
                     break;
             }
@@ -506,7 +509,7 @@ class Dfrapi_SearchForm
 
     function chooseBox($kind, $field, $index, $value) {
         $pfx = $this->inputPrefix($index);
-        $value = implode(',', $this->ary($value));
+        $value = esc_attr(implode(',', $this->ary($value)));
         $choose = __( 'choose', 'datafeedr-api' );
         return "
             <div class='dfrapi_choose_box' rel='{$kind}'>
@@ -519,7 +522,7 @@ class Dfrapi_SearchForm
 
 	function ajaxHandler() {
 		$command           = $this->get( $_POST, 'command' );
-		$value             = $this->ary( $this->get( $_POST, 'value' ) );
+		$value             = array_values( array_unique( array_filter( array_map( 'absint', $this->ary( $this->get( $_POST, 'value' ) ) ) ) ) );
 		$this->useSelected = (int) $this->get( $_POST, 'useSelected', 1 );
 
 		if ( $command === 'choose_network' ) {

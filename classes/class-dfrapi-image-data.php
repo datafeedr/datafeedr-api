@@ -1,5 +1,8 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
+
 class Dfrapi_Image_Data {
 
 	/**

@@ -1,5 +1,8 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
+
 
 /**
  * Class Dfrapi_Plugin_Dependency

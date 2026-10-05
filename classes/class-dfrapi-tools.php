@@ -91,7 +91,6 @@ if ( ! class_exists( 'Dfrapi_Tools' ) ) {
 		}
 
 		function register_settings() {
-			register_setting( $this->page, $this->key, array( $this, 'validate' ) );
 
 			add_settings_section( 'test_connection', __( 'Test API Connection', 'datafeedr-api' ), array( &$this, 'section_test_connection_desc' ), $this->page );
 			add_settings_section( 'delete_transient_data', __( 'Delete Cached API Data', 'datafeedr-api' ), array( &$this, 'section_delete_transient_data_desc' ), $this->page );

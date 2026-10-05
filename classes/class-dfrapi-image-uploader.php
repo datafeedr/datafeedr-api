@@ -1,5 +1,8 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
+
 class Dfrapi_Image_Uploader {
 
 	/**
@@ -200,7 +203,6 @@ class Dfrapi_Image_Uploader {
 		$custom_args = [
 			'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0',
 			'stream'     => true,
-			'sslverify'  => false,
 		];
 
 		$custom_args = apply_filters(

@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 7.0
-Stable tag: 1.4.2
+Tested up to: 7.1
+Stable tag: 1.4.3
 
 Connect to the Datafeedr API.
 
@@ -73,6 +73,25 @@ Our support area can be found here: [https://datafeedrapi.helpscoutdocs.com/](ht
 4. Account usage overview
 
 == Changelog ==
+
+= 1.4.3 - 2026/10/05 =
+* Security: The search form AJAX handler now requires a valid nonce and the `edit_posts` capability (filterable via `dfrapi_search_form_capability`). Previously any logged-in user could call it.
+* Security: Search form AJAX now only accepts numeric network and merchant IDs.
+* Security: All requests to the Datafeedr API now use HTTPS.
+* Security: Requests to the Effiliation API now use HTTPS.
+* Security: The Import page no longer unserializes objects. Imported network and merchant data is validated before it is saved.
+* Security: Network affiliate IDs and tracking IDs, merchant IDs and Configuration settings are now sanitized when saved.
+* Security: Escaped network names, merchant names, affiliate IDs, tracking IDs, saved search form values, API error messages and the API query display in the WordPress Admin Area.
+* Security: The merchant search box on the Merchants page and in the search form popups no longer renders names as HTML.
+* Security: "Delete Cached API Data" and "Test Connection" on the Tools page now require the `manage_options` capability (filterable via `dfrapi_tools_capability`).
+* Security: The Awin API token is now sent in an Authorization header instead of the URL.
+* Security: Image downloads no longer disable SSL certificate verification when retrying a failed download.
+* Security: Added direct file access protection to remaining PHP files.
+* Datafeedr API admin notices and the Datafeedr support (HelpScout Beacon) link are now only shown to users with the `manage_options` capability.
+* Removed unused settings registrations from the Tools and Export pages.
+* Fixed fatal errors when an XML API response cannot be parsed and when displaying certain API errors on the Merchants page.
+* Fixed API errors on the Networks and Merchants pages displaying "Array" instead of the error details.
+* Added `dfrapi_sanitize_setting_text()`, `dfrapi_sanitize_networks_option()` and `dfrapi_sanitize_merchants_option()` helper functions.
 
 = 1.4.2 - 2026/06/26 =
 * Fixed Awin merchant list failing with a misleading credentials error when Awin's API rate limit (20 requests/minute) was hit. The joined-programs list is now cached, and a 429 response triggers a short back-off instead of re-calling Awin on every page load.

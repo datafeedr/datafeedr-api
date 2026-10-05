@@ -9,8 +9,8 @@ Text Domain: datafeedr-api
 License: GPL v3
 Requires PHP: 7.4
 Requires at least: 3.8
-Tested up to: 7.0
-Version: 1.4.2
+Tested up to: 7.1
+Version: 1.4.3
 
 Datafeedr API Plugin
 Copyright (C) 2026, Datafeedr - help@datafeedr.com
@@ -29,10 +29,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Define constants.
  */
-define( 'DFRAPI_VERSION', '1.4.2' );
+define( 'DFRAPI_VERSION', '1.4.3' );
 define( 'DFRAPI_URL', plugin_dir_url( __FILE__ ) ); // https://example.com/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_PATH', plugin_dir_path( __FILE__ ) ); // /absolute/path/to/wp-content/plugins/datafeedr-api/
 define( 'DFRAPI_BASENAME', plugin_basename( __FILE__ ) ); // datafeedr-api/datafeedr-api.php

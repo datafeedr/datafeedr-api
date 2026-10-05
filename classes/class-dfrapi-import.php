@@ -88,8 +88,9 @@ if ( ! class_exists( 'Dfrapi_Import' ) ) {
 			if ( isset( $networks[0] ) ) {
 				$networks = str_replace( array("[NETWORKS]", "[/NETWORKS]"), "", $networks[0]);
 				$networks = trim( $networks );
-				if ( strlen( $networks ) > 1 ) {
-					update_option( 'dfrapi_networks', unserialize( $networks ) );
+				$networks = $this->unserialize_data( $networks );
+				if ( is_array( $networks ) ) {
+					update_option( 'dfrapi_networks', dfrapi_sanitize_networks_option( $networks ) );
 				}
 			}
 
@@ -98,11 +99,32 @@ if ( ! class_exists( 'Dfrapi_Import' ) ) {
 			if ( isset( $merchants[0] ) ) {
 				$merchants = str_replace( array("[MERCHANTS]", "[/MERCHANTS]"), "", $merchants[0] );
 				$merchants = trim( $merchants );
-				if ( strlen( $merchants ) > 1 ) {
-					update_option( 'dfrapi_merchants', unserialize( $merchants ) );
+				$merchants = $this->unserialize_data( $merchants );
+				if ( is_array( $merchants ) ) {
+					update_option( 'dfrapi_merchants', dfrapi_sanitize_merchants_option( $merchants ) );
 				}
 			}
 
+		}
+
+		/**
+		 * Safely unserializes exported data. Objects are never instantiated.
+		 *
+		 * @since 1.4.3
+		 *
+		 * @param string $data
+		 *
+		 * @return array|null Array on success, null if $data is not a serialized array.
+		 */
+		private function unserialize_data( $data ) {
+
+			if ( strlen( $data ) <= 1 || ! is_serialized( $data ) ) {
+				return null;
+			}
+
+			$value = @unserialize( $data, [ 'allowed_classes' => false ] );
+
+			return is_array( $value ) ? $value : null;
 		}
 
 	} // class Dfrapi_Import

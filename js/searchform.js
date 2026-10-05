@@ -14,7 +14,8 @@ jQuery(function($) {
         params = $.extend({}, params, {
             action: 'search_form',
             command: command,
-            useSelected: $("#dfrapi_useSelected").val()
+            useSelected: $("#dfrapi_useSelected").val(),
+            dfrapi_security: (typeof dfrapiSearchForm !== "undefined") ? dfrapiSearchForm.nonce : ""
         });
         $.post(ajaxurl, params, fn);
     }

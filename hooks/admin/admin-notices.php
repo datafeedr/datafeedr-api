@@ -9,6 +9,10 @@ defined( 'ABSPATH' ) || exit;
  */
 function dfrapi_excessive_merchants_selected_admin_notice() {
 
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
 	$merchant_count = dfrapi_selected_merchant_count();
 
 	if ( $merchant_count < DFRAPI_EXCESSIVE_MERCHANT_COUNT ) {
@@ -37,6 +41,10 @@ add_action( 'admin_notices', 'dfrapi_excessive_merchants_selected_admin_notice' 
  */
 function dfrapi_datafeedr_api_keys_do_not_exist_notice() {
 
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
 	if ( dfrapi_datafeedr_api_keys_exist() ) {
 		return;
 	}
@@ -60,6 +68,10 @@ add_action( 'admin_notices', 'dfrapi_datafeedr_api_keys_do_not_exist_notice' );
  * @return void
  */
 function dfrapi_no_networks_selected_admin_notice() {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
 
 	// Don't display notice if at least one network has been selected.
 	if ( dfrapi_user_has_selected_networks() ) {
@@ -90,6 +102,10 @@ add_action( 'admin_notices', 'dfrapi_no_networks_selected_admin_notice' );
  * @return void
  */
 function dfrapi_no_merchants_selected_admin_notice() {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
 
 	// Don't display notice if at least one merchant has been selected.
 	if ( dfrapi_user_has_selected_merchants() ) {
@@ -126,6 +142,10 @@ add_action( 'admin_notices', 'dfrapi_no_merchants_selected_admin_notice' );
  */
 function dfrapi_api_usage_over_90_percent_admin_notice() {
 
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
 	if ( ! dfrapi_api_usage_over_90_percent() ) {
 		return;
 	}
@@ -149,6 +169,10 @@ add_action( 'admin_notices', 'dfrapi_api_usage_over_90_percent_admin_notice' );
  * @return void
  */
 function dfrapi_user_is_missing_affiliate_ids_admin_notice() {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
 
 	if ( ! dfrapi_user_is_missing_affiliate_ids() ) {
 		return;
@@ -178,6 +202,10 @@ add_action( 'admin_notices', 'dfrapi_user_is_missing_affiliate_ids_admin_notice'
  * @return void
  */
 function dfrapi_unapproved_partnerize_merchants_selected() {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
 
 	global $wpdb;
 
@@ -258,6 +286,10 @@ add_action( 'admin_notices', 'dfrapi_unapproved_partnerize_merchants_selected' )
  * @return void
  */
 function dfrapi_unapproved_effiliation_merchants_selected() {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
 
 	global $wpdb;
 

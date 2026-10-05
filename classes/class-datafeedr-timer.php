@@ -1,5 +1,8 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
+
 /**
  * Trait Datafeedr_Timer
  *

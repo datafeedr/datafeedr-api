@@ -287,6 +287,103 @@ function dfrapi_update_transient_whitelist( $option_name ) {
 }
 
 /**
+ * Sanitizes a single-line setting value such as an API key, affiliate ID or tracking ID.
+ *
+ * Unlike sanitize_text_field(), this does not remove percent-encoded octets (ie. "%2F"),
+ * which can legitimately appear in keys and tracking IDs.
+ *
+ * @since 1.4.3
+ *
+ * @param mixed $value
+ *
+ * @return string
+ */
+function dfrapi_sanitize_setting_text( $value ): string {
+    if ( ! is_scalar( $value ) ) {
+        return '';
+    }
+
+    $value = wp_strip_all_tags( (string) $value );
+    $value = preg_replace( '/[\x00-\x1F\x7F]/', '', $value );
+
+    return trim( $value );
+}
+
+/**
+ * Sanitizes the "dfrapi_networks" option. Only the expected structure is kept:
+ *
+ *  [ 'ids' => [ (int) network_id => [ 'nid' => '123', 'aid' => '...', 'tid' => '...' ] ] ]
+ *
+ * Networks without a "nid" (ie. unchecked networks) are removed.
+ *
+ * @since 1.4.3
+ *
+ * @param mixed $input
+ *
+ * @return array
+ */
+function dfrapi_sanitize_networks_option( $input ): array {
+
+    $clean = [ 'ids' => [] ];
+
+    if ( ! is_array( $input ) || empty( $input['ids'] ) || ! is_array( $input['ids'] ) ) {
+        return $clean;
+    }
+
+    foreach ( $input['ids'] as $network_id => $network ) {
+
+        $network_id = absint( $network_id );
+
+        if ( $network_id === 0 || ! is_array( $network ) || empty( $network['nid'] ) || ! is_scalar( $network['nid'] ) ) {
+            continue;
+        }
+
+        $entry = [ 'nid' => (string) absint( $network['nid'] ) ];
+
+        foreach ( [ 'aid', 'tid' ] as $field ) {
+            if ( isset( $network[ $field ] ) ) {
+                $entry[ $field ] = dfrapi_sanitize_setting_text( $network[ $field ] );
+            }
+        }
+
+        $clean['ids'][ $network_id ] = $entry;
+    }
+
+    return $clean;
+}
+
+/**
+ * Sanitizes the "dfrapi_merchants" option. Accepts an array of IDs or a comma-separated
+ * string of IDs. IDs are stored as numeric strings to match the existing stored format.
+ *
+ * @since 1.4.3
+ *
+ * @param mixed $input
+ *
+ * @return array
+ */
+function dfrapi_sanitize_merchants_option( $input ): array {
+
+    $ids = $input['ids'] ?? [];
+
+    if ( is_string( $ids ) ) {
+        $ids = explode( ',', $ids );
+    }
+
+    if ( ! is_array( $ids ) ) {
+        return [ 'ids' => [] ];
+    }
+
+    $ids = array_filter( array_map( static function ( $id ) {
+        $id = is_scalar( $id ) ? trim( (string) $id ) : '';
+
+        return ctype_digit( $id ) ? absint( $id ) : 0;
+    }, $ids ) );
+
+    return [ 'ids' => array_values( array_map( 'strval', array_unique( $ids ) ) ) ];
+}
+
+/**
  * Add affiliate ID and tracking ID to an affiliate link.
  *
  * @param array $product An array of a single Datafeedr $product.
@@ -410,12 +507,12 @@ function dfrapi_output_api_error( $data ) {
     <div class="dfrapi_api_error">
         <div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
         <div class="dfrapi_msg">
-            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
+            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo esc_html( $error['msg'] ); ?>
         </div>
-        <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
+        <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo esc_html( $error['code'] ); ?>
         </div>
         <div class="dfrapi_class">
-            <strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
+            <strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo esc_html( $error['class'] ); ?></div>
         <?php if ( is_array( $params ) ) : ?>
             <div class="dfrps_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
                 <span><?php echo dfrapi_display_api_request( $params ); ?></span></div>
@@ -486,20 +583,20 @@ function dfrapi_display_api_request( $params = array() ) {
                 if ( substr( $query, 0, 9 ) !== 'source_id' || substr( $query, 0, 11 ) !== 'merchant_id' ) {
                     $query = str_replace( ",", ", ", $query );
                 }
-                $html .= '$search->addFilter( \'' . ( $query ) . '\' );<br />';
+                $html .= '$search->addFilter( \'' . esc_html( $query ) . '\' );<br />';
             }
         }
 
         // Handle sort.
         if ( $k === 'sort' ) {
             foreach ( $v as $sort ) {
-                $html .= '$search->addSort( \'' . stripslashes( $sort ) . '\' );<br />';
+                $html .= '$search->addSort( \'' . esc_html( stripslashes( $sort ) ) . '\' );<br />';
             }
         }
 
         // Handle limit.
         if ( $k === 'limit' ) {
-            $html .= '$search->setLimit( \'' . stripslashes( $v ) . '\' );<br />';
+            $html .= '$search->setLimit( \'' . esc_html( stripslashes( $v ) ) . '\' );<br />';
         }
 
         // Handle merchant_limit.
@@ -509,12 +606,12 @@ function dfrapi_display_api_request( $params = array() ) {
 
         // Handle Offset.
         if ( $k === 'offset' ) {
-            $html .= '$search->setOffset( \'' . stripslashes( $v ) . '\' );<br />';
+            $html .= '$search->setOffset( \'' . esc_html( stripslashes( $v ) ) . '\' );<br />';
         }
 
         // Handle Exclude duplicates.
         if ( $k === 'exclude_duplicates' ) {
-            $html .= '$search->excludeDuplicates( \'' . $v . '\' );<br />';
+            $html .= '$search->excludeDuplicates( \'' . esc_html( $v ) . '\' );<br />';
         }
     }
 
@@ -605,15 +702,15 @@ function dfrapi_html_output_api_error( $data ) {
     <div class="dfrapi_api_error">
         <div class="dfrapi_head"><?php _e( 'Datafeedr API Error', 'datafeedr-api' ); ?></div>
         <div class="dfrapi_msg">
-            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo $error['msg']; ?>
+            <strong><?php _e( 'Message:', 'datafeedr-api' ); ?></strong> <?php echo esc_html( $error['msg'] ); ?>
         </div>
-        <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo $error['code']; ?>
+        <div class="dfrapi_code"><strong><?php _e( 'Code:', 'datafeedr-api' ); ?></strong> <?php echo esc_html( $error['code'] ); ?>
         </div>
         <div class="dfrapi_class">
-            <strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo $error['class']; ?></div>
+            <strong><?php _e( 'Class:', 'datafeedr-api' ); ?></strong> <?php echo esc_html( $error['class'] ); ?></div>
         <?php if ( is_array( $params ) ) : ?>
             <div class="dfrapi_query"><strong><?php _e( 'Query:', 'datafeedr-api' ); ?></strong>
-                <span><?php echo dfrapi_helper_display_api_request( $params ); ?></span></div>
+                <span><?php echo dfrapi_display_api_request( $params ); ?></span></div>
         <?php endif; ?>
     </div>
     <?php
@@ -958,6 +1055,10 @@ function dfrapi_get_xml_response( $url, $method = 'GET', array $args = [] ) {
     }
 
     $xml = simplexml_load_string( $body, null, LIBXML_NOCDATA );
+
+    if ( $xml === false ) {
+        return new WP_Error( 'invalid_xml', esc_html__( 'Invalid XML response', 'datafeedr-api' ) );
+    }
 
     if ( $xml->getName() === 'error' ) {
         return new WP_Error( $code, esc_html( strval( $xml->message ) ) );
@@ -1800,6 +1901,9 @@ function dfrapi_api( $transport = 'curl', $timeout = 0, $returnObjects = false )
 
         $options = apply_filters( 'dfrapi_api_options', $options );
 
+        // Always connect over HTTPS. Set after the filter so it can't be downgraded to HTTP.
+        $options['https'] = true;
+
         $options['domain'] = parse_url( get_site_url(), PHP_URL_HOST );
 
         return new DatafeedrApi( $access_id, $secret_key, $options );
@@ -2450,7 +2554,7 @@ function dfrapi_api_get_products_by_query( $query, $ppp = 20, $page = 1, $exclud
  * @return string
  */
 function dfrapi_get_effiliation_product_feeds_url( string $api_key ): string {
-    return sprintf( 'http://apiv2.effiliation.com/apiv2/productfeeds.xml?key=%s&filter=mines&type=33&fields=0001010000110001', $api_key );
+    return sprintf( 'https://apiv2.effiliation.com/apiv2/productfeeds.xml?key=%s&filter=mines&type=33&fields=0001010000110001', $api_key );
 }
 
 /**

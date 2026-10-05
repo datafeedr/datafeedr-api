@@ -8,8 +8,23 @@
         return typeof ptr == "string" ? context.find(ptr) : ptr;
     };
 
+    // Writes text into box, wrapping the first match of re in the highlight element.
+    // Text is only ever inserted as text nodes so names are never parsed as HTML.
+    var highlight = function (box, text, re, opts) {
+        var m = re ? text.match(re) : null;
+        if (!m || !m[0].length) {
+            box.text(text);
+            return;
+        }
+        box.empty().append(
+            document.createTextNode(text.slice(0, m.index)),
+            $(opts.highlight).text(m[0]),
+            document.createTextNode(text.slice(m.index + m[0].length))
+        );
+    };
+
     var filter = function (obj, search, opts) {
-        var re = new RegExp(search.replace(/[.\\\\+*?\[\]\{\}\(\)-]/g, "\\$&"),
+        var re = new RegExp(search.replace(/[.*+?^${}()|[\]\\-]/g, "\\$&"),
             opts.caseSensitive ? "" : "i");
         var ctx = sel(opts.element, obj);
         var n = 0;
@@ -33,12 +48,12 @@
                     if (!search.length) {
                         e.show();
                         if (opts.highlight) {
-                            box.html(val);
+                            highlight(box, val, null, opts);
                         }
                     } else if (val.match(re)) {
                         e.show();
                         if (opts.highlight) {
-                            box.html(val.replace(re, opts.highlightRe));
+                            highlight(box, val, re, opts);
                         }
                     } else {
                         e.hide();
@@ -54,9 +69,6 @@
     };
 
     $.fn.searchFilter = function (opts) {
-        if (opts.highlight) {
-            opts.highlightRe = $("<div>@</div>").wrapInner(opts.highlight).html().replace(/@/g, "$$&");
-        }
         $(this).on("keyup", function () {
             filter(this, this.value, opts)
         });

@@ -29,13 +29,9 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 		function api_errors() {
 			if ( array_key_exists( 'dfrapi_api_error', $this->all_networks ) ) {
-				$html = '';
-				$html .= '<div class="notice notice-error">';
-				$html .= '<p>';
-				$html .= $this->all_networks;
-				$html .= '</p>';
-				$html .= '</div>';
-				echo $html;
+				echo '<div class="notice notice-error">';
+				dfrapi_output_api_error( $this->all_networks );
+				echo '</div>';
 			}
 		}
 
@@ -75,9 +71,9 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 				$active                        = ( $num_networks_checked_in_group != '' ) ? 'active' : '';
 				$group_name                    = ( 'AffiliateWindow' == $group ) ? 'Awin' : $group;
 				echo '
-				<div class="group network_logo_30x30_' . dfrapi_group_name_to_css( $group ) . ' ' . $active . '" id="group_' . dfrapi_group_name_to_css( $group ) . '">
+				<div class="group network_logo_30x30_' . esc_attr( dfrapi_group_name_to_css( $group ) ) . ' ' . $active . '" id="group_' . esc_attr( dfrapi_group_name_to_css( $group ) ) . '">
 					<div class="meta">
-						<span class="name">' . $group_name . '</span>
+						<span class="name">' . esc_html( $group_name ) . '</span>
 						<span class="status">
 							' . $this->num_missing_affiliate_ids_in_group( $group ) . '
 							' . $num_networks_checked_in_group . '
@@ -100,7 +96,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 							<th class="checkbox_head"> &nbsp; </th>
 							<th class="networks_head">' . __( 'Network', 'datafeedr-api' ) . '</th>
 							<th class="type_head">' . __( 'Type', 'datafeedr-api' ) . '</th>
-							<th class="aid_head">' . __( 'Affiliate ID', 'datafeedr-api' ) . ' <a href="' . $this->map_link( $group_name ) . '" target="_blank" title="' . __( 'Learn how to find your affiliate ID from ', 'datafeedr-api' ) . $group_name . __( ' (opens in new window).', 'datafeedr-api' ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', 'datafeedr-api' ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#a00;">(' . __( 'required', 'datafeedr-api' ) . ')</small></th>
+							<th class="aid_head">' . __( 'Affiliate ID', 'datafeedr-api' ) . ' <a href="' . esc_url( $this->map_link( $group_name ) ) . '" target="_blank" title="' . esc_attr( __( 'Learn how to find your affiliate ID from ', 'datafeedr-api' ) . $group_name . __( ' (opens in new window).', 'datafeedr-api' ) ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', 'datafeedr-api' ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#a00;">(' . __( 'required', 'datafeedr-api' ) . ')</small></th>
 							<th class="tid_head">' . __( 'Tracking ID', 'datafeedr-api' ) . ' <a href="https://datafeedrapi.helpscoutdocs.com/article/212-tracking-ids" target="_blank" title="' . __( 'Learn more about this field (opens in new window).', 'datafeedr-api' ) . '"><img src="' . DFRAPI_URL . 'images/icons/help.png" alt="' . __( 'more info', 'datafeedr-api' ) . '" style="vertical-align: middle" /></a> <small style="font-weight:normal;color:#999;">(' . __( 'optional', 'datafeedr-api' ) . ')</small></th>
 						</tr>
 					</thead>
@@ -150,24 +146,25 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 
 				if ( $network['group'] == $group_name ) {
 
-					$aid = ( isset( $this->options['ids'][ $network['_id'] ]['aid'] ) ) ? $this->options['ids'][ $network['_id'] ]['aid'] : '';
-					$tid = ( isset( $this->options['ids'][ $network['_id'] ]['tid'] ) ) ? $this->options['ids'][ $network['_id'] ]['tid'] : '';
+					$aid = ( isset( $this->options['ids'][ $network['_id'] ]['aid'] ) ) ? esc_attr( $this->options['ids'][ $network['_id'] ]['aid'] ) : '';
+					$tid = ( isset( $this->options['ids'][ $network['_id'] ]['tid'] ) ) ? esc_attr( $this->options['ids'][ $network['_id'] ]['tid'] ) : '';
+					$nid = absint( $network['_id'] );
 
 					$html .= '
-					<tr 
-						class="network ' . $no_products . $alternate . '" 
-						id="network_id_' . $network['_id'] . '" 
-						nid="' . $network['_id'] . '" 
-						key="' . $this->key . '" 
-						aid="' . $aid . '" 
+					<tr
+						class="network ' . $no_products . $alternate . '"
+						id="network_id_' . $nid . '"
+						nid="' . $nid . '"
+						key="' . $this->key . '"
+						aid="' . $aid . '"
 						tid="' . $tid . '"
 					>
 						<td class="network_checkbox">
-							<input type="checkbox" id="nid_' . $network['_id'] . '" class="check_network" name="' . $this->key . '[ids][' . $network['_id'] . '][nid]" value="' . $network['_id'] . '"' . $checked . ' />
+							<input type="checkbox" id="nid_' . $nid . '" class="check_network" name="' . $this->key . '[ids][' . $nid . '][nid]" value="' . $nid . '"' . $checked . ' />
 						</td>
 						<td class="network_name">
-							<label for="nid_' . $network['_id'] . '">
-								' . $network['name'] . '
+							<label for="nid_' . $nid . '">
+								' . esc_html( $network['name'] ) . '
 								<div class="network_info">
 									<span class="num_merchants">' . number_format( $network['merchant_count'] ) . ' ' . __( 'merchants', 'datafeedr-api' ) . '  <span class="sep">/</span>
 									<span class="num_products">' . number_format( $network['product_count'] ) . ' ' . $type . '</span>
@@ -195,11 +192,11 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 						$url  = admin_url( 'admin.php?page=dfrapi' );
 						$html .= '<td class="aid_input"><a href="' . $url . '" target="_blank">Your Adservice Media ID is required before you can enter your affiliate ID. Enter Media ID.</a></td>';
 					} else {
-						$html .= '<td class="aid_input"><input type="text" name="dfrapi_networks[ids][' . $network['_id'] . '][aid]" value="' . $aid . '" class="aid_input_field" /></td>';
+						$html .= '<td class="aid_input"><input type="text" name="dfrapi_networks[ids][' . $nid . '][aid]" value="' . $aid . '" class="aid_input_field" /></td>';
 					}
 
 					if ( apply_filters( 'dfrapi_network_supports_tracking_id', true, $network ) ) {
-						$html .= '<td class="tid_input"><input type="text" name="dfrapi_networks[ids][' . $network['_id'] . '][tid]" value="' . $tid . '" class="tid_input_field" /></td>';
+						$html .= '<td class="tid_input"><input type="text" name="dfrapi_networks[ids][' . $nid . '][tid]" value="' . $tid . '" class="tid_input_field" /></td>';
 					} else {
 						$html .= '<td class="tid_input"><small>n/a</small></td>';
 					}
@@ -397,16 +394,7 @@ if ( ! class_exists( 'Dfrapi_Networks' ) ) {
 		}
 
 		function validate( $input ) {
-			$new_input['ids'] = array();
-			if ( isset( $input['ids'] ) ) {
-				foreach ( $input['ids'] as $k => $v ) {
-					if ( isset( $v['nid'] ) ) {
-						$new_input['ids'][ $k ] = $v;
-					}
-				}
-			}
-
-			return $new_input;
+			return dfrapi_sanitize_networks_option( $input );
 		}
 
 	} // class Dfrapi_Networks

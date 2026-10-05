@@ -27,13 +27,9 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 
 		function api_errors() {
 			if ( array_key_exists( 'dfrapi_api_error', $this->all_networks ) ) {
-				$html = '';
-				$html .= '<div class="notice notice-error">';
-				$html .= '<p>';
-				$html .= $this->all_networks;
-				$html .= '</p>';
-				$html .= '</div>';
-				echo $html;
+				echo '<div class="notice notice-error">';
+				dfrapi_output_api_error( $this->all_networks );
+				echo '</div>';
 			}
 		}
 
@@ -64,12 +60,12 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 
 		function field_merchant_ids() {
 			if ( is_array( $this->options['ids'] ) && !empty( $this->options['ids'] ) ) {
-	            $ids = htmlspecialchars(implode(',', $this->options['ids']));
+	            $ids = implode( ',', array_map( 'absint', $this->options['ids'] ) );
 	        } else {
 	        	$ids = '';
 	        }
 
-            echo "<input type='hidden' id='ids' name='".$this->key."[ids]' value='$ids' />";
+            echo "<input type='hidden' id='ids' name='".$this->key."[ids]' value='" . esc_attr( $ids ) . "' />";
 
 			foreach ( $this->users_networks as $user_network ) {
 				$network = $this->get_network_info( $user_network );
@@ -82,9 +78,9 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 				$num_networks_checked_in_network = $this->num_networks_checked_in_network( $network['_id'] );
 				$active = ( preg_match( "/num_checked_none/", $num_networks_checked_in_network ) ) ? '' : 'active';
 				echo '
-				<div class="network network_logo_30x30_' . dfrapi_group_name_to_css( $network ) . ' ' . $active .'" id="network_' . $network['_id'] . '">
+				<div class="network network_logo_30x30_' . esc_attr( dfrapi_group_name_to_css( $network ) ) . ' ' . $active .'" id="network_' . absint( $network['_id'] ) . '">
 					<div class="meta">
-						<span class="name">' . $network['name'] . '</span>
+						<span class="name">' . esc_html( $network['name'] ) . '</span>
 						<span class="status">
 							' . $num_networks_checked_in_network . '
 							' . $this->num_merchants_in_network( $network ) . '
@@ -105,12 +101,12 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
                     . '<span class="merchant_hint_add">' . __( 'Click to add', 'datafeedr-api' ) . "</span>";
 
             return '
-                <div class="merchant ' . $no_products . '" id="merchant_id_' . $merchant['_id'] . '">
+                <div class="merchant ' . $no_products . '" id="merchant_id_' . absint( $merchant['_id'] ) . '">
                     <div class="merchant_hint">
                         ' . $button . '
                     </div>
                     <div class="merchant_name">
-                        ' . $merchant['name'] . '
+                        ' . esc_html( $merchant['name'] ) . '
                     </div>
                     <div class="merchant_info">
                     	' . $this->num_products_in_network( $merchant )  . '
@@ -136,7 +132,7 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 			}
 
 			$html = '
-				<div style="display:none;" class="merchants" id="merchants_for_nid_' . $network_id . '">
+				<div style="display:none;" class="merchants" id="merchants_for_nid_' . absint( $network_id ) . '">
 					<div class="merchant_actions">
 						<span class="filter_action">
 							' . __( 'Search', 'datafeedr-api' ) . ': <input type="text"> 
@@ -247,28 +243,7 @@ if ( ! class_exists( 'Dfrapi_Merchants' ) ) {
 
 		function validate( $input ) {
 
-			if ( !isset( $input ) || !is_array( $input ) || empty( $input ) ) { return $input; }
-
-			$new_input = array();
-
-			foreach( $input as $key => $value ) {
-
-				// Validate "ids"
-				if ( $key == 'ids' ) {
-					if ( is_array( $value ) ) {
-						$new_input['ids'] = $value;
-					} else {
-						if ( trim( $value ) == '' ) {
-							$new_input['ids'] = array();
-						} else {
-							$new_input['ids'] = explode( ",", $value );
-						}
-					}
-				}
-
-			} // foreach
-
-			return $new_input;
+			return dfrapi_sanitize_merchants_option( $input );
 		}
 
 		function messages() {

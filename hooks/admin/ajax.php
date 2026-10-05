@@ -3,6 +3,25 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Returns the capability required to use the Datafeedr API Tools AJAX actions.
+ *
+ * @since 1.4.3
+ *
+ * @return string
+ */
+function dfrapi_tools_capability(): string {
+
+	/**
+	 * Filters the capability required to delete cached API data and test the API connection.
+	 *
+	 * @since 1.4.3
+	 *
+	 * @param string $capability Default 'manage_options'.
+	 */
+	return (string) apply_filters( 'dfrapi_tools_capability', 'manage_options' );
+}
+
+/**
  * Delete cached API data.
  *
  * We can only delete if user has API requests remaining.
@@ -12,7 +31,7 @@ function dfrapi_delete_cached_api_data() {
 
 	check_ajax_referer( 'dfrapi_ajax_nonce', 'dfrapi_security' );
 
-	if ( ! current_user_can( 'edit_posts' ) ) {
+	if ( ! current_user_can( dfrapi_tools_capability() ) ) {
 		_e( 'You do not have permission to perform this action.', 'datafeedr-api' );
 		die;
 	}
@@ -51,7 +70,7 @@ function dfrapi_test_api_connection() {
 
 	check_ajax_referer( 'dfrapi_ajax_nonce', 'dfrapi_security' );
 
-	if ( ! current_user_can( 'edit_posts' ) ) {
+	if ( ! current_user_can( dfrapi_tools_capability() ) ) {
 		_e( 'You do not have permission to perform this action.', 'datafeedr-api' );
 		die;
 	}
